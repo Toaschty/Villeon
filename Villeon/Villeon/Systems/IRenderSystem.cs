@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Villeon.Component
+namespace Villeon.Systems
 {
-    internal class Collision
+    public interface IRenderSystem
     {
+        string Name { get; }
+
+        void Render();
     }
 }
