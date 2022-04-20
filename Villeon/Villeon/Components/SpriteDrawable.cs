@@ -7,14 +7,16 @@ using System.Threading.Tasks;
 
 namespace Villeon.Components
 {
-    public class SpriteDrawable
+    public class SpriteDrawable : IComponent
     {
-        public SpriteDrawable(Color4 color)
+        public SpriteDrawable(Color4 color, Vector2 size)
         {
             Color = color;
+            Size = size;
         }
 
-        Color4 Color { get; set; }
-        // IGraphic graphic
+        public Color4 Color { get; set; }
+
+        public Vector2 Size { get; set; }
     }
 }

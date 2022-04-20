@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace Villeon.Systems
 {
-    public interface ISystem
+    public interface IUpdateSystem : ISystem, IUpdate
     {
-        string Name { get; }
 
-        List<IEntity> Entities { get; }
-
-        Signature Signature { get; }
     }
 }

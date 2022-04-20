@@ -8,7 +8,7 @@ using Villeon.Components;
 
 namespace Villeon.Systems
 {
-    public class CollisionSystem : ISystem
+    public class CollisionSystem : IUpdateSystem
     {
         public CollisionSystem(string name)
         {
@@ -18,7 +18,7 @@ namespace Villeon.Systems
         }
         public string Name { get; }
 
-        public List<Entity> Entities { get; private set; } = new();
+        public List<IEntity> Entities { get; private set; } = new();
 
         public Signature Signature { get; private set; } = new();
 

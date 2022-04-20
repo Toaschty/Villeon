@@ -9,7 +9,7 @@ using OpenTK.Mathematics;
 
 namespace Villeon.Systems
 {
-    public class PlayerMovementSystem : ISystem
+    public class PlayerMovementSystem : IUpdateSystem
     {
         public PlayerMovementSystem(string name)
         {
@@ -20,20 +20,20 @@ namespace Villeon.Systems
 
         public string Name { get; }
 
-        public List<Entity> Entities { get; private set; } = new();
+        public List<IEntity> Entities { get; private set; } = new();
 
         public Signature Signature { get; private set; } = new();
 
         public void Update(/* GAMETIME?*/)
         {
-            foreach (Entity entity in Entities)
+            foreach (IEntity entity in Entities)
             {
                 Console.Write(entity.Name);
                 Console.Write(" signature: " + entity.Signature.signature);
                 Transform transform = entity.GetComponents<Transform>().First();
                 transform.Degrees++;
                 transform.Scale++;
-                transform.Position += new Vector2(0.1f, 0.1f);
+                transform.Position += new Vector2(0.01f, 0.01f);
                 Console.WriteLine(" degrees: " + transform.Degrees + " scale: " + transform.Scale + " position: " + transform.Position);
             }
         }

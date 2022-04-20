@@ -10,12 +10,15 @@ using OpenTK.Mathematics;
 using Villeon.Helper;
 using Villeon.Components;
 using Villeon.Systems;
+using OpenTK.Graphics.OpenGL;
 
 namespace Villeon
 {
     public class Game
     {
-        Manager manager = new();
+        IManager manager = new Manager();
+        int UpdateCalled = 0;
+        int RenderCalled = 0;
 
         public Game()
         {
@@ -31,7 +34,13 @@ namespace Villeon
             gameWindow.UpdateFrame += UpdateFrame;
             gameWindow.RenderFrame += RenderFrame;
             gameWindow.RenderFrame += _ => gameWindow.SwapBuffers();
+            gameWindow.Resize += Resize;
             gameWindow.Run();
+        }
+
+        private void Resize(ResizeEventArgs args)
+        {
+            GL.Viewport(0, 0, args.Width, args.Height);
         }
 
         private void Init()
@@ -39,36 +48,38 @@ namespace Villeon
             // Register some System
             CollisionSystem collision = new("CollisionSystem");
             manager.RegisterSystem(collision);
-
+            
             PlayerMovementSystem movement = new("Movement");
             manager.RegisterSystem(movement);
+
+            SpriteRenderSystem spriteRenderSystem = new("SpriteSystem");
+            manager.RegisterSystem(spriteRenderSystem);
 
             // Create some Entity
             Signature signature = new();
             signature.Add<Transform>();
             signature.Add<Collider>();
-
-            Entity peter = manager.CreateEntity("Peter", signature);
-            peter.AddComponent(new Transform(new Vector2(10.0f, 5.0f), 1.0f, 0.0f));
-
             signature.Add<Physics>();
+            signature.Add<SpriteDrawable>();
 
-            Entity oli = manager.CreateEntity("Oli", signature);
-            oli.AddComponent(new Transform(new Vector2(1.0f, 5.0f), 1.0f, 0.0f));
+            IEntity peter = manager.CreateEntity("Peter", signature);
+            peter.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 1.0f, 0.0f));
+            peter.AddComponent(new SpriteDrawable(Color4.AliceBlue, new Vector2(0.5f, 0.5f)));
         }
 
 
         private void UpdateFrame(FrameEventArgs args)
         {
-            Console.WriteLine("--------------------- Start ---------------------- ");
+            Console.WriteLine("--------------------- UPDATE" + ++UpdateCalled + "---------------------- ");
             manager.Update();
-            Console.WriteLine("--------------------- Done ----------------------- ");
+            Console.WriteLine("------------------ UPDATE DONE -------------------- ");
         }
 
         private void RenderFrame(FrameEventArgs args)
         {
-            // Implement IRenderSystem
-            // https://gamedev.stackexchange.com/questions/181304/ecs-as-part-of-the-rendering-pipeline-of-an-engine
+            Console.WriteLine("--------------------- RENDER" + ++RenderCalled + "---------------------- ");
+            manager.Render();
+            Console.WriteLine("------------------ RENDER DONE -------------------- ");
         }
     }
 }
