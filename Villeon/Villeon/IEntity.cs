@@ -1,4 +1,7 @@
-﻿namespace Villeon
+﻿using System;
+using System.Collections.Generic;
+
+namespace Villeon
 {
     public interface IEntity
     {
