@@ -27,12 +27,16 @@ namespace Villeon
             _components.Add(component);
         }
 
-        public IEnumerable<T> GetComponents<T>() where T : class, IComponent
+        public T GetComponent<T>() where T : class, IComponent
         {
-            foreach (var component in _components.OfType<T>())
+            foreach (var component in _components)
             {
-                yield return component;
+                if (component is T)
+                {
+                    return (T)component;
+                }
             }
+            return null;
         }
     }
 }

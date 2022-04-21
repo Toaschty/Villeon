@@ -25,37 +25,6 @@ namespace Villeon.Systems
         // Collider, Transform, Physics
         public void Update()
         {
-            foreach (Entity e in Entities)
-            {
-                Console.WriteLine(e.Name + " Collision");
-                // Do Collision things
-            }
-
-            // System braucht ne liste von Entities
-            // auf die das System agieren soll
-            // Movement System: 
-            // Braucht <Transform, Physics>
-            // Also brauchts ne liste von Entities, die genau diese Componenten hat.
-            // Wie führt das System die Liste?
-            
-
-            // Manager.CreateEntity("Player", <Transform, Physics, Collider>);
-            // Füge Entity list hinzu
-            // Füge Registrierten Systemen diese Hinzu
-
-
-            // Manager hat
-            // Entity list
-            // System list with their wanted signatures
-            
-
-            // Manager.CreateEntity("Player", SomeSignature);
-            // iterate through systems, check signature: true -> Add
-
-            // Manager.CreateSystem()
-            // iterate through Entities and snack whats needed
-
-
         }
     }
 }

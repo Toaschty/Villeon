@@ -13,6 +13,6 @@ namespace Villeon
 
         void AddComponent(IComponent component);
 
-        IEnumerable<T> GetComponents<T>() where T : class, IComponent;
+        public T GetComponent<T>() where T : class, IComponent;
     }
 }

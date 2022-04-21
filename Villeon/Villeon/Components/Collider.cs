@@ -14,6 +14,6 @@ namespace Villeon.Components
             Bounds = bounds;
         }
 
-        Box2 Bounds { get; set; }
+        public Box2 Bounds { get; set; }
     }
 }

@@ -14,8 +14,9 @@ namespace Villeon.Systems
         public PlayerMovementSystem(string name)
         {
             Name = name;
-            Signature.Add<Transform>();
-            Signature.Add<Physics>();
+            //Signature.Add<Transform>();
+            Signature.Add<Collider>();
+           // Signature.Add<Physics>();
         }
 
         public string Name { get; }
@@ -26,15 +27,12 @@ namespace Villeon.Systems
 
         public void Update(/* GAMETIME?*/)
         {
+            Collider collider;
             foreach (IEntity entity in Entities)
             {
-                Console.Write(entity.Name);
-                Console.Write(" signature: " + entity.Signature.signature);
-                Transform transform = entity.GetComponents<Transform>().First();
-                transform.Degrees++;
-                transform.Scale++;
-                transform.Position += new Vector2(0.01f, 0.01f);
-                Console.WriteLine(" degrees: " + transform.Degrees + " scale: " + transform.Scale + " position: " + transform.Position);
+                collider = entity.GetComponent<Collider>();
+                collider.Bounds = collider.Bounds.Translated(new Vector2(0.01f, 0.01f));
+                Console.WriteLine(collider.Bounds);
             }
         }
     }

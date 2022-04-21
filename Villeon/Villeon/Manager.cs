@@ -9,7 +9,7 @@ using Villeon.Components;
 
 namespace Villeon
 {
-    public class Manager : IManager
+    public class Manager : IUpdate, IRender
     {
         public IEntity CreateEntity(string name, Signature signature)
         {
@@ -23,7 +23,7 @@ namespace Villeon
         {
             if (system is IUpdateSystem)
             {
-                _systems.Add((IUpdateSystem)system);
+                _updateSystems.Add((IUpdateSystem)system);
             }
 
             if (system is IRenderSystem)
@@ -43,7 +43,7 @@ namespace Villeon
 
         private void AddToSystems(IEntity entity)
         {
-            foreach (ISystem system in _systems)
+            foreach (ISystem system in _updateSystems)
             {
                 if (entity.Signature.Contains(system.Signature))
                 {
@@ -62,7 +62,7 @@ namespace Villeon
 
         public void Update()
         {
-            foreach (IUpdateSystem system in _systems)
+            foreach (IUpdateSystem system in _updateSystems)
             {
                 system.Update();
             }
@@ -76,18 +76,39 @@ namespace Villeon
             }
         }
 
-        public void RemoveEntity(IEntity entity)
+        public bool RemoveEntity(IEntity entity)
         {
-            throw new NotImplementedException();
+            bool removed = false;
+            removed = _entities.Remove(entity);
+            foreach (IUpdateSystem updateSystem in _updateSystems)
+            {
+                updateSystem.Entities.Remove(entity);
+            }
+
+            foreach (IRenderSystem renderSystem in _renderSystems)
+            {
+                renderSystem.Entities.Remove(entity);
+            }
+            return removed;
         }
 
-        public void UnregisterSystem(ISystem system)
+        public bool UnregisterSystem(ISystem system)
         {
-            throw new NotImplementedException();
+            bool removed = false;
+            if (system is IUpdateSystem)
+            {
+               removed = _updateSystems.Remove((IUpdateSystem)system);
+            }
+
+            if (system is IRenderSystem)
+            {
+                removed = _renderSystems.Remove((IRenderSystem)system);
+            }
+            return removed;
         }
 
         private List<IEntity> _entities = new();
-        private List<IUpdateSystem> _systems = new();
+        private List<IUpdateSystem> _updateSystems = new();
         private List<IRenderSystem> _renderSystems = new();
     }
 }
