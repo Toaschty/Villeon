@@ -2,6 +2,6 @@
 {
     public interface IUpdate
     {
-        public void Update();
+        public void Update(double time);
     }
 }

@@ -11,9 +11,8 @@ namespace Villeon
 {
     public class Manager : IUpdate, IRender
     {
-        public IEntity CreateEntity(string name, Signature signature)
+        public IEntity AddEntity(IEntity entity)
         {
-            IEntity entity = new Entity(name, signature);
             _entities.Add(entity);
             AddToSystems(entity);
             return entity;
@@ -22,14 +21,10 @@ namespace Villeon
         public void RegisterSystem(ISystem system)
         {
             if (system is IUpdateSystem)
-            {
                 _updateSystems.Add((IUpdateSystem)system);
-            }
 
             if (system is IRenderSystem)
-            {
                 _renderSystems.Add((IRenderSystem)system);
-            }
 
             // Make sure, every system has its assigned Entities
             foreach (IEntity entity in _entities)
@@ -60,11 +55,11 @@ namespace Villeon
             }
         }
 
-        public void Update()
+        public void Update(double time)
         {
             foreach (IUpdateSystem system in _updateSystems)
             {
-                system.Update();
+                system.Update(time);
             }
         }
 
@@ -96,14 +91,11 @@ namespace Villeon
         {
             bool removed = false;
             if (system is IUpdateSystem)
-            {
                removed = _updateSystems.Remove((IUpdateSystem)system);
-            }
 
             if (system is IRenderSystem)
-            {
                 removed = _renderSystems.Remove((IRenderSystem)system);
-            }
+
             return removed;
         }
 

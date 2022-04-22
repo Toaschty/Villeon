@@ -16,13 +16,15 @@ namespace Villeon.Helper
         {
             if (pressedKeys.Count != 0)
             {
+                //pressedKeys.Clear();
                 pressedKeys.Remove(args.Key);
             }
         }
 
         internal static void KeyDown(KeyboardKeyEventArgs args)
         {
-            pressedKeys.Add(args.Key);
+            if (!pressedKeys.Contains(args.Key))
+                pressedKeys.Add(args.Key);
         }
     }
 }

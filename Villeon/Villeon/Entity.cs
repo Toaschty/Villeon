@@ -8,10 +8,9 @@ namespace Villeon
 {
     public class Entity : IEntity
     {
-        public Entity(string name, Signature signature)
+        public Entity(string name)
         {
             Name = name;
-            Signature = signature;
         }
 
         private readonly List<IComponent> _components = new();
@@ -20,11 +19,12 @@ namespace Villeon
 
         public string Name { get; }
 
-        public Signature Signature { get; }
+        public Signature Signature { get; } = new();
 
         public void AddComponent(IComponent component)
         {
             _components.Add(component);
+            Signature.Add(component);
         }
 
         public T GetComponent<T>() where T : class, IComponent

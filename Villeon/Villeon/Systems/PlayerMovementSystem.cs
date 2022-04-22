@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using Villeon.Components;
 using OpenTK.Mathematics;
+using Villeon.Helper;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Villeon.Systems
 {
@@ -14,9 +16,8 @@ namespace Villeon.Systems
         public PlayerMovementSystem(string name)
         {
             Name = name;
-            //Signature.Add<Transform>();
+            Signature.Add<Physics>();
             Signature.Add<Collider>();
-           // Signature.Add<Physics>();
         }
 
         public string Name { get; }
@@ -25,14 +26,34 @@ namespace Villeon.Systems
 
         public Signature Signature { get; private set; } = new();
 
-        public void Update(/* GAMETIME?*/)
+        private float speed = 75.0f;
+        private float jumpStrength = 7.5f;
+
+        public void Update(double time)
         {
+            Physics physics;
             Collider collider;
             foreach (IEntity entity in Entities)
             {
+                physics = entity.GetComponent<Physics>();
                 collider = entity.GetComponent<Collider>();
-                collider.Bounds = collider.Bounds.Translated(new Vector2(0.01f, 0.01f));
-                Console.WriteLine(collider.Bounds);
+
+                if (KeyHandler.pressedKeys.Contains(Keys.D))
+                {
+                    Console.Write("D");
+                    physics.Acceleration += new Vector2(speed, physics.Acceleration.Y);
+                }
+                if (KeyHandler.pressedKeys.Contains(Keys.A))
+                {
+                    Console.Write("A");
+                    physics.Acceleration -= new Vector2(speed, physics.Acceleration.Y);
+                }
+                if (KeyHandler.pressedKeys.Contains(Keys.Space))
+                {
+                    Console.Write("Space");
+                    if (collider.hasCollidedBottom)
+                        physics.Velocity += new Vector2(0.0f, jumpStrength);
+                }
             }
         }
     }

@@ -9,13 +9,12 @@ namespace Villeon.Components
 {
     public class Physics : IComponent
     {
-        public Physics(Vector2 velocity, Vector2 acceleration)
+        public Physics()
         {
-            Velocity = velocity;
-            Acceleration = acceleration;
         }
 
-        Vector2 Velocity { get; set; }
-        Vector2 Acceleration { get; set; }
+        public Vector2 Velocity { get; set; } = Vector2.Zero;
+
+        public Vector2 Acceleration { get; set; } = Vector2.Zero;
     }
 }

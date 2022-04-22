@@ -15,8 +15,6 @@ namespace Villeon.Systems
         public RenderSystem(string name)
         {
             Name = name;
-            //Signature.Add<SpriteDrawable>();
-            //Signature.Add<Transform>();
             Signature.Add<Collider>();
         }
 
@@ -41,15 +39,16 @@ namespace Villeon.Systems
             }
         }
 
-        private void DrawCollider(Collider colldier)
+        private void DrawCollider(Collider collider)
         {
-            DrawQuad(colldier.Bounds.Min, colldier.Bounds.Max.X, colldier.Bounds.Max.Y);
+            DrawQuad(Color4.White, collider.Position, collider.Width, collider.Height);
+            //DrawQuad(Color4.White, collider.LastPosition, collider.Width, collider.Height);
         }
 
-        private void DrawQuad(Vector2 point, float width, float height)
+        private void DrawQuad(Color4 color, Vector2 point, float width, float height)
         {
-            GL.Color4(Color4.AliceBlue);
-            GL.Begin(BeginMode.Quads);
+            GL.Color4(color);
+            GL.Begin(BeginMode.LineLoop);
             GL.Vertex2(point);
             GL.Vertex2(point.X + width, point.Y);
             GL.Vertex2(point.X + width, point.Y + height);

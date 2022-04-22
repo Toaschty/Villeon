@@ -7,29 +7,32 @@ namespace Villeon
     {
         public void Add<T>() where T : class, IComponent
         {
-            if (typeof(T) == typeof(Transform))
-            {
-                Console.WriteLine("ADDED TRANSFORM!");
+            if (typeof(T) == typeof(Transform)) 
                 signature |= TRANSFORM;
-            }
 
             if (typeof(T) == typeof(Physics))
-            {
-                Console.WriteLine("ADDED PHYSICS!");
                 signature |= PHYSICS;
-            }
 
             if (typeof(T) == typeof(Collider))
-            {
-                Console.WriteLine("ADDED COLLIDER!");
                 signature |= COLLIDER;
-            }
 
             if (typeof(T) == typeof(SpriteDrawable))
-            {
-                Console.WriteLine("ADDED SPRITEDRAWABLE!");
                 signature |= SPRITEDRAWABLE;
-            }
+        }
+
+        public void Add(IComponent component)
+        {
+            if (component is Collider)
+                signature |= COLLIDER;
+
+            if (component is Transform)
+                signature |= TRANSFORM;
+
+            if (component is Physics)
+                signature |= PHYSICS;
+
+            if (component is SpriteDrawable)
+                signature |= SPRITEDRAWABLE;
         }
 
         public bool Contains(Signature sigB)
