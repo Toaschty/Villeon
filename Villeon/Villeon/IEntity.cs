@@ -7,7 +7,7 @@ namespace Villeon
     {
         bool Enabled { get; set; }
 
-        string Name { get;}
+        string? Name { get;}
 
         Signature Signature { get; } // Not in runtime.. for now
 

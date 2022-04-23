@@ -31,6 +31,7 @@ namespace Villeon
             GameWindow gameWindow = WindowCreator.CreateWindow();
             gameWindow.KeyDown += KeyHandler.KeyDown;
             gameWindow.KeyUp += KeyHandler.KeyUp;
+            gameWindow.MouseWheel += MouseHandler.MouseWheel;
             gameWindow.UpdateFrame += UpdateFrame;
             gameWindow.RenderFrame += RenderFrame;
             gameWindow.RenderFrame += _ => gameWindow.SwapBuffers();
@@ -54,7 +55,7 @@ namespace Villeon
 
             // Spawn Ground
             IEntity roof = new Entity("Roof");
-            roof.AddComponent(new Collider(new Vector2(0.0f, 16.0f), 25.0f, 2.0f));
+            roof.AddComponent(new Collider(new Vector2(0.0f, 16.0f), 55.0f, 2.0f));
             roof.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 25.0f, 1.0f));
             manager.AddEntity(roof);
 
@@ -63,12 +64,20 @@ namespace Villeon
             block.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 25.0f, 1.0f));
             manager.AddEntity(block);
 
+            IEntity block2 = new Entity("Block2");
+            block2.AddComponent(new Collider(new Vector2(10.0f, 3.5f), 2.0f, 2.0f));
+            block2.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 25.0f, 1.0f));
+            manager.AddEntity(block2);
+
+            IEntity block3 = new Entity("Block3");
+            block3.AddComponent(new Collider(new Vector2(30.0f, 3.5f), 4.0f, 2.0f));
+            block3.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 25.0f, 1.0f));
+            manager.AddEntity(block3);
+
             IEntity ground = new Entity("Ground");
-            ground.AddComponent(new Collider(new Vector2(0.0f, 1.0f), 25.0f, 1.0f));
+            ground.AddComponent(new Collider(new Vector2(0.0f, 1.0f), 55.0f, 1.0f));
             ground.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 25.0f, 1.0f));
             manager.AddEntity(ground);
-
-
 
 
             PhysicsSystem physicsSystem = new PhysicsSystem("Physics!");

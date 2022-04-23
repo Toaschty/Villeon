@@ -15,10 +15,7 @@ namespace Villeon.Helper
         internal static void KeyUp(KeyboardKeyEventArgs args)
         {
             if (pressedKeys.Count != 0)
-            {
-                //pressedKeys.Clear();
                 pressedKeys.Remove(args.Key);
-            }
         }
 
         internal static void KeyDown(KeyboardKeyEventArgs args)

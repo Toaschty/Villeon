@@ -28,7 +28,7 @@ namespace Villeon.Systems
 
         public void Render()
         {
-            Camera.Update();
+            Camera.Update(Entities.First());
             refCameraMatrix  = Camera.GetMatrix();
             GL.LoadMatrix(ref refCameraMatrix);
 
