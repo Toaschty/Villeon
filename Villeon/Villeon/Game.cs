@@ -88,6 +88,8 @@ namespace Villeon
             block3.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 25.0f, 1.0f));
             manager.AddEntity(block3);
 
+
+
             PlayerMovementSystem playerMovementSystem = new PlayerMovementSystem("Move");
             manager.RegisterSystem(playerMovementSystem);
 
