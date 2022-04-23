@@ -25,8 +25,6 @@ namespace Villeon.Systems
 
         public Signature Signature { get; } = new();
 
-        private float friction = 7.5f;
-        private float gravity = 10.0f;
 
         public void Update(double time)
         {
@@ -51,22 +49,21 @@ namespace Villeon.Systems
 
 
                 // Add Gravity
-                physics.Acceleration += new Vector2(0.0f, -gravity);
+                physics.Acceleration += new Vector2(0.0f, -Constants.GRAVITY);
 
                 // Peak Super downward mega speed speed lets go
                 if (physics.Velocity.Y <= 0)
-                    physics.Acceleration += new Vector2(0.0f, 2.0f * -gravity);
+                    physics.Acceleration += new Vector2(0.0f, 2.0f * -Constants.GRAVITY);
 
 
                 // Friction
-                physics.Acceleration += new Vector2(-friction * physics.Velocity.X, physics.Acceleration.Y);
+                physics.Acceleration += new Vector2(-Constants.FRICTION * physics.Velocity.X, physics.Acceleration.Y);
 
                 // Physics calculation
                 Vector2 oldVelocity = physics.Velocity;
                 physics.Velocity += physics.Acceleration * (float)time;
                 transform.Position += 0.5f * (oldVelocity + physics.Velocity) * (float)time;
                 collider.Position += 0.5f * (oldVelocity + physics.Velocity) * (float)time;
-
 
                 physics.Acceleration = Vector2.Zero;
             }

@@ -51,11 +51,11 @@ namespace Villeon.Systems
                             {
                                 case Direction.DOWN:
                                     collider.hasCollidedTop = true;
-                                    collider.ProposePosition = new Vector2(collider.Position.X, e2Collider.Position.Y - collider.Height);
+                                    collider.ProposePosition = new Vector2(collider.Position.X, e2Collider.LastPosition.Y - collider.Height);
                                     break;
                                 case Direction.UP:
                                     collider.hasCollidedBottom = true;
-                                    collider.ProposePosition = new Vector2(collider.Position.X, e2Collider.Position.Y + e2Collider.Height);
+                                    collider.ProposePosition = new Vector2(collider.Position.X, e2Collider.LastPosition.Y + e2Collider.Height);
                                     break;
                                 case Direction.LEFT:
                                     collider.hasCollidedRight = true;
@@ -84,7 +84,7 @@ namespace Villeon.Systems
                 return CollidesDirectionAABB(a, b);
             }
 
-            if (CollidesAABB(a, b))
+            if (CollidesAABB(a, b) || CollidesLastAABB(a, b))
             {
                 return CollidesDirectionAABB(a, b);
             }
@@ -148,10 +148,18 @@ namespace Villeon.Systems
 
         private bool CollidesAABB(Collider a, Collider b)
         {
-
             if (a.Position.X >= (b.Position.X + b.Width) || b.Position.X >= (a.Position.X + a.Width))
                 return false;
             if (a.Position.Y >= (b.Position.Y + b.Height) || b.Position.Y >= (a.Position.Y + a.Height))
+                return false;
+            return true;
+        }
+
+        private bool CollidesLastAABB(Collider a, Collider b)
+        {
+            if (a.Position.X >= (b.LastPosition.X + b.Width) || b.LastPosition.X >= (a.Position.X + a.Width))
+                return false;
+            if (a.Position.Y >= (b.LastPosition.Y + b.Height) || b.LastPosition.Y >= (a.Position.Y + a.Height))
                 return false;
             return true;
         }

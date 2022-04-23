@@ -18,6 +18,10 @@ namespace Villeon
 
             if (typeof(T) == typeof(SpriteDrawable))
                 signature |= SPRITEDRAWABLE;
+
+            if (typeof(T) == typeof(Player))
+                signature |= PLAYER;
+
         }
 
         public void Add(IComponent component)
@@ -33,6 +37,9 @@ namespace Villeon
 
             if (component is SpriteDrawable)
                 signature |= SPRITEDRAWABLE;
+
+            if (component is Player)
+                signature |= PLAYER;
         }
 
         public bool Contains(Signature sigB)
@@ -50,6 +57,7 @@ namespace Villeon
         private UInt64 PHYSICS = 1 << 1;
         private UInt64 COLLIDER = 1 << 2;
         private UInt64 SPRITEDRAWABLE = 1 << 3;
+        private UInt64 PLAYER = 1 << 4;
 
     }
 }

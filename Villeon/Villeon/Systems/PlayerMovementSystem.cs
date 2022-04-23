@@ -18,6 +18,7 @@ namespace Villeon.Systems
             Name = name;
             Signature.Add<Physics>();
             Signature.Add<Collider>();
+            Signature.Add<Player>();
         }
 
         public string Name { get; }
@@ -25,9 +26,6 @@ namespace Villeon.Systems
         public List<IEntity> Entities { get; private set; } = new();
 
         public Signature Signature { get; private set; } = new();
-
-        private float speed = 75.0f;
-        private float jumpStrength = 7.5f;
 
         public void Update(double time)
         {
@@ -40,19 +38,16 @@ namespace Villeon.Systems
 
                 if (KeyHandler.pressedKeys.Contains(Keys.D))
                 {
-                    Console.Write("D");
-                    physics.Acceleration += new Vector2(speed, physics.Acceleration.Y);
+                    physics.Acceleration += new Vector2(Constants.MOVEMENTSPEED, physics.Acceleration.Y);
                 }
                 if (KeyHandler.pressedKeys.Contains(Keys.A))
                 {
-                    Console.Write("A");
-                    physics.Acceleration -= new Vector2(speed, physics.Acceleration.Y);
+                    physics.Acceleration -= new Vector2(Constants.MOVEMENTSPEED, physics.Acceleration.Y);
                 }
                 if (KeyHandler.pressedKeys.Contains(Keys.Space))
                 {
-                    Console.Write("Space");
                     if (collider.hasCollidedBottom)
-                        physics.Velocity = new Vector2(physics.Velocity.X, jumpStrength);
+                        physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
                 }
                 //Debug Reset Position
                 if (KeyHandler.pressedKeys.Contains(Keys.R))

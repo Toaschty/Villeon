@@ -11,6 +11,7 @@ namespace Villeon.Systems
         private static Matrix4 _cameraMatrix = Matrix4.Identity;
         private static Matrix4 _shiftOriginMatrix = Matrix4.CreateTranslation(-1.0f, -1.0f, 0.0f);
         private static Matrix4 _aspectRatioMatrix = Matrix4.Identity;
+        public static Matrix4 _inverseViewportMatrix = Matrix4.Identity;
         
         public static Matrix4 Translate(float x, float y)
         {
@@ -36,11 +37,21 @@ namespace Villeon.Systems
         {
             float aspectRatio = height / (float)width;
             _aspectRatioMatrix = Matrix4.CreateScale(aspectRatio, 1.0f, 1.0f);
+
+            // Window to World converstoin matrix
+            Matrix4 translate = Translate(-1f, 1f); // Top left <- ^
+            Matrix4 scale = Scale(2f / (width - 1), -2f / (height - 1));
+            _inverseViewportMatrix = scale * translate;
         }
 
         public static Matrix4 Scale(float scale)
         {
             return Matrix4.CreateScale(scale);
+        }
+
+        public static Matrix4 Scale(float x, float y)
+        {
+            return Matrix4.CreateScale(x, y, 1f);
         }
 
         public static Matrix4 GetMatrix()
@@ -52,8 +63,21 @@ namespace Villeon.Systems
             return _cameraMatrix;
         }
 
+        public static Matrix4 GetInverseMatrix()
+        {
+            Matrix4 _inverseMatrix = GetMatrix().Inverted();
+            return _inverseMatrix;
+        }
+
+        public static Vector2 Transform(this Vector2 input, Matrix4 transformation)
+        {
+            return Vector4.TransformRow(new Vector4(input.X, input.Y, 0f, 1f), transformation).Xy;
+        }
+
         private static Vector2 CameraCenter { get; set; } = new(1f, 1f);
+
         private static float CameraRotation { get; set; }
+
         private static float CameraScale { get; set; } = 9.0f;
 
         public static void Update(IEntity player)

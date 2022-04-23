@@ -17,11 +17,11 @@ namespace Villeon
     public class Game
     {
         Manager manager = new Manager();
-        int UpdateCalled = 0;
-        int RenderCalled = 0;
+        private EntitySpawner _spawner;
 
         public Game()
         {
+            _spawner = new EntitySpawner(manager);
         }
 
         public void Start()
@@ -32,6 +32,8 @@ namespace Villeon
             gameWindow.KeyDown += KeyHandler.KeyDown;
             gameWindow.KeyUp += KeyHandler.KeyUp;
             gameWindow.MouseWheel += MouseHandler.MouseWheel;
+            gameWindow.MouseDown += MouseHandler.MouseDown;
+            gameWindow.MouseMove += MouseHandler.MouseMove;
             gameWindow.UpdateFrame += UpdateFrame;
             gameWindow.RenderFrame += RenderFrame;
             gameWindow.RenderFrame += _ => gameWindow.SwapBuffers();
@@ -51,6 +53,7 @@ namespace Villeon
             entity.AddComponent(new Physics());
             entity.AddComponent(new Collider(new Vector2(5.0f, 5.0f), 1.0f, 1.0f));
             entity.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 1.0f, 0.0f));
+            entity.AddComponent(new Player());
             manager.AddEntity(entity);
 
             IEntity ground = new Entity("Ground");
@@ -79,7 +82,6 @@ namespace Villeon
             block3.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 25.0f, 1.0f));
             manager.AddEntity(block3);
 
-
             PlayerMovementSystem playerMovementSystem = new PlayerMovementSystem("Move");
             manager.RegisterSystem(playerMovementSystem);
 
@@ -91,12 +93,22 @@ namespace Villeon
 
             RenderSystem renderSystem = new("RenderSystem");
             manager.RegisterSystem(renderSystem);
+
+            // Events..
         }
 
 
         private void UpdateFrame(FrameEventArgs args)
         {
             manager.Update(args.Time);
+
+            // Spawner logic
+            if (MouseHandler.MouseClicks.Count > 0)
+            {
+                Console.Write("Pop");
+                _spawner.Spawn(MouseHandler.MouseClicks.Pop());
+            }
+
         }
 
         private void RenderFrame(FrameEventArgs args)

@@ -42,7 +42,6 @@ namespace Villeon.Systems
         private void DrawCollider(Collider collider)
         {
             DrawQuad(Color4.White, collider.Position, collider.Width, collider.Height);
-            //DrawQuad(Color4.White, collider.LastPosition, collider.Width, collider.Height);
         }
 
         private void DrawQuad(Color4 color, Vector2 point, float width, float height)
