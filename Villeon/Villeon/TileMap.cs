@@ -103,7 +103,7 @@ namespace Villeon
         }
 
         // Resource Loading from Embedded Directory => Remove if solved other way
-        Stream LoadContent(string name)
+        public Stream LoadContent(string name)
         {
             return resourceDir.Resource(name).Open();
         }

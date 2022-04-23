@@ -25,11 +25,16 @@ namespace Villeon.Systems
         public Signature Signature { get; private set; } = new();
 
         public readonly TileMap TileMap;
-        public Box2 DrawingBounds { get; set; } = new(0f, 0f, 10f, 10f);
+
+        private Matrix4 refCameraMatrix = Matrix4.Identity;
 
         public void Render()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
+
+            Camera.Update(Entities.Last());
+            refCameraMatrix = Camera.GetMatrix();
+            GL.LoadMatrix(ref refCameraMatrix);
 
             foreach (var entity in Entities)
             {
@@ -43,6 +48,7 @@ namespace Villeon.Systems
 
         private void Draw(Box2 rectangle, Box2 texCoords)
         {
+            GL.Color4(Color4.White);
             GL.Begin(PrimitiveType.Quads);
             GL.TexCoord2(texCoords.Min);
             GL.Vertex2(rectangle.Min);

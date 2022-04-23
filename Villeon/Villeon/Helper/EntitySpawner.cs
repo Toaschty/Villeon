@@ -24,6 +24,7 @@ namespace Villeon
             entity.AddComponent(new Collider(position, 2.0f, 2.0f));
             entity.AddComponent(new Transform(position, 1.0f, 1.0f));
             entity.AddComponent(new Physics());
+            entity.AddComponent(new Player());
             _manager.AddEntity(entity);
         }
     }

@@ -10,9 +10,9 @@ using OpenTK.Mathematics;
 
 namespace Villeon.Systems
 {
-    public class RenderSystem : IRenderSystem
+    public class ColliderRenderSystem : IRenderSystem
     {
-        public RenderSystem(string name)
+        public ColliderRenderSystem(string name)
         {
             Name = name;
             Signature.Add<Collider>();
@@ -24,14 +24,8 @@ namespace Villeon.Systems
 
         public Signature Signature { get; private set; } = new();
 
-        private Matrix4 refCameraMatrix = Matrix4.Identity;
-
         public void Render()
         {
-            Camera.Update(Entities.First());
-            refCameraMatrix  = Camera.GetMatrix();
-            GL.LoadMatrix(ref refCameraMatrix);
-
             foreach (IEntity entity in Entities)
             {
                 DrawCollider(entity.GetComponent<Collider>());
@@ -40,12 +34,13 @@ namespace Villeon.Systems
 
         private void DrawCollider(Collider collider)
         {
-            DrawQuad(Color4.White, collider.Position, collider.Width, collider.Height);
+            DrawQuad(Color4.Red, collider.Position, collider.Width, collider.Height);
         }
 
         private void DrawQuad(Color4 color, Vector2 point, float width, float height)
         {
             GL.Color4(color);
+            GL.BindTexture(TextureTarget.Texture2D, 0);
             GL.Begin(BeginMode.LineLoop);
             GL.Vertex2(point);
             GL.Vertex2(point.X + width, point.Y);

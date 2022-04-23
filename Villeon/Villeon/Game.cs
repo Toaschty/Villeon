@@ -11,6 +11,8 @@ using Villeon.Helper;
 using Villeon.Components;
 using Villeon.Systems;
 using OpenTK.Graphics.OpenGL;
+using Zenseless.Resources;
+using Zenseless.OpenTK;
 
 namespace Villeon
 {
@@ -55,41 +57,6 @@ namespace Villeon
 
         private void Init()
         {
-            IEntity entity = new Entity("Marin");
-            entity.AddComponent(new Physics());
-            entity.AddComponent(new Collider(new Vector2(5.0f, 5.0f), 1.0f, 1.0f));
-            entity.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 1.0f, 0.0f));
-            entity.AddComponent(new Player());
-            manager.AddEntity(entity);
-
-            IEntity ground = new Entity("Ground");
-            ground.AddComponent(new Collider(new Vector2(0.0f, 1.0f), 55.0f, 1.0f));
-            ground.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 25.0f, 1.0f));
-            manager.AddEntity(ground);
-
-            // Spawn Ground
-            IEntity roof = new Entity("Roof");
-            roof.AddComponent(new Collider(new Vector2(0.0f, 16.0f), 55.0f, 2.0f));
-            roof.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 25.0f, 1.0f));
-            manager.AddEntity(roof);
-
-            IEntity block = new Entity("Block1");
-            block.AddComponent(new Collider(new Vector2(5.0f, 2.5f), 2.0f, 2.0f));
-            block.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 25.0f, 1.0f));
-            manager.AddEntity(block);
-
-            IEntity block2 = new Entity("Block2");
-            block2.AddComponent(new Collider(new Vector2(10.0f, 3.5f), 2.0f, 2.0f));
-            block2.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 25.0f, 1.0f));
-            manager.AddEntity(block2);
-
-            IEntity block3 = new Entity("Block3");
-            block3.AddComponent(new Collider(new Vector2(30.0f, 3.5f), 4.0f, 2.0f));
-            block3.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 25.0f, 1.0f));
-            manager.AddEntity(block3);
-
-
-
             PlayerMovementSystem playerMovementSystem = new PlayerMovementSystem("Move");
             manager.RegisterSystem(playerMovementSystem);
 
@@ -102,13 +69,27 @@ namespace Villeon
             // TileMap
             TileMap tileMap = new TileMap("Level.tmx", manager);
 
+            IEntity entity = new Entity("Marin");
+            entity.AddComponent(new Physics());
+            entity.AddComponent(new Collider(new Vector2(5.0f, 5.0f), 0.5f, 0.5f));
+            entity.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 1.0f, 0.0f));
+            entity.AddComponent(new Player());
+            entity.AddComponent(new Tile(
+                new Vector2(5.0f, 5.0f),
+                0.0f,
+                0.0f,
+                new Tile.TileSetStruct {
+                    Texture2D = Texture2DLoader.Load(tileMap.LoadContent("TilesetImages.tiles.png")).Handle,
+                    TileWidth = 1,
+                    TileHeight = 1,
+                }));
+            manager.AddEntity(entity);
+
             TileRenderSystem tileRenderSystem = new("TileRenderSystem", tileMap);
             manager.RegisterSystem(tileRenderSystem);
-            
-            RenderSystem renderSystem = new("RenderSystem");
-            manager.RegisterSystem(renderSystem);
 
-            // Events..
+            ColliderRenderSystem renderSystem = new("RenderSystem");
+            manager.RegisterSystem(renderSystem);
         }
 
 
