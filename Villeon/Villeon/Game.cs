@@ -53,6 +53,11 @@ namespace Villeon
             entity.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 1.0f, 0.0f));
             manager.AddEntity(entity);
 
+            IEntity ground = new Entity("Ground");
+            ground.AddComponent(new Collider(new Vector2(0.0f, 1.0f), 55.0f, 1.0f));
+            ground.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 25.0f, 1.0f));
+            manager.AddEntity(ground);
+
             // Spawn Ground
             IEntity roof = new Entity("Roof");
             roof.AddComponent(new Collider(new Vector2(0.0f, 16.0f), 55.0f, 2.0f));
@@ -74,17 +79,12 @@ namespace Villeon
             block3.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 25.0f, 1.0f));
             manager.AddEntity(block3);
 
-            IEntity ground = new Entity("Ground");
-            ground.AddComponent(new Collider(new Vector2(0.0f, 1.0f), 55.0f, 1.0f));
-            ground.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 25.0f, 1.0f));
-            manager.AddEntity(ground);
-
-
-            PhysicsSystem physicsSystem = new PhysicsSystem("Physics!");
-            manager.RegisterSystem(physicsSystem);
 
             PlayerMovementSystem playerMovementSystem = new PlayerMovementSystem("Move");
             manager.RegisterSystem(playerMovementSystem);
+
+            PhysicsSystem physicsSystem = new PhysicsSystem("Physics!");
+            manager.RegisterSystem(physicsSystem);  
 
             CollisionSystem collisionSystem = new CollisionSystem("Collision!");
             manager.RegisterSystem(collisionSystem);

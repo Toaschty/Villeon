@@ -52,7 +52,14 @@ namespace Villeon.Systems
                 {
                     Console.Write("Space");
                     if (collider.hasCollidedBottom)
-                        physics.Velocity += new Vector2(0.0f, jumpStrength);
+                        physics.Velocity = new Vector2(physics.Velocity.X, jumpStrength);
+                }
+                //Debug Reset Position
+                if (KeyHandler.pressedKeys.Contains(Keys.R))
+                {
+                    collider.Position = new Vector2(5f, 5f);
+                    collider.Position = new Vector2(5f, 5f);
+                    physics.Velocity = Vector2.Zero;
                 }
             }
         }

@@ -33,40 +33,44 @@ namespace Villeon.Systems
             {
                 transform = entity.GetComponent<Transform>();
                 collider = entity.GetComponent<Collider>();
+
                 collider.hasCollidedLeft = false;
                 collider.hasCollidedRight = false;
                 collider.hasCollidedTop = false;
                 collider.hasCollidedBottom = false;
 
-                Vector2 finalPosition = collider.Position;
 
-                foreach (IEntity entity2 in Entities)
+                if (collider.hasMoved)
                 {
-                    Collider e2Collider = entity2.GetComponent<Collider>();
-                    if (entity != entity2)
+                    foreach (IEntity entity2 in Entities)
                     {
-                        switch (CollidesWith(collider, e2Collider))
+                        Collider e2Collider = entity2.GetComponent<Collider>();
+                        if (entity != entity2)
                         {
-                            case Direction.DOWN:
-                                collider.hasCollidedTop = true;
-                                finalPosition = new Vector2(finalPosition.X, e2Collider.Position.Y - collider.Height);
-                                break;
-                            case Direction.UP:
-                                collider.hasCollidedBottom = true;
-                                finalPosition = new Vector2(finalPosition.X, e2Collider.Position.Y + e2Collider.Height);
-                                break;
-                            case Direction.LEFT:
-                                collider.hasCollidedRight = true;
-                                finalPosition = new Vector2(e2Collider.Position.X - collider.Width, finalPosition.Y);
-                                break;
-                            case Direction.RIGHT:
-                                collider.hasCollidedLeft = true;
-                                finalPosition = new Vector2(e2Collider.Position.X + e2Collider.Width, finalPosition.Y);
-                                break;
+                            switch (CollidesWith(collider, e2Collider))
+                            {
+                                case Direction.DOWN:
+                                    collider.hasCollidedTop = true;
+                                    collider.ProposePosition = new Vector2(collider.Position.X, e2Collider.Position.Y - collider.Height);
+                                    break;
+                                case Direction.UP:
+                                    collider.hasCollidedBottom = true;
+                                    collider.ProposePosition = new Vector2(collider.Position.X, e2Collider.Position.Y + e2Collider.Height);
+                                    break;
+                                case Direction.LEFT:
+                                    collider.hasCollidedRight = true;
+                                    collider.ProposePosition = new Vector2(e2Collider.Position.X - collider.Width, collider.Position.Y);
+                                    break;
+                                case Direction.RIGHT:
+                                    collider.hasCollidedLeft = true;
+                                    collider.ProposePosition = new Vector2(e2Collider.Position.X + e2Collider.Width, collider.Position.Y);
+                                    break;
+                            }
                         }
                     }
+                    collider.Position = collider.Position;
+                    collider.hasMoved = false;
                 }
-                collider.Position = finalPosition;
             }
         }
 
@@ -100,6 +104,17 @@ namespace Villeon.Systems
             float mRight = (b.Position.X + b.Width + (a.Width / 2) - a.LastCenter.X) / v.X;
             // test for left side
             float mLeft = (b.Position.X - (a.Width / 2) - a.LastCenter.X) / v.X;
+
+            int zeros = 0;
+            if (mTop == 0) zeros++;
+            if (mBottom == 0) zeros++;
+            if (mRight == 0) zeros++;
+            if (mLeft == 0) zeros++;
+            if (zeros > 1)
+            {
+                Console.WriteLine(zeros);
+                return Direction.UP;
+            }
 
             // if vector goes backwards it's automatically not the right direction
             if (mTop < 0 && float.IsFinite(mTop)) mTop = float.PositiveInfinity;

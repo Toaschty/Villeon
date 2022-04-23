@@ -39,8 +39,19 @@ namespace Villeon.Components
             }
             set 
             {
+                hasMoved = true;
                 LastPosition = position;
                 LastCenter = new Vector2(position.X + Width / 2, position.Y + Height / 2);
+                position = value;
+                Center = new Vector2(position.X + Width / 2, position.Y + Height / 2);
+            }
+        }
+
+        public Vector2 ProposePosition
+        {
+            get { return position; }
+            set
+            {
                 position = value;
                 Center = new Vector2(position.X + Width / 2, position.Y + Height / 2);
             }
