@@ -32,7 +32,6 @@ namespace Villeon.Systems
             refCameraMatrix  = Camera.GetMatrix();
             GL.LoadMatrix(ref refCameraMatrix);
 
-            GL.Clear(ClearBufferMask.ColorBufferBit);
             foreach (IEntity entity in Entities)
             {
                 DrawCollider(entity.GetComponent<Collider>());
