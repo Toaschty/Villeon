@@ -26,9 +26,15 @@ namespace Villeon
 
         public void Start()
         {
+            GameWindow gameWindow = WindowCreator.CreateWindow();
+
             Init();
 
-            GameWindow gameWindow = WindowCreator.CreateWindow();
+            // Enable Texturing
+            GL.Enable(EnableCap.Texture2D);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            GL.Enable(EnableCap.Blend);
+
             gameWindow.KeyDown += KeyHandler.KeyDown;
             gameWindow.KeyUp += KeyHandler.KeyUp;
             gameWindow.MouseWheel += MouseHandler.MouseWheel;
@@ -90,7 +96,13 @@ namespace Villeon
 
             CollisionSystem collisionSystem = new CollisionSystem("Collision!");
             manager.RegisterSystem(collisionSystem);
+            
+            // TileMap
+            TileMap tileMap = new TileMap("Level.tmx", manager);
 
+            TileRenderSystem tileRenderSystem = new("TileRenderSystem", tileMap);
+            manager.RegisterSystem(tileRenderSystem);
+            
             RenderSystem renderSystem = new("RenderSystem");
             manager.RegisterSystem(renderSystem);
 
