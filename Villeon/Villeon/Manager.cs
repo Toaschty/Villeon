@@ -112,8 +112,8 @@ namespace Villeon
             return removed;
         }
 
-        private List<IEntity> _entities = new();
-        private List<IUpdateSystem> _updateSystems = new();
-        private List<IRenderSystem> _renderSystems = new();
+        public List<IEntity> _entities = new();
+        public List<IUpdateSystem> _updateSystems = new();
+        public List<IRenderSystem> _renderSystems = new();
     }
 }

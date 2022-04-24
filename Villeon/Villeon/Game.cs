@@ -24,7 +24,6 @@ namespace Villeon
 
         public Game()
         {
-            _spawner = new EntitySpawner();
         }
 
         public void Start()
@@ -34,7 +33,7 @@ namespace Villeon
             Init();
 
             // Load scene
-            // SceneLoader.LoadScene(dungeonScene);
+            //SceneLoader.LoadScene(dungeonScene);
             SceneLoader.LoadScene(villageScene);
 
             // Enable Texturing
@@ -85,6 +84,7 @@ namespace Villeon
             dungeonScene.AddSystem(new CollisionSystem("Collision"));
             dungeonScene.AddSystem(new TileRenderSystem("TileRenderSystem", tileMap));
             dungeonScene.AddSystem(new ColliderRenderSystem("RenderSystem"));
+            dungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             dungeonScene.AddEntity(entity);
             dungeonScene.SetTileMap(tileMap);
 
@@ -94,22 +94,32 @@ namespace Villeon
             villageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
             villageScene.AddSystem(new CollisionSystem("Collision"));
             villageScene.AddSystem(new TileRenderSystem("TileRenderSystem", villageTileMap));
+            villageScene.AddSystem(new ColliderRenderSystem("TileRenderSystem"));
+            villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             villageScene.SetTileMap(villageTileMap);
             villageScene.AddEntity(entity);
         }
 
-
         private void UpdateFrame(FrameEventArgs args)
         {
-            Manager.GetInstance().Update(args.Time);
-
-            // Spawner logic
-            if (MouseHandler.MouseClicks.Count > 0)
+            Console.Write("Entities: " + Manager.GetInstance()._entities.Count + "       UpdateSystems: " + Manager.GetInstance()._updateSystems.Count + "      RenderSystems: " + Manager.GetInstance()._renderSystems.Count() + "                                           \r");
+            if (MouseHandler.ClickedMouseButtons.Count > 0)
             {
-                Console.Write("Pop");
-                _spawner.Spawn(MouseHandler.MouseClicks.Pop());
-            }
+                if (MouseHandler.ClickedMouseButtons.Contains(OpenTK.Windowing.GraphicsLibraryFramework.MouseButton.Middle))
+                {
+                    MouseHandler.ClickedMouseButtons.Dequeue();
+                    SceneLoader.UnloadScene(dungeonScene);
+                    SceneLoader.LoadScene(villageScene);
+                }
 
+                if (MouseHandler.ClickedMouseButtons.Contains(OpenTK.Windowing.GraphicsLibraryFramework.MouseButton.Right))
+                {
+                    MouseHandler.ClickedMouseButtons.Dequeue();
+                    SceneLoader.UnloadScene(villageScene);
+                    SceneLoader.LoadScene(dungeonScene);
+                }
+            }
+            Manager.GetInstance().Update(args.Time);
         }
 
         private void RenderFrame(FrameEventArgs args)

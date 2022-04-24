@@ -1,5 +1,6 @@
 ﻿using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Collections.Generic;
 
@@ -13,7 +14,9 @@ namespace Villeon.Helper
 
         public static Vector2 MousePosition { get; private set; }
 
-        public static Stack<Vector2> MouseClicks { get; private set; } = new Stack<Vector2>();
+        public static Queue<Vector2> MouseClickPosition { get; private set; } = new();
+
+        public static Queue<MouseButton> ClickedMouseButtons { get; private set; } = new();
 
         public static void MouseWheel(MouseWheelEventArgs args)
         {
@@ -36,15 +39,18 @@ namespace Villeon.Helper
             return 0;
         }
 
-        internal static void MouseDown(MouseButtonEventArgs args)
+        public static void MouseDown(MouseButtonEventArgs args)
         {
+            // Store standard Mouse info
+            ClickedMouseButtons.Enqueue(args.Button);
+
+            // Convert the Pixel Mouse Position to World Coordinates
             Matrix4 fromViewportToWorldCoords = Camera._inverseViewportMatrix * Camera.GetInverseMatrix();
             Vector2 worldPosition = MousePosition.Transform(fromViewportToWorldCoords);
-
-            MouseClicks.Push(worldPosition);
+            MouseClickPosition.Enqueue(worldPosition);
         }
 
-        internal static void MouseMove(MouseMoveEventArgs args)
+        public static void MouseMove(MouseMoveEventArgs args)
         {
             MousePosition = args.Position;
         }
