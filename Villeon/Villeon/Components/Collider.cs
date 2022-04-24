@@ -45,15 +45,6 @@ namespace Villeon.Components
             }
         }
 
-        public void SetPosition(Vector2 newPosition)
-        {
-            hasMoved = true;
-            LastPosition = position;
-            LastCenter = new Vector2(position.X + Width / 2, position.Y + Height / 2);
-            position = newPosition;
-            Center = new Vector2(position.X + Width / 2, position.Y + Height / 2);
-        }
-
         public Vector2 ProposePosition
         {
             get { return position; }

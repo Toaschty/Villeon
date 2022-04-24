@@ -36,30 +36,30 @@ namespace Villeon.Systems
                 physics = entity.GetComponent<Physics>();
                 collider = entity.GetComponent<Collider>();
 
-                if (KeyHandler.pressedKeys.Contains(Keys.D))
+                if (KeyHandler.IsPressed(Keys.D))
                 {
                     physics.Acceleration += new Vector2(Constants.MOVEMENTSPEED, physics.Acceleration.Y);
                 }
-                if (KeyHandler.pressedKeys.Contains(Keys.A))
+                if (KeyHandler.IsPressed(Keys.A))
                 {
                     physics.Acceleration -= new Vector2(Constants.MOVEMENTSPEED, physics.Acceleration.Y);
                 }
-                if (KeyHandler.pressedKeys.Contains(Keys.Space))
+                if (KeyHandler.IsPressed(Keys.Space))
                 {
                     if (collider.hasCollidedBottom)
                         physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
                 }
                 //Debug Reset Position
-                if (KeyHandler.pressedKeys.Contains(Keys.R))
+                if (KeyHandler.IsPressed(Keys.R))
                 {
                     collider.Position = new Vector2(5f, 5f);
                     collider.Position = new Vector2(5f, 5f);
                     physics.Velocity = Vector2.Zero;
                 }
 
-                if (KeyHandler.pressedKeys.Contains(Keys.F))
+                if (KeyHandler.IsPressed(Keys.F))
                 {
-                    collider.SetPosition(collider.Position + new Vector2(1f, 0f));
+                    physics.Velocity += new Vector2(200f, 0f) * (float)time;
                 }
             }
         }

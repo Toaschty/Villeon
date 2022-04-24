@@ -10,18 +10,23 @@ namespace Villeon.Helper
 {
     public static class KeyHandler
     {
-        public static List<Keys> pressedKeys = new List<Keys>();
+        private static List<Keys> _pressedKeys = new List<Keys>();
 
-        internal static void KeyUp(KeyboardKeyEventArgs args)
+        public static void KeyUp(KeyboardKeyEventArgs args)
         {
-            if (pressedKeys.Count != 0)
-                pressedKeys.Remove(args.Key);
+            if (_pressedKeys.Count != 0)
+                _pressedKeys.Remove(args.Key);
         }
 
-        internal static void KeyDown(KeyboardKeyEventArgs args)
+        public static void KeyDown(KeyboardKeyEventArgs args)
         {
-            if (!pressedKeys.Contains(args.Key))
-                pressedKeys.Add(args.Key);
+            if (!_pressedKeys.Contains(args.Key))
+                _pressedKeys.Add(args.Key);
+        }
+
+        public static bool IsPressed(Keys key)
+        {
+            return _pressedKeys.Contains(key);
         }
     }
 }
