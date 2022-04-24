@@ -1,42 +1,43 @@
-﻿using OpenTK.Graphics.OpenGL;
-using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TiledLib.Layer;
-using Villeon.Components;
-using Zenseless.OpenTK;
-using Zenseless.Resources;
-using static Villeon.Components.Tile;
-
-namespace Villeon
+﻿namespace Villeon
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using OpenTK.Graphics.OpenGL;
+    using OpenTK.Mathematics;
+    using TiledLib.Layer;
+    using Villeon.Components;
+    using Villeon.Helper;
+    using Zenseless.OpenTK;
+    using static Villeon.Components.Tile;
+
     internal class TileMap
     {
+        // Holds all tileMap data
         private readonly TiledLib.Map map;
 
         // Dictionary tileId => Tile object
         public Dictionary<uint, Villeon.Components.Tile> tiles = new();
 
-        private readonly Manager manager;
+        // Used for generating optimized colliders
+        private bool[,] colliderGrid;
 
-        // Embedded Directory
-        EmbeddedResourceDirectory resourceDir = new EmbeddedResourceDirectory("Villeon.Content.TileMap");
+        private readonly Manager manager;
 
         public TileMap(string mapName, Manager manager)
         {
             // Load in tilemap from file + TileSets 
-            map = TiledLib.Map.FromStream(LoadContent(mapName), ts => LoadContent(ts.Source));
+            map = TiledLib.Map.FromStream(ResourceLoader.LoadContentAsStream("TileMap." + mapName), ts => ResourceLoader.LoadContentAsStream("TileMap." + ts.Source));
+            colliderGrid = new bool[map.Width, map.Height];
             this.manager = manager;
 
             // Starting generation
-            CreateTileMapEntitys();
+            SetupTileDictionary();
         }
 
-        private void CreateTileMapEntitys()
+        // Start setup prozess. Fill dictionary with all tiles.
+        private void SetupTileDictionary()
         {
             // Go through all tilesets
             foreach (var tileSet in map.Tilesets)
@@ -45,7 +46,7 @@ namespace Villeon
                 float rezImageHeight = 1f / tileSet.ImageHeight;
 
                 // Load in corresponding tileset
-                TileSetStruct graphicsTileSet = LoadTileSet(tileSet.ImagePath, (uint)tileSet.Columns, (uint)tileSet.Rows);
+                TileSetStruct graphicsTileSet = LoadTileSet("TileMap." + tileSet.ImagePath, (uint)tileSet.Columns, (uint)tileSet.Rows);
 
                 // Go through all tiles in tileset -> Safe all tiles in dictionary
                 for (int gid = tileSet.FirstGid; gid < tileSet.FirstGid + tileSet.TileCount; gid++)
@@ -55,8 +56,12 @@ namespace Villeon
                 }
             }
 
-            bool[,] colliderGrid = new bool[map.Width, map.Height];
+            CreateTileMapEntitys();
+        }
 
+        // Generate tile-entitys depending on the tilemap.
+        public void CreateTileMapEntitys()
+        {
             // Go through all layers
             foreach (TileLayer layer in map.Layers.OfType<TileLayer>())
             {
@@ -98,7 +103,12 @@ namespace Villeon
                 hasCollider = false;
             }
 
+            AddOptimizedColliders();
+        }
 
+        // Add optimized colliders to tiles.
+        private void AddOptimizedColliders()
+        {
             //create unionized colliders in Grid
             Vector2 min = new Vector2(-1, -1);
             Vector2 max = new Vector2(-1, -1);
@@ -163,22 +173,17 @@ namespace Villeon
             }
         }
 
+        // Add new tile to dictionary with given data -> Used later to get right tile for generation.
         void AddTileToDictionary(TileSetStruct TileSet, uint tileId, float startX, float startY)
         {
             // Add given tile to dictionary -> gui is key
             tiles.Add(tileId, new Tile(startX, startY, TileSet));
         }
 
-        // Resource Loading from Embedded Directory => Remove if solved other way
-        public Stream LoadContent(string name)
+        // Load in tileSet texture. Set settings for texture. Tile width and height calculation for tileSet.
+        public TileSetStruct LoadTileSet(string imagePath, uint columns, uint rows)
         {
-            return resourceDir.Resource(name).Open();
-        }
-
-        TileSetStruct LoadTileSet(string imagePath, uint columns, uint rows)
-        {
-            Stream stream = LoadContent(imagePath);
-            Texture2D tileSetTexture = Texture2DLoader.Load(stream);
+            Texture2D tileSetTexture = ResourceLoader.LoadContentAsTexture2D(imagePath);
             GL.BindTexture(TextureTarget.Texture2D, tileSetTexture.Handle);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Nearest);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Nearest);

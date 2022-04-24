@@ -79,7 +79,7 @@ namespace Villeon
                 0.0f,
                 0.0f,
                 new Tile.TileSetStruct {
-                    Texture2D = Texture2DLoader.Load(tileMap.LoadContent("TilesetImages.tiles.png")).Handle,
+                    Texture2D = Texture2DLoader.Load(ResourceLoader.LoadContentAsStream("TileMap.TilesetImages.tiles.png")).Handle,
                     TileWidth = 1,
                     TileHeight = 1,
                 }));
