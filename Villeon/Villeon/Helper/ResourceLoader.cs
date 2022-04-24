@@ -4,7 +4,7 @@
     using Zenseless.OpenTK;
     using Zenseless.Resources;
 
-    internal class ResourceLoader
+    public class ResourceLoader
     {
         private static EmbeddedResourceDirectory ResourceDirectory { get; set; } = new EmbeddedResourceDirectory("Villeon.Content");
 

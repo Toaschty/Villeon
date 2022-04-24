@@ -20,6 +20,9 @@ namespace Villeon
     {
         private EntitySpawner _spawner;
 
+        private Scene dungeonScene;
+        private Scene villageScene;
+
         public Game()
         {
             _spawner = new EntitySpawner();
@@ -30,6 +33,10 @@ namespace Villeon
             GameWindow gameWindow = WindowCreator.CreateWindow();
 
             Init();
+
+            // Load scene
+            SceneLoader.LoadScene(dungeonScene);
+            // SceneLoader.LoadScene(villageScene);
 
             // Enable Texturing
             GL.Enable(EnableCap.Texture2D);
@@ -56,18 +63,9 @@ namespace Villeon
 
         private void Init()
         {
-            PlayerMovementSystem playerMovementSystem = new PlayerMovementSystem("Move");
-            Manager.GetInstance().RegisterSystem(playerMovementSystem);
-
-            PhysicsSystem physicsSystem = new PhysicsSystem("Physics!");
-            Manager.GetInstance().RegisterSystem(physicsSystem);  
-
-            CollisionSystem collisionSystem = new CollisionSystem("Collision!");
-            Manager.GetInstance().RegisterSystem(collisionSystem);
-            
-            // TileMap
+            // Platformer Scene
+            dungeonScene = new Scene();
             TileMap tileMap = new TileMap("Level.tmx");
-
             IEntity entity = new Entity("Marin");
             entity.AddComponent(new Physics());
             entity.AddComponent(new Collider(new Vector2(5.0f, 5.0f), 0.5f, 0.5f));
@@ -77,18 +75,27 @@ namespace Villeon
                 new Vector2(5.0f, 5.0f),
                 0.0f,
                 0.0f,
-                new Tile.TileSetStruct {
+                new Tile.TileSetStruct
+                {
                     Texture2D = Texture2DLoader.Load(ResourceLoader.LoadContentAsStream("TileMap.TilesetImages.tiles.png")).Handle,
                     TileWidth = 1,
                     TileHeight = 1,
                 }));
-            Manager.GetInstance().AddEntity(entity);
+            dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
+            dungeonScene.AddSystem(new PhysicsSystem("Physics"));
+            dungeonScene.AddSystem(new CollisionSystem("Collision"));
+            dungeonScene.AddSystem(new TileRenderSystem("TileRenderSystem", tileMap));
+            dungeonScene.AddSystem(new ColliderRenderSystem("RenderSystem"));
+            dungeonScene.AddEntity(entity);
 
-            TileRenderSystem tileRenderSystem = new("TileRenderSystem", tileMap);
-            Manager.GetInstance().RegisterSystem(tileRenderSystem);
-
-            ColliderRenderSystem renderSystem = new("RenderSystem");
-            Manager.GetInstance().RegisterSystem(renderSystem);
+            // Village Scene
+            villageScene = new Scene();
+            villageScene.AddSystem(new PlayerMovementSystem("Move"));
+            villageScene.AddSystem(new PhysicsSystem("Physics"));
+            villageScene.AddSystem(new CollisionSystem("Collision"));
+            villageScene.AddSystem(new TileRenderSystem("TileRenderSystem", tileMap));
+            villageScene.AddSystem(new ColliderRenderSystem("RenderSystem"));
+            villageScene.AddEntity(entity);
         }
 
 
