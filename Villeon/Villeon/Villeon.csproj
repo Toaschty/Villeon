@@ -9,7 +9,9 @@
   <ItemGroup>
     <None Remove="Content\TileMap\Level.tmx" />
     <None Remove="Content\TileMap\TilesetImages\tiles.png" />
+    <None Remove="Content\TileMap\TilesetImages\VillageTileSet.png" />
     <None Remove="Content\TileMap\Tilesets\Platformer.tsx" />
+    <None Remove="Content\TileMap\Tilesets\VillageTileSet.tsx" />
     <None Remove="Content\TileMap\TX Plant.png" />
     <None Remove="Content\TileMap\TX Props.png" />
     <None Remove="Content\TileMap\TX Shadow Plant.png" />
@@ -18,12 +20,16 @@
     <None Remove="Content\TileMap\TX Tileset Grass.png" />
     <None Remove="Content\TileMap\TX Tileset Stone Ground.png" />
     <None Remove="Content\TileMap\TX Tileset Wall.png" />
+    <None Remove="Content\TileMap\VillageTileMap.tmx" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Content\TileMap\Level.tmx" />
     <EmbeddedResource Include="Content\TileMap\TilesetImages\tiles.png" />
+    <EmbeddedResource Include="Content\TileMap\TilesetImages\VillageTileSet.png" />
     <EmbeddedResource Include="Content\TileMap\Tilesets\Platformer.tsx" />
+    <EmbeddedResource Include="Content\TileMap\Tilesets\VillageTileSet.tsx" />
+    <EmbeddedResource Include="Content\TileMap\VillageTileMap.tmx" />
   </ItemGroup>
 
   <ItemGroup>

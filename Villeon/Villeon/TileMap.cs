@@ -12,7 +12,7 @@
     using Zenseless.OpenTK;
     using static Villeon.Components.Tile;
 
-    internal class TileMap
+    public class TileMap
     {
         // Holds all tileMap data
         private readonly TiledLib.Map map;
@@ -52,8 +52,6 @@
                     AddTileToDictionary(graphicsTileSet, (uint)gid, tile.Left * rezImageWidth, (tileSet.ImageHeight - tileSet.TileHeight - tile.Top) * rezImageHeight);
                 }
             }
-
-            CreateTileMapEntitys();
         }
 
         // Generate tile-entitys depending on the tilemap.

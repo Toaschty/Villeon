@@ -10,7 +10,10 @@ namespace Villeon
     {
         public static float GRAVITY { get; } = 20f;
         public static float FRICTION { get; } = 7.5f;
-        public static float MOVEMENTSPEED { get; } = 75f;
         public static float JUMPSTRENGTH { get; } = 25f;
+
+        // In struct i guess
+        public static float MOVEMENTSPEED { get; } = 75f;
+        public static float TOPDOWNMOVEMENTSPEED { get; } = 10;
     }
 }

@@ -24,7 +24,7 @@ namespace Villeon.Systems
 
         public Signature Signature { get; private set; } = new();
 
-        public readonly TileMap TileMap;
+        public TileMap TileMap { get; }
 
         private Matrix4 refCameraMatrix = Matrix4.Identity;
 
