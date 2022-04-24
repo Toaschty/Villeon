@@ -20,9 +20,7 @@ namespace Villeon
         public static Manager GetInstance()
         {
             if (_manager == null)
-            {
                 _manager = new Manager();
-            }
             return _manager;
         }
 

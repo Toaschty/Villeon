@@ -16,7 +16,7 @@ namespace Villeon
             if (typeof(T) == typeof(Collider))
                 signature |= COLLIDER;
 
-            if (typeof(T) == typeof(SpriteDrawable))
+            if (typeof(T) == typeof(Sprite))
                 signature |= SPRITEDRAWABLE;
 
             if (typeof(T) == typeof(Tile))
@@ -37,13 +37,13 @@ namespace Villeon
             if (component is Physics)
                 signature |= PHYSICS;
 
-            if (component is SpriteDrawable)
+            if (component is Sprite)
                 signature |= SPRITEDRAWABLE;
 
             if (component is Tile)
                 signature |= TILE;
 
-            if (component is Tile)
+            if (component is Player)
                 signature |= PLAYER;
         }
 

@@ -95,7 +95,7 @@ namespace Villeon.Systems
             foreach (IEntity entity in Entities)
             {
                 Collider collider = entity.GetComponent<Collider>();
-                collider.Position = collider.Position;
+                //collider.Position = collider.Position;
                 collider.hasMoved = false;
             }
         }
@@ -301,7 +301,7 @@ namespace Villeon.Systems
             return true;
         }
 
-        private List<Vector2> CreatePolygon(Collider collider)
+        public static List<Vector2> CreatePolygon(Collider collider)
         {
             float x = collider.Position.X;
             float y = collider.Position.Y;

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Villeon.Components
 {
-    public class SpriteDrawable : IComponent
+    public class Sprite : IComponent
     {
-        public SpriteDrawable(Color4 color, Vector2 size)
+        public Sprite(Color4 color, Vector2 size)
         {
             Color = color;
             Size = size;

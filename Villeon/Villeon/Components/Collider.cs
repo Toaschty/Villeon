@@ -20,12 +20,10 @@ namespace Villeon.Components
         }
 
         public bool hasMoved = false;
-
         public bool hasCollidedTop = false;
         public bool hasCollidedBottom = false;
         public bool hasCollidedLeft = false;
         public bool hasCollidedRight = false;
-
 
         public Vector2 LastPosition { get; private set; }
 
@@ -45,6 +43,15 @@ namespace Villeon.Components
                 position = value;
                 Center = new Vector2(position.X + Width / 2, position.Y + Height / 2);
             }
+        }
+
+        public void SetPosition(Vector2 newPosition)
+        {
+            hasMoved = true;
+            LastPosition = position;
+            LastCenter = new Vector2(position.X + Width / 2, position.Y + Height / 2);
+            position = newPosition;
+            Center = new Vector2(position.X + Width / 2, position.Y + Height / 2);
         }
 
         public Vector2 ProposePosition

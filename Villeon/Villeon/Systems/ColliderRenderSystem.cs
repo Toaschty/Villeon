@@ -34,7 +34,9 @@ namespace Villeon.Systems
 
         private void DrawCollider(Collider collider)
         {
+            DrawPolygon(Color4.White, CollisionSystem.CreatePolygon(collider));
             DrawQuad(Color4.Red, collider.Position, collider.Width, collider.Height);
+            DrawQuad(Color4.Blue, collider.LastPosition, collider.Width, collider.Height);
         }
 
         private void DrawQuad(Color4 color, Vector2 point, float width, float height)
@@ -46,6 +48,18 @@ namespace Villeon.Systems
             GL.Vertex2(point.X + width, point.Y);
             GL.Vertex2(point.X + width, point.Y + height);
             GL.Vertex2(point.X, point.Y + height);
+            GL.End();
+        }
+
+        private void DrawPolygon(Color4 color, List<Vector2> points)
+        {
+            GL.Color4(color);
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+            GL.Begin(BeginMode.LineLoop);
+            foreach (Vector2 point in points)
+            {
+                GL.Vertex2(point);
+            }
             GL.End();
         }
     }

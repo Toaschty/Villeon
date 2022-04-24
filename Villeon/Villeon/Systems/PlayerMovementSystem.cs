@@ -56,6 +56,11 @@ namespace Villeon.Systems
                     collider.Position = new Vector2(5f, 5f);
                     physics.Velocity = Vector2.Zero;
                 }
+
+                if (KeyHandler.pressedKeys.Contains(Keys.F))
+                {
+                    collider.SetPosition(collider.Position + new Vector2(1f, 0f));
+                }
             }
         }
     }

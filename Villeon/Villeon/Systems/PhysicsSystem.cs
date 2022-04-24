@@ -55,7 +55,6 @@ namespace Villeon.Systems
                 if (physics.Velocity.Y <= 0)
                     physics.Acceleration += new Vector2(0.0f, 2.0f * -Constants.GRAVITY);
 
-
                 // Friction
                 physics.Acceleration += new Vector2(-Constants.FRICTION * physics.Velocity.X, physics.Acceleration.Y);
 
@@ -63,7 +62,11 @@ namespace Villeon.Systems
                 Vector2 oldVelocity = physics.Velocity;
                 physics.Velocity += physics.Acceleration * (float)time;
                 transform.Position += 0.5f * (oldVelocity + physics.Velocity) * (float)time;
-                collider.Position += 0.5f * (oldVelocity + physics.Velocity) * (float)time;
+                if (collider.hasMoved)
+                    collider.ProposePosition += 0.5f * (oldVelocity + physics.Velocity) * (float)time;
+                if (!collider.hasMoved)
+                    collider.Position += 0.5f * (oldVelocity + physics.Velocity) * (float)time;
+
 
                 physics.Acceleration = Vector2.Zero;
             }
