@@ -11,11 +11,8 @@ namespace Villeon
 {
     public class EntitySpawner
     {
-        private readonly Manager _manager;
-
-        public EntitySpawner(Manager manager)
+        public EntitySpawner()
         {
-            _manager = manager;
         }
 
         public void Spawn(Vector2 position)
@@ -25,7 +22,7 @@ namespace Villeon
             entity.AddComponent(new Transform(position, 1.0f, 1.0f));
             entity.AddComponent(new Physics());
             entity.AddComponent(new Player());
-            _manager.AddEntity(entity);
+            Manager.GetInstance().AddEntity(entity);
         }
     }
 }

@@ -18,12 +18,11 @@ namespace Villeon
 {
     public class Game
     {
-        Manager manager = new Manager();
         private EntitySpawner _spawner;
 
         public Game()
         {
-            _spawner = new EntitySpawner(manager);
+            _spawner = new EntitySpawner();
         }
 
         public void Start()
@@ -58,16 +57,16 @@ namespace Villeon
         private void Init()
         {
             PlayerMovementSystem playerMovementSystem = new PlayerMovementSystem("Move");
-            manager.RegisterSystem(playerMovementSystem);
+            Manager.GetInstance().RegisterSystem(playerMovementSystem);
 
             PhysicsSystem physicsSystem = new PhysicsSystem("Physics!");
-            manager.RegisterSystem(physicsSystem);  
+            Manager.GetInstance().RegisterSystem(physicsSystem);  
 
             CollisionSystem collisionSystem = new CollisionSystem("Collision!");
-            manager.RegisterSystem(collisionSystem);
+            Manager.GetInstance().RegisterSystem(collisionSystem);
             
             // TileMap
-            TileMap tileMap = new TileMap("Level.tmx", manager);
+            TileMap tileMap = new TileMap("Level.tmx");
 
             IEntity entity = new Entity("Marin");
             entity.AddComponent(new Physics());
@@ -83,19 +82,19 @@ namespace Villeon
                     TileWidth = 1,
                     TileHeight = 1,
                 }));
-            manager.AddEntity(entity);
+            Manager.GetInstance().AddEntity(entity);
 
             TileRenderSystem tileRenderSystem = new("TileRenderSystem", tileMap);
-            manager.RegisterSystem(tileRenderSystem);
+            Manager.GetInstance().RegisterSystem(tileRenderSystem);
 
             ColliderRenderSystem renderSystem = new("RenderSystem");
-            manager.RegisterSystem(renderSystem);
+            Manager.GetInstance().RegisterSystem(renderSystem);
         }
 
 
         private void UpdateFrame(FrameEventArgs args)
         {
-            manager.Update(args.Time);
+            Manager.GetInstance().Update(args.Time);
 
             // Spawner logic
             if (MouseHandler.MouseClicks.Count > 0)
@@ -108,7 +107,7 @@ namespace Villeon
 
         private void RenderFrame(FrameEventArgs args)
         {
-            manager.Render();
+            Manager.GetInstance().Render();
         }
     }
 }

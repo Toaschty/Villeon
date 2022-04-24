@@ -23,14 +23,11 @@
         // Used for generating optimized colliders
         private bool[,] colliderGrid;
 
-        private readonly Manager manager;
-
-        public TileMap(string mapName, Manager manager)
+        public TileMap(string mapName)
         {
             // Load in tilemap from file + TileSets 
             map = TiledLib.Map.FromStream(ResourceLoader.LoadContentAsStream("TileMap." + mapName), ts => ResourceLoader.LoadContentAsStream("TileMap." + ts.Source));
             colliderGrid = new bool[map.Width, map.Height];
-            this.manager = manager;
 
             // Starting generation
             SetupTileDictionary();
@@ -96,7 +93,7 @@
                             colliderGrid[x, y] = true;
                             entity.AddComponent(new Transform(new Vector2(x, layer.Height - 1 - y), 1, 1));
                         }
-                        manager.AddEntity(entity);
+                        Manager.GetInstance().AddEntity(entity);
                     }
                 }
 
@@ -162,7 +159,7 @@
                                 IEntity entity = new Entity("Map");
                                 entity.AddComponent(new Collider(new Vector2(min.X, (max.Y * -1) + map.Height - 1), max.X - min.X + 1, max.Y - min.Y + 1));
                                 entity.AddComponent(new Transform(new Vector2(min.X, (max.Y * -1) + map.Height - 1), max.X - min.X + 1, max.Y - min.Y + 1));
-                                manager.AddEntity(entity);
+                                Manager.GetInstance().AddEntity(entity);
                                 min = new Vector2(-1, -1);
                                 max = new Vector2(-1, -1);
                                 break;

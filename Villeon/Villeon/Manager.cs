@@ -11,6 +11,21 @@ namespace Villeon
 {
     public class Manager : IUpdate, IRender
     {
+        private static Manager? _manager { get; set; } 
+
+        private Manager()
+        {
+        }
+
+        public static Manager GetInstance()
+        {
+            if (_manager == null)
+            {
+                _manager = new Manager();
+            }
+            return _manager;
+        }
+
         public IEntity AddEntity(IEntity entity)
         {
             _entities.Add(entity);
