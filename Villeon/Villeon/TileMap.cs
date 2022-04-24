@@ -55,15 +55,17 @@ namespace Villeon
                 }
             }
 
+            bool[,] colliderGrid = new bool[map.Width, map.Height];
+
             // Go through all layers
             foreach (TileLayer layer in map.Layers.OfType<TileLayer>())
             {
                 // Check if collider is needed
                 bool hasCollider = false;
                 string value;
-                if( layer.Properties.TryGetValue("hasCollider", out value) )
+                if (layer.Properties.TryGetValue("hasCollider", out value))
                     hasCollider = true;
-                
+
 
                 for (int y = 0, i = 0; y < layer.Height; y++)
                 {
@@ -85,7 +87,8 @@ namespace Villeon
 
                         if (hasCollider)
                         {
-                            entity.AddComponent(new Collider(new Vector2(x, layer.Height - 1 - y), 1, 1));
+                            //entity.AddComponent(new Collider(new Vector2(x, layer.Height - 1 - y), 1, 1));
+                            colliderGrid[x, y] = true;
                             entity.AddComponent(new Transform(new Vector2(x, layer.Height - 1 - y), 1, 1));
                         }
                         manager.AddEntity(entity);
@@ -93,6 +96,70 @@ namespace Villeon
                 }
 
                 hasCollider = false;
+            }
+
+
+            //create unionized colliders in Grid
+            Vector2 min = new Vector2(-1, -1);
+            Vector2 max = new Vector2(-1, -1);
+            for (int y = 0; y < map.Height; y++)
+            {
+                for (int x = 0; x < map.Width; x++)
+                {
+
+                    if (colliderGrid[x, y] && min.X != -1)
+                    {
+                        max.X = x;
+                        colliderGrid[x, y] = false;
+                    }
+                    if (colliderGrid[x, y] && min.X == -1)
+                    {
+                        min.X = x;
+                        min.Y = y;
+                        max.X = x;
+                        max.Y = y;
+                        colliderGrid[x, y] = false;
+                    }
+                    else if (min.X != -1 && ((x + 1) == map.Width) || !colliderGrid[(x + 1) % map.Width, y])
+                    {
+                        for (int y2 = (int)min.Y + 1; y2 <= map.Height && min.X != -1; y2++)
+                        {
+                            bool completeLine = true;
+                            if (y2 != map.Height)
+                            {
+                                for (int x2 = (int)min.X; x2 <= (int)max.X && completeLine; x2++)
+                                {
+                                    if (!colliderGrid[x2, y2])
+                                        completeLine = false;
+
+                                }
+                            }
+                            else
+                            {
+                                completeLine = false;
+                            }
+
+                            if (completeLine)
+                            {
+                                max.Y++;
+                                for (int x2 = (int)min.X; x2 <= (int)max.X; x2++)
+                                {
+                                    colliderGrid[x2, y2] = false;
+                                }
+                            }
+                            else
+                            {
+                                IEntity entity = new Entity("Map");
+                                entity.AddComponent(new Collider(new Vector2(min.X, (max.Y * -1) + map.Height - 1), max.X - min.X + 1, max.Y - min.Y + 1));
+                                entity.AddComponent(new Transform(new Vector2(min.X, (max.Y * -1) + map.Height - 1), max.X - min.X + 1, max.Y - min.Y + 1));
+                                manager.AddEntity(entity);
+                                min = new Vector2(-1, -1);
+                                max = new Vector2(-1, -1);
+                                break;
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -107,7 +174,7 @@ namespace Villeon
         {
             return resourceDir.Resource(name).Open();
         }
-        
+
         TileSetStruct LoadTileSet(string imagePath, uint columns, uint rows)
         {
             Stream stream = LoadContent(imagePath);
@@ -120,8 +187,8 @@ namespace Villeon
             return new TileSetStruct()
             {
                 Texture2D = tileSetTexture.Handle,
-                TileWidth = 1f/columns,
-                TileHeight = 1f/rows,
+                TileWidth = 1f / columns,
+                TileHeight = 1f / rows,
             };
         }
     }

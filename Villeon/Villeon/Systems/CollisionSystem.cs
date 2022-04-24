@@ -26,70 +26,155 @@ namespace Villeon.Systems
         // Collider, Transform, Physics
         public void Update(double time)
         {
-            Transform transform;
-            Collider collider;
+            
+            List<IEntity> entities = new List<IEntity>();
+            List<IEntity> dirtyEntities = new List<IEntity>();
 
+            // Fill entity lists
             foreach (IEntity entity in Entities)
             {
-                transform = entity.GetComponent<Transform>();
-                collider = entity.GetComponent<Collider>();
-
+                Collider collider = entity.GetComponent<Collider>();
                 collider.hasCollidedLeft = false;
                 collider.hasCollidedRight = false;
                 collider.hasCollidedTop = false;
                 collider.hasCollidedBottom = false;
 
+                if (entity.GetComponent<Collider>().hasMoved)
+                    dirtyEntities.Add(entity);
+                else
+                    entities.Add(entity);
+            }
 
-                if (collider.hasMoved)
+            // Test against clean entities
+            for (int i = 0; i < dirtyEntities.Count(); i++)
+            {
+                bool clean = false;
+                IEntity entity = dirtyEntities[i];
+                Collider collider = entity.GetComponent<Collider>();
+
+                foreach (IEntity entity2 in entities)
                 {
-                    foreach (IEntity entity2 in Entities)
+                    Collider e2Collider = entity2.GetComponent<Collider>();
+
+                    if (CollidesSAT(collider, e2Collider))
+                        HandleCleanCollision(CollidesDirectionAABB(collider, e2Collider), entity, entity2);
+
+                    if (collider.Position == collider.LastPosition)
+                    {
+                        clean = true;
+                        break;
+                    }
+                }
+
+                if (clean)
+                {
+                    entities.Add(entity);
+                    dirtyEntities.RemoveAt(i);
+                    i--;
+                    CollidesCleanedEntity(dirtyEntities, entities, entity, i, 0);
+                }
+            }
+
+            // Test against dirty entities
+            foreach (IEntity entity in dirtyEntities)
+            {
+                Collider collider = entity.GetComponent<Collider>();
+
+                foreach (IEntity entity2 in dirtyEntities)
+                {
+                    if (entity != entity2)
                     {
                         Collider e2Collider = entity2.GetComponent<Collider>();
-                        if (entity != entity2)
-                        {
-                            switch (CollidesWith(collider, e2Collider))
-                            {
-                                case Direction.DOWN:
-                                    collider.hasCollidedTop = true;
-                                    collider.ProposePosition = new Vector2(collider.Position.X, e2Collider.LastPosition.Y - collider.Height);
-                                    break;
-                                case Direction.UP:
-                                    collider.hasCollidedBottom = true;
-                                    collider.ProposePosition = new Vector2(collider.Position.X, e2Collider.LastPosition.Y + e2Collider.Height);
-                                    break;
-                                case Direction.LEFT:
-                                    collider.hasCollidedRight = true;
-                                    collider.ProposePosition = new Vector2(e2Collider.Position.X - collider.Width, collider.Position.Y);
-                                    break;
-                                case Direction.RIGHT:
-                                    collider.hasCollidedLeft = true;
-                                    collider.ProposePosition = new Vector2(e2Collider.Position.X + e2Collider.Width, collider.Position.Y);
-                                    break;
-                            }
-                        }
+
+                        if (CollidesAABB(collider, e2Collider))
+                            HandleDirtyCollision(CollidesDirectionAABB(collider, e2Collider), entity, entity2);
                     }
-                    collider.Position = collider.Position;
-                    collider.hasMoved = false;
                 }
+            }
+
+            foreach (IEntity entity in Entities)
+            {
+                Collider collider = entity.GetComponent<Collider>();
+                collider.Position = collider.Position;
+                collider.hasMoved = false;
             }
         }
 
-        private Direction CollidesWith(Collider a, Collider b)
+        private void HandleCleanCollision(Direction direction, IEntity entity, IEntity entity2)
         {
+            Collider collider = entity.GetComponent<Collider>();
+            Collider e2Collider = entity2.GetComponent<Collider>();
 
-            if (b.Position == b.LastPosition)
+            switch (direction)
             {
-                if (!CollidesSAT(a, b))
-                    return Direction.NONE;
-                return CollidesDirectionAABB(a, b);
+                case Direction.DOWN:
+                    collider.hasCollidedTop = true;
+                    collider.ProposePosition = new Vector2(collider.Position.X, e2Collider.Position.Y - collider.Height);
+                    break;
+                case Direction.UP:
+                    collider.hasCollidedBottom = true;
+                    collider.ProposePosition = new Vector2(collider.Position.X, e2Collider.Position.Y + e2Collider.Height);
+                    break;
+                case Direction.LEFT:
+                    collider.hasCollidedRight = true;
+                    collider.ProposePosition = new Vector2(e2Collider.Position.X - collider.Width, collider.Position.Y);
+                    break;
+                case Direction.RIGHT:
+                    collider.hasCollidedLeft = true;
+                    collider.ProposePosition = new Vector2(e2Collider.Position.X + e2Collider.Width, collider.Position.Y);
+                    break;
             }
+        }
 
-            if (CollidesAABB(a, b) || CollidesLastAABB(a, b))
+        private void HandleDirtyCollision(Direction direction, IEntity entity, IEntity entity2)
+        {
+            Collider collider = entity.GetComponent<Collider>();
+            Collider e2Collider = entity2.GetComponent<Collider>();
+
+            switch (direction)
             {
-                return CollidesDirectionAABB(a, b);
+                case Direction.DOWN:
+                    collider.hasCollidedTop = true;
+                    collider.ProposePosition = new Vector2(collider.Position.X, collider.LastPosition.Y);
+                    break;
+                case Direction.UP:
+                    collider.hasCollidedBottom = true;
+                    collider.ProposePosition = new Vector2(collider.Position.X, collider.LastPosition.Y);
+                    break;
+                case Direction.LEFT:
+                    collider.hasCollidedRight = true;
+                    collider.ProposePosition = new Vector2(collider.LastPosition.X, collider.Position.Y);
+                    break;
+                case Direction.RIGHT:
+                    collider.hasCollidedLeft = true;
+                    collider.ProposePosition = new Vector2(collider.LastPosition.X, collider.Position.Y);
+                    break;
             }
+        }
 
-            return Direction.NONE;
+        private void CollidesCleanedEntity(List<IEntity> dirtyEntities, List<IEntity> entities, IEntity cleanedEntity , int lastToTest, int depth)
+        {
+            Collider e2Collider = cleanedEntity.GetComponent<Collider>();
+
+            for (int i = 0; i <= lastToTest; i++)
+            {
+                if (lastToTest >= dirtyEntities.Count)
+                    return;
+
+                IEntity entity = dirtyEntities[i];
+                Collider collider = entity.GetComponent<Collider>();
+
+                if (CollidesSAT(collider, e2Collider))
+                    HandleCleanCollision(CollidesDirectionAABB(collider, e2Collider), entity, cleanedEntity);
+
+                if (collider.Position == collider.LastPosition)
+                {
+                    entities.Add(entity);
+                    dirtyEntities.RemoveAt(i);
+                    i--;
+                    CollidesCleanedEntity(dirtyEntities, entities, entity, i, depth++);
+                }
+            }
         }
 
         private Direction CollidesDirectionAABB(Collider a, Collider b)
@@ -116,11 +201,27 @@ namespace Villeon.Systems
                 return Direction.UP;
             }
 
-            // if vector goes backwards it's automatically not the right direction
-            if (mTop < 0 && float.IsFinite(mTop)) mTop = float.PositiveInfinity;
-            if (mBottom < 0 && float.IsFinite(mBottom)) mBottom = float.PositiveInfinity;
-            if (mRight < 0 && float.IsFinite(mRight)) mRight = float.PositiveInfinity;
-            if (mLeft < 0 && float.IsFinite(mLeft)) mLeft = float.PositiveInfinity;
+            //Check if collided already last update
+            /*if(CollidesLastLastAABB(a, b))
+            {
+                if (mTop > 0 && float.IsFinite(mTop)) mTop = float.PositiveInfinity;
+                if (mBottom > 0 && float.IsFinite(mBottom)) mBottom = float.PositiveInfinity;
+                if (mRight > 0 && float.IsFinite(mRight)) mRight = float.PositiveInfinity;
+                if (mLeft > 0 && float.IsFinite(mLeft)) mLeft = float.PositiveInfinity;
+
+                mTop = MathF.Abs(mTop);
+                mBottom = MathF.Abs(mBottom);
+                mRight = MathF.Abs(mRight);
+                mLeft = MathF.Abs(mLeft);
+            }
+            else
+            {*/
+                // if vector goes backwards it's automatically not the right direction
+                if (mTop < 0 && float.IsFinite(mTop)) mTop = float.PositiveInfinity;
+                if (mBottom < 0 && float.IsFinite(mBottom)) mBottom = float.PositiveInfinity;
+                if (mRight < 0 && float.IsFinite(mRight)) mRight = float.PositiveInfinity;
+                if (mLeft < 0 && float.IsFinite(mLeft)) mLeft = float.PositiveInfinity;
+            //}      
 
             if (v.X == 0)
             {
@@ -151,15 +252,6 @@ namespace Villeon.Systems
             if (a.Position.X >= (b.Position.X + b.Width) || b.Position.X >= (a.Position.X + a.Width))
                 return false;
             if (a.Position.Y >= (b.Position.Y + b.Height) || b.Position.Y >= (a.Position.Y + a.Height))
-                return false;
-            return true;
-        }
-
-        private bool CollidesLastAABB(Collider a, Collider b)
-        {
-            if (a.Position.X >= (b.LastPosition.X + b.Width) || b.LastPosition.X >= (a.Position.X + a.Width))
-                return false;
-            if (a.Position.Y >= (b.LastPosition.Y + b.Height) || b.LastPosition.Y >= (a.Position.Y + a.Height))
                 return false;
             return true;
         }
