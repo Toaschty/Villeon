@@ -27,8 +27,8 @@ namespace Villeon.Systems
 
         public void Update(double time)
         {
-            float leftRightAxis = KeyHandler.IsPressed(Keys.Left) ? -1 : KeyHandler.IsPressed(Keys.Right) ? 1 : 0;
-            float topDownAxis = KeyHandler.IsPressed(Keys.Down) ? -1 : KeyHandler.IsPressed(Keys.Up) ? 1 : 0;
+            float leftRightAxis = KeyHandler.IsPressed(Keys.A) ? -1 : KeyHandler.IsPressed(Keys.D) ? 1 : 0;
+            float topDownAxis = KeyHandler.IsPressed(Keys.S) ? -1 : KeyHandler.IsPressed(Keys.W) ? 1 : 0;
             
             foreach (IEntity entity in Entities)
             {

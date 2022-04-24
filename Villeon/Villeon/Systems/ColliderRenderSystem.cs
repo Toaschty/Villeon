@@ -49,6 +49,15 @@ namespace Villeon.Systems
             GL.Vertex2(point.X + width, point.Y + height);
             GL.Vertex2(point.X, point.Y + height);
             GL.End();
+
+            color.A = 0.3f;
+            GL.Color4(color);
+            GL.Begin(BeginMode.Quads);
+            GL.Vertex2(point);
+            GL.Vertex2(point.X + width, point.Y);
+            GL.Vertex2(point.X + width, point.Y + height);
+            GL.Vertex2(point.X, point.Y + height);
+            GL.End();
         }
 
         private void DrawPolygon(Color4 color, List<Vector2> points)
