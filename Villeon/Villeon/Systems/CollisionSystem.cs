@@ -126,19 +126,19 @@ namespace Villeon.Systems
             {
                 case Direction.DOWN:
                     collider.hasCollidedTop = true;
-                    collider.ProposePosition = new Vector2(collider.Position.X, e2Collider.Position.Y - collider.Height);
+                    collider.Position = new Vector2(collider.Position.X, e2Collider.Position.Y - collider.Height);
                     break;
                 case Direction.UP:
                     collider.hasCollidedBottom = true;
-                    collider.ProposePosition = new Vector2(collider.Position.X, e2Collider.Position.Y + e2Collider.Height);
+                    collider.Position = new Vector2(collider.Position.X, e2Collider.Position.Y + e2Collider.Height);
                     break;
                 case Direction.LEFT:
                     collider.hasCollidedRight = true;
-                    collider.ProposePosition = new Vector2(e2Collider.Position.X - collider.Width, collider.Position.Y);
+                    collider.Position = new Vector2(e2Collider.Position.X - collider.Width, collider.Position.Y);
                     break;
                 case Direction.RIGHT:
                     collider.hasCollidedLeft = true;
-                    collider.ProposePosition = new Vector2(e2Collider.Position.X + e2Collider.Width, collider.Position.Y);
+                    collider.Position = new Vector2(e2Collider.Position.X + e2Collider.Width, collider.Position.Y);
                     break;
             }
         }
@@ -152,19 +152,19 @@ namespace Villeon.Systems
             {
                 case Direction.DOWN:
                     collider.hasCollidedTop = true;
-                    collider.ProposePosition = new Vector2(collider.Position.X, collider.LastPosition.Y);
+                    collider.Position = new Vector2(collider.Position.X, collider.LastPosition.Y);
                     break;
                 case Direction.UP:
                     collider.hasCollidedBottom = true;
-                    collider.ProposePosition = new Vector2(collider.Position.X, collider.LastPosition.Y);
+                    collider.Position = new Vector2(collider.Position.X, collider.LastPosition.Y);
                     break;
                 case Direction.LEFT:
                     collider.hasCollidedRight = true;
-                    collider.ProposePosition = new Vector2(collider.LastPosition.X, collider.Position.Y);
+                    collider.Position = new Vector2(collider.LastPosition.X, collider.Position.Y);
                     break;
                 case Direction.RIGHT:
                     collider.hasCollidedLeft = true;
-                    collider.ProposePosition = new Vector2(collider.LastPosition.X, collider.Position.Y);
+                    collider.Position = new Vector2(collider.LastPosition.X, collider.Position.Y);
                     break;
             }
         }

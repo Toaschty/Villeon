@@ -48,16 +48,6 @@ namespace Villeon.Components
             }
         }
 
-        public Vector2 ProposePosition
-        {
-            get { return position; }
-            set
-            {
-                position = value;
-                Center = new Vector2(position.X + Width / 2, position.Y + Height / 2);
-            }
-        }
-
         public Vector2 LastCenter { get; private set; }
 
         public Vector2 Center { get; private set; }
