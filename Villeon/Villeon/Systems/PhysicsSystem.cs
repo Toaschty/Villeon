@@ -28,6 +28,16 @@ namespace Villeon.Systems
 
         public void Update(double time)
         {
+            if (Constants.DEBUGPAUSEACTIVE)
+            {
+                if (Constants.DEBUGNEXTFRAME && Constants.DEBUGTHISFRAMEPHYSICS)
+                {
+                    time = Constants.DEBUGTIME;
+                }
+                else
+                    return;
+            }
+
             Physics physics;
             Transform transform;
             Collider collider;
@@ -62,10 +72,7 @@ namespace Villeon.Systems
                 Vector2 oldVelocity = physics.Velocity;
                 physics.Velocity += physics.Acceleration * (float)time;
                 transform.Position += 0.5f * (oldVelocity + physics.Velocity) * (float)time;
-                if (collider.hasMoved)
-                    collider.ProposePosition += 0.5f * (oldVelocity + physics.Velocity) * (float)time;
-                if (!collider.hasMoved)
-                    collider.Position += 0.5f * (oldVelocity + physics.Velocity) * (float)time;
+                collider.Position += 0.5f * (oldVelocity + physics.Velocity) * (float)time;
 
 
                 physics.Acceleration = Vector2.Zero;

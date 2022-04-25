@@ -53,6 +53,7 @@ namespace Villeon.Systems
                 if (KeyHandler.IsPressed(Keys.R))
                 {
                     collider.Position = new Vector2(5f, 5f);
+                    collider.hasMoved = false;
                     collider.Position = new Vector2(5f, 5f);
                     physics.Velocity = Vector2.Zero;
                 }
@@ -60,6 +61,31 @@ namespace Villeon.Systems
                 if (KeyHandler.IsPressed(Keys.F))
                 {
                     physics.Velocity += new Vector2(200f, 0f) * (float)time;
+                }
+
+                // Debug Mode
+                Constants.DEBUGNEXTFRAME = false;
+                if (KeyHandler.IsPressed(Keys.H))
+                {
+                    Constants.DEBUGPAUSEACTIVE = !Constants.DEBUGPAUSEACTIVE;
+                    KeyHandler.RemoveKeyHold(Keys.H);
+                }
+                if (KeyHandler.IsPressed(Keys.N))
+                {
+                    Constants.DEBUGNEXTFRAME = true;
+                    KeyHandler.RemoveKeyHold(Keys.N);
+                }
+                if (KeyHandler.IsPressed(Keys.M))
+                {
+                    Constants.DEBUGNEXTFRAME = true;
+                    //KeyHandler.RemoveKeyHold(Keys.N);
+                }
+                if (KeyHandler.IsPressed(Keys.J))
+                {
+                    Console.WriteLine("Time: " + Constants.DEBUGTIME + "  Enter new time:");
+                    Constants.DEBUGTIME = double.Parse(Console.ReadLine());
+                    Console.WriteLine("New time: " + Constants.DEBUGTIME);
+                    KeyHandler.RemoveKeyHold(Keys.J);
                 }
             }
         }

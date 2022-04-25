@@ -26,7 +26,24 @@ namespace Villeon.Systems
         // Collider, Transform, Physics
         public void Update(double time)
         {
-            
+            if (Constants.DEBUGPAUSEACTIVE)
+            {
+                if (Constants.DEBUGNEXTFRAME)
+                {
+                    if (Constants.DEBUGTHISFRAMEPHYSICS)
+                    {
+                        Constants.DEBUGTHISFRAMEPHYSICS = false;
+                        return;
+                    }
+                    else
+                    {
+                        Constants.DEBUGTHISFRAMEPHYSICS = true;
+                    }
+                }
+                else
+                    return;
+            }
+
             List<IEntity> entities = new List<IEntity>();
             List<IEntity> dirtyEntities = new List<IEntity>();
 
@@ -71,7 +88,7 @@ namespace Villeon.Systems
                     entities.Add(entity);
                     dirtyEntities.RemoveAt(i);
                     i--;
-                    CollidesCleanedEntity(dirtyEntities, entities, entity, i, 0);
+                    i -= CollidesCleanedEntity(dirtyEntities, entities, entity, i, 0);
                 }
             }
 
@@ -152,14 +169,15 @@ namespace Villeon.Systems
             }
         }
 
-        private void CollidesCleanedEntity(List<IEntity> dirtyEntities, List<IEntity> entities, IEntity cleanedEntity , int lastToTest, int depth)
+        private int CollidesCleanedEntity(List<IEntity> dirtyEntities, List<IEntity> entities, IEntity cleanedEntity , int lastToTest, int depth)
         {
             Collider e2Collider = cleanedEntity.GetComponent<Collider>();
+            int entitiesCleaned = 0;
 
             for (int i = 0; i <= lastToTest; i++)
             {
-                if (lastToTest >= dirtyEntities.Count)
-                    return;
+                if (lastToTest >= dirtyEntities.Count || i < 0)
+                    return entitiesCleaned;
 
                 IEntity entity = dirtyEntities[i];
                 Collider collider = entity.GetComponent<Collider>();
@@ -171,10 +189,13 @@ namespace Villeon.Systems
                 {
                     entities.Add(entity);
                     dirtyEntities.RemoveAt(i);
-                    i--;
-                    CollidesCleanedEntity(dirtyEntities, entities, entity, i, depth++);
+                    int newEntitiesCleaned = CollidesCleanedEntity(dirtyEntities, entities, entity, i--, depth++) + 1;
+                    i -= newEntitiesCleaned;
+                    entitiesCleaned += newEntitiesCleaned;
                 }
             }
+
+            return entitiesCleaned;
         }
 
         private Direction CollidesDirectionAABB(Collider a, Collider b)
@@ -398,6 +419,16 @@ namespace Villeon.Systems
             }
 
             return polygon;
+        }
+
+        private void printList(List<IEntity> list, string name)
+        {
+            Console.Write(name + ": ");
+            foreach (IEntity entity in list)
+            {
+                Console.Write(entity.Name + " ");
+            }
+            Console.WriteLine();
         }
 
         enum Direction

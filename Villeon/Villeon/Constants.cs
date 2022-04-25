@@ -15,5 +15,11 @@ namespace Villeon
         // In struct i guess
         public static float MOVEMENTSPEED { get; } = 75f;
         public static float TOPDOWNMOVEMENTSPEED { get; } = 10;
+
+        // Debug
+        public static bool DEBUGPAUSEACTIVE { get; set; } = false;
+        public static double DEBUGTIME { get; set; } = 0.00833f;
+        public static bool DEBUGNEXTFRAME { get; set; } = false;
+        public static bool DEBUGTHISFRAMEPHYSICS { get; set; } = true;
     }
 }

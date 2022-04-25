@@ -28,5 +28,11 @@ namespace Villeon.Helper
         {
             return _pressedKeys.Contains(key);
         }
+
+        public static void RemoveKeyHold(Keys key)
+        {
+            if (_pressedKeys.Count != 0)
+                _pressedKeys.Remove(key);
+        }
     }
 }

@@ -37,9 +37,12 @@ namespace Villeon.Components
             }
             set 
             {
-                hasMoved = true;
-                LastPosition = position;
-                LastCenter = new Vector2(position.X + Width / 2, position.Y + Height / 2);
+                if (!hasMoved)
+                {
+                    hasMoved = true;
+                    LastPosition = position;
+                    LastCenter = new Vector2(position.X + Width / 2, position.Y + Height / 2);
+                }
                 position = value;
                 Center = new Vector2(position.X + Width / 2, position.Y + Height / 2);
             }
