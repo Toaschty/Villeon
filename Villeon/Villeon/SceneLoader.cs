@@ -7,7 +7,8 @@ namespace Villeon
         public static void LoadScene(Scene scene)
         {
             // Generate tilemap tiles
-            scene.SceneTileMap.CreateTileMapEntitys();
+            if (scene.SceneTileMap != null)
+                scene.SceneTileMap.CreateTileMapEntitys();
 
             // Register systems
             foreach (ISystem system in scene.GetSystems())

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Villeon.Components;
 
 namespace Villeon
 {
@@ -36,7 +37,9 @@ namespace Villeon
                     return (T)component;
                 }
             }
-            return null;
+
+            // If component is not found -> Return first component
+            return (T)_components[0];
         }
     }
 }

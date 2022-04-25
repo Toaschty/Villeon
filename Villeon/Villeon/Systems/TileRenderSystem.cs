@@ -28,6 +28,8 @@ namespace Villeon.Systems
 
         private Matrix4 refCameraMatrix = Matrix4.Identity;
 
+        private int currentTexture = -1;
+
         public void Render()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
@@ -41,7 +43,11 @@ namespace Villeon.Systems
                 Tile tile = entity.GetComponent<Tile>();
 
                 // Bind texure defined in tile
-                GL.BindTexture(TextureTarget.Texture2D, tile.TileSet.Texture2D);
+                if (currentTexture != tile.TileSet.Texture2D)
+                {
+                    GL.BindTexture(TextureTarget.Texture2D, tile.TileSet.Texture2D);
+                    currentTexture = tile.TileSet.Texture2D;
+                }
                 Draw(tile.WorldCoords, tile.TexCoords);
             }
         }
