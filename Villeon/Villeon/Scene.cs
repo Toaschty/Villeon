@@ -9,7 +9,7 @@ namespace Villeon
         private List<ISystem> systems = new List<ISystem>();
         private List<IEntity> entities = new List<IEntity>();
 
-        public TileMap SceneTileMap { get; set; }
+        public TileMap? SceneTileMap { get; set; }
 
         public void AddSystem(ISystem system) => systems.Add(system);
 

@@ -43,7 +43,7 @@ namespace Villeon.Systems
         {
             GL.Color4(color);
             GL.BindTexture(TextureTarget.Texture2D, 0);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(point);
             GL.Vertex2(point.X + width, point.Y);
             GL.Vertex2(point.X + width, point.Y + height);
@@ -52,7 +52,7 @@ namespace Villeon.Systems
 
             color.A = 0.3f;
             GL.Color4(color);
-            GL.Begin(BeginMode.Quads);
+            GL.Begin(PrimitiveType.Quads);
             GL.Vertex2(point);
             GL.Vertex2(point.X + width, point.Y);
             GL.Vertex2(point.X + width, point.Y + height);
@@ -64,7 +64,7 @@ namespace Villeon.Systems
         {
             GL.Color4(color);
             GL.BindTexture(TextureTarget.Texture2D, 0);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             foreach (Vector2 point in points)
             {
                 GL.Vertex2(point);

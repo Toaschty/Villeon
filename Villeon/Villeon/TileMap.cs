@@ -62,7 +62,7 @@
             {
                 // Check if collider is needed
                 bool hasCollider = false;
-                string value;
+                string? value;
                 if (layer.Properties.TryGetValue("hasCollider", out value))
                     hasCollider = true;
 
