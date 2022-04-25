@@ -18,6 +18,9 @@ csharp_style_expression_bodied_local_functions = false:silent
 dotnet_diagnostic.SA1601.severity = silent
 dotnet_diagnostic.SA1602.severity = silent
 
+# IDE0005: Using directive is unnecessary.
+dotnet_diagnostic.IDE0005.severity = none
+
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 tab_width = 4
@@ -76,3 +79,13 @@ dotnet_naming_style.pascal_case.required_prefix =
 dotnet_naming_style.pascal_case.required_suffix = 
 dotnet_naming_style.pascal_case.word_separator = 
 dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+# Default severity for all analyzer diagnostics
+dotnet_analyzer_diagnostic.severity = none
+dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
+dotnet_style_prefer_conditional_expression_over_assignment = true:silent
+dotnet_style_prefer_conditional_expression_over_return = true:silent
+dotnet_style_explicit_tuple_names = true:suggestion
+dotnet_style_prefer_inferred_tuple_names = true:suggestion
+dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
+dotnet_style_prefer_compound_assignment = true:suggestion
