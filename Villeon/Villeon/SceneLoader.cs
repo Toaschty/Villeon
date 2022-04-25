@@ -25,14 +25,20 @@ namespace Villeon
 
         public static void UnloadScene(Scene scene)
         {
-            // Register systems
-            foreach (ISystem system in scene.GetSystems())
+            // Unregister render systems
+            foreach (ISystem system in Manager.GetInstance()._renderSystems.ToArray())
+            {
+                Manager.GetInstance().UnregisterSystem(system);
+            }
+
+            // Unregister update systems
+            foreach (ISystem system in Manager.GetInstance()._updateSystems.ToArray())
             {
                 Manager.GetInstance().UnregisterSystem(system);
             }
 
             // Register entitys
-            foreach (IEntity entity in scene.GetEntities())
+            foreach (IEntity entity in Manager.GetInstance()._entities.ToArray())
             {
                 Manager.GetInstance().RemoveEntity(entity);
             }
