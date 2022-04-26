@@ -29,8 +29,8 @@ namespace Villeon
             Init();
 
             // Load scene
-            //SceneLoader.LoadScene(dungeonScene);
-            SceneLoader.LoadScene(villageScene);
+            SceneLoader.LoadScene(dungeonScene);
+            // SceneLoader.LoadScene(villageScene);
 
             // Enable Texturing
             GL.Enable(EnableCap.Texture2D);
@@ -80,8 +80,8 @@ namespace Villeon
             dungeonScene.AddSystem(new TileRenderSystem("TileRenderSystem", tileMap));
             dungeonScene.AddSystem(new ColliderRenderSystem("RenderSystem"));
             dungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
-            dungeonScene.AddEntity(entity);
             dungeonScene.SetTileMap(tileMap);
+            dungeonScene.AddEntity(entity);
 
             // Village Scene
             TileMap villageTileMap = new TileMap("VillageMap.tmx", false);

@@ -66,14 +66,9 @@
             }
 
             // If optimization is turn on => Generate collisions | Turned off => Load collisions from tilemap
+            GetCollisionBoxes();
             if (!collisionOptimization)
-            {
-                GetCollisionBoxes();
-            }
-            else
-            {
                 AddOptimizedColliders();
-            }
         }
 
         // Read collisions from tilemap
