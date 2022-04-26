@@ -1,47 +1,27 @@
-﻿using Villeon.Systems;
+﻿using System.Collections.Generic;
+using Villeon.Systems;
 
 namespace Villeon
 {
     public class SceneLoader
     {
-        public static void LoadScene(Scene scene)
+        private static List<Scene> _scenes = new List<Scene>();
+
+        public static void LoadScene(string sceneName)
         {
-            // Generate tilemap tiles
-            if (scene.SceneTileMap != null)
-                scene.SceneTileMap.CreateTileMapEntitys();
-
-            // Register systems
-            foreach (ISystem system in scene.GetSystems())
+            foreach (Scene scene in _scenes)
             {
-                Manager.GetInstance().RegisterSystem(system);
-            }
-
-            // Register entitys
-            foreach (IEntity entity in scene.GetEntities())
-            {
-                Manager.GetInstance().AddEntity(entity);
+                if (scene.Name == sceneName)
+                {
+                    Manager.GetInstance().SetScene(scene);
+                    break;
+                }
             }
         }
 
-        public static void UnloadScene(Scene scene)
+        public static void AddScene(Scene scene)
         {
-            // Unregister render systems
-            foreach (ISystem system in Manager.GetInstance()._renderSystems.ToArray())
-            {
-                Manager.GetInstance().UnregisterSystem(system);
-            }
-
-            // Unregister update systems
-            foreach (ISystem system in Manager.GetInstance()._updateSystems.ToArray())
-            {
-                Manager.GetInstance().UnregisterSystem(system);
-            }
-
-            // Register entitys
-            foreach (IEntity entity in Manager.GetInstance()._entities.ToArray())
-            {
-                Manager.GetInstance().RemoveEntity(entity);
-            }
+            _scenes.Add(scene);
         }
     }
 }

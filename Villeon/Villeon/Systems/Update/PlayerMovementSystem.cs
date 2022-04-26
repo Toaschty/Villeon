@@ -27,7 +27,7 @@ namespace Villeon.Systems
 
         public Signature Signature { get; private set; } = new();
 
-        public void Update(double time)
+        public void Update(float time)
         {
             Physics physics;
             Collider collider;
@@ -40,15 +40,18 @@ namespace Villeon.Systems
                 {
                     physics.Acceleration += new Vector2(Constants.MOVEMENTSPEED, physics.Acceleration.Y);
                 }
+
                 if (KeyHandler.IsPressed(Keys.A))
                 {
                     physics.Acceleration -= new Vector2(Constants.MOVEMENTSPEED, physics.Acceleration.Y);
                 }
+
                 if (KeyHandler.IsPressed(Keys.Space))
                 {
                     if (collider.hasCollidedBottom)
                         physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
                 }
+
                 //Debug Reset Position
                 if (KeyHandler.IsPressed(Keys.R))
                 {
@@ -60,7 +63,7 @@ namespace Villeon.Systems
 
                 if (KeyHandler.IsPressed(Keys.F))
                 {
-                    physics.Velocity += new Vector2(200f, 0f) * (float)time;
+                    physics.Velocity += new Vector2(200f, 0f) * time;
                 }
 
                 // Debug Mode
@@ -83,7 +86,7 @@ namespace Villeon.Systems
                 if (KeyHandler.IsPressed(Keys.J))
                 {
                     Console.WriteLine("Time: " + Constants.DEBUGTIME + "  Enter new time:");
-                    Constants.DEBUGTIME = double.Parse(Console.ReadLine());
+                    Constants.DEBUGTIME = float.Parse(Console.ReadLine());
                     Console.WriteLine("New time: " + Constants.DEBUGTIME);
                     KeyHandler.RemoveKeyHold(Keys.J);
                 }

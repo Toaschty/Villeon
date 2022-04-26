@@ -14,9 +14,14 @@ namespace Villeon.Helper
 
         public static Vector2 MousePosition { get; private set; }
 
-        public static Queue<Vector2> MouseClickPosition { get; private set; } = new();
+        public struct ClickedMouseButton
+        {
+            public MouseButton Button { get;  set; }
 
-        public static Queue<MouseButton> ClickedMouseButtons { get; private set; } = new();
+            public Vector2 MousePosition { get;  set; }
+        }
+
+        public static List<ClickedMouseButton> ClickedMouseButtons { get; private set; } = new List<ClickedMouseButton>();
 
         public static void MouseWheel(MouseWheelEventArgs args)
         {
@@ -42,12 +47,11 @@ namespace Villeon.Helper
         public static void MouseDown(MouseButtonEventArgs args)
         {
             // Store standard Mouse info
-            ClickedMouseButtons.Enqueue(args.Button);
 
             // Convert the Pixel Mouse Position to World Coordinates
             Matrix4 fromViewportToWorldCoords = Camera._inverseViewportMatrix * Camera.GetInverseMatrix();
             Vector2 worldPosition = MousePosition.Transform(fromViewportToWorldCoords);
-            MouseClickPosition.Enqueue(worldPosition);
+            ClickedMouseButtons.Add(new ClickedMouseButton { Button = args.Button, MousePosition = worldPosition });
         }
 
         public static void MouseMove(MouseMoveEventArgs args)

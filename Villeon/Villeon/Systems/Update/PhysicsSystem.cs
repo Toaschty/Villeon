@@ -26,7 +26,7 @@ namespace Villeon.Systems
         public Signature Signature { get; } = new();
 
 
-        public void Update(double time)
+        public void Update(float time)
         {
             if (Constants.DEBUGPAUSEACTIVE)
             {
@@ -70,9 +70,9 @@ namespace Villeon.Systems
 
                 // Physics calculation
                 Vector2 oldVelocity = physics.Velocity;
-                physics.Velocity += physics.Acceleration * (float)time;
-                transform.Position += 0.5f * (oldVelocity + physics.Velocity) * (float)time;
-                collider.Position += 0.5f * (oldVelocity + physics.Velocity) * (float)time;
+                physics.Velocity += physics.Acceleration * time;
+                transform.Position += 0.5f * (oldVelocity + physics.Velocity) * time;
+                collider.Position += 0.5f * (oldVelocity + physics.Velocity) * time;
 
 
                 physics.Acceleration = Vector2.Zero;

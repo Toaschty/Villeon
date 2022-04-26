@@ -39,7 +39,7 @@ namespace Villeon
             }
 
             // If component is not found -> Return first component
-            return (T)_components[0];
+            return null;
         }
     }
 }

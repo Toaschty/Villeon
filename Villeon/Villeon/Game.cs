@@ -12,25 +12,26 @@ using Villeon.Systems;
 using OpenTK.Graphics.OpenGL;
 using Zenseless.Resources;
 using Zenseless.OpenTK;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Villeon
 {
     public class Game
     {
-        // private EntitySpawner _spawner;
-
-        private Scene dungeonScene = new();
-        private Scene villageScene = new();
+        private Scene dungeonScene = new ("DungeonScene");
+        private Scene villageScene = new ("VillageScene");
 
         public void Start()
         {
             GameWindow gameWindow = WindowCreator.CreateWindow();
-
             Init();
 
+            SceneLoader.AddScene(dungeonScene);
+            SceneLoader.AddScene(villageScene);
+
             // Load scene
-            //SceneLoader.LoadScene(dungeonScene);
-            SceneLoader.LoadScene(villageScene);
+            // SceneLoader.LoadScene(dungeonScene);
+            SceneLoader.LoadScene("VillageScene");
 
             // Enable Texturing
             GL.Enable(EnableCap.Texture2D);
@@ -63,25 +64,19 @@ namespace Villeon
             entity.AddComponent(new Physics());
             entity.AddComponent(new Collider(new Vector2(5.0f, 5.0f), 0.5f, 0.5f));
             entity.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 1.0f, 0.0f));
+            entity.AddComponent(new Sprite(Color4.Cornsilk, new Vector2(1f, 1f)));
             entity.AddComponent(new Player());
-            entity.AddComponent(new Tile(
-                new Vector2(5.0f, 5.0f),
-                0.0f,
-                0.0f,
-                new Tile.TileSetStruct
-                {
-                    Texture2D = Texture2DLoader.Load(ResourceLoader.LoadContentAsStream("TileMap.TilesetImages.tiles.png")).Handle,
-                    TileWidth = 1,
-                    TileHeight = 1,
-                }));
+
             dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
             dungeonScene.AddSystem(new PhysicsSystem("Physics"));
             dungeonScene.AddSystem(new CollisionSystem("Collision"));
             dungeonScene.AddSystem(new TileRenderSystem("TileRenderSystem", tileMap));
             dungeonScene.AddSystem(new ColliderRenderSystem("RenderSystem"));
             dungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
-            dungeonScene.AddEntity(entity);
+            dungeonScene.AddSystem(new SpriteRenderSystem("SpriteRenderSystem"));
+            dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
             dungeonScene.SetTileMap(tileMap);
+            dungeonScene.AddEntity(entity);
 
             // Village Scene
             TileMap villageTileMap = new TileMap("VillageTileMap.tmx");
@@ -90,34 +85,40 @@ namespace Villeon
             villageScene.AddSystem(new TileRenderSystem("TileRenderSystem", villageTileMap));
             villageScene.AddSystem(new ColliderRenderSystem("TileRenderSystem"));
             villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
+            villageScene.AddSystem(new SpriteRenderSystem("SpriteRenderSystem"));
+            villageScene.AddSystem(new CameraSystem("CameraSystem"));
             villageScene.SetTileMap(villageTileMap);
             villageScene.AddEntity(entity);
         }
 
         private void UpdateFrame(FrameEventArgs args)
         {
-            Console.Write("Entities: " + Manager.GetInstance()._entities.Count + "       UpdateSystems: " + Manager.GetInstance()._updateSystems.Count + "      RenderSystems: " + Manager.GetInstance()._renderSystems.Count() + "                                           \r");
-            if (MouseHandler.ClickedMouseButtons.Count > 0)
+            foreach (MouseHandler.ClickedMouseButton button in MouseHandler.ClickedMouseButtons)
             {
-                if (MouseHandler.ClickedMouseButtons.Contains(OpenTK.Windowing.GraphicsLibraryFramework.MouseButton.Middle))
+                if (button.Button == MouseButton.Middle)
                 {
-                    MouseHandler.ClickedMouseButtons.Dequeue();
-                    SceneLoader.UnloadScene(dungeonScene);
-                    SceneLoader.LoadScene(villageScene);
+                    SceneLoader.LoadScene("VillageScene");
                 }
 
-                if (MouseHandler.ClickedMouseButtons.Contains(OpenTK.Windowing.GraphicsLibraryFramework.MouseButton.Right))
+                if (button.Button == MouseButton.Right)
                 {
-                    MouseHandler.ClickedMouseButtons.Dequeue();
-                    SceneLoader.UnloadScene(villageScene);
-                    SceneLoader.LoadScene(dungeonScene);
+                    SceneLoader.LoadScene("DungeonScene");
                 }
             }
-            Manager.GetInstance().Update(args.Time);
+
+            Manager.GetInstance().Update((float)args.Time);
+            MouseHandler.ClickedMouseButtons.Clear();
         }
+
+        Matrix4 refCameraMatrix = Matrix4.Identity;
 
         private void RenderFrame(FrameEventArgs args)
         {
+            GL.Clear(ClearBufferMask.ColorBufferBit);
+            Camera.Update();
+            this.refCameraMatrix = Camera.GetMatrix();
+            GL.LoadMatrix(ref refCameraMatrix);
+
             Manager.GetInstance().Render();
         }
     }

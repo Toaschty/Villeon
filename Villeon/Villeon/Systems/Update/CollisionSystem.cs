@@ -24,7 +24,7 @@ namespace Villeon.Systems
         public Signature Signature { get; private set; } = new();
 
         // Collider, Transform, Physics
-        public void Update(double time)
+        public void Update(float time)
         {
             if (Constants.DEBUGPAUSEACTIVE)
             {

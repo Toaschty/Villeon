@@ -23,6 +23,8 @@
         // Used for generating optimized colliders
         private bool[,] colliderGrid;
 
+        public List<IEntity> entities = new List<IEntity>();
+
         public TileMap(string mapName)
         {
             // Load in tilemap from file + TileSets 
@@ -91,7 +93,9 @@
                             colliderGrid[x, y] = true;
                             entity.AddComponent(new Transform(new Vector2(x, layer.Height - 1 - y), 1, 1));
                         }
-                        Manager.GetInstance().AddEntity(entity);
+
+                        //Manager.GetInstance().AddEntity(entity);
+                        entities.Add(entity);
                     }
                 }
 
@@ -157,7 +161,8 @@
                                 IEntity entity = new Entity("Map");
                                 entity.AddComponent(new Collider(new Vector2(min.X, (max.Y * -1) + map.Height - 1), max.X - min.X + 1, max.Y - min.Y + 1));
                                 entity.AddComponent(new Transform(new Vector2(min.X, (max.Y * -1) + map.Height - 1), max.X - min.X + 1, max.Y - min.Y + 1));
-                                Manager.GetInstance().AddEntity(entity);
+                                //Manager.GetInstance().AddEntity(entity);
+                                entities.Add(entity);
                                 min = new Vector2(-1, -1);
                                 max = new Vector2(-1, -1);
                                 break;

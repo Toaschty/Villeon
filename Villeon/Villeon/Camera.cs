@@ -4,7 +4,7 @@ using System;
 using Villeon.Helper;
 using Villeon.Components;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-namespace Villeon.Systems
+namespace Villeon
 {
     public static class Camera
     {
@@ -12,6 +12,7 @@ namespace Villeon.Systems
         private static Matrix4 _shiftOriginMatrix = Matrix4.CreateTranslation(-1.0f, -1.0f, 0.0f);
         private static Matrix4 _aspectRatioMatrix = Matrix4.Identity;
         public static Matrix4 _inverseViewportMatrix = Matrix4.Identity;
+        private static Vector2 _trackingPosition = Vector2.Zero;
         
         public static Matrix4 Translate(float x, float y)
         {
@@ -80,12 +81,15 @@ namespace Villeon.Systems
 
         private static float CameraScale { get; set; } = 9.0f;
 
-        public static void Update(IEntity player)
+        public static void SetTracker(Vector2 position)
+        {
+            _trackingPosition = position;
+        }
+
+        public static void Update()
         {
             // Set Camera to player
-            Collider collider = player.GetComponent<Collider>();
-            Vector2 position = collider.Position + new Vector2(collider.Width/2, collider.Height/2);
-            CameraCenter = -position;
+            CameraCenter = -_trackingPosition;
 
             // Mouse Wheel Camera Scaling
             CameraScale += -MouseHandler.WheelChanged();

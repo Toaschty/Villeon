@@ -18,7 +18,7 @@ namespace Villeon
 
         // Debug
         public static bool DEBUGPAUSEACTIVE { get; set; } = false;
-        public static double DEBUGTIME { get; set; } = 0.00833f;
+        public static float DEBUGTIME { get; set; } = 0.00833f;
         public static bool DEBUGNEXTFRAME { get; set; } = false;
         public static bool DEBUGTHISFRAMEPHYSICS { get; set; } = true;
     }
