@@ -26,6 +26,8 @@
 
         private bool collisionOptimization = false;
 
+        public List<IEntity> entities = new List<IEntity>();
+
         // XML
         XmlReader tileSetReader;
 
@@ -49,7 +51,7 @@
             {
                 float rezImageWidth = 1f / tileSet.ImageWidth;
                 float rezImageHeight = 1f / tileSet.ImageHeight;
-         
+
                 // Load in corresponding tileset
                 TileSetStruct graphicsTileSet = LoadTileSet("TileMap." + tileSet.ImagePath, (uint)tileSet.Columns, (uint)tileSet.Rows);
 
@@ -59,7 +61,7 @@
                     TiledLib.Tile tile = tileSet[gid];
 
                     Tile currentTile = new Tile(tile.Left * rezImageWidth, (tileSet.ImageHeight - tileSet.TileHeight - tile.Top) * rezImageHeight, graphicsTileSet);
-                    
+
                     tiles.Add((uint)gid, currentTile);
                     // AddTileToDictionary(graphicsTileSet, (uint)gid, tile.Left * rezImageWidth, (tileSet.ImageHeight - tileSet.TileHeight - tile.Top) * rezImageHeight);
                 }
@@ -161,8 +163,7 @@
                         dictionaryTile.Position = new Vector2(x, layer.Height - 1 - y);
                         entity.AddComponent(dictionaryTile);
                         entity.AddComponent(new Transform(new Vector2(x, layer.Height - 1 - y), 1, 1));
-                        Manager.GetInstance().AddEntity(entity);
-
+                        entities.Add(entity);
                         // Adjust colliderGrid if collisionOptimization is turned on and the tile has at least one collision
                         if (collisionOptimization && dictionaryTile.colliders.Count > 0)
                             colliderGrid[x, y] = true;
@@ -180,7 +181,7 @@
                                     IEntity collisionEntity = new Entity("CollisonTile");
                                     collisionEntity.AddComponent(new Transform(new Vector2(x, layer.Height - 1 - y) + collider.Min, collider.Size.X, collider.Size.Y));
                                     collisionEntity.AddComponent(new Collider(new Vector2(x, layer.Height - 1 - y) + collider.Min, collider.Size.X, collider.Size.Y));
-                                    Manager.GetInstance().AddEntity(collisionEntity);
+                                    entities.Add(collisionEntity);
                                 }
                             }
                         }
@@ -250,7 +251,6 @@
                                 IEntity entity = new Entity("Map");
                                 entity.AddComponent(new Collider(new Vector2(min.X, (max.Y * -1) + map.Height - 1), max.X - min.X + 1, max.Y - min.Y + 1));
                                 entity.AddComponent(new Transform(new Vector2(min.X, (max.Y * -1) + map.Height - 1), max.X - min.X + 1, max.Y - min.Y + 1));
-                                //Manager.GetInstance().AddEntity(entity);
                                 entities.Add(entity);
                                 min = new Vector2(-1, -1);
                                 max = new Vector2(-1, -1);
