@@ -20,6 +20,7 @@
     <None Remove="Content\TileMap\TX Tileset Grass.png" />
     <None Remove="Content\TileMap\TX Tileset Stone Ground.png" />
     <None Remove="Content\TileMap\TX Tileset Wall.png" />
+    <None Remove="Content\TileMap\VillageMap.tmx" />
     <None Remove="Content\TileMap\VillageTileMap.tmx" />
   </ItemGroup>
 
@@ -29,7 +30,7 @@
     <EmbeddedResource Include="Content\TileMap\TilesetImages\VillageTileSet.png" />
     <EmbeddedResource Include="Content\TileMap\Tilesets\Platformer.tsx" />
     <EmbeddedResource Include="Content\TileMap\Tilesets\VillageTileSet.tsx" />
-    <EmbeddedResource Include="Content\TileMap\VillageTileMap.tmx" />
+    <EmbeddedResource Include="Content\TileMap\VillageMap.tmx" />
   </ItemGroup>
 
   <ItemGroup>

@@ -58,7 +58,7 @@ namespace Villeon
         private void Init()
         {
             // Platformer Scene
-            TileMap tileMap = new TileMap("Level.tmx");
+            TileMap tileMap = new TileMap("Level.tmx", true);
             IEntity entity = new Entity("Marin");
             entity.AddComponent(new Physics());
             entity.AddComponent(new Collider(new Vector2(5.0f, 5.0f), 0.5f, 0.5f));
@@ -84,7 +84,7 @@ namespace Villeon
             dungeonScene.SetTileMap(tileMap);
 
             // Village Scene
-            TileMap villageTileMap = new TileMap("VillageTileMap.tmx");
+            TileMap villageTileMap = new TileMap("VillageMap.tmx", false);
             villageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
             villageScene.AddSystem(new CollisionSystem("Collision"));
             villageScene.AddSystem(new TileRenderSystem("TileRenderSystem", villageTileMap));
