@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using Villeon.Systems;
 using Villeon.Components;
+using Villeon.Systems;
 
 namespace Villeon
 {
     public class Manager : IUpdate, IRender
     {
-        private static Manager? _manager { get; set; }
+        private static Manager? _manager;
+
+        private Scene _currentScene = new Scene("none");
 
         private Manager()
         {
@@ -64,7 +65,5 @@ namespace Villeon
         {
             return _currentScene.GetEntities();
         }
-
-        private Scene _currentScene = new Scene("none");
     }
 }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK.Mathematics;
 using Villeon.Components;
 using Villeon.Helper;
-using OpenTK.Mathematics;
 
 namespace Villeon
 {

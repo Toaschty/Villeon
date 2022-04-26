@@ -5,64 +5,66 @@ namespace Villeon
 {
     public class Signature
     {
-        public void Add<T>() where T : class, IComponent
+        private const ulong TRANSFORM = 1 << 0;
+        private const ulong PHYSICS = 1 << 1;
+        private const ulong COLLIDER = 1 << 2;
+        private const ulong SPRITEDRAWABLE = 1 << 3;
+        private const ulong TILE = 1 << 4;
+        private const ulong PLAYER = 1 << 5;
+
+        private ulong _signature = 0;
+
+        public void Add<T>()
+            where T : class, IComponent
         {
-            if (typeof(T) == typeof(Transform)) 
-                signature |= TRANSFORM;
+            if (typeof(T) == typeof(Transform))
+                _signature |= TRANSFORM;
 
             if (typeof(T) == typeof(Physics))
-                signature |= PHYSICS;
+                _signature |= PHYSICS;
 
             if (typeof(T) == typeof(Collider))
-                signature |= COLLIDER;
+                _signature |= COLLIDER;
 
             if (typeof(T) == typeof(Sprite))
-                signature |= SPRITEDRAWABLE;
+                _signature |= SPRITEDRAWABLE;
 
             if (typeof(T) == typeof(Tile))
-                signature |= TILE;
+                _signature |= TILE;
 
             if (typeof(T) == typeof(Player))
-                signature |= PLAYER;
+                _signature |= PLAYER;
         }
 
         public void Add(IComponent component)
         {
             if (component is Collider)
-                signature |= COLLIDER;
+                _signature |= COLLIDER;
 
             if (component is Transform)
-                signature |= TRANSFORM;
+                _signature |= TRANSFORM;
 
             if (component is Physics)
-                signature |= PHYSICS;
+                _signature |= PHYSICS;
 
             if (component is Sprite)
-                signature |= SPRITEDRAWABLE;
+                _signature |= SPRITEDRAWABLE;
 
             if (component is Tile)
-                signature |= TILE;
+                _signature |= TILE;
 
             if (component is Player)
-                signature |= PLAYER;
+                _signature |= PLAYER;
         }
 
         public bool Contains(Signature sigB)
         {
-            if ((this.signature & sigB.signature) == sigB.signature)
+            if ((_signature & sigB._signature) == sigB._signature)
             {
                 return true;
             }
+
             return false;
         }
-
-        public UInt64 signature { get; private set; } = 0;
-
-        private UInt64 TRANSFORM = 1 << 0;
-        private UInt64 PHYSICS = 1 << 1;
-        private UInt64 COLLIDER = 1 << 2;
-        private UInt64 SPRITEDRAWABLE = 1 << 3;
-        private UInt64 TILE = 1 << 4;
-        private UInt64 PLAYER = 1 << 5;
     }
 }

@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Villeon.Systems;
 
 namespace Villeon
 {
     public class Scene : IUpdate, IRender
     {
+        private List<IEntity> _entities = new ();
+        private List<IUpdateSystem> _updateSystems = new ();
+        private List<IRenderSystem> _renderSystems = new ();
+
         public Scene(string name)
         {
             Name = name;
         }
-
-        private List<IEntity> _entities = new();
-        private List<IUpdateSystem> _updateSystems = new();
-        private List<IRenderSystem> _renderSystems = new();
 
         public TileMap? SceneTileMap { get; set; }
 
@@ -55,25 +54,6 @@ namespace Villeon
             AddToSystems(entity);
         }
 
-        private void AddToSystems(IEntity entity)
-        {
-            foreach (ISystem system in _updateSystems)
-            {
-                if (entity.Signature.Contains(system.Signature))
-                {
-                    system.Entities.Add(entity);
-                }
-            }
-
-            foreach (IRenderSystem renderSystem in _renderSystems)
-            {
-                if (entity.Signature.Contains(renderSystem.Signature))
-                {
-                    renderSystem.Entities.Add(entity);
-                }
-            }
-        }
-
         public bool RemoveEntity(IEntity entity)
         {
             bool removed = false;
@@ -87,6 +67,7 @@ namespace Villeon
             {
                 renderSystem.Entities.Remove(entity);
             }
+
             return removed;
         }
 
@@ -95,7 +76,7 @@ namespace Villeon
             SceneTileMap = map;
             map.CreateTileMapEntitys();
 
-            foreach (IEntity entity in map.entities)
+            foreach (IEntity entity in map.Entities)
             {
                 AddEntity(entity);
             }
@@ -120,6 +101,25 @@ namespace Villeon
             foreach (IRenderSystem renderSystem in _renderSystems)
             {
                 renderSystem.Render();
+            }
+        }
+
+        private void AddToSystems(IEntity entity)
+        {
+            foreach (ISystem system in _updateSystems)
+            {
+                if (entity.Signature.Contains(system.Signature))
+                {
+                    system.Entities.Add(entity);
+                }
+            }
+
+            foreach (IRenderSystem renderSystem in _renderSystems)
+            {
+                if (entity.Signature.Contains(renderSystem.Signature))
+                {
+                    renderSystem.Entities.Add(entity);
+                }
             }
         }
     }

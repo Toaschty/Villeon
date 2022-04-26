@@ -1,14 +1,14 @@
-﻿using OpenTK.Graphics.OpenGL;
-using OpenTK.Mathematics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK.Graphics.OpenGL;
+using OpenTK.Mathematics;
 
 namespace Villeon.Helper
 {
-    static class Graphics
+    public static class Graphics
     {
         public static void DrawTile(Box2 rectangle, Box2 texCoords)
         {

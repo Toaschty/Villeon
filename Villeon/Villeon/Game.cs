@@ -3,31 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK.Graphics.OpenGL;
+using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
-using OpenTK.Mathematics;
-using Villeon.Helper;
-using Villeon.Components;
-using Villeon.Systems;
-using OpenTK.Graphics.OpenGL;
-using Zenseless.Resources;
-using Zenseless.OpenTK;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Villeon.Components;
+using Villeon.Helper;
+using Villeon.Systems;
+using Zenseless.OpenTK;
+using Zenseless.Resources;
 
 namespace Villeon
 {
     public class Game
     {
-        private Scene dungeonScene = new ("DungeonScene");
-        private Scene villageScene = new ("VillageScene");
+        private Scene _dungeonScene = new ("DungeonScene");
+        private Scene _villageScene = new ("VillageScene");
+
+        private Matrix4 _refCameraMatrix = Matrix4.Identity;
 
         public void Start()
         {
             GameWindow gameWindow = WindowCreator.CreateWindow();
             Init();
 
-            SceneLoader.AddScene(dungeonScene);
-            SceneLoader.AddScene(villageScene);
+            SceneLoader.AddScene(_dungeonScene);
+            SceneLoader.AddScene(_villageScene);
 
             // Load scene
             // SceneLoader.LoadScene(dungeonScene);
@@ -67,28 +69,28 @@ namespace Villeon
             entity.AddComponent(new Sprite(Color4.Cornsilk, new Vector2(1f, 1f)));
             entity.AddComponent(new Player());
 
-            dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
-            dungeonScene.AddSystem(new PhysicsSystem("Physics"));
-            dungeonScene.AddSystem(new CollisionSystem("Collision"));
-            dungeonScene.AddSystem(new TileRenderSystem("TileRenderSystem", tileMap));
-            dungeonScene.AddSystem(new ColliderRenderSystem("RenderSystem"));
-            dungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
-            dungeonScene.AddSystem(new SpriteRenderSystem("SpriteRenderSystem"));
-            dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
-            dungeonScene.SetTileMap(tileMap);
-            dungeonScene.AddEntity(entity);
+            _dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
+            _dungeonScene.AddSystem(new PhysicsSystem("Physics"));
+            _dungeonScene.AddSystem(new CollisionSystem("Collision"));
+            _dungeonScene.AddSystem(new TileRenderSystem("TileRenderSystem", tileMap));
+            _dungeonScene.AddSystem(new ColliderRenderSystem("RenderSystem"));
+            _dungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
+            _dungeonScene.AddSystem(new SpriteRenderSystem("SpriteRenderSystem"));
+            _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
+            _dungeonScene.SetTileMap(tileMap);
+            _dungeonScene.AddEntity(entity);
 
             // Village Scene
             TileMap villageTileMap = new TileMap("VillageMap.tmx", false);
-            villageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
-            villageScene.AddSystem(new CollisionSystem("Collision"));
-            villageScene.AddSystem(new TileRenderSystem("TileRenderSystem", villageTileMap));
-            villageScene.AddSystem(new ColliderRenderSystem("TileRenderSystem"));
-            villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
-            villageScene.AddSystem(new SpriteRenderSystem("SpriteRenderSystem"));
-            villageScene.AddSystem(new CameraSystem("CameraSystem"));
-            villageScene.SetTileMap(villageTileMap);
-            villageScene.AddEntity(entity);
+            _villageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
+            _villageScene.AddSystem(new CollisionSystem("Collision"));
+            _villageScene.AddSystem(new TileRenderSystem("TileRenderSystem", villageTileMap));
+            _villageScene.AddSystem(new ColliderRenderSystem("TileRenderSystem"));
+            _villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
+            _villageScene.AddSystem(new SpriteRenderSystem("SpriteRenderSystem"));
+            _villageScene.AddSystem(new CameraSystem("CameraSystem"));
+            _villageScene.SetTileMap(villageTileMap);
+            _villageScene.AddEntity(entity);
         }
 
         private void UpdateFrame(FrameEventArgs args)
@@ -110,14 +112,12 @@ namespace Villeon
             MouseHandler.ClickedMouseButtons.Clear();
         }
 
-        Matrix4 refCameraMatrix = Matrix4.Identity;
-
         private void RenderFrame(FrameEventArgs args)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
             Camera.Update();
-            this.refCameraMatrix = Camera.GetMatrix();
-            GL.LoadMatrix(ref refCameraMatrix);
+            _refCameraMatrix = Camera.GetMatrix();
+            GL.LoadMatrix(ref _refCameraMatrix);
 
             Manager.GetInstance().Render();
         }

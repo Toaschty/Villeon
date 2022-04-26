@@ -8,6 +8,5 @@ namespace Villeon.Systems
 {
     public interface IUpdateSystem : ISystem, IUpdate
     {
-
     }
 }

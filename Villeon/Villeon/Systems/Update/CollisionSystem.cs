@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using Villeon.Components;
 using OpenTK.Mathematics;
+using Villeon.Components;
 
 namespace Villeon.Systems
 {
@@ -17,11 +16,128 @@ namespace Villeon.Systems
             Signature.Add<Transform>();
             Signature.Add<Collider>();
         }
+
+        private enum Direction
+        {
+            UP,
+            DOWN,
+            LEFT,
+            RIGHT,
+            NONE,
+        }
+
         public string Name { get; }
 
-        public List<IEntity> Entities { get; private set; } = new();
+        public List<IEntity> Entities { get; private set; } = new ();
 
-        public Signature Signature { get; private set; } = new();
+        public Signature Signature { get; private set; } = new ();
+
+        public static List<Vector2> CreatePolygon(Collider collider)
+        {
+            float x = collider.Position.X;
+            float y = collider.Position.Y;
+            float w = collider.Width;
+            float h = collider.Height;
+            float lx = collider.LastPosition.X; // + (w * 0.005f);
+            float ly = collider.LastPosition.Y; // + (h * 0.005f);
+            float lw = w; // - (w * 0.01f);
+            float lh = h; // - (h * 0.01f);
+
+            Vector2 direction = new (x - lx, y - ly);
+
+            List<Vector2> polygon = new ();
+
+            //didn't move
+            if (direction == Vector2.Zero)
+            {
+                polygon.Add(new Vector2(x, y + h));
+                polygon.Add(new Vector2(x + w, y + h));
+                polygon.Add(new Vector2(x + w, y));
+                polygon.Add(new Vector2(x, y));
+            }
+
+            // moved straight right
+            else if (direction.X > 0 && direction.Y == 0)
+            {
+                polygon.Add(new Vector2(lx, ly));
+                polygon.Add(new Vector2(x + w, y));
+                polygon.Add(new Vector2(x + w, y + h));
+                polygon.Add(new Vector2(lx, ly + lh));
+            }
+
+            // moved straight left
+            else if (direction.X < 0 && direction.Y == 0)
+            {
+                polygon.Add(new Vector2(x, y));
+                polygon.Add(new Vector2(lx + lw, ly));
+                polygon.Add(new Vector2(lx + lw, ly + lh));
+                polygon.Add(new Vector2(x, y + h));
+            }
+
+            // moved straight up
+            else if (direction.X == 0 && direction.Y > 0)
+            {
+                polygon.Add(new Vector2(lx, ly));
+                polygon.Add(new Vector2(lx + lw, ly));
+                polygon.Add(new Vector2(x + w, y + h));
+                polygon.Add(new Vector2(x, y + h));
+            }
+
+            // moved straight down
+            else if (direction.X == 0 && direction.Y < 0)
+            {
+                polygon.Add(new Vector2(lx, ly + lh));
+                polygon.Add(new Vector2(lx + lw, ly + lh));
+                polygon.Add(new Vector2(x + w, y));
+                polygon.Add(new Vector2(x, y));
+            }
+
+            // moved up right
+            else if (direction.X > 0 && direction.Y > 0)
+            {
+                polygon.Add(new Vector2(lx, ly));
+                polygon.Add(new Vector2(lx + lw, ly));
+                polygon.Add(new Vector2(x + w, y));
+                polygon.Add(new Vector2(x + w, y + h));
+                polygon.Add(new Vector2(x, y + h));
+                polygon.Add(new Vector2(lx, ly + lh));
+            }
+
+            // moved down right
+            else if (direction.X > 0 && direction.Y < 0)
+            {
+                polygon.Add(new Vector2(lx, ly));
+                polygon.Add(new Vector2(x, y));
+                polygon.Add(new Vector2(x + w, y));
+                polygon.Add(new Vector2(x + w, y + h));
+                polygon.Add(new Vector2(lx + lw, ly + lh));
+                polygon.Add(new Vector2(lx, ly + lh));
+            }
+
+            // moved up left
+            else if (direction.X < 0 && direction.Y > 0)
+            {
+                polygon.Add(new Vector2(x, y));
+                polygon.Add(new Vector2(lx, ly));
+                polygon.Add(new Vector2(lx + lw, ly));
+                polygon.Add(new Vector2(lx + lw, ly + lh));
+                polygon.Add(new Vector2(x + w, y + h));
+                polygon.Add(new Vector2(x, y + h));
+            }
+
+            // moved down left
+            else if (direction.X < 0 && direction.Y < 0)
+            {
+                polygon.Add(new Vector2(x, y));
+                polygon.Add(new Vector2(x + w, y));
+                polygon.Add(new Vector2(lx + lw, ly));
+                polygon.Add(new Vector2(lx + lw, ly + lh));
+                polygon.Add(new Vector2(lx, ly + lh));
+                polygon.Add(new Vector2(x, y + h));
+            }
+
+            return polygon;
+        }
 
         // Collider, Transform, Physics
         public void Update(float time)
@@ -41,7 +157,9 @@ namespace Villeon.Systems
                     }
                 }
                 else
+                {
                     return;
+                }
             }
 
             List<IEntity> entities = new List<IEntity>();
@@ -51,12 +169,12 @@ namespace Villeon.Systems
             foreach (IEntity entity in Entities)
             {
                 Collider collider = entity.GetComponent<Collider>();
-                collider.hasCollidedLeft = false;
-                collider.hasCollidedRight = false;
-                collider.hasCollidedTop = false;
-                collider.hasCollidedBottom = false;
+                collider.HasCollidedLeft = false;
+                collider.HasCollidedRight = false;
+                collider.HasCollidedTop = false;
+                collider.HasCollidedBottom = false;
 
-                if (entity.GetComponent<Collider>().hasMoved)
+                if (entity.GetComponent<Collider>().HasMoved)
                     dirtyEntities.Add(entity);
                 else
                     entities.Add(entity);
@@ -112,8 +230,9 @@ namespace Villeon.Systems
             foreach (IEntity entity in Entities)
             {
                 Collider collider = entity.GetComponent<Collider>();
-                //collider.Position = collider.Position;
-                collider.hasMoved = false;
+
+                // collider.Position = collider.Position;
+                collider.HasMoved = false;
             }
         }
 
@@ -125,19 +244,19 @@ namespace Villeon.Systems
             switch (direction)
             {
                 case Direction.DOWN:
-                    collider.hasCollidedTop = true;
+                    collider.HasCollidedTop = true;
                     collider.Position = new Vector2(collider.Position.X, e2Collider.Position.Y - collider.Height);
                     break;
                 case Direction.UP:
-                    collider.hasCollidedBottom = true;
+                    collider.HasCollidedBottom = true;
                     collider.Position = new Vector2(collider.Position.X, e2Collider.Position.Y + e2Collider.Height);
                     break;
                 case Direction.LEFT:
-                    collider.hasCollidedRight = true;
+                    collider.HasCollidedRight = true;
                     collider.Position = new Vector2(e2Collider.Position.X - collider.Width, collider.Position.Y);
                     break;
                 case Direction.RIGHT:
-                    collider.hasCollidedLeft = true;
+                    collider.HasCollidedLeft = true;
                     collider.Position = new Vector2(e2Collider.Position.X + e2Collider.Width, collider.Position.Y);
                     break;
             }
@@ -151,25 +270,25 @@ namespace Villeon.Systems
             switch (direction)
             {
                 case Direction.DOWN:
-                    collider.hasCollidedTop = true;
+                    collider.HasCollidedTop = true;
                     collider.Position = new Vector2(collider.Position.X, collider.LastPosition.Y);
                     break;
                 case Direction.UP:
-                    collider.hasCollidedBottom = true;
+                    collider.HasCollidedBottom = true;
                     collider.Position = new Vector2(collider.Position.X, collider.LastPosition.Y);
                     break;
                 case Direction.LEFT:
-                    collider.hasCollidedRight = true;
+                    collider.HasCollidedRight = true;
                     collider.Position = new Vector2(collider.LastPosition.X, collider.Position.Y);
                     break;
                 case Direction.RIGHT:
-                    collider.hasCollidedLeft = true;
+                    collider.HasCollidedLeft = true;
                     collider.Position = new Vector2(collider.LastPosition.X, collider.Position.Y);
                     break;
             }
         }
 
-        private int CollidesCleanedEntity(List<IEntity> dirtyEntities, List<IEntity> entities, IEntity cleanedEntity , int lastToTest, int depth)
+        private int CollidesCleanedEntity(List<IEntity> dirtyEntities, List<IEntity> entities, IEntity cleanedEntity, int lastToTest, int depth)
         {
             Collider e2Collider = cleanedEntity.GetComponent<Collider>();
             int entitiesCleaned = 0;
@@ -200,22 +319,25 @@ namespace Villeon.Systems
 
         private Direction CollidesDirectionAABB(Collider a, Collider b)
         {
-            Vector2 v = new(a.Position.X - a.LastPosition.X, a.Position.Y - a.LastPosition.Y);
+            Vector2 v = new (a.Position.X - a.LastPosition.X, a.Position.Y - a.LastPosition.Y);
 
             // test for top side
-            float mTop = (b.Position.Y + b.Height + (a.Height / 2) - a.LastCenter.Y) / v.Y;
+            float mulitplierTop = (b.Position.Y + b.Height + (a.Height / 2) - a.LastCenter.Y) / v.Y;
+
             // test for bottom side
-            float mBottom = (b.Position.Y - (a.Height / 2) - a.LastCenter.Y) / v.Y;
+            float mulitplierBottom = (b.Position.Y - (a.Height / 2) - a.LastCenter.Y) / v.Y;
+
             // test for right side
-            float mRight = (b.Position.X + b.Width + (a.Width / 2) - a.LastCenter.X) / v.X;
+            float mulitplierRight = (b.Position.X + b.Width + (a.Width / 2) - a.LastCenter.X) / v.X;
+
             // test for left side
-            float mLeft = (b.Position.X - (a.Width / 2) - a.LastCenter.X) / v.X;
+            float mulitplierLeft = (b.Position.X - (a.Width / 2) - a.LastCenter.X) / v.X;
 
             int zeros = 0;
-            if (mTop == 0) zeros++;
-            if (mBottom == 0) zeros++;
-            if (mRight == 0) zeros++;
-            if (mLeft == 0) zeros++;
+            if (mulitplierTop == 0) zeros++;
+            if (mulitplierBottom == 0) zeros++;
+            if (mulitplierRight == 0) zeros++;
+            if (mulitplierLeft == 0) zeros++;
             if (zeros > 1)
             {
                 Console.WriteLine(zeros);
@@ -236,33 +358,35 @@ namespace Villeon.Systems
                 mLeft = MathF.Abs(mLeft);
             }
             else
-            {*/
-                // if vector goes backwards it's automatically not the right direction
-                if (mTop < 0 && float.IsFinite(mTop)) mTop = float.PositiveInfinity;
-                if (mBottom < 0 && float.IsFinite(mBottom)) mBottom = float.PositiveInfinity;
-                if (mRight < 0 && float.IsFinite(mRight)) mRight = float.PositiveInfinity;
-                if (mLeft < 0 && float.IsFinite(mLeft)) mLeft = float.PositiveInfinity;
-            //}      
+            {
+            }*/
+
+            // if vector goes backwards it's automatically not the right direction
+            if (mulitplierTop < 0 && float.IsFinite(mulitplierTop)) mulitplierTop = float.PositiveInfinity;
+            if (mulitplierBottom < 0 && float.IsFinite(mulitplierBottom)) mulitplierBottom = float.PositiveInfinity;
+            if (mulitplierRight < 0 && float.IsFinite(mulitplierRight)) mulitplierRight = float.PositiveInfinity;
+            if (mulitplierLeft < 0 && float.IsFinite(mulitplierLeft)) mulitplierLeft = float.PositiveInfinity;
 
             if (v.X == 0)
             {
-                mRight = float.PositiveInfinity;
-                mLeft = float.PositiveInfinity;
+                mulitplierRight = float.PositiveInfinity;
+                mulitplierLeft = float.PositiveInfinity;
             }
+
             if (v.Y == 0)
             {
-                mTop = float.PositiveInfinity;
-                mBottom = float.PositiveInfinity;
+                mulitplierTop = float.PositiveInfinity;
+                mulitplierBottom = float.PositiveInfinity;
             }
 
-            if (mLeft < mBottom && mLeft < mRight && mLeft < mTop)
+            if (mulitplierLeft < mulitplierBottom && mulitplierLeft < mulitplierRight && mulitplierLeft < mulitplierTop)
                 return Direction.LEFT;
-            if (mRight < mBottom && mRight < mTop && mRight < mLeft)
+            if (mulitplierRight < mulitplierBottom && mulitplierRight < mulitplierTop && mulitplierRight < mulitplierLeft)
                 return Direction.RIGHT;
 
-            if (mTop < mBottom && mTop < mRight && mTop < mLeft)
+            if (mulitplierTop < mulitplierBottom && mulitplierTop < mulitplierRight && mulitplierTop < mulitplierLeft)
                 return Direction.UP;
-            if (mBottom < mTop && mBottom < mRight && mBottom < mLeft)
+            if (mulitplierBottom < mulitplierTop && mulitplierBottom < mulitplierRight && mulitplierBottom < mulitplierLeft)
                 return Direction.DOWN;
 
             return Direction.NONE;
@@ -293,7 +417,7 @@ namespace Villeon.Systems
                 for (int a = 0; a < polygon1.Count(); a++)
                 {
                     int b = (a + 1) % polygon1.Count;
-                    Vector2 normalAxis = new(-(polygon1[b].Y - polygon1[a].Y), polygon1[b].X - polygon1[a].X);
+                    Vector2 normalAxis = new (-(polygon1[b].Y - polygon1[a].Y), polygon1[b].X - polygon1[a].X);
                     float d = (float)Math.Sqrt((normalAxis.X * normalAxis.X) + (normalAxis.Y * normalAxis.Y));
                     normalAxis = new Vector2(normalAxis.X / d, normalAxis.Y / d);
 
@@ -322,118 +446,15 @@ namespace Villeon.Systems
             return true;
         }
 
-        public static List<Vector2> CreatePolygon(Collider collider)
-        {
-            float x = collider.Position.X;
-            float y = collider.Position.Y;
-            float w = collider.Width;
-            float h = collider.Height;
-            float lx = collider.LastPosition.X; // + (w * 0.005f);
-            float ly = collider.LastPosition.Y; // + (h * 0.005f);
-            float lw = w; // - (w * 0.01f);
-            float lh = h; // - (h * 0.01f);
-
-            Vector2 direction = new(x - lx, y - ly);
-
-            List<Vector2> polygon = new();
-
-            //didn't move
-            if (direction == Vector2.Zero)
-            {
-                polygon.Add(new Vector2(x, y + h));
-                polygon.Add(new Vector2(x + w, y + h));
-                polygon.Add(new Vector2(x + w, y));
-                polygon.Add(new Vector2(x, y));
-            }
-            //moved straight right
-            else if (direction.X > 0 && direction.Y == 0)
-            {
-                polygon.Add(new Vector2(lx, ly));
-                polygon.Add(new Vector2(x + w, y));
-                polygon.Add(new Vector2(x + w, y + h));
-                polygon.Add(new Vector2(lx, ly + lh));
-            }
-            //moved straight left
-            else if (direction.X < 0 && direction.Y == 0)
-            {
-                polygon.Add(new Vector2(x, y));
-                polygon.Add(new Vector2(lx + lw, ly));
-                polygon.Add(new Vector2(lx + lw, ly + lh));
-                polygon.Add(new Vector2(x, y + h));
-            }
-            //moved straight up
-            else if (direction.X == 0 && direction.Y > 0)
-            {
-                polygon.Add(new Vector2(lx, ly));
-                polygon.Add(new Vector2(lx + lw, ly));
-                polygon.Add(new Vector2(x + w, y + h));
-                polygon.Add(new Vector2(x, y + h));
-            }
-            //moved straight down
-            else if (direction.X == 0 && direction.Y < 0)
-            {
-                polygon.Add(new Vector2(lx, ly + lh));
-                polygon.Add(new Vector2(lx + lw, ly + lh));
-                polygon.Add(new Vector2(x + w, y));
-                polygon.Add(new Vector2(x, y));
-            }
-            //moved up right
-            else if (direction.X > 0 && direction.Y > 0)
-            {
-                polygon.Add(new Vector2(lx, ly));
-                polygon.Add(new Vector2(lx + lw, ly));
-                polygon.Add(new Vector2(x + w, y));
-                polygon.Add(new Vector2(x + w, y + h));
-                polygon.Add(new Vector2(x, y + h));
-                polygon.Add(new Vector2(lx, ly + lh));
-            }
-            //moved down right
-            else if (direction.X > 0 && direction.Y < 0)
-            {
-                polygon.Add(new Vector2(lx, ly));
-                polygon.Add(new Vector2(x, y));
-                polygon.Add(new Vector2(x + w, y));
-                polygon.Add(new Vector2(x + w, y + h));
-                polygon.Add(new Vector2(lx + lw, ly + lh));
-                polygon.Add(new Vector2(lx, ly + lh));
-            }
-            //moved up left
-            else if (direction.X < 0 && direction.Y > 0)
-            {
-                polygon.Add(new Vector2(x, y));
-                polygon.Add(new Vector2(lx, ly));
-                polygon.Add(new Vector2(lx + lw, ly));
-                polygon.Add(new Vector2(lx + lw, ly + lh));
-                polygon.Add(new Vector2(x + w, y + h));
-                polygon.Add(new Vector2(x, y + h));
-            }
-            //moved down left
-            else if (direction.X < 0 && direction.Y < 0)
-            {
-                polygon.Add(new Vector2(x, y));
-                polygon.Add(new Vector2(x + w, y));
-                polygon.Add(new Vector2(lx + lw, ly));
-                polygon.Add(new Vector2(lx + lw, ly + lh));
-                polygon.Add(new Vector2(lx, ly + lh));
-                polygon.Add(new Vector2(x, y + h));
-            }
-
-            return polygon;
-        }
-
-        private void printList(List<IEntity> list, string name)
+        private void PrintList(List<IEntity> list, string name)
         {
             Console.Write(name + ": ");
             foreach (IEntity entity in list)
             {
                 Console.Write(entity.Name + " ");
             }
-            Console.WriteLine();
-        }
 
-        enum Direction
-        {
-            UP, DOWN, LEFT, RIGHT, NONE
+            Console.WriteLine();
         }
     }
 }

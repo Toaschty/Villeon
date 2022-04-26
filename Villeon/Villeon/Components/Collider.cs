@@ -1,50 +1,56 @@
-﻿using OpenTK.Mathematics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK.Mathematics;
 
 namespace Villeon.Components
 {
     public class Collider : IComponent
     {
+        private Vector2 _position;
+
         public Collider(Vector2 position, float width, float height)
         {
-            this.Position = position;
-            this.LastPosition = position;
-            this.Width = width;
-            this.Height = height;
-            this.LastCenter = new Vector2(position.X + (width / 2), position.Y + (height / 2));
-            this.Center = new Vector2(position.X + (width / 2), position.Y + (height / 2));
+            Position = position;
+            LastPosition = position;
+            Width = width;
+            Height = height;
+            LastCenter = new Vector2(position.X + (width / 2), position.Y + (height / 2));
+            Center = new Vector2(position.X + (width / 2), position.Y + (height / 2));
         }
 
-        public bool hasMoved = false;
-        public bool hasCollidedTop = false;
-        public bool hasCollidedBottom = false;
-        public bool hasCollidedLeft = false;
-        public bool hasCollidedRight = false;
+        public bool HasMoved { get; set; } = false;
+
+        public bool HasCollidedTop { get; set; } = false;
+
+        public bool HasCollidedBottom { get; set; } = false;
+
+        public bool HasCollidedLeft { get; set; } = false;
+
+        public bool HasCollidedRight { get; set; } = false;
 
         public Vector2 LastPosition { get; private set; }
 
-        private Vector2 position;
-
         public Vector2 Position
-        { 
-            get 
+        {
+            get
             {
-                return position; 
+                return _position;
             }
-            set 
+
+            set
             {
-                if (!hasMoved)
+                if (!HasMoved)
                 {
-                    hasMoved = true;
-                    LastPosition = position;
-                    LastCenter = new Vector2(position.X + Width / 2, position.Y + Height / 2);
+                    HasMoved = true;
+                    LastPosition = _position;
+                    LastCenter = new Vector2(_position.X + (Width / 2), _position.Y + (Height / 2));
                 }
-                position = value;
-                Center = new Vector2(position.X + Width / 2, position.Y + Height / 2);
+
+                _position = value;
+                Center = new Vector2(_position.X + (Width / 2), _position.Y + (Height / 2));
             }
         }
 
@@ -52,8 +58,8 @@ namespace Villeon.Components
 
         public Vector2 Center { get; private set; }
 
-        public float Width;
+        public float Width { get; set; }
 
-        public float Height;
+        public float Height { get; set; }
     }
 }

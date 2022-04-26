@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Villeon.Components;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
+using Villeon.Components;
 using Villeon.Helper;
 
 namespace Villeon.Systems
@@ -20,9 +20,9 @@ namespace Villeon.Systems
 
         public string Name { get; }
 
-        public List<IEntity> Entities { get; } = new();
+        public List<IEntity> Entities { get; } = new ();
 
-        public Signature Signature { get; private set; } = new();
+        public Signature Signature { get; private set; } = new ();
 
         public void Render()
         {

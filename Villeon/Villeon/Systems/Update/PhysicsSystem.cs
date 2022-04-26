@@ -1,10 +1,9 @@
-﻿using OpenTK.Mathematics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using OpenTK.Mathematics;
 using Villeon.Components;
 
 namespace Villeon.Systems
@@ -21,10 +20,9 @@ namespace Villeon.Systems
 
         public string Name { get; }
 
-        public List<IEntity> Entities { get; } = new();
+        public List<IEntity> Entities { get; } = new ();
 
-        public Signature Signature { get; } = new();
-
+        public Signature Signature { get; } = new ();
 
         public void Update(float time)
         {
@@ -35,7 +33,9 @@ namespace Villeon.Systems
                     time = Constants.DEBUGTIME;
                 }
                 else
+                {
                     return;
+                }
             }
 
             Physics physics;
@@ -49,14 +49,13 @@ namespace Villeon.Systems
                 collider = entity.GetComponent<Collider>();
 
                 // If Collided, stop player in that axis
-                if ((collider.hasCollidedBottom && physics.Velocity.Y < 0.0f) ||
-                    (collider.hasCollidedTop && physics.Velocity.Y > 0.0f))
+                if ((collider.HasCollidedBottom && physics.Velocity.Y < 0.0f) ||
+                    (collider.HasCollidedTop && physics.Velocity.Y > 0.0f))
                     physics.Velocity = new Vector2(physics.Velocity.X, 0.0f);
 
-                if ((collider.hasCollidedLeft && physics.Velocity.X < 0.0f) ||
-                   (collider.hasCollidedRight && physics.Velocity.X > 0.0f))
+                if ((collider.HasCollidedLeft && physics.Velocity.X < 0.0f) ||
+                   (collider.HasCollidedRight && physics.Velocity.X > 0.0f))
                     physics.Velocity = new Vector2(0.0f, physics.Velocity.Y);
-
 
                 // Add Gravity
                 physics.Acceleration += new Vector2(0.0f, -Constants.GRAVITY);
@@ -73,7 +72,6 @@ namespace Villeon.Systems
                 physics.Velocity += physics.Acceleration * time;
                 transform.Position += 0.5f * (oldVelocity + physics.Velocity) * time;
                 collider.Position += 0.5f * (oldVelocity + physics.Velocity) * time;
-
 
                 physics.Acceleration = Vector2.Zero;
             }

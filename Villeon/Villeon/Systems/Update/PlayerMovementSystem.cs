@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using Villeon.Components;
 using OpenTK.Mathematics;
-using Villeon.Helper;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Villeon.Components;
+using Villeon.Helper;
 
 namespace Villeon.Systems
 {
@@ -23,9 +22,9 @@ namespace Villeon.Systems
 
         public string Name { get; }
 
-        public List<IEntity> Entities { get; private set; } = new();
+        public List<IEntity> Entities { get; private set; } = new ();
 
-        public Signature Signature { get; private set; } = new();
+        public Signature Signature { get; private set; } = new ();
 
         public void Update(float time)
         {
@@ -48,7 +47,7 @@ namespace Villeon.Systems
 
                 if (KeyHandler.IsPressed(Keys.Space))
                 {
-                    if (collider.hasCollidedBottom)
+                    if (collider.HasCollidedBottom)
                         physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
                 }
 
@@ -56,7 +55,7 @@ namespace Villeon.Systems
                 if (KeyHandler.IsPressed(Keys.R))
                 {
                     collider.Position = new Vector2(5f, 5f);
-                    collider.hasMoved = false;
+                    collider.HasMoved = false;
                     collider.Position = new Vector2(5f, 5f);
                     physics.Velocity = Vector2.Zero;
                 }
@@ -73,20 +72,29 @@ namespace Villeon.Systems
                     Constants.DEBUGPAUSEACTIVE = !Constants.DEBUGPAUSEACTIVE;
                     KeyHandler.RemoveKeyHold(Keys.H);
                 }
+
                 if (KeyHandler.IsPressed(Keys.N))
                 {
                     Constants.DEBUGNEXTFRAME = true;
                     KeyHandler.RemoveKeyHold(Keys.N);
                 }
+
                 if (KeyHandler.IsPressed(Keys.M))
                 {
                     Constants.DEBUGNEXTFRAME = true;
-                    //KeyHandler.RemoveKeyHold(Keys.N);
                 }
+
                 if (KeyHandler.IsPressed(Keys.J))
                 {
                     Console.WriteLine("Time: " + Constants.DEBUGTIME + "  Enter new time:");
-                    Constants.DEBUGTIME = float.Parse(Console.ReadLine());
+
+                    string? newTime = Console.ReadLine();
+                    if (newTime == null)
+                    {
+                        newTime = "0.00833";
+                    }
+
+                    Constants.DEBUGTIME = float.Parse(newTime);
                     Console.WriteLine("New time: " + Constants.DEBUGTIME);
                     KeyHandler.RemoveKeyHold(Keys.J);
                 }

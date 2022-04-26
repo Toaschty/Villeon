@@ -1,10 +1,10 @@
-﻿using OpenTK.Graphics.OpenGL;
-using OpenTK.Mathematics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK.Graphics.OpenGL;
+using OpenTK.Mathematics;
 using Villeon.Components;
 using Villeon.Helper;
 
@@ -12,6 +12,10 @@ namespace Villeon.Systems
 {
     internal class TileRenderSystem : IRenderSystem
     {
+        private Matrix4 _refCameraMatrix = Matrix4.Identity;
+
+        private int _currentTexture = -1;
+
         public TileRenderSystem(string name, TileMap tileMap)
         {
             Name = name;
@@ -21,15 +25,11 @@ namespace Villeon.Systems
 
         public string Name { get; }
 
-        public List<IEntity> Entities { get; } = new();
+        public List<IEntity> Entities { get; } = new ();
 
-        public Signature Signature { get; private set; } = new();
+        public Signature Signature { get; private set; } = new ();
 
         public TileMap TileMap { get; }
-
-        private Matrix4 refCameraMatrix = Matrix4.Identity;
-
-        private int _currentTexture = -1;
 
         public void Render()
         {

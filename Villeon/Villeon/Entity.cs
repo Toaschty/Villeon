@@ -9,18 +9,18 @@ namespace Villeon
 {
     public class Entity : IEntity
     {
+        private readonly List<IComponent> _components = new ();
+
         public Entity(string name)
         {
             Name = name;
         }
 
-        private readonly List<IComponent> _components = new();
-
         public bool Enabled { get; set; } = true;
 
         public string Name { get; }
 
-        public Signature Signature { get; } = new();
+        public Signature Signature { get; } = new ();
 
         public void AddComponent(IComponent component)
         {
@@ -28,7 +28,8 @@ namespace Villeon
             Signature.Add(component);
         }
 
-        public T GetComponent<T>() where T : class, IComponent
+        public T GetComponent<T>()
+            where T : class, IComponent
         {
             foreach (var component in _components)
             {
