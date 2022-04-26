@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Xml;
     using OpenTK.Graphics.OpenGL;
     using OpenTK.Mathematics;
     using TiledLib.Layer;
@@ -23,13 +24,18 @@
         // Used for generating optimized colliders
         private bool[,] colliderGrid;
 
-        public List<IEntity> entities = new List<IEntity>();
+        private bool collisionOptimization = false;
 
-        public TileMap(string mapName)
+        // XML
+        XmlReader tileSetReader;
+
+        public TileMap(string mapName, bool enableCollisionOptimization)
         {
             // Load in tilemap from file + TileSets 
             map = TiledLib.Map.FromStream(ResourceLoader.LoadContentAsStream("TileMap." + mapName), ts => ResourceLoader.LoadContentAsStream("TileMap." + ts.Source));
+            
             colliderGrid = new bool[map.Width, map.Height];
+            collisionOptimization = enableCollisionOptimization;
 
             // Starting generation
             SetupTileDictionary();
@@ -43,7 +49,7 @@
             {
                 float rezImageWidth = 1f / tileSet.ImageWidth;
                 float rezImageHeight = 1f / tileSet.ImageHeight;
-
+         
                 // Load in corresponding tileset
                 TileSetStruct graphicsTileSet = LoadTileSet("TileMap." + tileSet.ImagePath, (uint)tileSet.Columns, (uint)tileSet.Rows);
 
@@ -51,7 +57,81 @@
                 for (int gid = tileSet.FirstGid; gid < tileSet.FirstGid + tileSet.TileCount; gid++)
                 {
                     TiledLib.Tile tile = tileSet[gid];
-                    AddTileToDictionary(graphicsTileSet, (uint)gid, tile.Left * rezImageWidth, (tileSet.ImageHeight - tileSet.TileHeight - tile.Top) * rezImageHeight);
+
+                    Tile currentTile = new Tile(tile.Left * rezImageWidth, (tileSet.ImageHeight - tileSet.TileHeight - tile.Top) * rezImageHeight, graphicsTileSet);
+                    
+                    tiles.Add((uint)gid, currentTile);
+                    // AddTileToDictionary(graphicsTileSet, (uint)gid, tile.Left * rezImageWidth, (tileSet.ImageHeight - tileSet.TileHeight - tile.Top) * rezImageHeight);
+                }
+            }
+
+            // If optimization is turn on => Generate collisions | Turned off => Load collisions from tilemap
+            GetCollisionBoxes();
+            if (!collisionOptimization)
+                AddOptimizedColliders();
+        }
+
+        // Read collisions from tilemap
+        public void GetCollisionBoxes()
+        {
+            // Go through all tilesets
+            foreach (var tileSet in map.Tilesets)
+            {
+                tileSetReader = XmlReader.Create(ResourceLoader.LoadContentAsStream("TileMap.Tilesets." + tileSet.Name + ".tsx"));
+
+                // Go through all tiles in file
+                while (tileSetReader.ReadToFollowing("tile"))
+                {
+                    // Read id of tile
+                    tileSetReader.MoveToAttribute("id");
+                    uint tileId = uint.Parse(tileSetReader.Value);
+
+                    // Load tile from dictionary with id
+                    Tile currentTile = tiles[tileId + 1];
+
+                    // Open element "objectgroup" as new XMLReader
+                    tileSetReader.ReadToFollowing("objectgroup");
+                    XmlReader collisionReader = tileSetReader.ReadSubtree();
+                    
+                    // Go through all collisions from a tile
+                    while( collisionReader.ReadToFollowing("object") )
+                    {
+                        // // Calculate offset
+                        Vector2 offset = new Vector2();
+                        // Get x from reader
+                        tileSetReader.MoveToAttribute("x");
+                        offset.X = float.Parse(tileSetReader.Value);
+
+                        // Get y from reader
+                        tileSetReader.MoveToAttribute("y");
+                        offset.Y = float.Parse(tileSetReader.Value);
+
+                        // // Calculate size of collider
+                        // Move to collision coordinates within tile
+                        tileSetReader.ReadToFollowing("polygon");
+                        tileSetReader.MoveToAttribute("points");
+
+                        // Get coordinates by splitting string
+                        string[] coords = tileSetReader.Value.Split(' ', ',');
+
+                        // Create collider bounds
+                        Vector2 minCoords = new Vector2();
+                        minCoords.X = float.Parse(coords[0]);
+                        minCoords.Y = float.Parse(coords[1]);
+
+                        Vector2 maxCoords = new Vector2();
+                        maxCoords.X = float.Parse(coords[4]);
+                        maxCoords.Y = float.Parse(coords[5]);
+
+                        // Flip Y axis for proper drawing (Coordinate system origin different)
+                        offset.Y = tileSet.TileHeight - offset.Y;
+                        maxCoords.Y = -maxCoords.Y;
+
+                        // Create collider and add it to the loaded tile
+                        // Devide by tile width to get coordinates inside of tile, e.g. (4, 12) -> (0.25, 0.75)
+                        Box2 collider = new Box2((minCoords + offset) / tileSet.TileWidth, (maxCoords + offset) / tileSet.TileWidth);
+                        tiles[tileId + 1].colliders.Add(collider);
+                    }
                 }
             }
         }
@@ -62,13 +142,6 @@
             // Go through all layers
             foreach (TileLayer layer in map.Layers.OfType<TileLayer>())
             {
-                // Check if collider is needed
-                bool hasCollider = false;
-                string? value;
-                if (layer.Properties.TryGetValue("hasCollider", out value))
-                    hasCollider = true;
-
-
                 for (int y = 0, i = 0; y < layer.Height; y++)
                 {
                     for (int x = 0; x < layer.Width; x++, i++)
@@ -82,28 +155,44 @@
 
                         // Generate Entity
                         IEntity entity = new Entity("Tile");
-                        // Search for tile in dictionary 
-                        Tile dictionaryTile = tiles[gid];
-                        // Use current x and y as coordinates. Use data from dictionaryTile.
-                        entity.AddComponent(new Tile(new Vector2(x, layer.Height - 1 - y), dictionaryTile._x, dictionaryTile._y, dictionaryTile.TileSet));
 
-                        if (hasCollider)
-                        {
-                            //entity.AddComponent(new Collider(new Vector2(x, layer.Height - 1 - y), 1, 1));
+                        // Search for tile in dictionary and set coordinates
+                        Tile dictionaryTile = (Tile) tiles[gid].Clone();
+                        dictionaryTile.Position = new Vector2(x, layer.Height - 1 - y);
+                        entity.AddComponent(dictionaryTile);
+                        entity.AddComponent(new Transform(new Vector2(x, layer.Height - 1 - y), 1, 1));
+                        Manager.GetInstance().AddEntity(entity);
+
+                        // Adjust colliderGrid if collisionOptimization is turned on and the tile has at least one collision
+                        if (collisionOptimization && dictionaryTile.colliders.Count > 0)
                             colliderGrid[x, y] = true;
-                            entity.AddComponent(new Transform(new Vector2(x, layer.Height - 1 - y), 1, 1));
-                        }
 
-                        //Manager.GetInstance().AddEntity(entity);
-                        entities.Add(entity);
+                        // Generate collision entities
+                        if (!collisionOptimization)
+                        {
+                            // Check if current tile has colliders
+                            if (dictionaryTile.colliders.Count > 0)
+                            {
+                                // Go through all colliders
+                                foreach (var collider in dictionaryTile.colliders)
+                                {
+                                    // Generate new entity for collision
+                                    IEntity collisionEntity = new Entity("CollisonTile");
+                                    collisionEntity.AddComponent(new Transform(new Vector2(x, layer.Height - 1 - y) + collider.Min, collider.Size.X, collider.Size.Y));
+                                    collisionEntity.AddComponent(new Collider(new Vector2(x, layer.Height - 1 - y) + collider.Min, collider.Size.X, collider.Size.Y));
+                                    Manager.GetInstance().AddEntity(collisionEntity);
+                                }
+                            }
+                        }
                     }
                 }
-
-                hasCollider = false;
             }
 
-            AddOptimizedColliders();
+            // Add optimized colliders if turned on
+            if (collisionOptimization)
+                AddOptimizedColliders();
         }
+
 
         // Add optimized colliders to tiles.
         private void AddOptimizedColliders()
@@ -171,13 +260,6 @@
                     }
                 }
             }
-        }
-
-        // Add new tile to dictionary with given data -> Used later to get right tile for generation.
-        void AddTileToDictionary(TileSetStruct TileSet, uint tileId, float startX, float startY)
-        {
-            // Add given tile to dictionary -> gui is key
-            tiles.Add(tileId, new Tile(startX, startY, TileSet));
         }
 
         // Load in tileSet texture. Set settings for texture. Tile width and height calculation for tileSet.
