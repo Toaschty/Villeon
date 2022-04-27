@@ -61,7 +61,7 @@ namespace Villeon
             _currentScene = scene;
         }
 
-        public List<IEntity> GetEntities()
+        public HashSet<IEntity> GetEntities()
         {
             return _currentScene.GetEntities();
         }

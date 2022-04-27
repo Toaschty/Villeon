@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Villeon.Systems;
 
 namespace Villeon
 {
     public class Scene : IUpdate, IRender
     {
-        private List<IEntity> _entities = new ();
-        private List<IUpdateSystem> _updateSystems = new ();
-        private List<IRenderSystem> _renderSystems = new ();
+        private HashSet<IEntity> _entities = new ();
+        private HashSet<IUpdateSystem> _updateSystems = new ();
+        private HashSet<IRenderSystem> _renderSystems = new ();
 
         public Scene(string name)
         {
@@ -82,11 +83,11 @@ namespace Villeon
             }
         }
 
-        public List<IUpdateSystem> GetUpdateSystems() => _updateSystems;
+        public HashSet<IUpdateSystem> GetUpdateSystems() => _updateSystems;
 
-        public List<IRenderSystem> GetRenderSystems() => _renderSystems;
+        public HashSet<IRenderSystem> GetRenderSystems() => _renderSystems;
 
-        public List<IEntity> GetEntities() => _entities;
+        public HashSet<IEntity> GetEntities() => _entities;
 
         public void Update(float time)
         {
@@ -123,4 +124,19 @@ namespace Villeon
             }
         }
     }
+
+    //class SystemComparer : IEqualityComparer<ISystem>
+    //{
+    //    public bool Equals(ISystem? x, ISystem? y)
+    //    {
+    //        if (x.GetType() == y.GetType())
+    //            return true;
+    //        return false;
+    //    }
+
+    //    public int GetHashCode([DisallowNull] ISystem obj)
+    //    {
+    //        return 1;
+    //    }
+    //}
 }

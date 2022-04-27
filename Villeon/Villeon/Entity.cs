@@ -27,11 +27,8 @@ namespace Villeon
         public void AddComponent(IComponent component)
         {
             // Add the component if the component flag isn't already set
-            if (!Signature.Has(ComponentTypes.GetFlag(component)))
-            {
-                _components[(int)ComponentTypes.GetIndex(component)] = component;
-                Signature.Add(component);
-            }
+            _components[(int)ComponentTypes.GetIndex(component)] = component;
+            Signature.Add(component);
         }
 
         public T GetComponent<T>()

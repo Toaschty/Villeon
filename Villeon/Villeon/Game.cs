@@ -67,6 +67,8 @@ namespace Villeon
             IEntity entity = new Entity("Marin");
             entity.AddComponent(new Physics());
             entity.AddComponent(new Collider(new Vector2(5.0f, 5.0f), 0.5f, 0.5f));
+            entity.AddComponent(new Collider(new Vector2(5.0f, 5.0f), 0.5f, 0.5f));
+            entity.AddComponent(new Collider(new Vector2(30.0f, 30.0f), 0.5f, 0.5f));
             entity.AddComponent(new Sprite(Color4.Cornsilk, new Vector2(1f, 1f)));
             entity.AddComponent(new Player());
 
@@ -74,9 +76,9 @@ namespace Villeon
             _dungeonScene.AddSystem(new PhysicsSystem("Physics"));
             _dungeonScene.AddSystem(new CollisionSystem("Collision"));
             _dungeonScene.AddSystem(new TileRenderSystem("TileRenderSystem", tileMap));
-            _dungeonScene.AddSystem(new ColliderRenderSystem("RenderSystem"));
             _dungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             _dungeonScene.AddSystem(new SpriteRenderSystem("SpriteRenderSystem"));
+            _dungeonScene.AddSystem(new ColliderRenderSystem("CollisionSystem"));
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
             _dungeonScene.SetTileMap(tileMap);
             _dungeonScene.AddEntity(entity);
@@ -86,9 +88,9 @@ namespace Villeon
             _villageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
             _villageScene.AddSystem(new CollisionSystem("Collision"));
             _villageScene.AddSystem(new TileRenderSystem("TileRenderSystem", villageTileMap));
-            _villageScene.AddSystem(new ColliderRenderSystem("TileRenderSystem"));
             _villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             _villageScene.AddSystem(new SpriteRenderSystem("SpriteRenderSystem"));
+            _villageScene.AddSystem(new ColliderRenderSystem("CollisionSystem"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.SetTileMap(villageTileMap);
             _villageScene.AddEntity(entity);
@@ -96,6 +98,8 @@ namespace Villeon
 
         private void UpdateFrame(FrameEventArgs args)
         {
+            Console.Write("Entities: " + Manager.GetInstance().GetEntities().Count() + "      \r");
+
             foreach (MouseHandler.ClickedMouseButton button in MouseHandler.ClickedMouseButtons)
             {
                 if (button.Button == MouseButton.Middle)
