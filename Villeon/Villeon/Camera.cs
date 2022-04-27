@@ -24,46 +24,28 @@ namespace Villeon
             set { _inverseViewportMatrix = value; }
         }
 
-        public static Matrix4 Translate(float x, float y)
-        {
-            return Matrix4.CreateTranslation(x, y, 0.0f);
-        }
+        public static Matrix4 Translate(float x, float y) => Matrix4.CreateTranslation(x, y, 0.0f);
 
-        public static Matrix4 Translate(Vector2 translation)
-        {
-            return Matrix4.CreateTranslation(-translation.X, -translation.Y, 0.0f);
-        }
+        public static Matrix4 Translate(Vector2 translation) => Matrix4.CreateTranslation(-translation.X, -translation.Y, 0.0f);
 
-        public static Matrix4 RotateDegrees(float degrees)
-        {
-            return Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(degrees));
-        }
+        public static Matrix4 RotateDegrees(float degrees) => Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(degrees));
 
-        public static Matrix4 RotateRadiants(float radiants)
-        {
-            return Matrix4.CreateRotationZ(radiants);
-        }
+        public static Matrix4 RotateRadiants(float radiants) => Matrix4.CreateRotationZ(radiants);
 
         public static void Resize(int width, int height)
         {
             float aspectRatio = height / (float)width;
             _aspectRatioMatrix = Matrix4.CreateScale(aspectRatio, 1.0f, 1.0f);
 
-            // Window to World converstoin matrix
+            // Window to World conversions matrix
             Matrix4 translate = Translate(-1f, 1f); // Top left <- ^
             Matrix4 scale = Scale(2f / (width - 1), -2f / (height - 1));
             _inverseViewportMatrix = scale * translate;
         }
 
-        public static Matrix4 Scale(float scale)
-        {
-            return Matrix4.CreateScale(scale);
-        }
+        public static Matrix4 Scale(float scale) => Matrix4.CreateScale(scale);
 
-        public static Matrix4 Scale(float x, float y)
-        {
-            return Matrix4.CreateScale(x, y, 1f);
-        }
+        public static Matrix4 Scale(float x, float y) => Matrix4.CreateScale(x, y, 1f);
 
         public static Matrix4 GetMatrix()
         {
@@ -74,26 +56,13 @@ namespace Villeon
             return _cameraMatrix;
         }
 
-        public static Matrix4 GetInverseMatrix()
-        {
-            Matrix4 inverseMatrix = GetMatrix().Inverted();
-            return inverseMatrix;
-        }
+        public static Matrix4 GetInverseMatrix() => GetMatrix().Inverted();
 
-        public static Vector2 Transform(this Vector2 input, Matrix4 transformation)
-        {
-            return Vector4.TransformRow(new Vector4(input.X, input.Y, 0f, 1f), transformation).Xy;
-        }
+        public static Vector2 Transform(this Vector2 input, Matrix4 transformation) => Vector4.TransformRow(new Vector4(input.X, input.Y, 0f, 1f), transformation).Xy;
 
-        public static void SetRotation(float rotation)
-        {
-            _cameraRotation = rotation;
-        }
+        public static void SetRotation(float rotation) => _cameraRotation = rotation;
 
-        public static void SetTracker(Vector2 position)
-        {
-            _trackingPosition = position;
-        }
+        public static void SetTracker(Vector2 position) => _trackingPosition = position;
 
         public static void Update()
         {

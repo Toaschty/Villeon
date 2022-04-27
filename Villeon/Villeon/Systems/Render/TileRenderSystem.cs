@@ -12,8 +12,6 @@ namespace Villeon.Systems
 {
     internal class TileRenderSystem : IRenderSystem
     {
-        private Matrix4 _refCameraMatrix = Matrix4.Identity;
-
         private int _currentTexture = -1;
 
         public TileRenderSystem(string name, TileMap tileMap)

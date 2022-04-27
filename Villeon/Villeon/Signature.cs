@@ -19,15 +19,5 @@ namespace Villeon
 
             return false;
         }
-
-        public bool Has(ComponentFlag flag)
-        {
-            return _signature.HasFlag(flag);
-        }
-
-        public override string? ToString()
-        {
-            return _signature.ToString();
-        }
     }
 }

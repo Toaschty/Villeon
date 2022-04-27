@@ -103,15 +103,14 @@ namespace Villeon
             foreach (MouseHandler.ClickedMouseButton button in MouseHandler.ClickedMouseButtons)
             {
                 if (button.Button == MouseButton.Middle)
-                {
                     SceneLoader.LoadScene("VillageScene");
-                }
 
                 if (button.Button == MouseButton.Right)
-                {
                     SceneLoader.LoadScene("DungeonScene");
-                }
             }
+
+            if (KeyHandler.IsPressed(Keys.V))
+                SceneLoader.LoadScene("VillageScene");
 
             Manager.GetInstance().Update((float)args.Time);
             MouseHandler.ClickedMouseButtons.Clear();
