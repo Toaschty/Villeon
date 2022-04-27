@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Content\TileMap\Level.tmx" />
-    <None Remove="Content\TileMap\TilesetImages\tiles.png" />
+    <None Remove="Content\TileMap\DungeonTileMap.tmx" />
+    <None Remove="Content\TileMap\TilesetImages\DungeonTileSet.png" />
     <None Remove="Content\TileMap\TilesetImages\VillageTileSet.png" />
-    <None Remove="Content\TileMap\Tilesets\Platformer.tsx" />
+    <None Remove="Content\TileMap\Tilesets\DungeonTileSet.tsx" />
     <None Remove="Content\TileMap\Tilesets\VillageTileSet.tsx" />
     <None Remove="Content\TileMap\TX Plant.png" />
     <None Remove="Content\TileMap\TX Props.png" />
@@ -25,12 +25,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Content\TileMap\Level.tmx" />
-    <EmbeddedResource Include="Content\TileMap\TilesetImages\tiles.png" />
+    <EmbeddedResource Include="Content\TileMap\DungeonTileMap.tmx" />
+    <EmbeddedResource Include="Content\TileMap\TilesetImages\DungeonTileSet.png" />
     <EmbeddedResource Include="Content\TileMap\TilesetImages\VillageTileSet.png" />
-    <EmbeddedResource Include="Content\TileMap\Tilesets\Platformer.tsx" />
+    <EmbeddedResource Include="Content\TileMap\Tilesets\DungeonTileSet.tsx" />
     <EmbeddedResource Include="Content\TileMap\Tilesets\VillageTileSet.tsx" />
-    <EmbeddedResource Include="Content\TileMap\VillageMap.tmx" />
+    <EmbeddedResource Include="Content\TileMap\VillageTileMap.tmx" />
   </ItemGroup>
 
   <ItemGroup>
