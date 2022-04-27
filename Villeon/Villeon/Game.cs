@@ -60,12 +60,13 @@ namespace Villeon
 
         private void Init()
         {
+            ComponentTypes.Init();
+
             // Platformer Scene
             TileMap tileMap = new TileMap("Level.tmx", true);
             IEntity entity = new Entity("Marin");
             entity.AddComponent(new Physics());
             entity.AddComponent(new Collider(new Vector2(5.0f, 5.0f), 0.5f, 0.5f));
-            entity.AddComponent(new Transform(new Vector2(0.0f, 0.0f), 1.0f, 0.0f));
             entity.AddComponent(new Sprite(Color4.Cornsilk, new Vector2(1f, 1f)));
             entity.AddComponent(new Player());
 

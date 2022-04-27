@@ -20,7 +20,7 @@ namespace Villeon.Systems
         {
             Name = name;
             TileMap = tileMap;
-            Signature.Add<Tile>();
+            Signature.Add(ComponentFlag.TILE);
         }
 
         public string Name { get; }

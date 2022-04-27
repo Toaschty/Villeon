@@ -15,8 +15,8 @@ namespace Villeon.Systems
         public PlayerTopDownMovementSystem(string name)
         {
             Name = name;
-            Signature.Add<Collider>();
-            Signature.Add<Player>();
+            Signature.Add(ComponentFlag.COLLIDER);
+            Signature.Add(ComponentFlag.PLAYER);
         }
 
         public string Name { get; }

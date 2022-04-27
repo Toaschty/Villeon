@@ -13,8 +13,7 @@ namespace Villeon.Systems
         public CollisionSystem(string name)
         {
             Name = name;
-            Signature.Add<Transform>();
-            Signature.Add<Collider>();
+            Signature.Add(ComponentFlag.COLLIDER);
         }
 
         private enum Direction

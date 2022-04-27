@@ -15,7 +15,7 @@ namespace Villeon.Systems
         public ColliderRenderSystem(string name)
         {
             Name = name;
-            Signature.Add<Collider>();
+            Signature.Add(ComponentFlag.COLLIDER);
         }
 
         public string Name { get; }

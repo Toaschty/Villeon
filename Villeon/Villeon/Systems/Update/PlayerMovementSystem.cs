@@ -15,9 +15,9 @@ namespace Villeon.Systems
         public PlayerMovementSystem(string name)
         {
             Name = name;
-            Signature.Add<Physics>();
-            Signature.Add<Collider>();
-            Signature.Add<Player>();
+            Signature.Add(ComponentFlag.PHYSICS);
+            Signature.Add(ComponentFlag.COLLIDER);
+            Signature.Add(ComponentFlag.PLAYER);
         }
 
         public string Name { get; }

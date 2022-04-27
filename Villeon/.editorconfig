@@ -16,7 +16,7 @@ csharp_style_expression_bodied_accessors = true:silent
 csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = false:silent
 dotnet_diagnostic.SA1601.severity = warning
-dotnet_diagnostic.SA1602.severity = warning
+dotnet_diagnostic.SA1602.severity = silent
 
 # IDE0005: Using directive is unnecessary.
 dotnet_diagnostic.IDE0005.severity = none

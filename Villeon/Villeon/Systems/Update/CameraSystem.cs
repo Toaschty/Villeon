@@ -12,8 +12,8 @@ namespace Villeon.Systems
         public CameraSystem(string name)
         {
             Name = name;
-            Signature.Add<Player>();
-            Signature.Add<Collider>();
+            Signature.Add(ComponentFlag.PLAYER);
+            Signature.Add(ComponentFlag.COLLIDER);
         }
 
         public string Name { get; }

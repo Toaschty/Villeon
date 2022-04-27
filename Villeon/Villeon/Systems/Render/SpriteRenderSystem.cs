@@ -14,7 +14,7 @@ namespace Villeon.Systems
         public SpriteRenderSystem(string name)
         {
             Name = name;
-            Signature.Add<Sprite>();
+            Signature.Add(ComponentFlag.SPRITE);
         }
 
         public string Name { get; }

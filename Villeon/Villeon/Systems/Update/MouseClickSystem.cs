@@ -17,7 +17,6 @@ namespace Villeon.Systems
         public MouseClickSystem(string name)
         {
             Name = name;
-            Signature.Add<Collider>();
         }
 
         public string Name { get; }

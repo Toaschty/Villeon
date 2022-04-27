@@ -13,9 +13,8 @@ namespace Villeon.Systems
         public PhysicsSystem(string name)
         {
             Name = name;
-            Signature.Add<Physics>();
-            Signature.Add<Transform>();
-            Signature.Add<Collider>();
+            Signature.Add(ComponentFlag.PHYSICS);
+            Signature.Add(ComponentFlag.COLLIDER);
         }
 
         public string Name { get; }
