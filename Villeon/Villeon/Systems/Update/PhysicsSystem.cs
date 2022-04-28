@@ -70,7 +70,6 @@ namespace Villeon.Systems
                 Vector2 oldVelocity = physics.Velocity;
                 physics.Velocity += physics.Acceleration * time;
                 transform.Position += 0.5f * (oldVelocity + physics.Velocity) * time;
-                collider.Position += 0.5f * (oldVelocity + physics.Velocity) * time;
 
                 physics.Acceleration = Vector2.Zero;
             }

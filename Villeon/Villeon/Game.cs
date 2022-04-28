@@ -66,9 +66,8 @@ namespace Villeon
             TileMap tileMap = new TileMap("DungeonTileMap.tmx", true);
             IEntity entity = new Entity("Marin");
             entity.AddComponent(new Physics());
-            entity.AddComponent(new Collider(new Vector2(5.0f, 5.0f), 0.5f, 0.5f));
-            entity.AddComponent(new Collider(new Vector2(5.0f, 5.0f), 0.5f, 0.5f));
-            entity.AddComponent(new Collider(new Vector2(30.0f, 30.0f), 0.5f, 0.5f));
+            entity.AddComponent(new Transform(new Vector2(5f, 5f), 1f, 0f));
+            entity.AddComponent(new Collider(new Vector2(0, 0), new Vector2(5f, 5f), 0.5f, 0.5f));
             entity.AddComponent(new Sprite(Color4.Cornsilk, new Vector2(1f, 1f)));
             entity.AddComponent(new Player());
 

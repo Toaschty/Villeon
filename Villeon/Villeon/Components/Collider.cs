@@ -10,15 +10,16 @@ namespace Villeon.Components
     public class Collider : IComponent
     {
         private Vector2 _position;
+        private Vector2 _lastPosition;
+        private Vector2 _offset;
 
-        public Collider(Vector2 position, float width, float height)
+        public Collider(Vector2 offset, Vector2 position, float width, float height)
         {
-            Position = position;
-            LastPosition = position;
+            Position = position - offset;
+            LastPosition = position - offset;
             Width = width;
             Height = height;
-            LastCenter = new Vector2(position.X + (width / 2), position.Y + (height / 2));
-            Center = new Vector2(position.X + (width / 2), position.Y + (height / 2));
+            _offset = offset;
         }
 
         public bool HasMoved { get; set; } = false;
@@ -31,32 +32,28 @@ namespace Villeon.Components
 
         public bool HasCollidedRight { get; set; } = false;
 
-        public Vector2 LastPosition { get; private set; }
+        public Vector2 LastPosition
+        {
+            get { return _lastPosition; }
+            set { _lastPosition = value; }
+        }
 
         public Vector2 Position
         {
-            get
-            {
-                return _position;
-            }
-
-            set
-            {
-                if (!HasMoved)
-                {
-                    HasMoved = true;
-                    LastPosition = _position;
-                    LastCenter = new Vector2(_position.X + (Width / 2), _position.Y + (Height / 2));
-                }
-
-                _position = value;
-                Center = new Vector2(_position.X + (Width / 2), _position.Y + (Height / 2));
-            }
+            get { return _position; }
+            set { _position = value; }
         }
 
-        public Vector2 LastCenter { get; private set; }
+        public Vector2 Offset
+        {
+            get { return _offset; }
+            set { _offset = value; }
+        }
 
-        public Vector2 Center { get; private set; }
+        public Vector2 LastCenter
+        {
+            get { return new Vector2(_lastPosition.X + (Width / 2), _lastPosition.Y + (Height / 2)); }
+        }
 
         public float Width { get; set; }
 

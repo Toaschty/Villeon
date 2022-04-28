@@ -26,8 +26,8 @@ namespace Villeon.Systems
         {
             foreach (var entity in Entities)
             {
-                Collider collider = entity.GetComponent<Collider>();
-                Camera.SetTracker(collider.Center);
+                Transform transform = entity.GetComponent<Transform>();
+                Camera.SetTracker(transform.Position);
             }
         }
     }

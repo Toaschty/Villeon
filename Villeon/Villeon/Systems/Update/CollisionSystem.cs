@@ -168,6 +168,16 @@ namespace Villeon.Systems
             foreach (IEntity entity in Entities)
             {
                 Collider collider = entity.GetComponent<Collider>();
+                Transform transform = entity.GetComponent<Transform>();
+
+                collider.Position = transform.Position + collider.Offset;
+
+                if (transform.Position == collider.LastPosition)
+                    collider.HasMoved = false;
+                else
+                    collider.HasMoved = true;
+
+
                 collider.HasCollidedLeft = false;
                 collider.HasCollidedRight = false;
                 collider.HasCollidedTop = false;
@@ -182,6 +192,8 @@ namespace Villeon.Systems
             // Test against clean entities
             for (int i = 0; i < dirtyEntities.Count(); i++)
             {
+                if (i < 0) break;
+
                 bool clean = false;
                 IEntity entity = dirtyEntities[i];
                 Collider collider = entity.GetComponent<Collider>();
@@ -230,8 +242,7 @@ namespace Villeon.Systems
             {
                 Collider collider = entity.GetComponent<Collider>();
 
-                // collider.Position = collider.Position;
-                collider.HasMoved = false;
+                collider.LastPosition = collider.Position;
             }
         }
 
@@ -239,24 +250,29 @@ namespace Villeon.Systems
         {
             Collider collider = entity.GetComponent<Collider>();
             Collider e2Collider = entity2.GetComponent<Collider>();
+            Transform transform = entity.GetComponent<Transform>();
 
             switch (direction)
             {
                 case Direction.DOWN:
                     collider.HasCollidedTop = true;
                     collider.Position = new Vector2(collider.Position.X, e2Collider.Position.Y - collider.Height);
+                    transform.Position = new Vector2(collider.Position.X - collider.Offset.X, e2Collider.Position.Y - collider.Height - collider.Offset.Y);
                     break;
                 case Direction.UP:
                     collider.HasCollidedBottom = true;
                     collider.Position = new Vector2(collider.Position.X, e2Collider.Position.Y + e2Collider.Height);
+                    transform.Position = new Vector2(collider.Position.X - collider.Offset.X, e2Collider.Position.Y + e2Collider.Height - collider.Offset.Y);
                     break;
                 case Direction.LEFT:
                     collider.HasCollidedRight = true;
                     collider.Position = new Vector2(e2Collider.Position.X - collider.Width, collider.Position.Y);
+                    transform.Position = new Vector2(e2Collider.Position.X - collider.Width - collider.Offset.X, collider.Position.Y - collider.Offset.Y);
                     break;
                 case Direction.RIGHT:
                     collider.HasCollidedLeft = true;
                     collider.Position = new Vector2(e2Collider.Position.X + e2Collider.Width, collider.Position.Y);
+                    transform.Position = new Vector2(e2Collider.Position.X + e2Collider.Width - collider.Offset.X, collider.Position.Y - collider.Offset.Y);
                     break;
             }
         }
@@ -264,25 +280,29 @@ namespace Villeon.Systems
         private void HandleDirtyCollision(Direction direction, IEntity entity, IEntity entity2)
         {
             Collider collider = entity.GetComponent<Collider>();
-            Collider e2Collider = entity2.GetComponent<Collider>();
+            Transform transform = entity.GetComponent<Transform>();
 
             switch (direction)
             {
                 case Direction.DOWN:
                     collider.HasCollidedTop = true;
-                    collider.Position = new Vector2(collider.Position.X, collider.LastPosition.Y);
+                    transform.Position = new Vector2(collider.Position.X - collider.Offset.X, collider.LastPosition.Y - collider.Offset.Y);
+                    collider.Position = new Vector2(collider.Position.X - collider.Offset.X, collider.LastPosition.Y - collider.Offset.Y);
                     break;
                 case Direction.UP:
                     collider.HasCollidedBottom = true;
-                    collider.Position = new Vector2(collider.Position.X, collider.LastPosition.Y);
+                    transform.Position = new Vector2(collider.Position.X - collider.Offset.X, collider.LastPosition.Y - collider.Offset.Y);
+                    collider.Position = new Vector2(collider.Position.X - collider.Offset.X, collider.LastPosition.Y - collider.Offset.Y);
                     break;
                 case Direction.LEFT:
                     collider.HasCollidedRight = true;
-                    collider.Position = new Vector2(collider.LastPosition.X, collider.Position.Y);
+                    transform.Position = new Vector2(collider.LastPosition.X - collider.Offset.X, collider.Position.Y - collider.Offset.Y);
+                    collider.Position = new Vector2(collider.LastPosition.X - collider.Offset.X, collider.Position.Y - collider.Offset.Y);
                     break;
                 case Direction.RIGHT:
                     collider.HasCollidedLeft = true;
-                    collider.Position = new Vector2(collider.LastPosition.X, collider.Position.Y);
+                    transform.Position = new Vector2(collider.LastPosition.X - collider.Offset.X, collider.Position.Y - collider.Offset.Y);
+                    collider.Position = new Vector2(collider.LastPosition.X - collider.Offset.X, collider.Position.Y - collider.Offset.Y);
                     break;
             }
         }

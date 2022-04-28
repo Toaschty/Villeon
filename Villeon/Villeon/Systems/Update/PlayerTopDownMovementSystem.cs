@@ -32,8 +32,8 @@ namespace Villeon.Systems
 
             foreach (IEntity entity in Entities)
             {
-                Collider playerCollider = entity.GetComponent<Collider>();
-                playerCollider.Position += new Vector2(leftRightAxis, topDownAxis) * time * Constants.TOPDOWNMOVEMENTSPEED;
+                Transform playerTransform = entity.GetComponent<Transform>();
+                playerTransform.Position += new Vector2(leftRightAxis, topDownAxis) * time * Constants.TOPDOWNMOVEMENTSPEED;
             }
         }
     }
