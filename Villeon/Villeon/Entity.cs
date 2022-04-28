@@ -35,7 +35,7 @@ namespace Villeon
             where T : class, IComponent
         {
             _components.UnregisterTypeInstance<T>();
-            Signature.RemoveFromSignature<T>();
+            Signature = Signature.RemoveFromSignature<T>();
         }
 
         public T GetComponent<T>()
