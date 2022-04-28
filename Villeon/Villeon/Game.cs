@@ -23,6 +23,8 @@ namespace Villeon
 
         private Matrix4 _refCameraMatrix = Matrix4.Identity;
 
+        private IEntity entity;
+
         public void Start()
         {
             GameWindow gameWindow = WindowCreator.CreateWindow();
@@ -60,18 +62,20 @@ namespace Villeon
 
         private void Init()
         {
-            ComponentTypes.Init();
+            TypeRegistry.Init();
 
             // Platformer Scene
             TileMap tileMap = new TileMap("DungeonTileMap.tmx", true);
-            IEntity entity = new Entity("Marin");
+            entity = new Entity("Marin");
             entity.AddComponent(new Physics());
-            entity.AddComponent(new Collider(new Vector2(5.0f, 5.0f), 0.5f, 0.5f));
-            entity.AddComponent(new Collider(new Vector2(5.0f, 5.0f), 0.5f, 0.5f));
+            entity.AddComponent(new Physics());
+            entity.AddComponent(new Physics());
+            entity.AddComponent(new Collider(new Vector2(3.0f, 0.0f), 0.5f, 0.5f));
             entity.AddComponent(new Collider(new Vector2(30.0f, 30.0f), 0.5f, 0.5f));
             entity.AddComponent(new Sprite(Color4.Cornsilk, new Vector2(1f, 1f)));
             entity.AddComponent(new Player());
 
+            _dungeonScene.AddEntity(entity);
             _dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
             _dungeonScene.AddSystem(new PhysicsSystem("Physics"));
             _dungeonScene.AddSystem(new CollisionSystem("Collision"));
@@ -81,7 +85,6 @@ namespace Villeon
             _dungeonScene.AddSystem(new ColliderRenderSystem("CollisionSystem"));
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
             _dungeonScene.SetTileMap(tileMap);
-            _dungeonScene.AddEntity(entity);
 
             // Village Scene
             TileMap villageTileMap = new TileMap("VillageTileMap.tmx", false);
@@ -111,6 +114,7 @@ namespace Villeon
 
             if (KeyHandler.IsPressed(Keys.V))
                 SceneLoader.LoadScene("VillageScene");
+
 
             Manager.GetInstance().Update((float)args.Time);
             MouseHandler.ClickedMouseButtons.Clear();

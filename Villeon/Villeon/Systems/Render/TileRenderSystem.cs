@@ -10,22 +10,16 @@ using Villeon.Helper;
 
 namespace Villeon.Systems
 {
-    internal class TileRenderSystem : IRenderSystem
+    internal class TileRenderSystem : System, IRenderSystem
     {
         private int _currentTexture = -1;
 
         public TileRenderSystem(string name, TileMap tileMap)
+            : base(name)
         {
-            Name = name;
             TileMap = tileMap;
-            Signature.Add(ComponentFlag.TILE);
+            Signature = Signature.AddToSignature(typeof(Tile));
         }
-
-        public string Name { get; }
-
-        public List<IEntity> Entities { get; } = new ();
-
-        public Signature Signature { get; private set; } = new ();
 
         public TileMap TileMap { get; }
 

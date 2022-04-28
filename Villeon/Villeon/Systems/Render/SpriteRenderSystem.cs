@@ -5,23 +5,18 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
+using Villeon;
 using Villeon.Components;
 
 namespace Villeon.Systems
 {
-    public class SpriteRenderSystem : IRenderSystem
+    public class SpriteRenderSystem : System, IRenderSystem
     {
         public SpriteRenderSystem(string name)
+            : base(name)
         {
-            Name = name;
-            Signature.Add(ComponentFlag.SPRITE);
+            Signature = Signature.AddToSignature(typeof(Sprite));
         }
-
-        public string Name { get; }
-
-        public List<IEntity> Entities { get; } = new ();
-
-        public Signature Signature { get; } = new ();
 
         public void Render()
         {

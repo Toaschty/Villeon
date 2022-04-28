@@ -10,19 +10,13 @@ using Villeon.Helper;
 
 namespace Villeon.Systems
 {
-    public class ColliderRenderSystem : IRenderSystem
+    public class ColliderRenderSystem : System, IRenderSystem
     {
         public ColliderRenderSystem(string name)
+            : base(name)
         {
-            Name = name;
-            Signature.Add(ComponentFlag.COLLIDER);
+            Signature = Signature.AddToSignature(typeof(Collider));
         }
-
-        public string Name { get; }
-
-        public List<IEntity> Entities { get; } = new ();
-
-        public Signature Signature { get; private set; } = new ();
 
         public void Render()
         {

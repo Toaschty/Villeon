@@ -41,6 +41,19 @@ namespace Villeon
             _currentScene.Update(time);
         }
 
+        public void AddComponent(IEntity entity, IComponent component)
+        {
+            entity.AddComponent(component);
+            _currentScene.EntityComponentAdded(entity);
+        }
+
+        public void RemoveComponent<T>(IEntity entity)
+            where T : class, IComponent
+        {
+            entity.RemoveComponent<T>();
+            _currentScene.EntityComponentRemoved<T>(entity);
+        }
+
         public void Render()
         {
             _currentScene.Render();
@@ -65,5 +78,7 @@ namespace Villeon
         {
             return _currentScene.GetEntities();
         }
+
+
     }
 }

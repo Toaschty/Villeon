@@ -10,20 +10,14 @@ using Villeon.Helper;
 
 namespace Villeon.Systems
 {
-    internal class PlayerTopDownMovementSystem : IUpdateSystem
+    internal class PlayerTopDownMovementSystem : System, IUpdateSystem
     {
         public PlayerTopDownMovementSystem(string name)
+            : base(name)
         {
-            Name = name;
-            Signature.Add(ComponentFlag.COLLIDER);
-            Signature.Add(ComponentFlag.PLAYER);
+            Signature = Signature.AddToSignature(typeof(Collider));
+            Signature = Signature.AddToSignature(typeof(Player));
         }
-
-        public string Name { get; }
-
-        public List<IEntity> Entities { get; private set; } = new ();
-
-        public Signature Signature { get; private set; } = new ();
 
         public void Update(float time)
         {

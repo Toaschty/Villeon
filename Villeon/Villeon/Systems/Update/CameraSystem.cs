@@ -7,20 +7,14 @@ using Villeon.Components;
 
 namespace Villeon.Systems
 {
-    public class CameraSystem : IUpdateSystem
+    public class CameraSystem : System, IUpdateSystem
     {
         public CameraSystem(string name)
+            : base(name)
         {
-            Name = name;
-            Signature.Add(ComponentFlag.PLAYER);
-            Signature.Add(ComponentFlag.COLLIDER);
+            Signature = Signature.AddToSignature(typeof(Collider));
+            Signature = Signature.AddToSignature(typeof(Player));
         }
-
-        public string Name { get; }
-
-        public List<IEntity> Entities { get; private set; } = new ();
-
-        public Signature Signature { get; private set; } = new ();
 
         public void Update(float time)
         {

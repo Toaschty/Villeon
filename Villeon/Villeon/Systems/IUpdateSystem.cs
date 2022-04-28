@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Villeon.Systems
 {
-    public interface IUpdateSystem : ISystem, IUpdate
+    public interface IUpdateSystem : IUpdate, ISystem
     {
     }
 }

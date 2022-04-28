@@ -1,22 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Villeon.Components;
+using System.Text;
+using System.Threading.Tasks;
+using Villeon.Helper;
 
 namespace Villeon
 {
-    public class Signature
+    public static class Signature
     {
-        private ComponentFlag _signature = ComponentFlag.TRANSFORM;
-
-        public void Add(ComponentFlag flag) => _signature |= flag;
-
-        public void Add(IComponent component) => _signature |= ComponentTypes.GetFlag(component);
-
-        public bool Contains(Signature sigB)
+        public static ulong AddToSignature(this ulong signature, Type component)
         {
-            if (_signature.HasFlag(sigB._signature))
-                return true;
+            return signature |= TypeRegistry.GetFlag(component);
+        }
 
+        public static ulong RemoveFromSignature<T>(this ulong signature)
+            where T : class, IComponent
+        {
+            return signature &= ~TypeRegistry.GetFlag(typeof(T)); // Pain
+        }
+
+        public static bool Contains(this ulong sig, ulong signature)
+        {
+            if ((sig & signature) == signature)
+                return true;
             return false;
         }
     }

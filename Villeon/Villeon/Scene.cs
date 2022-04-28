@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Villeon.Systems;
 
@@ -31,9 +32,30 @@ namespace Villeon
             foreach (IEntity entity in _entities)
             {
                 if (entity.Signature.Contains(system.Signature))
-                {
                     system.Entities.Add(entity);
-                }
+            }
+        }
+
+        [Obsolete]
+        public void EntityComponentAdded(IEntity entity)
+        {
+            AddToSystems(entity);
+        }
+
+        [Obsolete]
+        public void EntityComponentRemoved<T>(IEntity entity)
+            where T : class, IComponent
+        {
+            foreach (IUpdateSystem updateSystem in _updateSystems)
+            {
+                if (updateSystem.Signature.Contains(TypeRegistry.GetFlag(typeof(T))))
+                    updateSystem.Entities.Remove(entity);
+            }
+
+            foreach (IRenderSystem renderSystem in _renderSystems)
+            {
+                if (renderSystem.Signature.Contains(TypeRegistry.GetFlag(typeof(T))))
+                    renderSystem.Entities.Remove(entity);
             }
         }
 
@@ -59,16 +81,7 @@ namespace Villeon
         {
             bool removed = false;
             removed = _entities.Remove(entity);
-            foreach (IUpdateSystem updateSystem in _updateSystems)
-            {
-                updateSystem.Entities.Remove(entity);
-            }
-
-            foreach (IRenderSystem renderSystem in _renderSystems)
-            {
-                renderSystem.Entities.Remove(entity);
-            }
-
+            RemoveFromSystems(entity);
             return removed;
         }
 
@@ -109,34 +122,34 @@ namespace Villeon
         {
             foreach (ISystem system in _updateSystems)
             {
-                if (entity.Signature.Contains(system.Signature))
+                if (!system.Entities.Contains(entity))
                 {
-                    system.Entities.Add(entity);
+                    if (entity.Signature.Contains(system.Signature))
+                        system.Entities.Add(entity);
                 }
             }
 
             foreach (IRenderSystem renderSystem in _renderSystems)
             {
-                if (entity.Signature.Contains(renderSystem.Signature))
+                if (!renderSystem.Entities.Contains(entity))
                 {
-                    renderSystem.Entities.Add(entity);
+                    if (entity.Signature.Contains(renderSystem.Signature))
+                        renderSystem.Entities.Add(entity);
                 }
             }
         }
+
+        private void RemoveFromSystems(IEntity entity)
+        {
+            foreach (IUpdateSystem updateSystem in _updateSystems)
+            {
+                updateSystem.Entities.Remove(entity);
+            }
+
+            foreach (IRenderSystem renderSystem in _renderSystems)
+            {
+                renderSystem.Entities.Remove(entity);
+            }
+        }
     }
-
-    //class SystemComparer : IEqualityComparer<ISystem>
-    //{
-    //    public bool Equals(ISystem? x, ISystem? y)
-    //    {
-    //        if (x.GetType() == y.GetType())
-    //            return true;
-    //        return false;
-    //    }
-
-    //    public int GetHashCode([DisallowNull] ISystem obj)
-    //    {
-    //        return 1;
-    //    }
-    //}
 }

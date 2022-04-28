@@ -8,12 +8,12 @@ using Villeon.Components;
 
 namespace Villeon.Systems
 {
-    public class CollisionSystem : IUpdateSystem
+    public class CollisionSystem : System, IUpdateSystem
     {
         public CollisionSystem(string name)
+            : base(name)
         {
-            Name = name;
-            Signature.Add(ComponentFlag.COLLIDER);
+            Signature = Signature.AddToSignature(typeof(Collider));
         }
 
         private enum Direction
@@ -24,12 +24,6 @@ namespace Villeon.Systems
             RIGHT,
             NONE,
         }
-
-        public string Name { get; }
-
-        public List<IEntity> Entities { get; private set; } = new ();
-
-        public Signature Signature { get; private set; } = new ();
 
         public static List<Vector2> CreatePolygon(Collider collider)
         {

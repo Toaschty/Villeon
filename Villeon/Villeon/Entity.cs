@@ -5,36 +5,43 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
+using Villeon.Helper;
 
 namespace Villeon
 {
     public class Entity : IEntity
     {
-        private IComponent[] _components = new IComponent[ComponentTypes.NUMBEROFCOMPONENTS];
+        private TypeRegistry _components = new TypeRegistry();
+
+        public ulong Signature { get; set; } = 0;
 
         public Entity(string name)
         {
             Name = name;
-            _components[(int)ComponentIndex.TRANSFORM] = new Transform(new Vector2(0f, 0f), 1f, 0f);
+            AddComponent(new Transform(new Vector2(0f, 0f), 1f, 0f));
         }
 
         public bool Enabled { get; set; } = true;
 
         public string Name { get; }
 
-        public Signature Signature { get; } = new ();
-
         public void AddComponent(IComponent component)
         {
-            // Add the component if the component flag isn't already set
-            _components[(int)ComponentTypes.GetIndex(component)] = component;
-            Signature.Add(component);
+            _components.RegisterTypeInstance(component);
+            Signature = Signature.AddToSignature(component.GetType());
+        }
+
+        public void RemoveComponent<T>()
+            where T : class, IComponent
+        {
+            _components.UnregisterTypeInstance<T>();
+            Signature.RemoveFromSignature<T>();
         }
 
         public T GetComponent<T>()
             where T : class, IComponent
         {
-            return _components[(int)ComponentTypes.GetIndex<T>()] as T;
+            return _components.GetInstance<T>();
         }
     }
 }

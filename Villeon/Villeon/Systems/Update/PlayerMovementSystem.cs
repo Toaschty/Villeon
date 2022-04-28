@@ -10,21 +10,15 @@ using Villeon.Helper;
 
 namespace Villeon.Systems
 {
-    public class PlayerMovementSystem : IUpdateSystem
+    public class PlayerMovementSystem : System, IUpdateSystem
     {
         public PlayerMovementSystem(string name)
+            : base(name)
         {
-            Name = name;
-            Signature.Add(ComponentFlag.PHYSICS);
-            Signature.Add(ComponentFlag.COLLIDER);
-            Signature.Add(ComponentFlag.PLAYER);
+            Signature = Signature.AddToSignature(typeof(Physics));
+            Signature = Signature.AddToSignature(typeof(Collider));
+            Signature = Signature.AddToSignature(typeof(Player));
         }
-
-        public string Name { get; }
-
-        public List<IEntity> Entities { get; private set; } = new ();
-
-        public Signature Signature { get; private set; } = new ();
 
         public void Update(float time)
         {

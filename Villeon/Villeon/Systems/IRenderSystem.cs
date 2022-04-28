@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Villeon.Systems
 {
-    public interface IRenderSystem : ISystem, IRender
+    public interface IRenderSystem : IRender, ISystem
     {
     }
 }

@@ -8,20 +8,14 @@ using Villeon.Components;
 
 namespace Villeon.Systems
 {
-    public class PhysicsSystem : IUpdateSystem
+    public class PhysicsSystem : System, IUpdateSystem
     {
         public PhysicsSystem(string name)
+            : base(name)
         {
-            Name = name;
-            Signature.Add(ComponentFlag.PHYSICS);
-            Signature.Add(ComponentFlag.COLLIDER);
+            Signature = Signature.AddToSignature(typeof(Physics));
+            Signature = Signature.AddToSignature(typeof(Collider));
         }
-
-        public string Name { get; }
-
-        public List<IEntity> Entities { get; } = new ();
-
-        public Signature Signature { get; } = new ();
 
         public void Update(float time)
         {
