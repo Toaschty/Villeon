@@ -24,10 +24,12 @@ namespace Villeon.Systems
         {
             Physics physics;
             Collider collider;
+            Transform transform;
             foreach (IEntity entity in Entities)
             {
                 physics = entity.GetComponent<Physics>();
                 collider = entity.GetComponent<Collider>();
+                transform = entity.GetComponent<Transform>();
 
                 if (KeyHandler.IsPressed(Keys.D))
                 {
@@ -48,9 +50,8 @@ namespace Villeon.Systems
                 //Debug Reset Position
                 if (KeyHandler.IsPressed(Keys.R))
                 {
-                    collider.Position = new Vector2(5f, 5f);
-                    collider.HasMoved = false;
-                    collider.Position = new Vector2(5f, 5f);
+                    transform.Position = new Vector2(5f, 5f);
+                    collider.LastPosition = new Vector2(5f, 5f);
                     physics.Velocity = Vector2.Zero;
                 }
 

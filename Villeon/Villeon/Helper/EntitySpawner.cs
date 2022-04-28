@@ -18,7 +18,7 @@ namespace Villeon
         public void Spawn(Vector2 position)
         {
             IEntity entity = new Entity("Peter");
-            entity.AddComponent(new Collider(position, 2.0f, 2.0f));
+            entity.AddComponent(new Collider(Vector2.Zero, position, 2.0f, 2.0f));
             entity.AddComponent(new Transform(position, 1.0f, 1.0f));
             entity.AddComponent(new Physics());
             Manager.GetInstance().AddEntity(entity);

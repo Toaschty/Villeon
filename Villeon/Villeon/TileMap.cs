@@ -152,7 +152,7 @@
                                     // Generate new entity for collision
                                     IEntity collisionEntity = new Entity("CollisonTile");
                                     collisionEntity.AddComponent(new Transform(new Vector2(x, layer.Height - 1 - y) + collider.Min, collider.Size.X, collider.Size.Y));
-                                    collisionEntity.AddComponent(new Collider(new Vector2(x, layer.Height - 1 - y) + collider.Min, collider.Size.X, collider.Size.Y));
+                                    collisionEntity.AddComponent(new Collider(new Vector2(0, 0), new Vector2(x, layer.Height - 1 - y) + collider.Min, collider.Size.X, collider.Size.Y));
                                     Entities.Add(collisionEntity);
                                 }
                             }
@@ -267,8 +267,8 @@
                             else
                             {
                                 IEntity entity = new Entity("Map");
-                                entity.AddComponent(new Collider(new Vector2(min.X, (max.Y * -1) + _map.Height - 1), max.X - min.X + 1, max.Y - min.Y + 1));
-                                entity.AddComponent(new Transform(new Vector2(min.X, (max.Y * -1) + _map.Height - 1), max.X - min.X + 1, max.Y - min.Y + 1));
+                                entity.AddComponent(new Transform(new Vector2(min.X, (max.Y * -1) + _map.Height - 1), 0, 0));
+                                entity.AddComponent(new Collider(new Vector2(0, 0), new Vector2(min.X, (max.Y * -1) + _map.Height - 1), max.X - min.X + 1, max.Y - min.Y + 1));
                                 Entities.Add(entity);
                                 min = new Vector2(-1, -1);
                                 max = new Vector2(-1, -1);
