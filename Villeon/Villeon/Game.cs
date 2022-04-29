@@ -23,9 +23,9 @@ namespace Villeon
 
         private Matrix4 _refCameraMatrix = Matrix4.Identity;
 
-        private IEntity entity;
+        private IEntity _entity;
 
-        private float timeCounter;
+        private float _timeCounter;
 
         public void Start()
         {
@@ -68,15 +68,15 @@ namespace Villeon
 
             // Platformer Scene
             TileMap tileMap = new TileMap("DungeonTileMap.tmx", true);
-            entity = new Entity("Marin");
-            entity.AddComponent(new Physics());
-            entity.AddComponent(new Physics());
-            entity.AddComponent(new Physics());
-            entity.AddComponent(new Collider(new Vector2(0.0f, 0.0f), new Vector2(30.0f, 30.0f), 0.5f, 0.5f));
-            entity.AddComponent(new Sprite(Color4.Cornsilk, new Vector2(1f, 1f)));
-            entity.AddComponent(new Player());
+            _entity = new Entity("Marin");
+            _entity.AddComponent(new Physics());
+            _entity.AddComponent(new Physics());
+            _entity.AddComponent(new Physics());
+            _entity.AddComponent(new Collider(new Vector2(0.0f, 0.0f), new Vector2(30.0f, 30.0f), 0.5f, 0.5f));
+            _entity.AddComponent(new Sprite(Color4.Cornsilk, new Vector2(1f, 1f)));
+            _entity.AddComponent(new Player());
 
-            _dungeonScene.AddEntity(entity);
+            _dungeonScene.AddEntity(_entity);
             _dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
             _dungeonScene.AddSystem(new PhysicsSystem("Physics"));
             _dungeonScene.AddSystem(new CollisionSystem("Collision"));
@@ -88,7 +88,6 @@ namespace Villeon
             _dungeonScene.SetTileMap(tileMap);
 
             // Village Scene
-            entity.RemoveComponent<Physics>();
             TileMap villageTileMap = new TileMap("VillageTileMap.tmx", false);
             _villageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
             _villageScene.AddSystem(new PhysicsSystem("Physics"));
@@ -99,7 +98,7 @@ namespace Villeon
             _villageScene.AddSystem(new ColliderRenderSystem("CollisionSystem"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.SetTileMap(villageTileMap);
-            _villageScene.AddEntity(entity);
+            _villageScene.AddEntity(_entity);
         }
 
         private void UpdateFrame(FrameEventArgs args)
@@ -135,11 +134,11 @@ namespace Villeon
 
         private void DebugPrints(float time)
         {
-            timeCounter += time;
-            if (timeCounter > 0.1)
+            _timeCounter += time;
+            if (_timeCounter > 0.1)
             {
                 ClearConsole();
-                Console.WriteLine("Entities: " + Manager.GetInstance().GetEntities().Count() + " Time: " + timeCounter);
+                Console.WriteLine("Entities: " + Manager.GetInstance().GetEntities().Count() + " Time: " + _timeCounter);
 
                 foreach (var system in Manager.GetInstance().GetUpdateSystems())
                 {
@@ -150,8 +149,9 @@ namespace Villeon
                 {
                     Console.WriteLine("System: " + render + " Entities: " + render.Entities.Count);
                 }
-
-                timeCounter = 0;
+                Console.WriteLine(CollisionSystem.colliderCalls);
+                CollisionSystem.colliderCalls = 0;
+                _timeCounter = 0;
             }
 
             void ClearConsole()
@@ -160,7 +160,6 @@ namespace Villeon
                 {
                     Console.SetCursorPosition(0, i);
                     Console.Write("\r" + new string(' ', Console.WindowWidth - 1) + "\r");
-
                 }
 
                 Console.SetCursorPosition(0, 0);
