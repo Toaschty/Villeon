@@ -6,7 +6,28 @@ namespace Villeon
 {
     public class TypeRegistry
     {
+        private static Dictionary<Type, ulong> _flags = new ();
+
         private readonly Dictionary<Type, object> _types = new ();
+
+        public static void Init()
+        {
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(x => x.GetTypes())
+            .Where(p => typeof(IComponent).IsAssignableFrom(p) && !p.IsInterface);
+
+            ulong i = 1;
+            foreach (var type in types)
+            {
+                _flags[type] = i;
+                i *= 2;
+            }
+        }
+
+        public static ulong GetFlag(Type type)
+        {
+            return _flags[type];
+        }
 
         public bool Contains<TYPE>() => _types.ContainsKey(typeof(TYPE));
 
@@ -33,27 +54,6 @@ namespace Villeon
             }
 
             return null;
-        }
-
-        private static Dictionary<Type, ulong> _flags = new();
-
-        public static void Init()
-        {
-            var types = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(x => x.GetTypes())
-            .Where(p => typeof(IComponent).IsAssignableFrom(p) && !p.IsInterface);
-
-            ulong i = 1;
-            foreach (var type in types)
-            {
-                _flags[type] = i;
-                i *= 2;
-            }
-        }
-
-        public static ulong GetFlag(Type type)
-        {
-            return _flags[type];
         }
     }
 }

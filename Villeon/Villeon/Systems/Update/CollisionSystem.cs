@@ -171,7 +171,6 @@ namespace Villeon.Systems
                 else
                     collider.HasMoved = true;
 
-
                 collider.HasCollidedLeft = false;
                 collider.HasCollidedRight = false;
                 collider.HasCollidedTop = false;
@@ -358,27 +357,26 @@ namespace Villeon.Systems
             }
 
             //Check if collided already last update
-            /*if(CollidesLastLastAABB(a, b))
+            if (CollidesLastLastAABB(a, b))
             {
-                if (mTop > 0 && float.IsFinite(mTop)) mTop = float.PositiveInfinity;
-                if (mBottom > 0 && float.IsFinite(mBottom)) mBottom = float.PositiveInfinity;
-                if (mRight > 0 && float.IsFinite(mRight)) mRight = float.PositiveInfinity;
-                if (mLeft > 0 && float.IsFinite(mLeft)) mLeft = float.PositiveInfinity;
+                if (mulitplierTop > 0 && float.IsFinite(mulitplierTop)) mulitplierTop = float.PositiveInfinity;
+                if (mulitplierBottom > 0 && float.IsFinite(mulitplierBottom)) mulitplierBottom = float.PositiveInfinity;
+                if (mulitplierRight > 0 && float.IsFinite(mulitplierRight)) mulitplierRight = float.PositiveInfinity;
+                if (mulitplierLeft > 0 && float.IsFinite(mulitplierLeft)) mulitplierLeft = float.PositiveInfinity;
 
-                mTop = MathF.Abs(mTop);
-                mBottom = MathF.Abs(mBottom);
-                mRight = MathF.Abs(mRight);
-                mLeft = MathF.Abs(mLeft);
+                mulitplierTop = MathF.Abs(mulitplierTop);
+                mulitplierBottom = MathF.Abs(mulitplierBottom);
+                mulitplierRight = MathF.Abs(mulitplierRight);
+                mulitplierLeft = MathF.Abs(mulitplierLeft);
             }
             else
             {
-            }*/
-
-            // if vector goes backwards it's automatically not the right direction
-            if (mulitplierTop < 0 && float.IsFinite(mulitplierTop)) mulitplierTop = float.PositiveInfinity;
-            if (mulitplierBottom < 0 && float.IsFinite(mulitplierBottom)) mulitplierBottom = float.PositiveInfinity;
-            if (mulitplierRight < 0 && float.IsFinite(mulitplierRight)) mulitplierRight = float.PositiveInfinity;
-            if (mulitplierLeft < 0 && float.IsFinite(mulitplierLeft)) mulitplierLeft = float.PositiveInfinity;
+                // if vector goes backwards it's automatically not the right direction
+                if (mulitplierTop < 0 && float.IsFinite(mulitplierTop)) mulitplierTop = float.PositiveInfinity;
+                if (mulitplierBottom < 0 && float.IsFinite(mulitplierBottom)) mulitplierBottom = float.PositiveInfinity;
+                if (mulitplierRight < 0 && float.IsFinite(mulitplierRight)) mulitplierRight = float.PositiveInfinity;
+                if (mulitplierLeft < 0 && float.IsFinite(mulitplierLeft)) mulitplierLeft = float.PositiveInfinity;
+            }
 
             if (v.X == 0)
             {
@@ -403,6 +401,15 @@ namespace Villeon.Systems
                 return Direction.DOWN;
 
             return Direction.NONE;
+        }
+
+        private bool CollidesLastLastAABB(Collider a, Collider b)
+        {
+            if (a.LastPosition.X >= (b.LastPosition.X + b.Width) || b.LastPosition.X >= (a.LastPosition.X + a.Width))
+                return false;
+            if (a.LastPosition.Y >= (b.LastPosition.Y + b.Height) || b.LastPosition.Y >= (a.LastPosition.Y + a.Height))
+                return false;
+            return true;
         }
 
         private bool CollidesAABB(Collider a, Collider b)

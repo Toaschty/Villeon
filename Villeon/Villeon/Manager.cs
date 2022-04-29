@@ -78,7 +78,5 @@ namespace Villeon
         {
             return _currentScene.GetEntities();
         }
-
-
     }
 }

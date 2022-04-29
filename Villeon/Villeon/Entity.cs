@@ -13,13 +13,13 @@ namespace Villeon
     {
         private TypeRegistry _components = new TypeRegistry();
 
-        public ulong Signature { get; set; } = 0;
-
         public Entity(string name)
         {
             Name = name;
             AddComponent(new Transform(new Vector2(0f, 0f), 1f, 0f));
         }
+
+        public ulong Signature { get; set; } = 0;
 
         public bool Enabled { get; set; } = true;
 

@@ -23,7 +23,7 @@ namespace Villeon
 
         private Matrix4 _refCameraMatrix = Matrix4.Identity;
 
-        private IEntity entity;
+        private IEntity _entity;
 
         public void Start()
         {
@@ -66,15 +66,15 @@ namespace Villeon
 
             // Platformer Scene
             TileMap tileMap = new TileMap("DungeonTileMap.tmx", true);
-            entity = new Entity("Marin");
-            entity.AddComponent(new Physics());
-            entity.AddComponent(new Physics());
-            entity.AddComponent(new Physics());
-            entity.AddComponent(new Collider(new Vector2(0.0f, 0.0f), new Vector2(30.0f, 30.0f), 0.5f, 0.5f));
-            entity.AddComponent(new Sprite(Color4.Cornsilk, new Vector2(1f, 1f)));
-            entity.AddComponent(new Player());
+            _entity = new Entity("Marin");
+            _entity.AddComponent(new Physics());
+            _entity.AddComponent(new Physics());
+            _entity.AddComponent(new Physics());
+            _entity.AddComponent(new Collider(new Vector2(0.0f, 0.0f), new Vector2(30.0f, 30.0f), 0.5f, 0.5f));
+            _entity.AddComponent(new Sprite(Color4.Cornsilk, new Vector2(1f, 1f)));
+            _entity.AddComponent(new Player());
 
-            _dungeonScene.AddEntity(entity);
+            _dungeonScene.AddEntity(_entity);
             _dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
             _dungeonScene.AddSystem(new PhysicsSystem("Physics"));
             _dungeonScene.AddSystem(new CollisionSystem("Collision"));
@@ -83,6 +83,7 @@ namespace Villeon
             _dungeonScene.AddSystem(new SpriteRenderSystem("SpriteRenderSystem"));
             _dungeonScene.AddSystem(new ColliderRenderSystem("CollisionSystem"));
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
+            _dungeonScene.AddSystem(new SimpleAISystem("SimpleAISystem"));
             _dungeonScene.SetTileMap(tileMap);
 
             // Village Scene
@@ -95,7 +96,7 @@ namespace Villeon
             _villageScene.AddSystem(new ColliderRenderSystem("CollisionSystem"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.SetTileMap(villageTileMap);
-            _villageScene.AddEntity(entity);
+            _villageScene.AddEntity(_entity);
         }
 
         private void UpdateFrame(FrameEventArgs args)
@@ -113,7 +114,6 @@ namespace Villeon
 
             if (KeyHandler.IsPressed(Keys.V))
                 SceneLoader.LoadScene("VillageScene");
-
 
             Manager.GetInstance().Update((float)args.Time);
             MouseHandler.ClickedMouseButtons.Clear();
