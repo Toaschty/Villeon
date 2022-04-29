@@ -26,10 +26,10 @@ namespace Villeon.Systems
             {
                 if (button.Button == MouseButton.Left)
                 {
-                    //_entitySpawner.Spawn(button.MousePosition);
+                    _entitySpawner.Spawn(button.MousePosition);
                 }
 
-                if (button.Button == MouseButton.Left)
+                if (button.Button == MouseButton.Middle)
                 {
                     for (int i = 0; i < Entities.Count(); i++)
                     {
@@ -37,7 +37,6 @@ namespace Villeon.Systems
                         if ((button.MousePosition.X > collider.Position.X) && (button.MousePosition.X < collider.Position.X + collider.Width) &&
                             (button.MousePosition.Y > collider.Position.Y) && (button.MousePosition.Y < collider.Position.Y + collider.Height))
                         {
-                            //Manager.GetInstance().RemoveEntity(Entities[i]);
                             Manager.GetInstance().AddComponent(Entities[i], new Physics());
                         }
                     }
