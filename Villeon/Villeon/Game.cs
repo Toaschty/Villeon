@@ -25,6 +25,8 @@ namespace Villeon
 
         private IEntity _entity;
 
+        private float _timeCounter;
+
         public void Start()
         {
             GameWindow gameWindow = WindowCreator.CreateWindow();
@@ -89,6 +91,7 @@ namespace Villeon
             // Village Scene
             TileMap villageTileMap = new TileMap("VillageTileMap.tmx", false);
             _villageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
+            _villageScene.AddSystem(new PhysicsSystem("Physics"));
             _villageScene.AddSystem(new CollisionSystem("Collision"));
             _villageScene.AddSystem(new TileRenderSystem("TileRenderSystem", villageTileMap));
             _villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
@@ -101,7 +104,7 @@ namespace Villeon
 
         private void UpdateFrame(FrameEventArgs args)
         {
-            Console.Write("Entities: " + Manager.GetInstance().GetEntities().Count() + "      \r");
+            DebugPrints((float)args.Time);
 
             foreach (MouseHandler.ClickedMouseButton button in MouseHandler.ClickedMouseButtons)
             {
@@ -127,6 +130,40 @@ namespace Villeon
             GL.LoadMatrix(ref _refCameraMatrix);
 
             Manager.GetInstance().Render();
+        }
+
+        private void DebugPrints(float time)
+        {
+            _timeCounter += time;
+            if (_timeCounter > 0.1)
+            {
+                ClearConsole();
+                Console.WriteLine("Entities: " + Manager.GetInstance().GetEntities().Count() + " Time: " + _timeCounter);
+
+                foreach (var system in Manager.GetInstance().GetUpdateSystems())
+                {
+                    Console.WriteLine("System: " + system + " Entities: " + system.Entities.Count);
+                }
+
+                foreach (var render in Manager.GetInstance().GetRenderSystems())
+                {
+                    Console.WriteLine("System: " + render + " Entities: " + render.Entities.Count);
+                }
+                Console.WriteLine(CollisionSystem.colliderCalls);
+                CollisionSystem.colliderCalls = 0;
+                _timeCounter = 0;
+            }
+
+            void ClearConsole()
+            {
+                for (int i = 0; i < Console.WindowHeight; i++)
+                {
+                    Console.SetCursorPosition(0, i);
+                    Console.Write("\r" + new string(' ', Console.WindowWidth - 1) + "\r");
+                }
+
+                Console.SetCursorPosition(0, 0);
+            }
         }
     }
 }

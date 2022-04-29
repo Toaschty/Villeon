@@ -36,13 +36,11 @@ namespace Villeon
             }
         }
 
-        [Obsolete]
         public void EntityComponentAdded(IEntity entity)
         {
             AddToSystems(entity);
         }
 
-        [Obsolete]
         public void EntityComponentRemoved<T>(IEntity entity)
             where T : class, IComponent
         {

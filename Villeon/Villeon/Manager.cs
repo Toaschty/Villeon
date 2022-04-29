@@ -78,5 +78,16 @@ namespace Villeon
         {
             return _currentScene.GetEntities();
         }
+
+        public HashSet<IUpdateSystem> GetUpdateSystems()
+        {
+            return _currentScene.GetUpdateSystems();
+        }
+
+        public HashSet<IRenderSystem> GetRenderSystems()
+        {
+            return _currentScene.GetRenderSystems();
+        }
+
     }
 }
