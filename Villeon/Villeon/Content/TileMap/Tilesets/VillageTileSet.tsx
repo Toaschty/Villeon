@@ -468,6 +468,69 @@
    </object>
   </objectgroup>
  </tile>
+ <tile id="418">
+  <animation>
+   <frame tileid="418" duration="1000"/>
+   <frame tileid="419" duration="1000"/>
+   <frame tileid="420" duration="1000"/>
+  </animation>
+ </tile>
+ <tile id="419">
+  <animation>
+   <frame tileid="419" duration="1000"/>
+   <frame tileid="420" duration="1000"/>
+   <frame tileid="418" duration="1000"/>
+  </animation>
+ </tile>
+ <tile id="420">
+  <animation>
+   <frame tileid="420" duration="1000"/>
+   <frame tileid="418" duration="1000"/>
+   <frame tileid="419" duration="1000"/>
+  </animation>
+ </tile>
+ <tile id="450">
+  <animation>
+   <frame tileid="450" duration="1000"/>
+   <frame tileid="451" duration="1000"/>
+   <frame tileid="452" duration="1000"/>
+  </animation>
+ </tile>
+ <tile id="451">
+  <animation>
+   <frame tileid="451" duration="1000"/>
+   <frame tileid="452" duration="1000"/>
+   <frame tileid="450" duration="1000"/>
+  </animation>
+ </tile>
+ <tile id="452">
+  <animation>
+   <frame tileid="452" duration="1000"/>
+   <frame tileid="450" duration="1000"/>
+   <frame tileid="451" duration="1000"/>
+  </animation>
+ </tile>
+ <tile id="482">
+  <animation>
+   <frame tileid="482" duration="1000"/>
+   <frame tileid="483" duration="1000"/>
+   <frame tileid="484" duration="1000"/>
+  </animation>
+ </tile>
+ <tile id="483">
+  <animation>
+   <frame tileid="483" duration="1000"/>
+   <frame tileid="484" duration="1000"/>
+   <frame tileid="482" duration="1000"/>
+  </animation>
+ </tile>
+ <tile id="484">
+  <animation>
+   <frame tileid="484" duration="1000"/>
+   <frame tileid="482" duration="1000"/>
+   <frame tileid="483" duration="1000"/>
+  </animation>
+ </tile>
  <tile id="517">
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="9">

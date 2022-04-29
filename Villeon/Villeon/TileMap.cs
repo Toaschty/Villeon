@@ -19,7 +19,8 @@
         private readonly TiledLib.Map _map;
 
         // Dictionary tileId => Tile object
-        private Dictionary<uint, Villeon.Components.Tile> _tiles = new ();
+        public Dictionary<uint, Villeon.Components.Tile> _tiles = new ();
+        public Dictionary<uint, Villeon.Components.AnimatedTile> _animTiles = new ();
 
         // Used for generating optimized colliders
         private bool[,] _colliderGrid;
@@ -27,7 +28,7 @@
         private bool _collisionOptimization = false;
 
         // XML
-        private XmlReader? _tileSetReader;
+        private XmlDocument? _tileSetReader;
 
         public TileMap(string mapName, bool enableCollisionOptimization)
         {
@@ -44,14 +45,36 @@
         public List<IEntity> Entities { get; set; } = new List<IEntity>();
 
         // Read collisions from tilemap
-        public void GetCollisionBoxes()
+        public void GetAdditionalData()
         {
             // Go through all tilesets
             foreach (var tileSet in _map.Tilesets)
             {
-                _tileSetReader = XmlReader.Create(ResourceLoader.LoadContentAsStream("TileMap.Tilesets." + tileSet.Name + ".tsx"));
+                //_tileSetReader = XmlReader.Create(ResourceLoader.LoadContentAsStream("TileMap.Tilesets." + tileSet.Name + ".tsx"));
+                _tileSetReader = new XmlDocument();
+                _tileSetReader.Load(ResourceLoader.LoadContentAsStream("TileMap.Tilesets." + tileSet.Name + ".tsx"));
 
+                XmlNodeList tileNodes = _tileSetReader.SelectNodes("tileset/tile");
+                foreach (XmlNode tileNode in tileNodes)
+                {
+                    uint tileId = uint.Parse(tileNode.Attributes["id"].Value);
+                    Tile currentTile = _tiles[tileId + 1];
+
+                    foreach (XmlNode child in tileNode.ChildNodes)
+                    {
+                        if (child.Name == "objectgroup")
+                        {
+                            GetCollisionData(child, tileId, tileSet);
+                        }
+
+                        if (child.Name == "animation")
+                        {
+                            GetAnimationData(child, tileId);
+                        }
+                    }
+                }
                 // Go through all tiles in file
+                /*
                 while (_tileSetReader.ReadToFollowing("tile"))
                 {
                     // Read id of tile
@@ -62,51 +85,130 @@
                     Tile currentTile = _tiles[tileId + 1];
 
                     // Open element "objectgroup" as new XMLReader
-                    _tileSetReader.ReadToFollowing("objectgroup");
-                    XmlReader collisionReader = _tileSetReader.ReadSubtree();
+                    if (_tileSetReader.ReadToDescendant("objectgroup"))
+                    {
+                        GetCollisionData(tileId, tileSet);
+                    }
 
                     // Go through all collisions from a tile
-                    while (collisionReader.ReadToFollowing("object"))
+                    if (_tileSetReader.ReadToDescendant("animation"))
                     {
-                        // // Calculate offset
-                        Vector2 offset = new ();
-
-                        // Get x from reader
-                        _tileSetReader.MoveToAttribute("x");
-                        offset.X = float.Parse(_tileSetReader.Value);
-
-                        // Get y from reader
-                        _tileSetReader.MoveToAttribute("y");
-                        offset.Y = float.Parse(_tileSetReader.Value);
-
-                        // // Calculate size of collider
-                        // Move to collision coordinates within tile
-                        _tileSetReader.ReadToFollowing("polygon");
-                        _tileSetReader.MoveToAttribute("points");
-
-                        // Get coordinates by splitting string
-                        string[] coords = _tileSetReader.Value.Split(' ', ',');
-
-                        // Create collider bounds
-                        Vector2 minCoords = new ();
-                        minCoords.X = float.Parse(coords[0]);
-                        minCoords.Y = float.Parse(coords[1]);
-
-                        Vector2 maxCoords = new ();
-                        maxCoords.X = float.Parse(coords[4]);
-                        maxCoords.Y = float.Parse(coords[5]);
-
-                        // Flip Y axis for proper drawing (Coordinate system origin different)
-                        offset.Y = tileSet.TileHeight - offset.Y;
-                        maxCoords.Y = -maxCoords.Y;
-
-                        // Create collider and add it to the loaded tile
-                        // Devide by tile width to get coordinates inside of tile, e.g. (4, 12) -> (0.25, 0.75)
-                        Box2 collider = new Box2((minCoords + offset) / tileSet.TileWidth, (maxCoords + offset) / tileSet.TileWidth);
-                        _tiles[tileId + 1].Colliders.Add(collider);
+                        GetAnimationData(tileId);
                     }
                 }
+                */
             }
+        }
+
+        public void GetCollisionData(XmlNode child, uint tileId, TiledLib.ITileset tileSet)
+        {
+            //XmlReader collisionReader = _tileSetReader.ReadSubtree();
+            XmlNodeList collisions = child.ChildNodes;
+            foreach (XmlNode collision in collisions)
+            {
+                Vector2 offset = new();
+                offset.X = float.Parse(collision.Attributes["x"].Value);
+                offset.Y = float.Parse(collision.Attributes["y"].Value);
+
+                string[] coords = collision.ChildNodes[0].Attributes["points"].Value.Split(' ', ',');
+
+                Vector2 minCoords = new();
+                minCoords.X = float.Parse(coords[0]);
+                minCoords.Y = float.Parse(coords[1]);
+
+                Vector2 maxCoords = new();
+                maxCoords.X = float.Parse(coords[4]);
+                maxCoords.Y = float.Parse(coords[5]);
+
+                // Flip Y axis for proper drawing (Coordinate system origin different)
+                offset.Y = tileSet.TileHeight - offset.Y;
+                maxCoords.Y = -maxCoords.Y;
+
+                // Create collider and add it to the loaded tile
+                // Devide by tile width to get coordinates inside of tile, e.g. (4, 12) -> (0.25, 0.75)
+                Box2 collider = new Box2((minCoords + offset) / tileSet.TileWidth, (maxCoords + offset) / tileSet.TileWidth);
+                _tiles[tileId + 1].Colliders.Add(collider);
+            }
+            /*
+            while (collisionReader.ReadToFollowing("object"))
+            {
+                // // Calculate offset
+                Vector2 offset = new();
+
+                // Get x from reader
+                _tileSetReader.MoveToAttribute("x");
+                offset.X = float.Parse(_tileSetReader.Value);
+
+                // Get y from reader
+                _tileSetReader.MoveToAttribute("y");
+                offset.Y = float.Parse(_tileSetReader.Value);
+
+                // // Calculate size of collider
+                // Move to collision coordinates within tile
+                _tileSetReader.ReadToFollowing("polygon");
+                _tileSetReader.MoveToAttribute("points");
+
+                // Get coordinates by splitting string
+                string[] coords = _tileSetReader.Value.Split(' ', ',');
+
+                // Create collider bounds
+                Vector2 minCoords = new();
+                minCoords.X = float.Parse(coords[0]);
+                minCoords.Y = float.Parse(coords[1]);
+
+                Vector2 maxCoords = new();
+                maxCoords.X = float.Parse(coords[4]);
+                maxCoords.Y = float.Parse(coords[5]);
+
+                // Flip Y axis for proper drawing (Coordinate system origin different)
+                offset.Y = tileSet.TileHeight - offset.Y;
+                maxCoords.Y = -maxCoords.Y;
+
+                // Create collider and add it to the loaded tile
+                // Devide by tile width to get coordinates inside of tile, e.g. (4, 12) -> (0.25, 0.75)
+                Box2 collider = new Box2((minCoords + offset) / tileSet.TileWidth, (maxCoords + offset) / tileSet.TileWidth);
+                _tiles[tileId + 1].Colliders.Add(collider);
+            }
+            */
+        }
+
+        public void GetAnimationData(XmlNode child, uint tileId)
+        {
+            XmlNodeList frames = child.ChildNodes;
+
+            Tile tile = _tiles[tileId];
+            AnimatedTile animTile = new AnimatedTile(tile._x, tile._y, tile.TileSet, tile.Colliders);
+
+            foreach (XmlNode frame in frames)
+            {
+                int frameId = int.Parse(frame.Attributes["tileid"].Value);
+                animTile.AnimationFrames.Add(frameId);
+
+                animTile.FrameDuration += float.Parse(frame.Attributes["duration"].Value) / 1000;
+            }
+
+            animTile.FrameDuration /= animTile.AnimationFrames.Count;
+            _animTiles.Add(tileId + 1, animTile);
+            /*
+            XmlReader animationReader = _tileSetReader.ReadSubtree();
+
+            Tile tile = _tiles[tileId];
+            AnimatedTile animTile = new AnimatedTile(tile._x, tile._y, tile.TileSet, tile.Colliders);
+
+            while (animationReader.ReadToFollowing("frame"))
+            {
+                animationReader.MoveToAttribute("tileid");
+                int frameId = int.Parse(animationReader.Value);
+
+                animTile.AnimationFrames.Add(frameId);
+
+                animationReader.MoveToAttribute("duration");
+                animTile.FrameDuration += float.Parse(animationReader.Value) / 1000;
+            }
+
+            animTile.FrameDuration /= animTile.AnimationFrames.Count;
+            _animTiles.Add(tileId + 1, animTile);
+            */
         }
 
         // Generate tile-entitys depending on the tilemap.
@@ -130,24 +232,39 @@
                         IEntity entity = new Entity("Tile");
 
                         // Search for tile in dictionary and set coordinates
-                        Tile dictionaryTile = (Tile)_tiles[gid].Clone();
-                        dictionaryTile.Position = new Vector2(x, layer.Height - 1 - y);
-                        entity.AddComponent(dictionaryTile);
+                        Tile currentTile;
+                        if (_animTiles.ContainsKey(gid))
+                        {
+                            AnimatedTile tile = (AnimatedTile)_animTiles[gid].Clone();
+                            tile.Position = new Vector2(x, layer.Height - 1 - y);
+                            entity.AddComponent(tile);
+
+                            currentTile = (Tile)tile;
+                        }
+                        else
+                        {
+                            Tile tile = (Tile)_tiles[gid].Clone();
+                            tile.Position = new Vector2(x, layer.Height - 1 - y);
+                            entity.AddComponent(tile);
+
+                            currentTile = (Tile)tile;
+                        }
+
                         entity.AddComponent(new Transform(new Vector2(x, layer.Height - 1 - y), 1, 1));
                         Entities.Add(entity);
 
                         // Adjust colliderGrid if collisionOptimization is turned on and the tile has at least one collision
-                        if (_collisionOptimization && dictionaryTile.Colliders.Count > 0)
+                        if (_collisionOptimization && currentTile.Colliders.Count > 0)
                             _colliderGrid[x, y] = true;
 
                         // Generate collision entities
                         if (!_collisionOptimization)
                         {
                             // Check if current tile has colliders
-                            if (dictionaryTile.Colliders.Count > 0)
+                            if (currentTile.Colliders.Count > 0)
                             {
                                 // Go through all colliders
-                                foreach (var collider in dictionaryTile.Colliders)
+                                foreach (var collider in currentTile.Colliders)
                                 {
                                     // Generate new entity for collision
                                     IEntity collisionEntity = new Entity("CollisonTile");
@@ -175,11 +292,14 @@
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Nearest);
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
+            Vector2 delta = new Vector2(0.5f / tileSetTexture.Width, 0.5f / tileSetTexture.Height);
+
             return new TileSetStruct()
             {
                 Texture2D = tileSetTexture.Handle,
                 TileWidth = 1f / columns,
                 TileHeight = 1f / rows,
+                Delta = delta,
             };
         }
 
@@ -202,14 +322,13 @@
 
                     Tile currentTile = new Tile(tile.Left * rezImageWidth, (tileSet.ImageHeight - tileSet.TileHeight - tile.Top) * rezImageHeight, graphicsTileSet);
 
+                    // Gid starts with 1. 0 = No tile in current position on layer
                     _tiles.Add((uint)gid, currentTile);
-
-                    // AddTileToDictionary(graphicsTileSet, (uint)gid, tile.Left * rezImageWidth, (tileSet.ImageHeight - tileSet.TileHeight - tile.Top) * rezImageHeight);
                 }
             }
 
             // If optimization is turn on => Generate collisions | Turned off => Load collisions from tilemap
-            GetCollisionBoxes();
+            GetAdditionalData();
             if (!_collisionOptimization)
                 AddOptimizedColliders();
         }

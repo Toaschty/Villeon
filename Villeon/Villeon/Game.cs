@@ -11,6 +11,8 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
 using Villeon.Helper;
 using Villeon.Systems;
+using Villeon.Systems.Render;
+using Villeon.Systems.Update;
 using Zenseless.OpenTK;
 using Zenseless.Resources;
 
@@ -91,12 +93,15 @@ namespace Villeon
             // Village Scene
             TileMap villageTileMap = new TileMap("VillageTileMap.tmx", false);
             _villageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
-            _villageScene.AddSystem(new PhysicsSystem("Physics"));
             _villageScene.AddSystem(new CollisionSystem("Collision"));
             _villageScene.AddSystem(new TileRenderSystem("TileRenderSystem", villageTileMap));
+
+            _villageScene.AddSystem(new ColliderRenderSystem("CollisionSystem"));
+            _villageScene.AddSystem(new AnimatedTileSystem("AnimatedTileSystem"));
+            _villageScene.AddSystem(new AnimatedTileRenderSystem("AnimatedTileRenderSystem", villageTileMap));
+
             _villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             _villageScene.AddSystem(new SpriteRenderSystem("SpriteRenderSystem"));
-            _villageScene.AddSystem(new ColliderRenderSystem("CollisionSystem"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.SetTileMap(villageTileMap);
             _villageScene.AddEntity(_entity);
@@ -104,7 +109,7 @@ namespace Villeon
 
         private void UpdateFrame(FrameEventArgs args)
         {
-            DebugPrints((float)args.Time);
+            // DebugPrints((float)args.Time);
 
             foreach (MouseHandler.ClickedMouseButton button in MouseHandler.ClickedMouseButtons)
             {
