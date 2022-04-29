@@ -28,7 +28,7 @@ namespace Villeon.Systems
 
         private void DrawCollider(Collider collider)
         {
-            Graphics.DrawPolygon(Color4.White, CollisionSystem.CreatePolygon(collider));
+            Graphics.DrawPolygon(Color4.White, collider.GetPolygon(), collider.PolygonSize);
             Graphics.DrawColliderQuad(Color4.Blue, collider.LastPosition, collider.Width, collider.Height);
             Graphics.DrawColliderQuad(Color4.Red, collider.Position, collider.Width, collider.Height);
         }

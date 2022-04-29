@@ -25,113 +25,6 @@ namespace Villeon.Systems
             NONE,
         }
 
-        public static List<Vector2> CreatePolygon(Collider collider)
-        {
-            float x = collider.Position.X;
-            float y = collider.Position.Y;
-            float w = collider.Width;
-            float h = collider.Height;
-            float lx = collider.LastPosition.X; // + (w * 0.005f);
-            float ly = collider.LastPosition.Y; // + (h * 0.005f);
-            float lw = w; // - (w * 0.01f);
-            float lh = h; // - (h * 0.01f);
-
-            Vector2 direction = new (x - lx, y - ly);
-
-            List<Vector2> polygon = new ();
-
-            //didn't move
-            if (direction == Vector2.Zero)
-            {
-                polygon.Add(new Vector2(x, y + h));
-                polygon.Add(new Vector2(x + w, y + h));
-                polygon.Add(new Vector2(x + w, y));
-                polygon.Add(new Vector2(x, y));
-            }
-
-            // moved straight right
-            else if (direction.X > 0 && direction.Y == 0)
-            {
-                polygon.Add(new Vector2(lx, ly));
-                polygon.Add(new Vector2(x + w, y));
-                polygon.Add(new Vector2(x + w, y + h));
-                polygon.Add(new Vector2(lx, ly + lh));
-            }
-
-            // moved straight left
-            else if (direction.X < 0 && direction.Y == 0)
-            {
-                polygon.Add(new Vector2(x, y));
-                polygon.Add(new Vector2(lx + lw, ly));
-                polygon.Add(new Vector2(lx + lw, ly + lh));
-                polygon.Add(new Vector2(x, y + h));
-            }
-
-            // moved straight up
-            else if (direction.X == 0 && direction.Y > 0)
-            {
-                polygon.Add(new Vector2(lx, ly));
-                polygon.Add(new Vector2(lx + lw, ly));
-                polygon.Add(new Vector2(x + w, y + h));
-                polygon.Add(new Vector2(x, y + h));
-            }
-
-            // moved straight down
-            else if (direction.X == 0 && direction.Y < 0)
-            {
-                polygon.Add(new Vector2(lx, ly + lh));
-                polygon.Add(new Vector2(lx + lw, ly + lh));
-                polygon.Add(new Vector2(x + w, y));
-                polygon.Add(new Vector2(x, y));
-            }
-
-            // moved up right
-            else if (direction.X > 0 && direction.Y > 0)
-            {
-                polygon.Add(new Vector2(lx, ly));
-                polygon.Add(new Vector2(lx + lw, ly));
-                polygon.Add(new Vector2(x + w, y));
-                polygon.Add(new Vector2(x + w, y + h));
-                polygon.Add(new Vector2(x, y + h));
-                polygon.Add(new Vector2(lx, ly + lh));
-            }
-
-            // moved down right
-            else if (direction.X > 0 && direction.Y < 0)
-            {
-                polygon.Add(new Vector2(lx, ly));
-                polygon.Add(new Vector2(x, y));
-                polygon.Add(new Vector2(x + w, y));
-                polygon.Add(new Vector2(x + w, y + h));
-                polygon.Add(new Vector2(lx + lw, ly + lh));
-                polygon.Add(new Vector2(lx, ly + lh));
-            }
-
-            // moved up left
-            else if (direction.X < 0 && direction.Y > 0)
-            {
-                polygon.Add(new Vector2(x, y));
-                polygon.Add(new Vector2(lx, ly));
-                polygon.Add(new Vector2(lx + lw, ly));
-                polygon.Add(new Vector2(lx + lw, ly + lh));
-                polygon.Add(new Vector2(x + w, y + h));
-                polygon.Add(new Vector2(x, y + h));
-            }
-
-            // moved down left
-            else if (direction.X < 0 && direction.Y < 0)
-            {
-                polygon.Add(new Vector2(x, y));
-                polygon.Add(new Vector2(x + w, y));
-                polygon.Add(new Vector2(lx + lw, ly));
-                polygon.Add(new Vector2(lx + lw, ly + lh));
-                polygon.Add(new Vector2(lx, ly + lh));
-                polygon.Add(new Vector2(x, y + h));
-            }
-
-            return polygon;
-        }
-
         // Collider, Transform, Physics
         public void Update(float time)
         {
@@ -422,27 +315,31 @@ namespace Villeon.Systems
 
         private bool CollidesSAT(Collider x, Collider y)
         {
-            List<Vector2> polygon1 = CreatePolygon(x);
-            List<Vector2> polygon2 = CreatePolygon(y);
+            Vector2[] polygon1 = x.GetPolygon();
+            Vector2[] polygon2 = y.GetPolygon();
+            int polygon1Size = x.PolygonSize;
+            int polygon2Size = y.PolygonSize;
 
             for (int shape = 0; shape < 2; shape++)
             {
                 if (shape == 1)
                 {
-                    polygon1 = CreatePolygon(y);
-                    polygon2 = CreatePolygon(x);
+                    polygon1 = y.GetPolygon();
+                    polygon2 = x.GetPolygon();
+                    polygon1Size = y.PolygonSize;
+                    polygon2Size = x.PolygonSize;
                 }
 
-                for (int a = 0; a < polygon1.Count(); a++)
+                for (int a = 0; a < polygon1Size; a++)
                 {
-                    int b = (a + 1) % polygon1.Count;
+                    int b = (a + 1) % polygon1Size;
                     Vector2 normalAxis = new (-(polygon1[b].Y - polygon1[a].Y), polygon1[b].X - polygon1[a].X);
                     float d = (float)Math.Sqrt((normalAxis.X * normalAxis.X) + (normalAxis.Y * normalAxis.Y));
                     normalAxis = new Vector2(normalAxis.X / d, normalAxis.Y / d);
 
                     float minR1 = float.PositiveInfinity;
                     float maxR1 = float.NegativeInfinity;
-                    for (int i = 0; i < polygon1.Count; i++)
+                    for (int i = 0; i < polygon1Size; i++)
                     {
                         float q = (polygon1[i].X * normalAxis.X) + (polygon1[i].Y * normalAxis.Y);
                         minR1 = Math.Min(minR1, q);
@@ -451,7 +348,7 @@ namespace Villeon.Systems
 
                     float minR2 = float.PositiveInfinity;
                     float maxR2 = float.NegativeInfinity;
-                    for (int i = 0; i < polygon2.Count; i++)
+                    for (int i = 0; i < polygon2Size; i++)
                     {
                         float q = (polygon2[i].X * normalAxis.X) + (polygon2[i].Y * normalAxis.Y);
                         minR2 = Math.Min(minR2, q);

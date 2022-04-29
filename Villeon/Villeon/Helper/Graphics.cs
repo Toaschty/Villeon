@@ -45,13 +45,13 @@ namespace Villeon.Helper
             GL.End();
         }
 
-        public static void DrawPolygon(Color4 color, List<Vector2> points)
+        public static void DrawPolygon(Color4 color, Vector2[] points, int size)
         {
             GL.Color4(color);
             GL.Begin(PrimitiveType.LineLoop);
-            foreach (Vector2 point in points)
+            for (int i = 0; i < size; i++)
             {
-                GL.Vertex2(point);
+                GL.Vertex2(points[i]);
             }
 
             GL.End();
