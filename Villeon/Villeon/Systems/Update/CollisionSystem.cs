@@ -10,8 +10,6 @@ namespace Villeon.Systems
 {
     public class CollisionSystem : System, IUpdateSystem
     {
-        public static int colliderCalls = 0;
-
         public CollisionSystem(string name)
             : base(name)
         {
@@ -29,7 +27,6 @@ namespace Villeon.Systems
 
         public static List<Vector2> CreatePolygon(Collider collider)
         {
-            colliderCalls++;
             float x = collider.Position.X;
             float y = collider.Position.Y;
             float w = collider.Width;

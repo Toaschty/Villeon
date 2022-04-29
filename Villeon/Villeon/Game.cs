@@ -25,8 +25,6 @@ namespace Villeon
 
         private IEntity _entity;
 
-        private float _timeCounter;
-
         public void Start()
         {
             GameWindow gameWindow = WindowCreator.CreateWindow();
@@ -72,9 +70,10 @@ namespace Villeon
             _entity.AddComponent(new Physics());
             _entity.AddComponent(new Physics());
             _entity.AddComponent(new Physics());
-            _entity.AddComponent(new Collider(new Vector2(0.0f, 0.0f), new Vector2(30.0f, 30.0f), 0.5f, 0.5f));
+            _entity.AddComponent(new Collider(new Vector2(0.0f, 0.0f), new Vector2(35.0f, 35.0f), 0.5f, 0.5f));
             _entity.AddComponent(new Sprite(Color4.Cornsilk, new Vector2(1f, 1f)));
             _entity.AddComponent(new Player());
+            _entity.AddComponent(new Health(200));
 
             _dungeonScene.AddEntity(_entity);
             _dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
@@ -91,25 +90,26 @@ namespace Villeon
             // Village Scene
             TileMap villageTileMap = new TileMap("VillageTileMap.tmx", false);
             _villageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
-            _villageScene.AddSystem(new PhysicsSystem("Physics"));
+            //_villageScene.AddSystem(new PhysicsSystem("Physics"));
             _villageScene.AddSystem(new CollisionSystem("Collision"));
             _villageScene.AddSystem(new TileRenderSystem("TileRenderSystem", villageTileMap));
             _villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             _villageScene.AddSystem(new SpriteRenderSystem("SpriteRenderSystem"));
             _villageScene.AddSystem(new ColliderRenderSystem("CollisionSystem"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
+            _villageScene.AddSystem(new HealthSystem("HealthSystem"));
             _villageScene.SetTileMap(villageTileMap);
             _villageScene.AddEntity(_entity);
         }
 
         private void UpdateFrame(FrameEventArgs args)
         {
-            DebugPrints((float)args.Time);
-
             foreach (MouseHandler.ClickedMouseButton button in MouseHandler.ClickedMouseButtons)
             {
                 if (button.Button == MouseButton.Middle)
+                {
                     SceneLoader.LoadScene("VillageScene");
+                }
 
                 if (button.Button == MouseButton.Right)
                     SceneLoader.LoadScene("DungeonScene");
@@ -118,7 +118,11 @@ namespace Villeon
             if (KeyHandler.IsPressed(Keys.V))
                 SceneLoader.LoadScene("VillageScene");
 
+            if (KeyHandler.IsPressed(Keys.G))
+                Manager.GetInstance().RemoveComponent<Physics>(_entity);
+
             Manager.GetInstance().Update((float)args.Time);
+            DebugPrinter.PrintToConsole((float)args.Time);
             MouseHandler.ClickedMouseButtons.Clear();
         }
 
@@ -130,40 +134,6 @@ namespace Villeon
             GL.LoadMatrix(ref _refCameraMatrix);
 
             Manager.GetInstance().Render();
-        }
-
-        private void DebugPrints(float time)
-        {
-            _timeCounter += time;
-            if (_timeCounter > 0.1)
-            {
-                ClearConsole();
-                Console.WriteLine("Entities: " + Manager.GetInstance().GetEntities().Count() + " Time: " + _timeCounter);
-
-                foreach (var system in Manager.GetInstance().GetUpdateSystems())
-                {
-                    Console.WriteLine("System: " + system + " Entities: " + system.Entities.Count);
-                }
-
-                foreach (var render in Manager.GetInstance().GetRenderSystems())
-                {
-                    Console.WriteLine("System: " + render + " Entities: " + render.Entities.Count);
-                }
-                Console.WriteLine(CollisionSystem.colliderCalls);
-                CollisionSystem.colliderCalls = 0;
-                _timeCounter = 0;
-            }
-
-            void ClearConsole()
-            {
-                for (int i = 0; i < Console.WindowHeight; i++)
-                {
-                    Console.SetCursorPosition(0, i);
-                    Console.Write("\r" + new string(' ', Console.WindowWidth - 1) + "\r");
-                }
-
-                Console.SetCursorPosition(0, 0);
-            }
         }
     }
 }
