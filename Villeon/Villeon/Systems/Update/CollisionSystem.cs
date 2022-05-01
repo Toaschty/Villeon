@@ -48,8 +48,8 @@ namespace Villeon.Systems
                 }
             }
 
-            List<IEntity> entities = new List<IEntity>();
-            List<IEntity> dirtyEntities = new List<IEntity>();
+            List<Collider> entitiesCollider = new List<Collider>();
+            List<Collider> dirtyEntitiesCollider = new List<Collider>();
 
             // Fill entity lists
             foreach (IEntity entity in Entities)
@@ -69,27 +69,24 @@ namespace Villeon.Systems
                 collider.HasCollidedTop = false;
                 collider.HasCollidedBottom = false;
 
-                if (entity.GetComponent<Collider>().HasMoved)
-                    dirtyEntities.Add(entity);
+                if (collider.HasMoved)
+                    dirtyEntitiesCollider.Add(collider);
                 else
-                    entities.Add(entity);
+                    entitiesCollider.Add(collider);
             }
 
             // Test against clean entities
-            for (int i = 0; i < dirtyEntities.Count(); i++)
+            for (int i = 0; i < dirtyEntitiesCollider.Count(); i++)
             {
                 if (i < 0) break;
 
                 bool clean = false;
-                IEntity entity = dirtyEntities[i];
-                Collider collider = entity.GetComponent<Collider>();
+                Collider collider = dirtyEntitiesCollider[i];
 
-                foreach (IEntity entity2 in entities)
+                foreach (Collider e2Collider in entitiesCollider)
                 {
-                    Collider e2Collider = entity2.GetComponent<Collider>();
-
                     if (CollidesSAT(collider, e2Collider))
-                        HandleCleanCollision(CollidesDirectionAABB(collider, e2Collider), entity, entity2);
+                        HandleCleanCollision(CollidesDirectionAABB(collider, e2Collider), collider, e2Collider);
 
                     if (collider.Position == collider.LastPosition)
                     {
@@ -100,26 +97,22 @@ namespace Villeon.Systems
 
                 if (clean)
                 {
-                    entities.Add(entity);
-                    dirtyEntities.RemoveAt(i);
+                    entitiesCollider.Add(collider);
+                    dirtyEntitiesCollider.RemoveAt(i);
                     i--;
-                    i -= CollidesCleanedEntity(dirtyEntities, entities, entity, i, 0);
+                    i -= CollidesCleanedEntity(dirtyEntitiesCollider, entitiesCollider, collider, i, 0);
                 }
             }
 
             // Test against dirty entities
-            foreach (IEntity entity in dirtyEntities)
+            foreach (Collider collider in dirtyEntitiesCollider)
             {
-                Collider collider = entity.GetComponent<Collider>();
-
-                foreach (IEntity entity2 in dirtyEntities)
+                foreach (Collider e2Collider in dirtyEntitiesCollider)
                 {
-                    if (entity != entity2)
+                    if (collider != e2Collider)
                     {
-                        Collider e2Collider = entity2.GetComponent<Collider>();
-
                         if (CollidesAABB(collider, e2Collider))
-                            HandleDirtyCollision(CollidesDirectionAABB(collider, e2Collider), entity, entity2);
+                            HandleDirtyCollision(CollidesDirectionAABB(collider, e2Collider), collider);
                     }
                 }
             }
@@ -128,91 +121,80 @@ namespace Villeon.Systems
             {
                 Collider collider = entity.GetComponent<Collider>();
 
+                if (collider.HasMoved)
+                {
+                    Transform transform = entity.GetComponent<Transform>();
+                    transform.Position = collider.Position - collider.Offset;
+                }
+
                 collider.LastPosition = collider.Position;
             }
         }
 
-        private void HandleCleanCollision(Direction direction, IEntity entity, IEntity entity2)
+        private void HandleCleanCollision(Direction direction, Collider collider, Collider e2Collider)
         {
-            Collider collider = entity.GetComponent<Collider>();
-            Collider e2Collider = entity2.GetComponent<Collider>();
-            Transform transform = entity.GetComponent<Transform>();
-
             switch (direction)
             {
                 case Direction.DOWN:
                     collider.HasCollidedTop = true;
                     collider.Position = new Vector2(collider.Position.X, e2Collider.Position.Y - collider.Height);
-                    transform.Position = new Vector2(collider.Position.X - collider.Offset.X, e2Collider.Position.Y - collider.Height - collider.Offset.Y);
                     break;
                 case Direction.UP:
                     collider.HasCollidedBottom = true;
                     collider.Position = new Vector2(collider.Position.X, e2Collider.Position.Y + e2Collider.Height);
-                    transform.Position = new Vector2(collider.Position.X - collider.Offset.X, e2Collider.Position.Y + e2Collider.Height - collider.Offset.Y);
                     break;
                 case Direction.LEFT:
                     collider.HasCollidedRight = true;
                     collider.Position = new Vector2(e2Collider.Position.X - collider.Width, collider.Position.Y);
-                    transform.Position = new Vector2(e2Collider.Position.X - collider.Width - collider.Offset.X, collider.Position.Y - collider.Offset.Y);
                     break;
                 case Direction.RIGHT:
                     collider.HasCollidedLeft = true;
                     collider.Position = new Vector2(e2Collider.Position.X + e2Collider.Width, collider.Position.Y);
-                    transform.Position = new Vector2(e2Collider.Position.X + e2Collider.Width - collider.Offset.X, collider.Position.Y - collider.Offset.Y);
                     break;
             }
         }
 
-        private void HandleDirtyCollision(Direction direction, IEntity entity, IEntity entity2)
+        private void HandleDirtyCollision(Direction direction, Collider collider)
         {
-            Collider collider = entity.GetComponent<Collider>();
-            Transform transform = entity.GetComponent<Transform>();
-
             switch (direction)
             {
                 case Direction.DOWN:
                     collider.HasCollidedTop = true;
-                    transform.Position = new Vector2(collider.Position.X - collider.Offset.X, collider.LastPosition.Y - collider.Offset.Y);
                     collider.Position = new Vector2(collider.Position.X - collider.Offset.X, collider.LastPosition.Y - collider.Offset.Y);
                     break;
                 case Direction.UP:
                     collider.HasCollidedBottom = true;
-                    transform.Position = new Vector2(collider.Position.X - collider.Offset.X, collider.LastPosition.Y - collider.Offset.Y);
                     collider.Position = new Vector2(collider.Position.X - collider.Offset.X, collider.LastPosition.Y - collider.Offset.Y);
                     break;
                 case Direction.LEFT:
                     collider.HasCollidedRight = true;
-                    transform.Position = new Vector2(collider.LastPosition.X - collider.Offset.X, collider.Position.Y - collider.Offset.Y);
                     collider.Position = new Vector2(collider.LastPosition.X - collider.Offset.X, collider.Position.Y - collider.Offset.Y);
                     break;
                 case Direction.RIGHT:
                     collider.HasCollidedLeft = true;
-                    transform.Position = new Vector2(collider.LastPosition.X - collider.Offset.X, collider.Position.Y - collider.Offset.Y);
                     collider.Position = new Vector2(collider.LastPosition.X - collider.Offset.X, collider.Position.Y - collider.Offset.Y);
                     break;
             }
         }
 
-        private int CollidesCleanedEntity(List<IEntity> dirtyEntities, List<IEntity> entities, IEntity cleanedEntity, int lastToTest, int depth)
+        private int CollidesCleanedEntity(List<Collider> dirtyEntitiesCollider, List<Collider> entitiesCollider, Collider cleanedEntityCollider, int lastToTest, int depth)
         {
-            Collider e2Collider = cleanedEntity.GetComponent<Collider>();
             int entitiesCleaned = 0;
             for (int i = 0; i <= lastToTest; i++)
             {
-                if (lastToTest >= dirtyEntities.Count || i < 0)
+                if (lastToTest >= dirtyEntitiesCollider.Count || i < 0)
                     return entitiesCleaned;
 
-                IEntity entity = dirtyEntities[i];
-                Collider collider = entity.GetComponent<Collider>();
+                Collider dirtyEntitiyCollider = dirtyEntitiesCollider[i];
 
-                if (CollidesSAT(collider, e2Collider))
-                    HandleCleanCollision(CollidesDirectionAABB(collider, e2Collider), entity, cleanedEntity);
+                if (CollidesSAT(dirtyEntitiyCollider, cleanedEntityCollider))
+                    HandleCleanCollision(CollidesDirectionAABB(dirtyEntitiyCollider, cleanedEntityCollider), dirtyEntitiyCollider, cleanedEntityCollider);
 
-                if (collider.Position == collider.LastPosition)
+                if (dirtyEntitiyCollider.Position == dirtyEntitiyCollider.LastPosition)
                 {
-                    entities.Add(entity);
-                    dirtyEntities.RemoveAt(i);
-                    int newEntitiesCleaned = CollidesCleanedEntity(dirtyEntities, entities, entity, i--, depth++) + 1;
+                    entitiesCollider.Add(dirtyEntitiyCollider);
+                    dirtyEntitiesCollider.RemoveAt(i);
+                    int newEntitiesCleaned = CollidesCleanedEntity(dirtyEntitiesCollider, entitiesCollider, dirtyEntitiyCollider, i--, depth++) + 1;
                     i -= newEntitiesCleaned;
                     entitiesCleaned += newEntitiesCleaned;
                 }
@@ -313,29 +295,30 @@ namespace Villeon.Systems
             return true;
         }
 
-        private bool CollidesSAT(Collider x, Collider y)
+        private bool CollidesSAT(Collider a, Collider b)
         {
-            Vector2[] polygon1 = x.GetPolygon();
-            Vector2[] polygon2 = y.GetPolygon();
-            int polygon1Size = x.PolygonSize;
-            int polygon2Size = y.PolygonSize;
+            Vector2[] polygon1 = a.GetPolygon();
+            Vector2[] polygon2 = b.GetPolygon();
+            int polygon1Size = a.PolygonSize;
+            int polygon2Size = b.PolygonSize;
 
             for (int shape = 0; shape < 2; shape++)
             {
                 if (shape == 1)
                 {
-                    polygon1 = y.GetPolygon();
-                    polygon2 = x.GetPolygon();
-                    polygon1Size = y.PolygonSize;
-                    polygon2Size = x.PolygonSize;
+                    Vector2[] temp = polygon1;
+                    polygon1 = polygon2;
+                    polygon2 = temp;
+                    polygon1Size = b.PolygonSize;
+                    polygon2Size = a.PolygonSize;
                 }
 
-                for (int a = 0; a < polygon1Size; a++)
+                for (int v1 = 0; v1 < polygon1Size; v1++)
                 {
-                    int b = (a + 1) % polygon1Size;
-                    Vector2 normalAxis = new (-(polygon1[b].Y - polygon1[a].Y), polygon1[b].X - polygon1[a].X);
+                    int v2 = (v1 + 1) % polygon1Size;
+                    Vector2 normalAxis = new (-(polygon1[v2].Y - polygon1[v1].Y), polygon1[v2].X - polygon1[v1].X);
                     float d = (float)Math.Sqrt((normalAxis.X * normalAxis.X) + (normalAxis.Y * normalAxis.Y));
-                    normalAxis = new Vector2(normalAxis.X / d, normalAxis.Y / d);
+                    normalAxis /= d;
 
                     float minR1 = float.PositiveInfinity;
                     float maxR1 = float.NegativeInfinity;
@@ -360,17 +343,6 @@ namespace Villeon.Systems
             }
 
             return true;
-        }
-
-        private void PrintList(List<IEntity> list, string name)
-        {
-            Console.Write(name + ": ");
-            foreach (IEntity entity in list)
-            {
-                Console.Write(entity.Name + " ");
-            }
-
-            Console.WriteLine();
         }
     }
 }
