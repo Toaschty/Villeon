@@ -47,6 +47,18 @@ namespace Villeon.Systems
                         physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
                 }
 
+                if (KeyHandler.IsPressed(Keys.E))
+                {
+                    EntitySpawner.SpawnTrigger(TriggerID.ATTACKRIGHT, transform);
+                    KeyHandler.RemoveKeyHold(Keys.E);
+                }
+
+                if (KeyHandler.IsPressed(Keys.Q))
+                {
+                    EntitySpawner.SpawnTrigger(TriggerID.ATTACKLEFT, transform);
+                    KeyHandler.RemoveKeyHold(Keys.Q);
+                }
+
                 //Debug Reset Position
                 if (KeyHandler.IsPressed(Keys.R))
                 {

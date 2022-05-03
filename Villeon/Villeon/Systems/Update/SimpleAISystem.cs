@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
+using Villeon.Helper;
 
 namespace Villeon.Systems
 {
@@ -38,12 +39,12 @@ namespace Villeon.Systems
                     Transform transform = entity.GetComponent<Transform>();
                     Vector2 playerDirection = transform.Position - playerTransform.Position;
 
-                    if (playerDirection.Length < 10 && playerDirection.Length > 2)
+                    float side = -(playerDirection.X / MathF.Abs(playerDirection.X));
+
+                    if (playerDirection.Length < 10 && playerDirection.Length > 1.2f)
                     {
                         Physics physics = entity.GetComponent<Physics>();
                         Collider collider = entity.GetComponent<Collider>();
-
-                        float side = -(playerDirection.X / MathF.Abs(playerDirection.X));
 
                         physics.Acceleration += new Vector2(Constants.MOVEMENTSPEED * side * 0.4f, physics.Acceleration.Y);
 
@@ -51,6 +52,10 @@ namespace Villeon.Systems
                              physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
                         else if (side > 0 && collider.HasCollidedRight && collider.HasCollidedBottom)
                             physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
+                    }
+                    else if (playerDirection.Length <= 1.2f)
+                    {
+                        EntitySpawner.SpawnTrigger((side == 1) ? TriggerID.ATTACKRIGHT : TriggerID.ATTACKLEFT, transform);
                     }
                 }
             }
