@@ -1,9 +1,9 @@
-﻿using OpenTK.Graphics.OpenGL;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK.Graphics.OpenGL;
 using Villeon.Components;
 using Villeon.Helper;
 
@@ -18,7 +18,6 @@ namespace Villeon.Systems.Render
         {
             Signature = Signature.AddToSignature(typeof(AnimatedTile));
             TileMap = tileMap;
-
         }
 
         public TileMap TileMap { get; }
@@ -30,7 +29,7 @@ namespace Villeon.Systems.Render
             {
                 AnimatedTile animTile = entity.GetComponent<AnimatedTile>();
 
-                Tile tile = TileMap._tiles[(uint)animTile.AnimationFrames[animTile.CurrentFrame] + 1];
+                Tile tile = TileMap.GetTileDictionary()[(uint)animTile.AnimationFrames[animTile.CurrentFrame] + 1];
 
                 // Bind texure defined in tile
                 if (_currentTexture != tile.TileSet.Texture2D)

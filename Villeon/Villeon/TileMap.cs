@@ -17,8 +17,8 @@
         private readonly TiledLib.Map _map;
 
         // Dictionary tileId => Tile object
-        public Dictionary<uint, Villeon.Components.Tile> _tiles = new ();
-        public Dictionary<uint, Villeon.Components.AnimatedTile> _animTiles = new ();
+        private Dictionary<uint, Villeon.Components.Tile> _tiles = new ();
+        private Dictionary<uint, Villeon.Components.AnimatedTile> _animTiles = new ();
 
         // Used for generating optimized colliders
         private bool[,] _colliderGrid;
@@ -122,7 +122,7 @@
             foreach (XmlNode collision in collisions)
             {
                 // Get collider offset from (0,0)
-                Vector2 offset = new();
+                Vector2 offset = new ();
                 offset.X = float.Parse(collision.Attributes["x"].Value);
                 offset.Y = float.Parse(collision.Attributes["y"].Value);
 
@@ -335,5 +335,7 @@
                 Delta = delta,
             };
         }
+    
+        public Dictionary<uint, Tile> GetTileDictionary() => _tiles;
     }
 }
