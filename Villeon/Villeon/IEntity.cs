@@ -1,18 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Villeon
 {
     public interface IEntity
     {
-        bool Enabled { get; set; }
+        public ulong Signature { get; }
 
-        string? Name { get;}
+        public bool Enabled { get; set; }
 
-        Signature Signature { get; } // Not in runtime.. for now
+        public string Name { get; }
 
-        void AddComponent(IComponent component);
+        public void AddComponent(IComponent component);
 
-        public T GetComponent<T>() where T : class, IComponent;
+        public void RemoveComponent<T>()
+            where T : class, IComponent;
+
+        public T GetComponent<T>()
+            where T : class, IComponent;
     }
 }

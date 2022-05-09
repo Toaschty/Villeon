@@ -3,43 +3,45 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK.Mathematics;
 using Villeon.Components;
+using Villeon.Helper;
 
 namespace Villeon
 {
     public class Entity : IEntity
     {
+        private TypeRegistry _components = new TypeRegistry();
+
         public Entity(string name)
         {
             Name = name;
+            AddComponent(new Transform(new Vector2(0f, 0f), 1f, 0f));
         }
 
-        private readonly List<IComponent> _components = new();
+        public ulong Signature { get; set; } = 0;
 
         public bool Enabled { get; set; } = true;
 
         public string Name { get; }
 
-        public Signature Signature { get; } = new();
-
         public void AddComponent(IComponent component)
         {
-            _components.Add(component);
-            Signature.Add(component);
+            _components.RegisterTypeInstance(component);
+            Signature = Signature.AddToSignature(component.GetType());
         }
 
-        public T GetComponent<T>() where T : class, IComponent
+        public void RemoveComponent<T>()
+            where T : class, IComponent
         {
-            foreach (var component in _components)
-            {
-                if (component is T)
-                {
-                    return (T)component;
-                }
-            }
+            _components.UnregisterTypeInstance<T>();
+            Signature = Signature.RemoveFromSignature<T>();
+        }
 
-            // If component is not found -> Return first component
-            return (T)_components[0];
+        public T GetComponent<T>()
+            where T : class, IComponent
+        {
+            return _components.GetInstance<T>();
         }
     }
 }

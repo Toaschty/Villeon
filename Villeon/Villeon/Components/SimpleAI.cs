@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Villeon.Systems
+namespace Villeon.Components
 {
-    public interface IRenderSystem : IRender, ISystem
+    public class SimpleAI : IComponent
     {
     }
 }

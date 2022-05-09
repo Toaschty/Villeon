@@ -1,68 +1,30 @@
 ﻿using System;
-using Villeon.Components;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Villeon.Helper;
 
 namespace Villeon
 {
-    public class Signature
+    public static class Signature
     {
-        public void Add<T>() where T : class, IComponent
+        public static ulong AddToSignature(this ulong signature, Type component)
         {
-            if (typeof(T) == typeof(Transform)) 
-                signature |= TRANSFORM;
-
-            if (typeof(T) == typeof(Physics))
-                signature |= PHYSICS;
-
-            if (typeof(T) == typeof(Collider))
-                signature |= COLLIDER;
-
-            if (typeof(T) == typeof(Sprite))
-                signature |= SPRITEDRAWABLE;
-
-            if (typeof(T) == typeof(Tile))
-                signature |= TILE;
-
-            if (typeof(T) == typeof(Player))
-                signature |= PLAYER;
+            return signature |= TypeRegistry.GetFlag(component);
         }
 
-        public void Add(IComponent component)
+        public static ulong RemoveFromSignature<T>(this ulong signature)
+            where T : class, IComponent
         {
-            if (component is Collider)
-                signature |= COLLIDER;
-
-            if (component is Transform)
-                signature |= TRANSFORM;
-
-            if (component is Physics)
-                signature |= PHYSICS;
-
-            if (component is Sprite)
-                signature |= SPRITEDRAWABLE;
-
-            if (component is Tile)
-                signature |= TILE;
-
-            if (component is Player)
-                signature |= PLAYER;
+            return signature &= ~TypeRegistry.GetFlag(typeof(T)); // Pain
         }
 
-        public bool Contains(Signature sigB)
+        public static bool Contains(this ulong sig, ulong signature)
         {
-            if ((this.signature & sigB.signature) == sigB.signature)
-            {
+            if ((sig & signature) == signature)
                 return true;
-            }
             return false;
         }
-
-        public UInt64 signature { get; private set; } = 0;
-
-        private UInt64 TRANSFORM = 1 << 0;
-        private UInt64 PHYSICS = 1 << 1;
-        private UInt64 COLLIDER = 1 << 2;
-        private UInt64 SPRITEDRAWABLE = 1 << 3;
-        private UInt64 TILE = 1 << 4;
-        private UInt64 PLAYER = 1 << 5;
     }
 }
