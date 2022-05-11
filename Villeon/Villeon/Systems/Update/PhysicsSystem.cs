@@ -58,7 +58,7 @@ namespace Villeon.Systems
                     physics.Acceleration += new Vector2(0.0f, 2.0f * -Constants.GRAVITY);
 
                 // Friction
-                physics.Acceleration += new Vector2(-Constants.FRICTION * physics.Velocity.X, physics.Acceleration.Y);
+                physics.Acceleration += new Vector2(-Constants.FRICTION * physics.Velocity.X, 0);
 
                 // Physics calculation
                 Vector2 oldVelocity = physics.Velocity;

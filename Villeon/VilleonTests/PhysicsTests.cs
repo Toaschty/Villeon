@@ -26,7 +26,31 @@ namespace VilleonTests
         }
 
         [TestMethod]
-        public void StopEntityIfCollidesWithFloor()
+        public void EntityHasGravitation()
+        {
+            // Instanciate physics entity
+            Entity physicEntity = new Entity("Physic");
+            physicEntity.AddComponent(new Physics());
+            physicEntity.AddComponent(new Collider(new Vector2(0, 0), new Vector2(0, 0), 1, 1));
+
+            // Setup Test-Scene
+            _testScene.AddEntity(physicEntity);
+
+            // Update the PhysicsSystem 5 times with 0.1f time between updates
+            for (int i = 0; i < 5; i++)
+            {
+                _testScene.Update(0.1f);
+            }
+
+            // Free Fall: 1/2 * g * t^2 = 0.5f * -6 * 0.5^2 = -7.5f
+            Assert.AreEqual(-7.5, physicEntity.GetComponent<Transform>().Position.Y);
+
+            // Clean up
+            _testScene.RemoveEntity(physicEntity);
+        }
+
+        [TestMethod]
+        public void EntityHasDefaultGravitationWhenCollidingWithFloor()
         {
             /*
                     PPP
@@ -59,7 +83,7 @@ namespace VilleonTests
             }
 
             // -12 equals the default Y velocity a entity has when standing still with an delta time of 0.1f
-            Assert.AreEqual(-12, physicEntity.GetComponent<Physics>().Velocity.Y);
+            Assert.AreEqual(-6, physicEntity.GetComponent<Physics>().Velocity.Y);
 
             // Clean up
             _testScene.RemoveEntity(physicEntity);
@@ -67,7 +91,7 @@ namespace VilleonTests
         }
 
         [TestMethod]
-        public void StopEntityIfCollidesWithCeiling()
+        public void EntityHasDefaultGravitationWhenCollidingWithCeiling()
         {
             /*
             ###################
@@ -103,7 +127,7 @@ namespace VilleonTests
             }
 
             // 12 equals the default Y velocity a entity has when standing still with an delta time of 0.1f
-            Assert.AreEqual(12, physicEntity.GetComponent<Physics>().Velocity.Y);
+            Assert.AreEqual(6, physicEntity.GetComponent<Physics>().Velocity.Y);
 
             // Clean up
             _testScene.RemoveEntity(physicEntity);
@@ -111,7 +135,7 @@ namespace VilleonTests
         }
 
         [TestMethod]
-        public void StopEntityIfCollidesWithLeftWall()
+        public void EntityHasDefaultGravitationWhenCollidingWithLeftWall()
         {
             /*
             ##
@@ -158,7 +182,7 @@ namespace VilleonTests
         }
 
         [TestMethod]
-        public void StopEntityIfCollidesWithRightWall()
+        public void EntityHasDefaultGravitationWhenCollidingWithRightWall()
         {
             /*
                              ##

@@ -140,8 +140,6 @@ namespace Villeon.Systems
                     collider.Position = new Vector2(collider.Position.X, e2Collider.Position.Y - collider.Height);
                     break;
                 case Direction.UP:
-                    StateManager.IsGrounded = true;
-
                     collider.HasCollidedBottom = true;
                     collider.Position = new Vector2(collider.Position.X, e2Collider.Position.Y + e2Collider.Height);
                     break;
@@ -165,7 +163,6 @@ namespace Villeon.Systems
                     collider.Position = new Vector2(collider.Position.X - collider.Offset.X, collider.LastPosition.Y - collider.Offset.Y);
                     break;
                 case Direction.UP:
-                    StateManager.IsGrounded = true;
                     collider.HasCollidedBottom = true;
                     collider.Position = new Vector2(collider.Position.X - collider.Offset.X, collider.LastPosition.Y - collider.Offset.Y);
                     break;

@@ -31,6 +31,9 @@ namespace Villeon.Systems
                 collider = entity.GetComponent<Collider>();
                 transform = entity.GetComponent<Transform>();
 
+                // Check if player is grounded
+                StateManager.IsGrounded = collider.HasCollidedBottom;
+
                 if (KeyHandler.IsPressed(Keys.D))
                 {
                     physics.Acceleration += new Vector2(Constants.MOVEMENTSPEED, physics.Acceleration.Y);
