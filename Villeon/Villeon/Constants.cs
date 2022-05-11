@@ -20,12 +20,6 @@ namespace Villeon
         public static float TOPDOWNMOVEMENTSPEED { get; } = 10;
 
         // Debug
-        public static bool DEBUGPAUSEACTIVE { get; set; } = false;
-
         public static float DEBUGTIME { get; set; } = 0.00833f;
-
-        public static bool DEBUGNEXTFRAME { get; set; } = false;
-
-        public static bool DEBUGTHISFRAMEPHYSICS { get; set; } = true;
     }
 }

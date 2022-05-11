@@ -133,7 +133,10 @@ namespace Villeon
                 Manager.GetInstance().RemoveComponent<Physics>(_entity);
 
             Manager.GetInstance().Update((float)args.Time);
-            DebugPrinter.PrintToConsole((float)args.Time);
+
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine("IsGrounded: " + StateManager.IsGrounded.ToString());
+
             MouseHandler.ClickedMouseButtons.Clear();
         }
 

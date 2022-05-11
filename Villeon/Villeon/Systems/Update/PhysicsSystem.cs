@@ -19,9 +19,9 @@ namespace Villeon.Systems
 
         public void Update(float time)
         {
-            if (Constants.DEBUGPAUSEACTIVE)
+            if (StateManager.DEBUGPAUSEACTIVE)
             {
-                if (Constants.DEBUGNEXTFRAME && Constants.DEBUGTHISFRAMEPHYSICS)
+                if (StateManager.DEBUGNEXTFRAME && StateManager.DEBUGTHISFRAMEPHYSICS)
                 {
                     time = Constants.DEBUGTIME;
                 }

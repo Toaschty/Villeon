@@ -43,8 +43,11 @@ namespace Villeon.Systems
 
                 if (KeyHandler.IsPressed(Keys.Space))
                 {
-                    if (collider.HasCollidedBottom)
+                    if (StateManager.IsGrounded)
+                    {
+                        StateManager.IsGrounded = false;
                         physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
+                    }
                 }
 
                 if (KeyHandler.IsPressed(Keys.E))
@@ -73,22 +76,22 @@ namespace Villeon.Systems
                 }
 
                 // Debug Mode
-                Constants.DEBUGNEXTFRAME = false;
+                StateManager.DEBUGNEXTFRAME = false;
                 if (KeyHandler.IsPressed(Keys.H))
                 {
-                    Constants.DEBUGPAUSEACTIVE = !Constants.DEBUGPAUSEACTIVE;
+                    StateManager.DEBUGPAUSEACTIVE = !StateManager.DEBUGPAUSEACTIVE;
                     KeyHandler.RemoveKeyHold(Keys.H);
                 }
 
                 if (KeyHandler.IsPressed(Keys.N))
                 {
-                    Constants.DEBUGNEXTFRAME = true;
+                    StateManager.DEBUGNEXTFRAME = true;
                     KeyHandler.RemoveKeyHold(Keys.N);
                 }
 
                 if (KeyHandler.IsPressed(Keys.M))
                 {
-                    Constants.DEBUGNEXTFRAME = true;
+                    StateManager.DEBUGNEXTFRAME = true;
                 }
 
                 if (KeyHandler.IsPressed(Keys.J))

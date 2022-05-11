@@ -29,11 +29,15 @@ namespace Villeon.Systems
                     // "kill" player
                     if (Entities[i].GetComponent<Player>() != null)
                     {
+                        StateManager.IsDead = true;
+
                         health.Heal(200);
                         Entities[i].GetComponent<Transform>().Position = new Vector2(5f, 5f);
                         Entities[i].GetComponent<Collider>().LastPosition = new Vector2(5f, 5f);
                         Entities[i].GetComponent<Physics>().Velocity = Vector2.Zero;
                         Entities[i].GetComponent<Physics>().Acceleration = Vector2.Zero;
+
+                        StateManager.IsDead = false;
                     }
                     else
                     {

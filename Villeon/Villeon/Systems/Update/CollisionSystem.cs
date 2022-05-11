@@ -28,18 +28,18 @@ namespace Villeon.Systems
         // Collider, Transform, Physics
         public void Update(float time)
         {
-            if (Constants.DEBUGPAUSEACTIVE)
+            if (StateManager.DEBUGPAUSEACTIVE)
             {
-                if (Constants.DEBUGNEXTFRAME)
+                if (StateManager.DEBUGNEXTFRAME)
                 {
-                    if (Constants.DEBUGTHISFRAMEPHYSICS)
+                    if (StateManager.DEBUGTHISFRAMEPHYSICS)
                     {
-                        Constants.DEBUGTHISFRAMEPHYSICS = false;
+                        StateManager.DEBUGTHISFRAMEPHYSICS = false;
                         return;
                     }
                     else
                     {
-                        Constants.DEBUGTHISFRAMEPHYSICS = true;
+                        StateManager.DEBUGTHISFRAMEPHYSICS = true;
                     }
                 }
                 else
@@ -140,6 +140,8 @@ namespace Villeon.Systems
                     collider.Position = new Vector2(collider.Position.X, e2Collider.Position.Y - collider.Height);
                     break;
                 case Direction.UP:
+                    StateManager.IsGrounded = true;
+
                     collider.HasCollidedBottom = true;
                     collider.Position = new Vector2(collider.Position.X, e2Collider.Position.Y + e2Collider.Height);
                     break;
@@ -163,6 +165,7 @@ namespace Villeon.Systems
                     collider.Position = new Vector2(collider.Position.X - collider.Offset.X, collider.LastPosition.Y - collider.Offset.Y);
                     break;
                 case Direction.UP:
+                    StateManager.IsGrounded = true;
                     collider.HasCollidedBottom = true;
                     collider.Position = new Vector2(collider.Position.X - collider.Offset.X, collider.LastPosition.Y - collider.Offset.Y);
                     break;
