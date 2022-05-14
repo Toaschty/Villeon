@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using Villeon.Components;
+using Villeon.ECS;
 using Villeon.Helper;
 
 namespace Villeon.Systems
 {
-    internal class TileRenderSystem : System, IRenderSystem
+    internal class TileRenderSystem : System //IRenderSystem
     {
         private int _currentTexture = -1;
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Villeon.Systems;
 
-namespace Villeon
+namespace Villeon.ECS
 {
     public class SceneLoader
     {

@@ -49,6 +49,7 @@ csharp_style_var_elsewhere = false:silent
 dotnet_diagnostic.SA1200.severity = silent
 dotnet_diagnostic.SA1633.severity = silent
 dotnet_diagnostic.SA0001.severity = silent
+dotnet_diagnostic.SA1310.severity = silent
 
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
@@ -443,7 +444,7 @@ dotnet_diagnostic.SA1308.severity = warning
 dotnet_diagnostic.SA1309.severity = none
 
 # SA1310: Field names should not contain underscore
-dotnet_diagnostic.SA1310.severity = warning
+dotnet_diagnostic.SA1310.severity = none
 
 # SA1311: Static readonly fields should begin with upper-case letter
 dotnet_diagnostic.SA1311.severity = warning

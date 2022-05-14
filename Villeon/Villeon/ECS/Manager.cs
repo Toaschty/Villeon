@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Villeon.Components;
 using Villeon.Systems;
 
-namespace Villeon
+namespace Villeon.ECS
 {
     public class Manager : IUpdate, IRender
     {

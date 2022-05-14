@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Villeon.Systems;
 
-namespace Villeon
+namespace Villeon.ECS
 {
     public class Scene : IUpdate, IRender
     {
@@ -132,7 +132,7 @@ namespace Villeon
                 if (!renderSystem.Entities.Contains(entity))
                 {
                     if (entity.Signature.Contains(renderSystem.Signature))
-                        renderSystem.Entities.Add(entity);
+                        renderSystem.Add(entity);
                 }
             }
         }
@@ -146,7 +146,7 @@ namespace Villeon
 
             foreach (IRenderSystem renderSystem in _renderSystems)
             {
-                renderSystem.Entities.Remove(entity);
+                renderSystem.Remove(entity);
             }
         }
     }

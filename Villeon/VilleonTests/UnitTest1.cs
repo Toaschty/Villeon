@@ -15,11 +15,9 @@ namespace VilleonTests
             // Arrange
             TypeRegistry.Init();
             CollisionSystem collisionSystem = new ("collisionSystem");
-            IEntity entity = new Entity("Marin");
-            IEntity entity2 = new Entity("Gojo");
+            IEntity entity = new Entity(new Transform(new Vector2(5.0f, 5.0f), 1.0f, 0.0f), "Marin");
+            IEntity entity2 = new Entity(new Transform(new Vector2(5.5f, 5.0f), 1.0f, 0.0f), "Gojo");
 
-            entity.AddComponent(new Transform(new Vector2(5.0f, 5.0f), 1.0f, 0.0f));
-            entity2.AddComponent(new Transform(new Vector2(5.5f, 5.0f), 1.0f, 0.0f));
             entity.AddComponent(new Collider(Vector2.Zero, new Vector2(5.0f, 5.0f), 0.5f, 0.5f));
             entity2.AddComponent(new Collider(Vector2.Zero, new Vector2(5.5f, 5.0f), 0.5f, 0.5f));
             collisionSystem.Entities.Add(entity);

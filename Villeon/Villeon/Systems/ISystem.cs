@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Villeon.Helper;
+using Villeon.ECS;
 
 namespace Villeon.Systems
 {
@@ -11,7 +12,7 @@ namespace Villeon.Systems
     {
         string Name { get; }
 
-        List<IEntity> Entities { get; }
+        HashSet<IEntity> Entities { get; }
 
         ulong Signature { get; }
     }

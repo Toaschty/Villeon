@@ -6,12 +6,17 @@
 
     public class ResourceLoader
     {
-        private static EmbeddedResourceDirectory ResourceDirectory { get; set; } = new EmbeddedResourceDirectory("Villeon.Content");
+        private static EmbeddedResourceDirectory ResourceDirectory { get; set; } = new EmbeddedResourceDirectory("Villeon.Assets");
 
         // Load in Resource as Stream from given path starting at Content, e.g. "TileMap.TilesetImages.*.png"
         public static Stream LoadContentAsStream(string name)
         {
             return ResourceDirectory.Resource(name).Open();
+        }
+
+        public static string LoadContentAsText(string name)
+        {
+            return ResourceDirectory.Resource(name).OpenText();
         }
 
         // Load in Resource as Texture2D from given path starting at Content, e.g. "TileMap.TilesetImages.*.png"
