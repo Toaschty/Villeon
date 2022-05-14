@@ -30,7 +30,7 @@ namespace Villeon.Systems
             {
                 AnimatedTile animTile = entity.GetComponent<AnimatedTile>();
 
-                Tile tile = TileMap._tiles[(uint)animTile.AnimationFrames[animTile.CurrentFrame] + 1];
+                Tile tile = TileMap.GetTileDictionary()[(uint)animTile.AnimationFrames[animTile.CurrentFrame] + 1];
 
                 // Bind texure defined in tile
                 if (_currentTexture != tile.TileSet.Texture2D)

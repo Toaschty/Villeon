@@ -8,11 +8,11 @@ namespace Villeon
 {
     public static class Constants
     {
-        public static float GRAVITY { get; } = 20f;
+        public static float GRAVITY { get; } = 40f;
 
         public static float FRICTION { get; } = 7.5f;
 
-        public static float JUMPSTRENGTH { get; } = 25f;
+        public static float JUMPSTRENGTH { get; } = 15f;
 
         // In struct i guess
         public static float MOVEMENTSPEED { get; } = 75f;
@@ -20,12 +20,6 @@ namespace Villeon
         public static float TOPDOWNMOVEMENTSPEED { get; } = 10;
 
         // Debug
-        public static bool DEBUGPAUSEACTIVE { get; set; } = false;
-
         public static float DEBUGTIME { get; set; } = 0.00833f;
-
-        public static bool DEBUGNEXTFRAME { get; set; } = false;
-
-        public static bool DEBUGTHISFRAMEPHYSICS { get; set; } = true;
     }
 }

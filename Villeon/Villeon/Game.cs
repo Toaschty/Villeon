@@ -67,21 +67,29 @@ namespace Villeon
             TileMap tileMap = new TileMap("DungeonTileMap.tmx", true);
             _entity = new Entity(new Transform(new Vector2(-0.5f, 0.5f), new Vector2(1.0f, 1.0f), 0f), "Marin");
             _entity.AddComponent(new Physics());
-            _entity.AddComponent(new Collider(new Vector2(0.0f, 0.0f), new Vector2(0.0f, 0.0f), 1f, 1f));
+            _entity.AddComponent(new Collider(new Vector2(0.0f, 0.0f), new Vector2(35.0f, 35.0f), 0.5f, 0.5f));
+            _entity.AddComponent(TriggerBuilder.Build(TriggerID.PLAYER));
+            _entity.AddComponent(new Sprite(Color4.Cornsilk, new Vector2(1f, 1f)));
             _entity.AddComponent(new Player());
             _entity.AddComponent(new Health(200));
             _entity.AddComponent(new Sprite(Color4.White, Assets.GetTexture(@"TileMap.TilesetImages.DungeonTileSet.png"), RenderLayer.Front, true));
 
             _dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
+            _dungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
+            _dungeonScene.AddSystem(new SimpleAISystem("SimpleAISystem"));
+
             _dungeonScene.AddSystem(new PhysicsSystem("Physics"));
             _dungeonScene.AddSystem(new CollisionSystem("Collision"));
-            // _dungeonScene.AddSystem(new TileRenderSystem("TileRenderSystem", tileMap));
-            _dungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
-            //_dungeonScene.AddSystem(new SpriteRenderSystem("SpriteRenderSystem"));
-            //_dungeonScene.AddSystem(new ColliderRenderSystem("CollisionSystem"));
+            _dungeonScene.AddSystem(new TriggerSystem("Trigger"));
+
+            _dungeonScene.AddSystem(new HealthSystem("Health"));
+
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
-            _dungeonScene.AddSystem(new SimpleAISystem("SimpleAISystem"));
-            _dungeonScene.AddSystem(new Renderer("Renderer"));
+
+            _dungeonScene.AddSystem(new TileRenderSystem("TileRenderSystem", tileMap));
+            _dungeonScene.AddSystem(new SpriteRenderSystem("SpriteRenderSystem"));
+            _dungeonScene.AddSystem(new ColliderRenderSystem("CollisionSystem"));
+            _dungeonScene.AddSystem(new TriggerRenderSystem("TriggerRenderer"));
             _dungeonScene.SetTileMap(tileMap);
             _dungeonScene.AddEntity(_entity);
 
@@ -136,7 +144,10 @@ namespace Villeon
             }
 
             Manager.GetInstance().Update((float)args.Time);
-            DebugPrinter.PrintToConsole((float)args.Time);
+
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine("IsGrounded: " + StateManager.IsGrounded.ToString());
+
             MouseHandler.ClickedMouseButtons.Clear();
         }
 

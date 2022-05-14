@@ -1,8 +1,6 @@
 ﻿namespace Villeon
 {
-    using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Xml;
     using OpenTK.Graphics.OpenGL;
@@ -20,16 +18,16 @@
         private readonly TiledLib.Map _map;
 
         // Dictionary tileId => Tile object
-        public Dictionary<uint, Villeon.Components.Tile> _tiles = new ();
-        public Dictionary<uint, Villeon.Components.AnimatedTile> _animTiles = new ();
+        private Dictionary<uint, Villeon.Components.Tile> _tiles = new ();
+        private Dictionary<uint, Villeon.Components.AnimatedTile> _animTiles = new ();
 
         // Used for generating optimized colliders
         private bool[,] _colliderGrid;
 
         private bool _collisionOptimization = false;
 
-        // XML
-        private XmlDocument? _tileSetReader;
+        // XML document of tileSet
+        private XmlDocument _tileSetXml;
 
         public TileMap(string mapName, bool enableCollisionOptimization)
         {
@@ -39,78 +37,97 @@
             _colliderGrid = new bool[_map.Width, _map.Height];
             _collisionOptimization = enableCollisionOptimization;
 
+            _tileSetXml = new XmlDocument ();
+
             // Starting generation
             SetupTileDictionary();
         }
 
         public List<IEntity> Entities { get; set; } = new List<IEntity>();
 
-        // Read collisions from tilemap
+        // Start setup prozess. Fill dictionary with all tiles.
+        private void SetupTileDictionary()
+        {
+            // Go through all tilesets
+            foreach (var tileSet in _map.Tilesets)
+            {
+                float rezImageWidth = 1f / tileSet.ImageWidth;
+                float rezImageHeight = 1f / tileSet.ImageHeight;
+
+                // Load in corresponding tileset
+                TileSetStruct graphicsTileSet = LoadTileSet("TileMap." + tileSet.ImagePath, (uint)tileSet.Columns, (uint)tileSet.Rows);
+
+                // Go through all tiles in tileset -> Safe all tiles in dictionary
+                for (int gid = tileSet.FirstGid; gid < tileSet.FirstGid + tileSet.TileCount; gid++)
+                {
+                    TiledLib.Tile tile = tileSet[gid];
+
+                    Tile currentTile = new Tile(tile.Left * rezImageWidth, (tileSet.ImageHeight - tileSet.TileHeight - tile.Top) * rezImageHeight, graphicsTileSet);
+
+                    // Gid starts with 1. 0 = No tile in current position on layer
+                    _tiles.Add((uint)gid, currentTile);
+                }
+            }
+
+            // If optimization is turn on => Generate collisions | Turned off => Load collisions from tilemap
+            GetAdditionalData();
+            if (!_collisionOptimization)
+                AddOptimizedColliders();
+        }
+
+        // Read additional data, e.g. collision boxes or animation frames from file
         public void GetAdditionalData()
         {
             // Go through all tilesets
             foreach (var tileSet in _map.Tilesets)
             {
-                //_tileSetReader = XmlReader.Create(ResourceLoader.LoadContentAsStream("TileMap.Tilesets." + tileSet.Name + ".tsx"));
-                _tileSetReader = new XmlDocument();
-                _tileSetReader.Load(ResourceLoader.LoadContentAsStream("TileMap.Tilesets." + tileSet.Name + ".tsx"));
+                // Load .tsx file as xml document
+                _tileSetXml.Load(ResourceLoader.LoadContentAsStream("TileMap.Tilesets." + tileSet.Name + ".tsx"));
 
-                XmlNodeList tileNodes = _tileSetReader.SelectNodes("tileset/tile");
+                // Select all "Tile"-Nodes in .tsx file
+                XmlNodeList tileNodes = _tileSetXml.SelectNodes("tileset/tile");
+
+                // Go through all "Tile"-Nodes
                 foreach (XmlNode tileNode in tileNodes)
                 {
+                    // Read attribute "id" from current node
                     uint tileId = uint.Parse(tileNode.Attributes["id"].Value);
+
+                    // Get current tile from dictionary (+1: Empty grid = 0. Tile-IDs saved 1 upwards)
                     Tile currentTile = _tiles[tileId + 1];
 
-                    foreach (XmlNode child in tileNode.ChildNodes)
+                    // Go through all child nodes of current tile. Possible node: collision = "objectgroup", animation = "animation"
+                    foreach (XmlNode tileChildNode in tileNode.ChildNodes)
                     {
-                        if (child.Name == "objectgroup")
+                        if (tileChildNode.Name == "objectgroup")
                         {
-                            GetCollisionData(child, tileId, tileSet);
+                            GetCollisionData(tileChildNode, tileId, tileSet);
                         }
 
-                        if (child.Name == "animation")
+                        if (tileChildNode.Name == "animation")
                         {
-                            GetAnimationData(child, tileId);
+                            GetAnimationData(tileChildNode, tileId);
                         }
                     }
                 }
-                // Go through all tiles in file
-                /*
-                while (_tileSetReader.ReadToFollowing("tile"))
-                {
-                    // Read id of tile
-                    _tileSetReader.MoveToAttribute("id");
-                    uint tileId = uint.Parse(_tileSetReader.Value);
-
-                    // Load tile from dictionary with id
-                    Tile currentTile = _tiles[tileId + 1];
-
-                    // Open element "objectgroup" as new XMLReader
-                    if (_tileSetReader.ReadToDescendant("objectgroup"))
-                    {
-                        GetCollisionData(tileId, tileSet);
-                    }
-
-                    // Go through all collisions from a tile
-                    if (_tileSetReader.ReadToDescendant("animation"))
-                    {
-                        GetAnimationData(tileId);
-                    }
-                }
-                */
             }
         }
 
+        // Read collisions from file
         public void GetCollisionData(XmlNode child, uint tileId, TiledLib.ITileset tileSet)
         {
-            //XmlReader collisionReader = _tileSetReader.ReadSubtree();
+            // Get all child nodes from "objectgroup" nodes
             XmlNodeList collisions = child.ChildNodes;
+
+            // Go through all "object"-Nodes. Each Node represents one collision box
             foreach (XmlNode collision in collisions)
             {
-                Vector2 offset = new();
+                // Get collider offset from (0,0)
+                Vector2 offset = new ();
                 offset.X = float.Parse(collision.Attributes["x"].Value);
                 offset.Y = float.Parse(collision.Attributes["y"].Value);
 
+                // Get collider coordinates. Coordinates only represents size not the position
                 string[] coords = collision.ChildNodes[0].Attributes["points"].Value.Split(' ', ',');
 
                 Vector2 minCoords = new();
@@ -130,86 +147,33 @@
                 Box2 collider = new Box2((minCoords + offset) / tileSet.TileWidth, (maxCoords + offset) / tileSet.TileWidth);
                 _tiles[tileId + 1].Colliders.Add(collider);
             }
-            /*
-            while (collisionReader.ReadToFollowing("object"))
-            {
-                // // Calculate offset
-                Vector2 offset = new();
-
-                // Get x from reader
-                _tileSetReader.MoveToAttribute("x");
-                offset.X = float.Parse(_tileSetReader.Value);
-
-                // Get y from reader
-                _tileSetReader.MoveToAttribute("y");
-                offset.Y = float.Parse(_tileSetReader.Value);
-
-                // // Calculate size of collider
-                // Move to collision coordinates within tile
-                _tileSetReader.ReadToFollowing("polygon");
-                _tileSetReader.MoveToAttribute("points");
-
-                // Get coordinates by splitting string
-                string[] coords = _tileSetReader.Value.Split(' ', ',');
-
-                // Create collider bounds
-                Vector2 minCoords = new();
-                minCoords.X = float.Parse(coords[0]);
-                minCoords.Y = float.Parse(coords[1]);
-
-                Vector2 maxCoords = new();
-                maxCoords.X = float.Parse(coords[4]);
-                maxCoords.Y = float.Parse(coords[5]);
-
-                // Flip Y axis for proper drawing (Coordinate system origin different)
-                offset.Y = tileSet.TileHeight - offset.Y;
-                maxCoords.Y = -maxCoords.Y;
-
-                // Create collider and add it to the loaded tile
-                // Devide by tile width to get coordinates inside of tile, e.g. (4, 12) -> (0.25, 0.75)
-                Box2 collider = new Box2((minCoords + offset) / tileSet.TileWidth, (maxCoords + offset) / tileSet.TileWidth);
-                _tiles[tileId + 1].Colliders.Add(collider);
-            }
-            */
         }
 
+        // Read animation frames from file
         public void GetAnimationData(XmlNode child, uint tileId)
         {
+            // Get all child nodes from "animation" nodes
             XmlNodeList frames = child.ChildNodes;
 
             Tile tile = _tiles[tileId];
             AnimatedTile animTile = new AnimatedTile(tile._x, tile._y, tile.TileSet, tile.Colliders, tile.Texture2D);
 
+            // Go through all "frame"-Nodes of animation
             foreach (XmlNode frame in frames)
             {
+                // Read animation frame id and save it into AnimationFrames
                 int frameId = int.Parse(frame.Attributes["tileid"].Value);
                 animTile.AnimationFrames.Add(frameId);
 
+                // Add current frame duration to animation FrameDuration. Value given in ms => /1000
                 animTile.FrameDuration += float.Parse(frame.Attributes["duration"].Value) / 1000;
             }
 
+            // Divide by framecount => Average out different frame durations
             animTile.FrameDuration /= animTile.AnimationFrames.Count;
+
+            // Add animated Tile to dictionary
             _animTiles.Add(tileId + 1, animTile);
-            /*
-            XmlReader animationReader = _tileSetReader.ReadSubtree();
-
-            Tile tile = _tiles[tileId];
-            AnimatedTile animTile = new AnimatedTile(tile._x, tile._y, tile.TileSet, tile.Colliders);
-
-            while (animationReader.ReadToFollowing("frame"))
-            {
-                animationReader.MoveToAttribute("tileid");
-                int frameId = int.Parse(animationReader.Value);
-
-                animTile.AnimationFrames.Add(frameId);
-
-                animationReader.MoveToAttribute("duration");
-                animTile.FrameDuration += float.Parse(animationReader.Value) / 1000;
-            }
-
-            animTile.FrameDuration /= animTile.AnimationFrames.Count;
-            _animTiles.Add(tileId + 1, animTile);
-            */
         }
 
         // Generate tile-entitys depending on the tilemap.
@@ -284,58 +248,6 @@
                 AddOptimizedColliders();
         }
 
-        // Load in tileSet texture. Set settings for texture. Tile width and height calculation for tileSet.
-        public TileSetStruct LoadTileSet(string imagePath, uint columns, uint rows)
-        {
-            Texture2D tileSetTexture = Assets.GetTexture(imagePath);
-            //Texture2D tileSetTexture = ResourceLoader.LoadContentAsTexture2D(imagePath);
-            //GL.BindTexture(TextureTarget.Texture2D, tileSetTexture.Handle);
-            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Nearest);
-            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Nearest);
-            //GL.BindTexture(TextureTarget.Texture2D, 0);
-
-            Vector2 delta = new Vector2(0.5f / tileSetTexture.Width, 0.5f / tileSetTexture.Height);
-
-            return new TileSetStruct()
-            {
-                Texture2D = tileSetTexture.Handle,
-                TileWidth = 1f / columns,
-                TileHeight = 1f / rows,
-                Delta = delta,
-            };
-        }
-
-        // Start setup prozess. Fill dictionary with all tiles.
-        private void SetupTileDictionary()
-        {
-            // Go through all tilesets
-            foreach (var tileSet in _map.Tilesets)
-            {
-                float rezImageWidth = 1f / tileSet.ImageWidth;
-                float rezImageHeight = 1f / tileSet.ImageHeight;
-
-                // Load in corresponding tileset
-                TileSetStruct graphicsTileSet = LoadTileSet("TileMap." + tileSet.ImagePath, (uint)tileSet.Columns, (uint)tileSet.Rows);
-                Texture2D texture = Assets.GetTexture("TileMap." + tileSet.ImagePath);
-
-                // Go through all tiles in tileset -> Safe all tiles in dictionary
-                for (int gid = tileSet.FirstGid; gid < tileSet.FirstGid + tileSet.TileCount; gid++)
-                {
-                    TiledLib.Tile tile = tileSet[gid];
-
-                    Tile currentTile = new Tile(tile.Left * rezImageWidth, (tileSet.ImageHeight - tileSet.TileHeight - tile.Top) * rezImageHeight, graphicsTileSet, texture);
-
-                    // Gid starts with 1. 0 = No tile in current position on layer
-                    _tiles.Add((uint)gid, currentTile);
-                }
-            }
-
-            // If optimization is turn on => Generate collisions | Turned off => Load collisions from tilemap
-            GetAdditionalData();
-            if (!_collisionOptimization)
-                AddOptimizedColliders();
-        }
-
         // Add optimized colliders to tiles.
         private void AddOptimizedColliders()
         {
@@ -400,5 +312,27 @@
                 }
             }
         }
+
+        // Load in tileSet texture. Set settings for texture. Tile width and height calculation for tileSet.
+        public TileSetStruct LoadTileSet(string imagePath, uint columns, uint rows)
+        {
+            Texture2D tileSetTexture = ResourceLoader.LoadContentAsTexture2D(imagePath);
+            GL.BindTexture(TextureTarget.Texture2D, tileSetTexture.Handle);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Nearest);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Nearest);
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+
+            Vector2 delta = new Vector2(0.5f / tileSetTexture.Width, 0.5f / tileSetTexture.Height);
+
+            return new TileSetStruct()
+            {
+                Texture2D = tileSetTexture.Handle,
+                TileWidth = 1f / columns,
+                TileHeight = 1f / rows,
+                Delta = delta,
+            };
+        }
+    
+        public Dictionary<uint, Tile> GetTileDictionary() => _tiles;
     }
 }

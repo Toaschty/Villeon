@@ -4,6 +4,7 @@
     using Zenseless.OpenTK;
     using Zenseless.Resources;
 
+    // You HAVE to set the "Build Action" property to "embedded resource" to be able to find and load your wonderful file
     public class ResourceLoader
     {
         private static EmbeddedResourceDirectory ResourceDirectory { get; set; } = new EmbeddedResourceDirectory("Villeon.Assets");

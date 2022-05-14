@@ -16,10 +16,29 @@ namespace Villeon
         {
         }
 
+        public static void SpawnTrigger(TriggerID id, Vector2 poition, float width, float height)
+        {
+            IEntity damageEntity = new Entity("Attack");
+            damageEntity.AddComponent(new Transform(poition, width, height));
+            damageEntity.AddComponent(TriggerBuilder.Build(id));
+            Manager.GetInstance().AddEntity(damageEntity);
+        }
+
+        public static void SpawnTrigger(TriggerID id, Transform transform)
+        {
+            IEntity damageEntity = new Entity("Attack");
+            damageEntity.AddComponent(transform);
+            damageEntity.AddComponent(TriggerBuilder.Build(id));
+            Manager.GetInstance().AddEntity(damageEntity);
+        }
+
         public void Spawn(Vector2 position)
         {
-            IEntity entity = new Entity(new Transform(position, new Vector2(0.5f, 1.0f), 0f), "Peter");
+            IEntity entity = new Entity("Peter");
+            entity.AddComponent(new Transform(position, 1.0f, 0f));
             entity.AddComponent(new Collider(Vector2.Zero, position, 0.5f, 1.0f));
+            entity.AddComponent(TriggerBuilder.Build(TriggerID.ENEMY));
+            entity.AddComponent(new Health(200));
             entity.AddComponent(new Physics());
             entity.AddComponent(new SimpleAI());
             entity.AddComponent(new Sprite(Color4.White, Assets.GetTexture("HenksFont.png"), RenderLayer.Front, true));
