@@ -10,6 +10,7 @@
 	<EmbeddedResource Include="Assets\**\*.*" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\Player.png" />
     <None Remove="Assets\shader.vert" />
   </ItemGroup>
   <ItemGroup>

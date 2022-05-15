@@ -7,10 +7,10 @@
     using OpenTK.Mathematics;
     using TiledLib.Layer;
     using Villeon.Components;
+    using Villeon.ECS;
     using Villeon.Helper;
     using Zenseless.OpenTK;
     using static Villeon.Components.Tile;
-    using Villeon.ECS;
 
     public class TileMap
     {
@@ -56,13 +56,14 @@
 
                 // Load in corresponding tileset
                 TileSetStruct graphicsTileSet = LoadTileSet("TileMap." + tileSet.ImagePath, (uint)tileSet.Columns, (uint)tileSet.Rows);
+                Texture2D tileMapTexture = Assets.GetTexture("TileMap." + tileSet.ImagePath);
 
                 // Go through all tiles in tileset -> Safe all tiles in dictionary
                 for (int gid = tileSet.FirstGid; gid < tileSet.FirstGid + tileSet.TileCount; gid++)
                 {
                     TiledLib.Tile tile = tileSet[gid];
 
-                    Tile currentTile = new Tile(tile.Left * rezImageWidth, (tileSet.ImageHeight - tileSet.TileHeight - tile.Top) * rezImageHeight, graphicsTileSet);
+                    Tile currentTile = new Tile(tile.Left * rezImageWidth, (tileSet.ImageHeight - tileSet.TileHeight - tile.Top) * rezImageHeight, graphicsTileSet, tileMapTexture);
 
                     // Gid starts with 1. 0 = No tile in current position on layer
                     _tiles.Add((uint)gid, currentTile);
@@ -316,12 +317,7 @@
         // Load in tileSet texture. Set settings for texture. Tile width and height calculation for tileSet.
         public TileSetStruct LoadTileSet(string imagePath, uint columns, uint rows)
         {
-            Texture2D tileSetTexture = ResourceLoader.LoadContentAsTexture2D(imagePath);
-            GL.BindTexture(TextureTarget.Texture2D, tileSetTexture.Handle);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Nearest);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Nearest);
-            GL.BindTexture(TextureTarget.Texture2D, 0);
-
+            Texture2D tileSetTexture = Assets.GetTexture(imagePath);
             Vector2 delta = new Vector2(0.5f / tileSetTexture.Width, 0.5f / tileSetTexture.Height);
 
             return new TileSetStruct()
@@ -332,7 +328,7 @@
                 Delta = delta,
             };
         }
-    
+
         public Dictionary<uint, Tile> GetTileDictionary() => _tiles;
     }
 }

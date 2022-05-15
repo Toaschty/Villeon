@@ -22,6 +22,7 @@ namespace Villeon.Components
         private Vector2[] _texCoords;
         private Color4 _color;
         private bool _isDynamic = false;
+        private float _aspectRatio = 1f;
 
         // Create a sprite with Texture
         public Sprite(Color4 color, Texture2D texture, RenderLayer renderLayer, Vector2[] texCoords, bool isDynamic = false)
@@ -31,6 +32,7 @@ namespace Villeon.Components
             _texCoords = texCoords;
             _color = color;
             _isDynamic = isDynamic;
+            _aspectRatio = texture.Height / (float)texture.Width;
         }
 
         public Sprite(Color4 color, Texture2D texture, RenderLayer renderLayer, bool isDynamic = false)
@@ -46,6 +48,7 @@ namespace Villeon.Components
             };
             _color = color;
             _isDynamic = isDynamic;
+            _aspectRatio = texture.Height / (float)texture.Width;
         }
 
         // Create a sprite with no Texture (Just color)
@@ -85,12 +88,18 @@ namespace Villeon.Components
         public bool IsDynamic
         {
             get { return _isDynamic; }
+            set { _isDynamic = value; }
         }
 
         public RenderLayer RenderLayer
         {
             get { return _layer; }
+            set { _layer = value; }
         }
 
+        public float AspectRatio
+        {
+            get { return _aspectRatio; }
+        }
     }
 }

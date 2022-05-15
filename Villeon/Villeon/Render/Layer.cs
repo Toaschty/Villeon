@@ -13,7 +13,7 @@ namespace Villeon.Render
     public class Layer : IRender
     {
         private List<DynamicRenderBatch> _dynamicBatches = new List<DynamicRenderBatch>();
-        private List<StaticRenderBatch> _staticBatches = new List<StaticRenderBatch>();
+        private List<RenderBatch> _staticBatches = new List<RenderBatch>();
 
         public void Add(IEntity entity, int maxBatchSize)
         {
@@ -30,7 +30,6 @@ namespace Villeon.Render
                         if (texture == null || (batch.HasTexture(texture) || batch.HasTextureRoom()))
                         {
                             batch.AddEntity(entity);
-                            batch.AddSprite(entity);
                             added = true;
                             break;
                         }
@@ -44,13 +43,12 @@ namespace Villeon.Render
                     newBatch.Start();
                     _dynamicBatches.Add(newBatch);
                     newBatch.AddEntity(entity);
-                    newBatch.AddSprite(entity);
                 }
             }
             else
             {
                 // Add the entity to the batch
-                foreach (StaticRenderBatch batch in _staticBatches)
+                foreach (RenderBatch batch in _staticBatches)
                 {
                     if (!batch.Full())
                     {
@@ -58,8 +56,8 @@ namespace Villeon.Render
                         Texture2D texture = entity.GetComponent<Sprite>().Texture;
                         if (texture == null || (batch.HasTexture(texture) || batch.HasTextureRoom()))
                         {
-                            batch.AddSprite(entity);
-                            batch.Load();
+                            batch.AddEntity(entity);
+                            batch.LoadBuffer();
                             added = true;
                             break;
                         }
@@ -69,11 +67,11 @@ namespace Villeon.Render
                 // Batch is full or not created: create new, add to batch!
                 if (!added)
                 {
-                    StaticRenderBatch newBatch = new StaticRenderBatch(maxBatchSize);
+                    RenderBatch newBatch = new RenderBatch(maxBatchSize);
                     newBatch.Start();
                     _staticBatches.Add(newBatch);
-                    newBatch.AddSprite(entity);
-                    newBatch.Load();
+                    newBatch.AddEntity(entity);
+                    newBatch.LoadBuffer();
                 }
             }
 
@@ -85,11 +83,16 @@ namespace Villeon.Render
             {
                 dynamicBatch.RemoveEntity(entity);
             }
+
+            foreach (RenderBatch staticBatch in _staticBatches)
+            {
+                staticBatch.RemoveEntity(entity);
+            }
         }
 
         public void Render()
         {
-            foreach (StaticRenderBatch renderBatch in _staticBatches)
+            foreach (RenderBatch renderBatch in _staticBatches)
             {
                 renderBatch.Render();
             }

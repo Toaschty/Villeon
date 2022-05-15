@@ -52,5 +52,18 @@ namespace Villeon.Components
         {
             return _sprites[index];
         }
+
+        public Sprite GetSprite(int index, RenderLayer layer)
+        {
+            _sprites[index].RenderLayer = layer;
+            return _sprites[index];
+        }
+
+        public Sprite GetSprite(int index, RenderLayer layer, bool isDynamic)
+        {
+            _sprites[index].RenderLayer = layer;
+            _sprites[index].IsDynamic = isDynamic;
+            return _sprites[index];
+        }
     }
 }

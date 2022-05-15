@@ -36,7 +36,7 @@ namespace Villeon.Components
 
         public List<Box2> Colliders { get; set; } = new List<Box2>();
 
-        public Box2 TexCoords => new Box2(_x + TileSet.Delta.X, _y + TileSet.Delta.Y, _x + TileSet.TileWidth - TileSet.Delta.X, _y + TileSet.TileHeight - TileSet.Delta.Y);
+        public Box2 TexCoords => new Box2(_x, _y, _x + TileSet.TileWidth, _y + TileSet.TileHeight);
 
         public Box2 WorldCoords => new Box2(Position, Position + new Vector2(1, 1));
 
