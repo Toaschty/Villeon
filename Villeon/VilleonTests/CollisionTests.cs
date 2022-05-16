@@ -128,33 +128,29 @@ namespace VilleonTests
             TypeRegistry.Init();
             CollisionSystem collisionSystem = new ("collisionSystem");
 
-            Vector2 start_pos_enemy = new Vector2(11, 11);
-            Vector2 start_pos_secondenemy = new Vector2(12, 11);
-            Vector2 start_pos_player = new Vector2(10f, 10f);
-            Vector2 start_pos_secondplayer = new Vector2(8f, 10f);
+            IEntity wall = new Entity(new Transform(new Vector2(0, 0), 1f, 0f), "Wall");
+            wall.AddComponent(new Collider(new Vector2(0, 0), 1f, 10f));
 
-            Entity enemy = new Entity(new Transform(start_pos_enemy, 1.0f, 0.0f), "enemy");
-            Entity secondEnemy = new Entity(new Transform(start_pos_secondenemy, 1.0f, 0.0f), "secondEnemey");
-            Entity player = new Entity(new Transform(start_pos_player, 1.0f, 0.0f), "Player");
-            Entity secondPlayer = new Entity(new Transform(start_pos_secondplayer, 1.0f, 0.0f), "secondPlayer");
+            IEntity player = new Entity(new Transform(new Vector2(1f, 0), 1f, 0f), "Player");
+            player.AddComponent(new Collider(new Vector2(1f, 0), 1f, 1f));
 
-            // Add collider components for every entity
-            enemy.AddComponent(new Collider(Vector2.Zero, start_pos_enemy, 0.5f, 0.5f));
-            secondEnemy.AddComponent(new Collider(Vector2.Zero, start_pos_secondenemy, 0.5f, 0.5f));
-            player.AddComponent(new Collider(Vector2.Zero, start_pos_player, 0.5f, 0.5f));
-            secondPlayer.AddComponent(new Collider(Vector2.Zero, start_pos_secondplayer, 0.5f, 0.5f));
+            IEntity enemy = new Entity(new Transform(new Vector2(2f, 0), 1f, 0f), "Enemy");
+            enemy.AddComponent(new Collider(new Vector2(2f, 0), 1f, 1f));
 
+            collisionSystem.Entities.Add(wall);
             collisionSystem.Entities.Add(enemy);
-            collisionSystem.Entities.Add(secondEnemy);
             collisionSystem.Entities.Add(player);
-            collisionSystem.Entities.Add(secondPlayer);
+
+            Transform playerTransform = player.GetComponent<Transform>();
+            playerTransform.Position += new Vector2(-1f, 0f);
+
+            Transform enemyTransform = enemy.GetComponent<Transform>();
+            enemyTransform.Position += new Vector2(-1f, 0f);
 
             collisionSystem.Update(0);
-            player.GetComponent<Transform>().Position += new Vector2(0.5f, 0.5f);
-            enemy.GetComponent<Transform>().Position += new Vector2(0.5f, 0.5f);
-            collisionSystem.Update(0);
 
-            Assert.AreEqual(start_pos_enemy, enemy.GetComponent<Transform>().Position);
+            Assert.AreEqual(1f, player.GetComponent<Transform>().Position.X);
+            Assert.AreEqual(2f, enemy.GetComponent<Transform>().Position.X);
         }
     }
 }

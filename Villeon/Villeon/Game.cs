@@ -10,6 +10,7 @@ using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
 using Villeon.ECS;
+using Villeon.GUI;
 using Villeon.Helper;
 using Villeon.Render;
 using Villeon.Systems;
@@ -41,7 +42,7 @@ namespace Villeon
             //SceneLoader.LoadScene("VillageScene");
 
             // Write some Text
-            TextWriter.Write("Hello", new Vector2(0f, 5f));
+            Text.Write(_entity, "Something", new Vector2(0f, 2f), 1f);
 
             gameWindow.KeyDown += KeyHandler.KeyDown;
             gameWindow.KeyUp += KeyHandler.KeyUp;
@@ -136,10 +137,8 @@ namespace Villeon
             }
 
             Manager.GetInstance().Update((float)args.Time);
-
-            Console.SetCursorPosition(0, 0);
-            Console.WriteLine("IsGrounded: " + StateManager.IsGrounded.ToString());
-
+            Console.WriteLine("D: " + _dungeonScene._entities.Count);
+            Console.WriteLine("V: " + _villageScene._entities.Count);
             MouseHandler.ClickedMouseButtons.Clear();
         }
 

@@ -46,7 +46,7 @@ namespace VilleonTests
             }
 
             // Free Fall: 1/2 * g * t^2 = 0.5f * -6 * 0.5^2 = -7.5f
-            Assert.AreEqual(-7.5, physicEntity.GetComponent<Transform>().Position.Y);
+            Assert.AreEqual(0.5f * (-Constants.GRAVITY * 3) * (float)Math.Pow(0.5f, 2f), physicEntity.GetComponent<Transform>().Position.Y);
 
             // Clean up
             _testScene.RemoveEntity(physicEntity);
@@ -86,7 +86,7 @@ namespace VilleonTests
             }
 
             // -12 equals the default Y velocity a entity has when standing still with an delta time of 0.1f
-            Assert.AreEqual(-6, physicEntity.GetComponent<Physics>().Velocity.Y);
+            Assert.AreEqual(-12, physicEntity.GetComponent<Physics>().Velocity.Y);
 
             // Clean up
             _testScene.RemoveEntity(physicEntity);
@@ -130,7 +130,7 @@ namespace VilleonTests
             }
 
             // 12 equals the default Y velocity a entity has when standing still with an delta time of 0.1f
-            Assert.AreEqual(6, physicEntity.GetComponent<Physics>().Velocity.Y);
+            Assert.AreEqual(-12, physicEntity.GetComponent<Physics>().Velocity.Y);
 
             // Clean up
             _testScene.RemoveEntity(physicEntity);

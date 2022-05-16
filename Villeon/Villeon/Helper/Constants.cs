@@ -8,7 +8,7 @@ namespace Villeon
 {
     public static class Constants
     {
-        public static float GRAVITY { get; } = 40f;
+        public static float GRAVITY { get; } = 40;
 
         public static float FRICTION { get; } = 7.5f;
 

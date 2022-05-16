@@ -19,6 +19,12 @@ namespace Villeon.ECS
             AddComponent(transform);
         }
 
+        public Entity(string name)
+        {
+            Name = name;
+            AddComponent(new Transform(new Vector2(0, 0), 1f, 0f));
+        }
+
         public ulong Signature { get; set; } = 0;
 
         public bool Enabled { get; set; } = true;
