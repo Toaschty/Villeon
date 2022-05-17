@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Villeon.Render;
 using Villeon.Systems;
 
 namespace Villeon.ECS
@@ -22,10 +23,10 @@ namespace Villeon.ECS
 
         public void AddSystem(ISystem system)
         {
-            if (system is IUpdateSystem)
+            if (system is IUpdateSystem && !_updateSystems.Contains((IUpdateSystem)system))
                 _updateSystems.Add((IUpdateSystem)system);
 
-            if (system is IRenderSystem)
+            if (system is IRenderSystem && !_renderSystems.Contains((IRenderSystem)system))
                 _renderSystems.Add((IRenderSystem)system);
 
             // Make sure, every system has its assigned Entities

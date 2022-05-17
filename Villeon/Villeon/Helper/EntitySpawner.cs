@@ -7,6 +7,7 @@ using OpenTK.Mathematics;
 using Villeon.Components;
 using Villeon.ECS;
 using Villeon.Helper;
+using Villeon.Render;
 
 namespace Villeon
 {
@@ -38,7 +39,7 @@ namespace Villeon
             entity.AddComponent(new Health(200));
             entity.AddComponent(new Physics());
             entity.AddComponent(new SimpleAI());
-            entity.AddComponent(new Sprite(Color4.DarkGray, Assets.GetTexture("Player.png"), RenderLayer.Front, true));
+            entity.AddComponent(new Sprite(Color4.DarkGray, Assets.GetTexture("Player.png"), SpriteLayer.Foreground, true));
             Manager.GetInstance().AddEntity(entity);
         }
     }

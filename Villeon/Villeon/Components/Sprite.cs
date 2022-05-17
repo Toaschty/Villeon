@@ -4,28 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Villeon.Render;
 using Zenseless.OpenTK;
 
 namespace Villeon.Components
 {
-    public enum RenderLayer
-    {
-        Background,
-        Middle,
-        Front,
-    }
-
     public class Sprite : IComponent
     {
         private Texture2D? _texture2D;
-        private RenderLayer _layer;
+        private SpriteLayer _layer;
         private Vector2[] _texCoords;
         private Color4 _color;
         private bool _isDynamic = false;
         private float _aspectRatio = 1f;
 
         // Create a sprite with Texture
-        public Sprite(Color4 color, Texture2D texture, RenderLayer renderLayer, Vector2[] texCoords, bool isDynamic = false)
+        public Sprite(Color4 color, Texture2D texture, SpriteLayer renderLayer, Vector2[] texCoords, bool isDynamic = false)
         {
             _texture2D = texture;
             _layer = renderLayer;
@@ -35,7 +29,7 @@ namespace Villeon.Components
             _aspectRatio = texture.Height / (float)texture.Width;
         }
 
-        public Sprite(Color4 color, Texture2D texture, RenderLayer renderLayer, bool isDynamic = false)
+        public Sprite(Color4 color, Texture2D texture, SpriteLayer renderLayer, bool isDynamic = false)
         {
             _texture2D = texture;
             _layer = renderLayer;
@@ -52,7 +46,7 @@ namespace Villeon.Components
         }
 
         // Create a sprite with no Texture (Just color)
-        public Sprite(Color4 color, RenderLayer renderLayer, bool isDynamic = false)
+        public Sprite(Color4 color, SpriteLayer renderLayer, bool isDynamic = false)
         {
             _texture2D = null;
             _layer = renderLayer;
@@ -91,7 +85,7 @@ namespace Villeon.Components
             set { _isDynamic = value; }
         }
 
-        public RenderLayer RenderLayer
+        public SpriteLayer RenderLayer
         {
             get { return _layer; }
             set { _layer = value; }

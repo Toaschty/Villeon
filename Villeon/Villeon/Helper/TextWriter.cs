@@ -28,7 +28,7 @@ namespace Villeon.Helper
                 }
 
                 IEntity letter = new Entity(new Transform(textPosition, 1f, 0f), c.ToString());
-                letter.AddComponent(_fontSheet.GetSprite(c - ' ', RenderLayer.Front, true));
+                letter.AddComponent(_fontSheet.GetSprite(c - ' ', Render.SpriteLayer.Foreground, true));
                 _entities.Add(letter);
                 Manager.GetInstance().AddEntity(letter);
 

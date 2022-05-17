@@ -64,7 +64,7 @@ namespace Villeon.Components
                 new Vector2(currentTile.TexCoords.Min.X, currentTile.TexCoords.Max.Y),
                 new Vector2(currentTile.TexCoords.Max.X, currentTile.TexCoords.Max.Y),
             };
-            return new Sprite(Color4.White, currentTile.Texture2D, RenderLayer.Background, texCoords);
+            return new Sprite(Color4.White, currentTile.Texture2D, Render.SpriteLayer.Background, texCoords);
         }
     }
 }

@@ -26,7 +26,6 @@ namespace Villeon
         private Scene _villageScene = new ("VillageScene");
         private Matrix4 _refCameraMatrix = Matrix4.Identity;
         private IEntity _entity;
-        private Renderer _renderer;
         private FPS? _fps;
 
         public void Start()
@@ -75,7 +74,7 @@ namespace Villeon
             _entity.AddComponent(TriggerBuilder.Build(TriggerID.PLAYER));
             _entity.AddComponent(new Player());
             _entity.AddComponent(new Health(200));
-            _entity.AddComponent(new Sprite(Color4.White, Assets.GetTexture("Player.png"), RenderLayer.Front, true));
+            _entity.AddComponent(new Sprite(Color4.White, Assets.GetTexture("Player.png"), SpriteLayer.Foreground, true));
 
             _dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
             _dungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
@@ -89,7 +88,7 @@ namespace Villeon
 
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
 
-            _dungeonScene.AddSystem(new Renderer("Renderer"));
+            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer"));
             _dungeonScene.SetTileMap(tileMap);
             _dungeonScene.AddEntity(_entity);
 
@@ -101,7 +100,7 @@ namespace Villeon
             _villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.AddSystem(new HealthSystem("HealthSystem"));
-            _villageScene.AddSystem(new Renderer("Renderer"));
+            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer"));
 
             _villageScene.SetTileMap(villageTileMap);
             _villageScene.AddEntity(_entity);
@@ -137,8 +136,9 @@ namespace Villeon
             }
 
             Manager.GetInstance().Update((float)args.Time);
-            Console.WriteLine("D: " + _dungeonScene._entities.Count);
-            Console.WriteLine("V: " + _villageScene._entities.Count);
+            //Console.SetCursorPosition(0, 0);
+            //Console.WriteLine("D: " + _dungeonScene._entities.Count);
+            //Console.WriteLine("V: " + _villageScene._entities.Count);
             MouseHandler.ClickedMouseButtons.Clear();
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Villeon.Render;
 using Zenseless.OpenTK;
 
 namespace Villeon.Components
@@ -13,7 +14,7 @@ namespace Villeon.Components
         private Texture2D _sheetTexture;
         private List<Sprite> _sprites;
 
-        public SpriteSheet(Color4 color, Texture2D texture, int spriteWidth, int spriteHeight, int numSprites, int spacing = 0, RenderLayer layer = RenderLayer.Front)
+        public SpriteSheet(Color4 color, Texture2D texture, int spriteWidth, int spriteHeight, int numSprites, int spacing = 0, SpriteLayer layer = SpriteLayer.Background)
         {
             _sprites = new List<Sprite>();
             _sheetTexture = texture;
@@ -53,13 +54,13 @@ namespace Villeon.Components
             return _sprites[index];
         }
 
-        public Sprite GetSprite(int index, RenderLayer layer)
+        public Sprite GetSprite(int index, SpriteLayer layer)
         {
             _sprites[index].RenderLayer = layer;
             return _sprites[index];
         }
 
-        public Sprite GetSprite(int index, RenderLayer layer, bool isDynamic)
+        public Sprite GetSprite(int index, SpriteLayer layer, bool isDynamic)
         {
             _sprites[index].RenderLayer = layer;
             _sprites[index].IsDynamic = isDynamic;

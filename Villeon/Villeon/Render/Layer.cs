@@ -12,74 +12,44 @@ namespace Villeon.Render
 {
     public class Layer : IRender
     {
-        private List<DynamicRenderBatch> _dynamicBatches = new List<DynamicRenderBatch>();
+        private List<RenderBatch> _dynamicBatches = new List<RenderBatch>();
         private List<RenderBatch> _staticBatches = new List<RenderBatch>();
 
-        public void Add(IEntity entity, int maxBatchSize)
+        public void Add(Sprite sprite, Transform transform)
         {
             bool added = false;
-            if (entity.GetComponent<Sprite>().IsDynamic == true)
+            if (sprite.IsDynamic == true)
             {
-                // Dynamic Entity
-                foreach (DynamicRenderBatch batch in _dynamicBatches)
-                {
-                    if (!batch.Full())
-                    {
-                        // Check for Texture batching
-                        Texture2D texture = entity.GetComponent<Sprite>().Texture;
-                        if (texture == null || (batch.HasTexture(texture) || batch.HasTextureRoom()))
-                        {
-                            batch.AddEntity(entity);
-                            added = true;
-                            break;
-                        }
-                    }
-                }
+                added = AddDynamic(sprite, transform);
 
                 // Batch is full or not created: create new, add to batch!
                 if (!added)
                 {
-                    DynamicRenderBatch newBatch = new DynamicRenderBatch(maxBatchSize);
+                    RenderBatch newBatch = new RenderBatch();
                     newBatch.Start();
                     _dynamicBatches.Add(newBatch);
-                    newBatch.AddEntity(entity);
+                    newBatch.AddSprite(sprite, transform);
                 }
             }
             else
             {
-                // Add the entity to the batch
-                foreach (RenderBatch batch in _staticBatches)
-                {
-                    if (!batch.Full())
-                    {
-                        // Check for Texture batching
-                        Texture2D texture = entity.GetComponent<Sprite>().Texture;
-                        if (texture == null || (batch.HasTexture(texture) || batch.HasTextureRoom()))
-                        {
-                            batch.AddEntity(entity);
-                            batch.LoadBuffer();
-                            added = true;
-                            break;
-                        }
-                    }
-                }
+                added = AddStatic(sprite, transform);
 
                 // Batch is full or not created: create new, add to batch!
                 if (!added)
                 {
-                    RenderBatch newBatch = new RenderBatch(maxBatchSize);
+                    RenderBatch newBatch = new RenderBatch();
                     newBatch.Start();
                     _staticBatches.Add(newBatch);
-                    newBatch.AddEntity(entity);
+                    newBatch.AddSprite(sprite, transform);
                     newBatch.LoadBuffer();
                 }
             }
-
         }
 
         public void Remove(IEntity entity)
         {
-            foreach (DynamicRenderBatch dynamicBatch in _dynamicBatches)
+            foreach (RenderBatch dynamicBatch in _dynamicBatches)
             {
                 dynamicBatch.RemoveEntity(entity);
             }
@@ -97,10 +67,51 @@ namespace Villeon.Render
                 renderBatch.Render();
             }
 
-            foreach (DynamicRenderBatch renderBatch in _dynamicBatches)
+            foreach (RenderBatch renderBatch in _dynamicBatches)
             {
+                renderBatch.RebufferAll();
                 renderBatch.Render();
             }
+        }
+
+        private bool AddDynamic(Sprite sprite, Transform transform)
+        {
+            foreach (RenderBatch batch in _dynamicBatches)
+            {
+                if (!batch.Full())
+                {
+                    // Check for Texture batching
+                    Texture2D texture = sprite.Texture;
+                    if (texture == null || (batch.HasTexture(texture) || batch.HasTextureRoom()))
+                    {
+                        batch.AddSprite(sprite, transform);
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private bool AddStatic(Sprite sprite, Transform transform)
+        {
+            // Add the entity to the batch
+            foreach (RenderBatch batch in _staticBatches)
+            {
+                if (!batch.Full())
+                {
+                    // Check for Texture batching
+                    Texture2D texture = sprite.Texture;
+                    if (texture == null || (batch.HasTexture(texture) || batch.HasTextureRoom()))
+                    {
+                        batch.AddSprite(sprite, transform);
+                        batch.LoadBuffer();
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Villeon.ECS
         public void RemoveComponent<T>()
             where T : class, IComponent;
 
-        public T GetComponent<T>()
+        public T? GetComponent<T>()
             where T : class, IComponent;
     }
 }

@@ -17,11 +17,13 @@ namespace Villeon.Render
 {
     public class RenderBatch
     {
-        // For removing Entities
-        protected HashSet<IEntity> _entities = new HashSet<IEntity>();
-
         // Sprites Stored
+
+        private Dictionary<Sprite, int> _spriteIndex;
+
+        private HashSet<ComponentData> _components;
         private Sprite[] _sprites;
+        private Transform[] _transforms;
         private List<Texture2D> _textures;
         private int[] _texSlots = { 0, 1, 2, 3, 4, 5, 6, 7 };
         private int _spriteCount;
@@ -33,18 +35,17 @@ namespace Villeon.Render
         // Vertex Buffer Object, VertexArrayObject, ElementBufferObject
         private int _vboID = 0;
         private int _vaoID = 0;
-        private int _maxBatchSize;
         private Shader _shader;
 
-        public RenderBatch(int maxBatchSize)
+        public RenderBatch()
         {
             _shader = Assets.GetShader(@"shader");
-            _sprites = new Sprite[maxBatchSize];
+            _spriteIndex = new Dictionary<Sprite, int>();
+            _components = new HashSet<ComponentData>(Constants.MAX_BATCH_SIZE);
             _textures = new List<Texture2D>();
-            _maxBatchSize = maxBatchSize;
 
             // Quad has 4 Vertices
-            _vertices = new Vertex[maxBatchSize * Size.QUAD];
+            _vertices = new Vertex[Constants.MAX_BATCH_SIZE * Size.QUAD];
             _spriteCount = 0;
             _isFull = false;
         }
@@ -83,8 +84,8 @@ namespace Villeon.Render
 
         private int[] GenerateIndices()
         {
-            int[] elements = new int[6 * _maxBatchSize];
-            for (int i = 0; i < _maxBatchSize; i++)
+            int[] elements = new int[6 * Constants.MAX_BATCH_SIZE];
+            for (int i = 0; i < Constants.MAX_BATCH_SIZE; i++)
             {
                 LoadElementIndices(elements, i);
             }
@@ -116,7 +117,22 @@ namespace Villeon.Render
             GL.Enable(EnableCap.Blend);
         }
 
-        public virtual void Render()
+        public void RebufferAll()
+        {
+            int tmpSpriteCount = _spriteCount;
+            _spriteCount = 0;
+            _textures.Clear();
+
+            foreach (ComponentData component in _components)
+            {
+                AddSprite(component.Sprite, component.Transform);
+            }
+            Console.WriteLine(_components.Count);
+
+            LoadBuffer();
+        }
+
+        public void Render()
         {
             _shader.Use();
             // Update Camera, Set Transform in VertexShader
@@ -157,17 +173,13 @@ namespace Villeon.Render
             _shader.Detach();
         }
 
-        public void AddEntity(IEntity entity)
+        public void AddSprite(Sprite sprite, Transform transform)
         {
-            Sprite sprite = entity.GetComponent<Sprite>();
-
             // Save Current index & Store Sprite
             int index = _spriteCount;
-            _sprites[index] = sprite;
+            ComponentData data = new ComponentData { Sprite = sprite, Transform = transform };
+            _components.Add(data);
             _spriteCount++;
-
-            // Add Entity
-            _entities.Add(entity);
 
             // If the sprite has a texture, add it to _textures
             if (sprite.Texture != null)
@@ -179,30 +191,37 @@ namespace Villeon.Render
             }
 
             // Fill the Attributes für this sprite
-            FillVertexAttributes(index, entity);
+            FillVertexAttributes(data, index);
 
-            if (_spriteCount >= _maxBatchSize)
+            if (_spriteCount >= Constants.MAX_BATCH_SIZE)
                 _isFull = true;
         }
 
         public void RemoveEntity(IEntity entity)
         {
-            if (_entities.Contains(entity))
-            {
-                _entities.Remove(entity);
+            //Sprite sprite = entity.GetComponent<Sprite>();
+            //Transform transform = entity.GetComponent<Transform>();
 
-                // Tell that there is nothing to render
-                Clear();
+            //if (sprite is not null && transform != null && _spriteIndex.ContainsKey(sprite))
+            //{
+            //}
 
-                // Fill it up with Entities again
-                foreach (IEntity e in _entities)
-                {
-                    AddEntity(e);
-                }
+            //if (_sprites.Contains(entity.GetComponent<Sprite>()))
+            //{
+            //    _entities.Remove(entity);
 
-                // Load openGL buffers
-                LoadBuffer();
-            }
+            //    // Tell that there is nothing to render
+            //    Clear();
+
+            //    // Fill it up with Entities again
+            //    foreach (IEntity e in _entities)
+            //    {
+            //        AddEntity(e, e.GetComponent<Sprite>());
+            //    }
+
+            //    // Load openGL buffers
+            //    LoadBuffer();
+            //}
         }
 
         public bool Full()
@@ -226,13 +245,12 @@ namespace Villeon.Render
         public void Clear()
         {
             _spriteCount = 0;
-            _textures.Clear();
         }
 
-        private void FillVertexAttributes(int index, IEntity entity)
+        private void FillVertexAttributes(ComponentData data, int index)
         {
-            Transform transform = entity.GetComponent<Transform>();
-            Sprite sprite = _sprites[index];
+            Transform transform = data.Transform;
+            Sprite sprite = data.Sprite;
             int offset = index * Size.QUAD;
             Vector2[] texCoords = sprite.TexCoords;
 
@@ -293,6 +311,12 @@ namespace Villeon.Render
                 // Texture ID
                 _vertices[offset + i].TextureSlot = slot;
             }
+        }
+
+        private struct ComponentData
+        {
+            public Sprite Sprite;
+            public Transform Transform;
         }
 
         private struct Vertex

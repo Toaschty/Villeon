@@ -42,7 +42,8 @@ namespace Villeon.GUI
 
                 //Transform trans = new Transform(transform.Position, transform.Scale, transform.Degrees);
                 IEntity letter = new Entity(transform, c.ToString());
-                letter.AddComponent(_fontSheet.GetSprite(c - ' ', RenderLayer.Front, true));
+
+                letter.AddComponent(_fontSheet.GetSprite(c - ' ', Render.SpriteLayer.Foreground, true));
                 _textEntities[entity].Add(letter);
                 Manager.GetInstance().AddEntity(letter);
 

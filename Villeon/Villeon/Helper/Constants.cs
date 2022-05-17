@@ -21,5 +21,8 @@ namespace Villeon
 
         // Debug
         public static float DEBUGTIME { get; set; } = 0.00833f;
+
+        // Rendering
+        public static int MAX_BATCH_SIZE { get; } = 1024;
     }
 }
