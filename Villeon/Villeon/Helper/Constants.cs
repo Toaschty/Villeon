@@ -14,7 +14,7 @@ namespace Villeon
 
         public static float JUMPSTRENGTH { get; } = 15f;
 
-        // In struct i guess
+        // Movement
         public static float MOVEMENTSPEED { get; } = 75f;
 
         public static float TOPDOWNMOVEMENTSPEED { get; } = 10;

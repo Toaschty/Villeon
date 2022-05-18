@@ -19,12 +19,9 @@
     <EmbeddedResource Include="Systems\ISystem.cs" />
     <EmbeddedResource Include="Systems\IUpdate.cs" />
     <EmbeddedResource Include="Systems\IUpdateSystem.cs" />
-    <EmbeddedResource Include="Systems\Render\AnimatedTileRenderSystem.cs" />
     <EmbeddedResource Include="Systems\Render\ColliderRenderSystem.cs" />
     <EmbeddedResource Include="Systems\Render\SpriteRenderSystem.cs" />
-    <EmbeddedResource Include="Systems\Render\TileRenderSystem.cs" />
     <EmbeddedResource Include="Systems\System.cs" />
-    <EmbeddedResource Include="Systems\Update\AnimatedTileSystem.cs" />
     <EmbeddedResource Include="Systems\Update\CameraSystem.cs" />
     <EmbeddedResource Include="Systems\Update\CollisionSystem.cs" />
     <EmbeddedResource Include="Systems\Update\HealthSystem.cs" />

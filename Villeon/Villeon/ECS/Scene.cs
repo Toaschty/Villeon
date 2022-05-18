@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Villeon.Render;
 using Villeon.Systems;
+using Villeon.Utils;
 
 namespace Villeon.ECS
 {
@@ -16,8 +17,6 @@ namespace Villeon.ECS
         {
             Name = name;
         }
-
-        public TileMap? SceneTileMap { get; set; }
 
         public string Name { get; }
 
@@ -84,12 +83,9 @@ namespace Villeon.ECS
             return removed;
         }
 
-        public void SetTileMap(TileMap map)
+        public void SetTileMap(TileMapDictionary map, bool optimizedCollider)
         {
-            SceneTileMap = map;
-            map.CreateTileMapEntitys();
-
-            foreach (IEntity entity in map.Entities)
+            foreach (IEntity entity in TileMapBuilder.GenerateEntitiesFromTileMap(map, optimizedCollider))
             {
                 AddEntity(entity);
             }

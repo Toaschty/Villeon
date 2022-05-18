@@ -40,10 +40,7 @@ namespace VilleonTests
             _testScene.AddEntity(physicEntity);
 
             // Update the PhysicsSystem 5 times with 0.1f time between updates
-            for (int i = 0; i < 5; i++)
-            {
-                _testScene.Update(0.1f);
-            }
+            _testScene.Update(0.5f);
 
             // Free Fall: 1/2 * g * t^2 = 0.5f * -6 * 0.5^2 = -7.5f
             Assert.AreEqual(0.5f * (-Constants.GRAVITY * 3) * (float)Math.Pow(0.5f, 2f), physicEntity.GetComponent<Transform>().Position.Y);
@@ -125,12 +122,12 @@ namespace VilleonTests
             {
                 _testScene.Update(0.1f);
 
-                // Set acceleration to +120 to "invert" Gravity after each update
-                physicEntity.GetComponent<Physics>().Acceleration = new Vector2(0, 120f);
+                // Set acceleration to +240 to "invert" Gravity after each update
+                physicEntity.GetComponent<Physics>().Acceleration = new Vector2(0, 240f);
             }
 
             // 12 equals the default Y velocity a entity has when standing still with an delta time of 0.1f
-            Assert.AreEqual(-12, physicEntity.GetComponent<Physics>().Velocity.Y);
+            Assert.AreEqual(12, physicEntity.GetComponent<Physics>().Velocity.Y);
 
             // Clean up
             _testScene.RemoveEntity(physicEntity);
