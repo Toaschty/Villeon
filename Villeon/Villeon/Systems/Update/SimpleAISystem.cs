@@ -49,7 +49,7 @@ namespace Villeon.Systems
                         physics.Acceleration += new Vector2(Constants.MOVEMENTSPEED * side * 0.4f, physics.Acceleration.Y);
 
                         if (side < 0 && collider.HasCollidedLeft && collider.HasCollidedBottom)
-                             physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
+                            physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
                         else if (side > 0 && collider.HasCollidedRight && collider.HasCollidedBottom)
                             physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
                     }
