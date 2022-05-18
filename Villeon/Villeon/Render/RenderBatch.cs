@@ -18,9 +18,6 @@ namespace Villeon.Render
     public class RenderBatch
     {
         // Sprites Stored
-
-        private Dictionary<Sprite, int> _spriteIndex;
-
         private HashSet<RenderingData> _renderingData;
         private Sprite[] _sprites;
         private Transform[] _transforms;
@@ -40,7 +37,6 @@ namespace Villeon.Render
         public RenderBatch()
         {
             _shader = Assets.GetShader(@"shader");
-            _spriteIndex = new Dictionary<Sprite, int>();
             _renderingData = new HashSet<RenderingData>(Constants.MAX_BATCH_SIZE);
             _textures = new List<Texture2D>();
 
@@ -195,31 +191,14 @@ namespace Villeon.Render
                 _isFull = true;
         }
 
-        public void RemoveEntity(IEntity entity)
+        public void RemoveEntity(RenderingData data)
         {
-            //Sprite sprite = entity.GetComponent<Sprite>();
-            //Transform transform = entity.GetComponent<Transform>();
-
-            //if (sprite is not null && transform != null && _spriteIndex.ContainsKey(sprite))
-            //{
-            //}
-
-            //if (_sprites.Contains(entity.GetComponent<Sprite>()))
-            //{
-            //    _entities.Remove(entity);
-
-            //    // Tell that there is nothing to render
-            //    Clear();
-
-            //    // Fill it up with Entities again
-            //    foreach (IEntity e in _entities)
-            //    {
-            //        AddEntity(e, e.GetComponent<Sprite>());
-            //    }
-
-            //    // Load openGL buffers
-            //    LoadBuffer();
-            //}
+            if (_renderingData.Contains(data))
+            {
+                _renderingData.Remove(data);
+                _spriteCount--;
+                RebufferAll();
+            }
         }
 
         public bool Full()
@@ -238,11 +217,6 @@ namespace Villeon.Render
                 return true;
 
             return _textures.Contains(texture);
-        }
-
-        public void Clear()
-        {
-            _spriteCount = 0;
         }
 
         private void FillVertexAttributes(RenderingData data, int index)

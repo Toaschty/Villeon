@@ -16,7 +16,7 @@ namespace Villeon.Render
         private List<RenderBatch> _dynamicBatches = new List<RenderBatch>();
         private List<RenderBatch> _staticBatches = new List<RenderBatch>();
 
-        public void Add(RenderingData data)
+        public void AddRenderingData(ref RenderingData data)
         {
             bool added = false;
             if (data.Sprite.IsDynamic == true)
@@ -48,17 +48,17 @@ namespace Villeon.Render
             }
         }
 
-        public void Remove(IEntity entity)
+        public void Remove(RenderingData data)
         {
             foreach (RenderBatch dynamicBatch in _dynamicBatches)
             {
-                dynamicBatch.RemoveEntity(entity);
+                dynamicBatch.RemoveEntity(data);
             }
 
-            foreach (RenderBatch staticBatch in _staticBatches)
-            {
-                staticBatch.RemoveEntity(entity);
-            }
+            //foreach (RenderBatch staticBatch in _staticBatches)
+            //{
+            //    staticBatch.RemoveEntity(data);
+            //}
         }
 
         public void Render()

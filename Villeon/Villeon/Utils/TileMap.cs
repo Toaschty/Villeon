@@ -301,7 +301,7 @@
                             }
                             else
                             {
-                                IEntity entity = new Entity(new Transform(new Vector2(min.X, (max.Y * -1) + _map.Height - 1), 0, 0), "Map");
+                                IEntity entity = new Entity(new Transform(new Vector2(min.X, (max.Y * -1) + _map.Height - 1), 1, 0), "Map");
                                 entity.AddComponent(new Collider(new Vector2(0, 0), new Vector2(min.X, (max.Y * -1) + _map.Height - 1), max.X - min.X + 1, max.Y - min.Y + 1));
                                 Entities.Add(entity);
                                 min = new Vector2(-1, -1);
