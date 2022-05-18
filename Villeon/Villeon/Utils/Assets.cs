@@ -1,9 +1,11 @@
-﻿using System;
+﻿using OpenTK.Mathematics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Villeon.Components;
+using Villeon.ECS;
 using Villeon.Render;
 using Zenseless.OpenTK;
 
@@ -45,6 +47,12 @@ namespace Villeon.Helper
                 _textures.Add(texturePath, texture);
                 return texture;
             }
+        }
+
+        public static Sprite GetSprite(string texturePath, Color4 color, SpriteLayer spriteLayer, bool isDynamic)
+        {
+            Texture2D texture = GetTexture(texturePath);
+            return new Sprite(color, texture, spriteLayer, isDynamic);
         }
 
         public static void AddSpriteSheet(string spriteSheetPath, SpriteSheet spriteSheet)

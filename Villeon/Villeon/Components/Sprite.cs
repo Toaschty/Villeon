@@ -17,8 +17,8 @@ namespace Villeon.Components
         private Color4 _color;
         private bool _isDynamic = false;
         private float _aspectRatio = 1f;
-        private float _width;
-        private float _height;
+        private float _width = 1f;
+        private float _height = 1f;
 
         // Create a sprite with Texture
         public Sprite(Color4 color, Texture2D texture, SpriteLayer renderLayer, Vector2[] texCoords, bool isDynamic = false)
@@ -63,6 +63,13 @@ namespace Villeon.Components
             _isDynamic = isDynamic;
         }
 
+        public void SetOwnDimensions(float width, float height)
+        {
+            _width = width;
+            _height = height;
+            _aspectRatio = 1f;
+        }
+
         public Vector2[] TexCoords
         {
             get { return _texCoords; }
@@ -96,6 +103,18 @@ namespace Villeon.Components
         public float AspectRatio
         {
             get { return _aspectRatio; }
+        }
+
+        public float Width
+        {
+            get => _width;
+            set => _width = value;
+        }
+
+        public float Height
+        {
+            get => _height;
+            set => _height = value;
         }
     }
 }

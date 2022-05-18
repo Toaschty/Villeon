@@ -264,10 +264,6 @@ namespace Villeon.Render
                     add = new Vector2(data.Width, data.Height);
                 }
 
-                //   2 --- 4
-                //   |     |     <- Quad Vertex order
-                //   0 --- 1
-
                 // Position
                 _vertices[offset + i].Position.X = transform.Position.X + (add.X * transform.Scale.X);
                 _vertices[offset + i].Position.Y = transform.Position.Y + (add.Y * transform.Scale.Y * sprite.AspectRatio);

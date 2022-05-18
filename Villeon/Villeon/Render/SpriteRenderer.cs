@@ -41,11 +41,9 @@ namespace Villeon.Render
             Transform transform = entity.GetComponent<Transform>() !;
             Collider? collider = entity.GetComponent<Collider>();
             Trigger? trigger = entity.GetComponent<Trigger>();
-
             RenderingData data = default(RenderingData);
             data.Transform = transform;
-            data.Width = transform.Scale.X;
-            data.Height = transform.Scale.Y;
+
 
             //// Add sprite to the appropriate Sprite Layer
             if (sprite is not null)
@@ -59,29 +57,32 @@ namespace Villeon.Render
             {
                 if (trigger is not null)
                 {
-                    AddTrigger(trigger, ref data);
+                    AddTriggerSprite(trigger, ref data);
                     renderingDataList.Add(data);
                 }
 
                 if (collider is not null)
                 {
-                    AddCollider(collider, ref data);
+                    AddColliderSprite(collider, ref data);
                     renderingDataList.Add(data);
                 }
             }
 
-            if (renderingDataList.Count is not 0)
+            if (renderingDataList.Count != 0)
                 _entityRenderData.Add(entity, renderingDataList);
         }
 
         private void AddSprite(Sprite? sprite, ref RenderingData data)
         {
             data.Sprite = sprite;
+            data.Width = sprite.Width;
+            data.Height = sprite.Height;
+
             SpriteLayer spriteLayer = sprite.RenderLayer;
             _spriteLayers[(int)spriteLayer].AddRenderingData(ref data);
         }
 
-        private void AddTrigger(Trigger? trigger, ref RenderingData data)
+        private void AddTriggerSprite(Trigger? trigger, ref RenderingData data)
         {
             Color4 color = new Color4(1f, 0f, 1f, 0.3f);
             data.Sprite = new Sprite(color, SpriteLayer.Collider, true);
@@ -90,7 +91,7 @@ namespace Villeon.Render
             _spriteLayers[(int)SpriteLayer.Collider].AddRenderingData(ref data);
         }
 
-        private void AddCollider(Collider? collider, ref RenderingData data)
+        private void AddColliderSprite(Collider? collider, ref RenderingData data)
         {
             Color4 color = new Color4(1f, 1f, 0f, 0.3f);
             data.Sprite = new Sprite(color, SpriteLayer.Collider, true);
@@ -101,13 +102,18 @@ namespace Villeon.Render
 
         public void Remove(IEntity entity)
         {
+            //Console.Write("Count: " + _entityRenderData.Count + " , ");
+            //Console.Write(" Removing: " + entity.Name);
+            //Console.Write(" Key contain: " + _entityRenderData.ContainsKey(entity));
+            //Console.Write(" Value contain: " + _entityRenderData.ContainsKey(entity));
             for (int i = 0; i < _numSpriteLayers; i++)
             {
                 foreach (RenderingData data in _entityRenderData[entity])
                     _spriteLayers[i].Remove(data);
             }
 
-            _entityRenderData.Remove(entity);
+            bool success = _entityRenderData.Remove(entity);
+            //Console.WriteLine("Removed: " + entity.Name + " Success?: " + success + " Count: " + _entityRenderData.Count);
         }
 
         public void Render()
@@ -116,6 +122,11 @@ namespace Villeon.Render
             {
                 _spriteLayers[i].Render();
             }
+        }
+
+        public bool Contains(IEntity entity)
+        {
+            return _entityRenderData.ContainsKey(entity);
         }
     }
 }

@@ -12,5 +12,7 @@ namespace Villeon.Systems
         void Remove(IEntity entity);
 
         void Add(IEntity entity);
+
+        bool Contains(IEntity entity);
     }
 }

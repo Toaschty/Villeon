@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Villeon.Components;
 using Villeon.Render;
 using Zenseless.OpenTK;
 
-namespace Villeon.Components
+namespace Villeon.ECS
 {
     public class SpriteSheet
     {

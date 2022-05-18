@@ -41,7 +41,7 @@ namespace Villeon
             //SceneLoader.LoadScene("VillageScene");
 
             // Write some Text
-            Text.Write(_entity, "Something", new Vector2(0f, 2f), 1f);
+            TextBox textBox = new TextBox("ICH BIN MARVIN!", new Vector2(3, 3), 1.1f, 1.1f, 0.5f);
 
             gameWindow.KeyDown += KeyHandler.KeyDown;
             gameWindow.KeyUp += KeyHandler.KeyUp;
@@ -84,7 +84,7 @@ namespace Villeon
             _dungeonScene.AddSystem(new TriggerSystem("Trigger"));
             _dungeonScene.AddSystem(new HealthSystem("Health"));
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
-            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             _dungeonScene.SetTileMap(tileMap, true);
             _dungeonScene.AddEntity(_entity);
 
@@ -96,7 +96,7 @@ namespace Villeon
             _villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.AddSystem(new HealthSystem("HealthSystem"));
-            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
 
             _villageScene.SetTileMap(villageTileMap, false);
             _villageScene.AddEntity(_entity);
@@ -116,14 +116,6 @@ namespace Villeon
                 {
                     SceneLoader.LoadScene("VillageScene");
                 }
-
-                if (button.Button == MouseButton.Button4)
-                {
-                    TextWriter.RemoveText();
-                    TextWriter.Write(
-                            "Mark ist ein kek\n" +
-                            "Und ist toll. wowie", new Vector2(0f, 5f));
-                }
             }
 
             if (KeyHandler.IsPressed(Keys.V))
@@ -132,9 +124,6 @@ namespace Villeon
             }
 
             Manager.GetInstance().Update((float)args.Time);
-            //Console.SetCursorPosition(0, 0);
-            //Console.WriteLine("D: " + _dungeonScene._entities.Count);
-            //Console.WriteLine("V: " + _villageScene._entities.Count);
             MouseHandler.ClickedMouseButtons.Clear();
         }
 
@@ -142,7 +131,6 @@ namespace Villeon
         {
             _fps.SetFps((float)args.Time);
             GL.Clear(ClearBufferMask.ColorBufferBit);
-
             Manager.GetInstance().Render();
         }
     }

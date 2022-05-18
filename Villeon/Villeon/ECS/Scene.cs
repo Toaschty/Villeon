@@ -77,6 +77,8 @@ namespace Villeon.ECS
 
         public bool RemoveEntity(IEntity entity)
         {
+            if (!_entities.Contains(entity))
+                return false;
             bool removed = false;
             removed = _entities.Remove(entity);
             RemoveFromSystems(entity);
@@ -126,7 +128,7 @@ namespace Villeon.ECS
 
             foreach (IRenderSystem renderSystem in _renderSystems)
             {
-                if (!renderSystem.Entities.Contains(entity))
+                if (!renderSystem.Contains(entity))
                 {
                     if (entity.Signature.Contains(renderSystem.Signature))
                         renderSystem.Add(entity);
@@ -143,7 +145,8 @@ namespace Villeon.ECS
 
             foreach (IRenderSystem renderSystem in _renderSystems)
             {
-                renderSystem.Remove(entity);
+                if (renderSystem.Contains(entity))
+                    renderSystem.Remove(entity);
             }
         }
     }

@@ -7,7 +7,7 @@ using Villeon.Components;
 using Villeon.ECS;
 using Villeon.Systems;
 using Zenseless.OpenTK;
-using static Villeon.Render.SpriteRenderer;
+
 
 namespace Villeon.Render
 {
@@ -55,10 +55,10 @@ namespace Villeon.Render
                 dynamicBatch.RemoveEntity(data);
             }
 
-            //foreach (RenderBatch staticBatch in _staticBatches)
-            //{
-            //    staticBatch.RemoveEntity(data);
-            //}
+            foreach (RenderBatch staticBatch in _staticBatches)
+            {
+                staticBatch.RemoveEntity(data);
+            }
         }
 
         public void Render()

@@ -12,6 +12,7 @@
   <ItemGroup>
     <None Remove="Assets\Player.png" />
     <None Remove="Assets\shader.vert" />
+    <None Remove="Assets\TileMap\Frame.aseprite" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Systems\IRender.cs" />

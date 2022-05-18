@@ -76,7 +76,7 @@ namespace Villeon.Utils
                             {
                                 // Create new entity which holds a collider with given data and add it to entities
                                 Vector2 currentPos = new Vector2(x, layer.Height - 1 - y) + collider.Min;
-                                IEntity collisionEntity = new Entity(new Transform(currentPos, collider.Size.X, collider.Size.Y), "CollisionBox");
+                                IEntity collisionEntity = new Entity(new Transform(currentPos, 1f, 1f), "CollisionBox");
                                 collisionEntity.AddComponent(new Collider(new Vector2(0, 0), currentPos, collider.Size.X, collider.Size.Y));
                                 _entities.Add(collisionEntity);
                             }
@@ -153,7 +153,7 @@ namespace Villeon.Utils
                             else
                             {
                                 // Add collider entity to entities
-                                IEntity entity = new Entity(new Transform(new Vector2(min.X, (max.Y * -1) + _height - 1), 0, 0), "Map");
+                                IEntity entity = new Entity(new Transform(new Vector2(min.X, (max.Y * -1) + _height - 1), 1f, 0), "Map");
                                 entity.AddComponent(new Collider(new Vector2(0, 0), new Vector2(min.X, (max.Y * -1) + _height - 1), max.X - min.X + 1, max.Y - min.Y + 1));
                                 _entities.Add(entity);
                                 min = new Vector2(-1, -1);
