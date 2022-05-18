@@ -7,6 +7,7 @@ using Villeon.Components;
 using Villeon.ECS;
 using Villeon.Systems;
 using Zenseless.OpenTK;
+using static Villeon.Render.SpriteRenderer;
 
 namespace Villeon.Render
 {
@@ -15,12 +16,12 @@ namespace Villeon.Render
         private List<RenderBatch> _dynamicBatches = new List<RenderBatch>();
         private List<RenderBatch> _staticBatches = new List<RenderBatch>();
 
-        public void Add(Sprite sprite, Transform transform)
+        public void Add(RenderingData data)
         {
             bool added = false;
-            if (sprite.IsDynamic == true)
+            if (data.Sprite.IsDynamic == true)
             {
-                added = AddDynamic(sprite, transform);
+                added = AddDynamic(data);
 
                 // Batch is full or not created: create new, add to batch!
                 if (!added)
@@ -28,12 +29,12 @@ namespace Villeon.Render
                     RenderBatch newBatch = new RenderBatch();
                     newBatch.Start();
                     _dynamicBatches.Add(newBatch);
-                    newBatch.AddSprite(sprite, transform);
+                    newBatch.AddSprite(data);
                 }
             }
             else
             {
-                added = AddStatic(sprite, transform);
+                added = AddStatic(data);
 
                 // Batch is full or not created: create new, add to batch!
                 if (!added)
@@ -41,7 +42,7 @@ namespace Villeon.Render
                     RenderBatch newBatch = new RenderBatch();
                     newBatch.Start();
                     _staticBatches.Add(newBatch);
-                    newBatch.AddSprite(sprite, transform);
+                    newBatch.AddSprite(data);
                     newBatch.LoadBuffer();
                 }
             }
@@ -74,17 +75,17 @@ namespace Villeon.Render
             }
         }
 
-        private bool AddDynamic(Sprite sprite, Transform transform)
+        private bool AddDynamic(RenderingData data)
         {
             foreach (RenderBatch batch in _dynamicBatches)
             {
                 if (!batch.Full())
                 {
                     // Check for Texture batching
-                    Texture2D texture = sprite.Texture;
+                    Texture2D texture = data.Sprite.Texture;
                     if (texture == null || (batch.HasTexture(texture) || batch.HasTextureRoom()))
                     {
-                        batch.AddSprite(sprite, transform);
+                        batch.AddSprite(data);
                         return true;
                     }
                 }
@@ -93,7 +94,7 @@ namespace Villeon.Render
             return false;
         }
 
-        private bool AddStatic(Sprite sprite, Transform transform)
+        private bool AddStatic(RenderingData data)
         {
             // Add the entity to the batch
             foreach (RenderBatch batch in _staticBatches)
@@ -101,10 +102,10 @@ namespace Villeon.Render
                 if (!batch.Full())
                 {
                     // Check for Texture batching
-                    Texture2D texture = sprite.Texture;
+                    Texture2D texture = data.Sprite.Texture;
                     if (texture == null || (batch.HasTexture(texture) || batch.HasTextureRoom()))
                     {
-                        batch.AddSprite(sprite, transform);
+                        batch.AddSprite(data);
                         batch.LoadBuffer();
                         return true;
                     }

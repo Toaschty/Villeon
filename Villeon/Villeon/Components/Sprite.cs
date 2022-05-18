@@ -17,6 +17,8 @@ namespace Villeon.Components
         private Color4 _color;
         private bool _isDynamic = false;
         private float _aspectRatio = 1f;
+        private float _width;
+        private float _height;
 
         // Create a sprite with Texture
         public Sprite(Color4 color, Texture2D texture, SpriteLayer renderLayer, Vector2[] texCoords, bool isDynamic = false)

@@ -88,7 +88,7 @@ namespace Villeon
 
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
 
-            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer"));
+            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             _dungeonScene.SetTileMap(tileMap);
             _dungeonScene.AddEntity(_entity);
 
@@ -100,7 +100,7 @@ namespace Villeon
             _villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.AddSystem(new HealthSystem("HealthSystem"));
-            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer"));
+            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
 
             _villageScene.SetTileMap(villageTileMap);
             _villageScene.AddEntity(_entity);

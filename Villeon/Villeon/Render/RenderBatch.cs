@@ -21,7 +21,7 @@ namespace Villeon.Render
 
         private Dictionary<Sprite, int> _spriteIndex;
 
-        private HashSet<ComponentData> _components;
+        private HashSet<RenderingData> _renderingData;
         private Sprite[] _sprites;
         private Transform[] _transforms;
         private List<Texture2D> _textures;
@@ -41,7 +41,7 @@ namespace Villeon.Render
         {
             _shader = Assets.GetShader(@"shader");
             _spriteIndex = new Dictionary<Sprite, int>();
-            _components = new HashSet<ComponentData>(Constants.MAX_BATCH_SIZE);
+            _renderingData = new HashSet<RenderingData>(Constants.MAX_BATCH_SIZE);
             _textures = new List<Texture2D>();
 
             // Quad has 4 Vertices
@@ -123,11 +123,10 @@ namespace Villeon.Render
             _spriteCount = 0;
             _textures.Clear();
 
-            foreach (ComponentData component in _components)
+            foreach (RenderingData data in _renderingData)
             {
-                AddSprite(component.Sprite, component.Transform);
+                AddSprite(data);
             }
-            Console.WriteLine(_components.Count);
 
             LoadBuffer();
         }
@@ -173,20 +172,19 @@ namespace Villeon.Render
             _shader.Detach();
         }
 
-        public void AddSprite(Sprite sprite, Transform transform)
+        public void AddSprite(RenderingData data)
         {
             // Save Current index & Store Sprite
             int index = _spriteCount;
-            ComponentData data = new ComponentData { Sprite = sprite, Transform = transform };
-            _components.Add(data);
+            _renderingData.Add(data);
             _spriteCount++;
 
             // If the sprite has a texture, add it to _textures
-            if (sprite.Texture != null)
+            if (data.Sprite.Texture != null)
             {
-                if (!_textures.Contains(sprite.Texture))
+                if (!_textures.Contains(data.Sprite.Texture))
                 {
-                    _textures.Add(sprite.Texture);
+                    _textures.Add(data.Sprite.Texture);
                 }
             }
 
@@ -247,11 +245,11 @@ namespace Villeon.Render
             _spriteCount = 0;
         }
 
-        private void FillVertexAttributes(ComponentData data, int index)
+        private void FillVertexAttributes(RenderingData data, int index)
         {
-            Transform transform = data.Transform;
-            Sprite sprite = data.Sprite;
             int offset = index * Size.QUAD;
+            Sprite sprite = data.Sprite;
+            Transform transform = data.Transform;
             Vector2[] texCoords = sprite.TexCoords;
 
             // [0, tex1, tex2, tex3, ..]
@@ -278,25 +276,23 @@ namespace Villeon.Render
             Vector2 add = new Vector2(0f, 0f);
             for (int i = 0; i < Size.QUAD; i++)
             {
+                // Set dimensions
                 if (i == 1)
                 {
-                    add = new Vector2(1f, 0f);
+                    add = new Vector2(data.Width, 0f);
                 }
                 else if (i == 2)
                 {
-                    add = new Vector2(0f, 1f);
+                    add = new Vector2(0f, data.Height);
                 }
                 else if (i == 3)
                 {
-                    add = new Vector2(1f, 1f);
+                    add = new Vector2(data.Width, data.Height);
                 }
 
                 //   2 --- 4
                 //   |     |     <- Quad Vertex order
                 //   0 --- 1
-
-                // Fix Aspect ratio
-                // Fix lining weirdness
 
                 // Position
                 _vertices[offset + i].Position.X = transform.Position.X + (add.X * transform.Scale.X);
@@ -311,12 +307,6 @@ namespace Villeon.Render
                 // Texture ID
                 _vertices[offset + i].TextureSlot = slot;
             }
-        }
-
-        private struct ComponentData
-        {
-            public Sprite Sprite;
-            public Transform Transform;
         }
 
         private struct Vertex
