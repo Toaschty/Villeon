@@ -14,7 +14,7 @@ using Villeon.GUI;
 using Villeon.Helper;
 using Villeon.Render;
 using Villeon.Systems;
-using Villeon.Systems.Update;
+using Villeon.Utils;
 using Zenseless.OpenTK;
 using Zenseless.Resources;
 
@@ -67,7 +67,7 @@ namespace Villeon
             LoadResources();
 
             // Platformer Scene
-            TileMap tileMap = new TileMap("DungeonTileMap.tmx", true);
+            TileMapDictionary tileMap = new TileMapDictionary("DungeonTileMap.tmx");
             _entity = new Entity(new Transform(new Vector2(1f, 1f), new Vector2(1.0f, 1.0f), 0f), "Marin");
             _entity.AddComponent(new Physics());
             _entity.AddComponent(new Collider(new Vector2(0.0f, 0.0f), new Vector2(5f, 3f), 1f, 1f));
@@ -79,30 +79,26 @@ namespace Villeon
             _dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
             _dungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             _dungeonScene.AddSystem(new SimpleAISystem("SimpleAISystem"));
-
             _dungeonScene.AddSystem(new PhysicsSystem("Physics"));
             _dungeonScene.AddSystem(new CollisionSystem("Collision"));
             _dungeonScene.AddSystem(new TriggerSystem("Trigger"));
-
             _dungeonScene.AddSystem(new HealthSystem("Health"));
-
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
-
             _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
-            _dungeonScene.SetTileMap(tileMap);
+            _dungeonScene.SetTileMap(tileMap, true);
             _dungeonScene.AddEntity(_entity);
 
             //Village Scene
-            TileMap villageTileMap = new TileMap("VillageTileMap.tmx", false);
+            // TileMap villageTileMap = new TileMap("VillageTileMap.tmx", false);
+            TileMapDictionary villageTileMap = new TileMapDictionary("VillageTileMap.tmx");
             _villageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
             _villageScene.AddSystem(new CollisionSystem("Collision"));
-            _villageScene.AddSystem(new AnimatedTileSystem("AnimatedTileSystem"));
             _villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.AddSystem(new HealthSystem("HealthSystem"));
             _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
 
-            _villageScene.SetTileMap(villageTileMap);
+            _villageScene.SetTileMap(villageTileMap, false);
             _villageScene.AddEntity(_entity);
         }
 
