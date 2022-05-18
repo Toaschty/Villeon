@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
+using Villeon.ECS;
 using Villeon.Helper;
 
 namespace Villeon.Systems
@@ -33,11 +34,11 @@ namespace Villeon.Systems
                 {
                     for (int i = 0; i < Entities.Count(); i++)
                     {
-                        Collider collider = Entities[i].GetComponent<Collider>();
+                        Collider collider = Entities.ElementAt(i).GetComponent<Collider>();
                         if ((button.MousePosition.X > collider.Position.X) && (button.MousePosition.X < collider.Position.X + collider.Width) &&
                             (button.MousePosition.Y > collider.Position.Y) && (button.MousePosition.Y < collider.Position.Y + collider.Height))
                         {
-                            Manager.GetInstance().AddComponent(Entities[i], new Physics());
+                            Manager.GetInstance().AddComponent(Entities.ElementAt(i), new Physics());
                         }
                     }
                 }

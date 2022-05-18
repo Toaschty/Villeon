@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 using Villeon.Components;
+using Villeon.ECS;
 using Villeon.Helper;
 
-namespace Villeon.Systems.Render
+namespace Villeon.Systems
 {
-    internal class AnimatedTileRenderSystem : System, IRenderSystem
+    internal class AnimatedTileRenderSystem : System //IRenderSystem
     {
         private int _currentTexture = -1;
 

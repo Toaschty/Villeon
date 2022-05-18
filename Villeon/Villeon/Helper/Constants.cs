@@ -8,7 +8,7 @@ namespace Villeon
 {
     public static class Constants
     {
-        public static float GRAVITY { get; } = 40f;
+        public static float GRAVITY { get; } = 40;
 
         public static float FRICTION { get; } = 7.5f;
 
@@ -21,5 +21,8 @@ namespace Villeon
 
         // Debug
         public static float DEBUGTIME { get; set; } = 0.00833f;
+
+        // Rendering
+        public static int MAX_BATCH_SIZE { get; } = 1024;
     }
 }

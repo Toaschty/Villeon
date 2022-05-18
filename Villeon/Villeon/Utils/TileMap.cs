@@ -7,6 +7,7 @@
     using OpenTK.Mathematics;
     using TiledLib.Layer;
     using Villeon.Components;
+    using Villeon.ECS;
     using Villeon.Helper;
     using Zenseless.OpenTK;
     using static Villeon.Components.Tile;
@@ -55,13 +56,14 @@
 
                 // Load in corresponding tileset
                 TileSetStruct graphicsTileSet = LoadTileSet("TileMap." + tileSet.ImagePath, (uint)tileSet.Columns, (uint)tileSet.Rows);
+                Texture2D tileMapTexture = Assets.GetTexture("TileMap." + tileSet.ImagePath);
 
                 // Go through all tiles in tileset -> Safe all tiles in dictionary
                 for (int gid = tileSet.FirstGid; gid < tileSet.FirstGid + tileSet.TileCount; gid++)
                 {
                     TiledLib.Tile tile = tileSet[gid];
 
-                    Tile currentTile = new Tile(tile.Left * rezImageWidth, (tileSet.ImageHeight - tileSet.TileHeight - tile.Top) * rezImageHeight, graphicsTileSet);
+                    Tile currentTile = new Tile(tile.Left * rezImageWidth, (tileSet.ImageHeight - tileSet.TileHeight - tile.Top) * rezImageHeight, graphicsTileSet, tileMapTexture);
 
                     // Gid starts with 1. 0 = No tile in current position on layer
                     _tiles.Add((uint)gid, currentTile);
@@ -154,11 +156,8 @@
             // Get all child nodes from "animation" nodes
             XmlNodeList frames = child.ChildNodes;
 
-            // Load start tile of animation
-            Tile tile = _tiles[tileId + 1];
-
-            // Create new animated tile with same data as loaded tile
-            AnimatedTile animTile = new AnimatedTile(tile._x, tile._y, tile.TileSet, tile.Colliders);
+            Tile tile = _tiles[tileId];
+            AnimatedTile animTile = new AnimatedTile(tile._x, tile._y, tile.TileSet, tile.Colliders, tile.Texture2D);
 
             // Go through all "frame"-Nodes of animation
             foreach (XmlNode frame in frames)
@@ -196,7 +195,7 @@
                             continue;
 
                         // Generate Entity
-                        IEntity entity = new Entity("Tile");
+                        IEntity entity = new Entity(new Transform(new Vector2(x, layer.Height - 1 - y), 1, 1), "Tile");
 
                         // Search for tile in dictionary and set coordinates
                         Tile currentTile;
@@ -204,7 +203,7 @@
                         {
                             AnimatedTile tile = (AnimatedTile)_animTiles[gid].Clone();
                             tile.Position = new Vector2(x, layer.Height - 1 - y);
-                            entity.AddComponent(tile);
+                            //entity.AddComponent(tile);
 
                             currentTile = (Tile)tile;
                         }
@@ -212,12 +211,13 @@
                         {
                             Tile tile = (Tile)_tiles[gid].Clone();
                             tile.Position = new Vector2(x, layer.Height - 1 - y);
-                            entity.AddComponent(tile);
+                            //entity.AddComponent(tile);
 
                             currentTile = (Tile)tile;
                         }
 
-                        entity.AddComponent(new Transform(new Vector2(x, layer.Height - 1 - y), 1, 1));
+                        Sprite sprite = currentTile.ToSprite(currentTile);
+                        entity.AddComponent(sprite);
                         Entities.Add(entity);
 
                         // Adjust colliderGrid if collisionOptimization is turned on and the tile has at least one collision
@@ -234,8 +234,7 @@
                                 foreach (var collider in currentTile.Colliders)
                                 {
                                     // Generate new entity for collision
-                                    IEntity collisionEntity = new Entity("CollisonTile");
-                                    collisionEntity.AddComponent(new Transform(new Vector2(x, layer.Height - 1 - y) + collider.Min, collider.Size.X, collider.Size.Y));
+                                    IEntity collisionEntity = new Entity(new Transform(new Vector2(x, layer.Height - 1 - y) + collider.Min, collider.Size.X, collider.Size.Y), "CollisonTile");
                                     collisionEntity.AddComponent(new Collider(new Vector2(0, 0), new Vector2(x, layer.Height - 1 - y) + collider.Min, collider.Size.X, collider.Size.Y));
                                     Entities.Add(collisionEntity);
                                 }
@@ -302,8 +301,7 @@
                             }
                             else
                             {
-                                IEntity entity = new Entity("Map");
-                                entity.AddComponent(new Transform(new Vector2(min.X, (max.Y * -1) + _map.Height - 1), 0, 0));
+                                IEntity entity = new Entity(new Transform(new Vector2(min.X, (max.Y * -1) + _map.Height - 1), 0, 0), "Map");
                                 entity.AddComponent(new Collider(new Vector2(0, 0), new Vector2(min.X, (max.Y * -1) + _map.Height - 1), max.X - min.X + 1, max.Y - min.Y + 1));
                                 Entities.Add(entity);
                                 min = new Vector2(-1, -1);
@@ -319,12 +317,7 @@
         // Load in tileSet texture. Set settings for texture. Tile width and height calculation for tileSet.
         public TileSetStruct LoadTileSet(string imagePath, uint columns, uint rows)
         {
-            Texture2D tileSetTexture = ResourceLoader.LoadContentAsTexture2D(imagePath);
-            GL.BindTexture(TextureTarget.Texture2D, tileSetTexture.Handle);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Nearest);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Nearest);
-            GL.BindTexture(TextureTarget.Texture2D, 0);
-
+            Texture2D tileSetTexture = Assets.GetTexture(imagePath);
             Vector2 delta = new Vector2(0.5f / tileSetTexture.Width, 0.5f / tileSetTexture.Height);
 
             return new TileSetStruct()
@@ -335,7 +328,7 @@
                 Delta = delta,
             };
         }
-    
+
         public Dictionary<uint, Tile> GetTileDictionary() => _tiles;
     }
 }

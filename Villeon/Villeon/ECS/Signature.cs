@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Villeon.Helper;
 
-namespace Villeon
+namespace Villeon.ECS
 {
     public static class Signature
     {

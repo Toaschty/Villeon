@@ -4,7 +4,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
 using Villeon.Helper;
 
-namespace Villeon
+namespace Villeon.Render
 {
     public static class Camera
     {

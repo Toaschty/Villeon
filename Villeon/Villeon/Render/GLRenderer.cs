@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
-namespace Villeon.Helper
+namespace Villeon.Render
 {
-    public static class Graphics
+    public class GLRenderer
     {
-        public static void DrawTile(Box2 rectangle, Box2 texCoords)
+        public void DrawTile(Box2 rectangle, Box2 texCoords)
         {
             GL.Color4(Color4.White);
             GL.Begin(PrimitiveType.Quads);
@@ -25,7 +25,7 @@ namespace Villeon.Helper
             GL.End();
         }
 
-        public static void DrawTile(Rect rectangle, Rect texCoords)
+        public void DrawTile(Rect rectangle, Rect texCoords)
         {
             GL.Color4(Color4.White);
             GL.Begin(PrimitiveType.Quads);
@@ -40,7 +40,7 @@ namespace Villeon.Helper
             GL.End();
         }
 
-        public static void DrawColliderQuad(Color4 color, Vector2 point, float width, float height)
+        public void DrawColliderQuad(Color4 color, Vector2 point, float width, float height)
         {
             GL.Disable(EnableCap.Texture2D);
             GL.Color4(color);
@@ -53,7 +53,7 @@ namespace Villeon.Helper
             GL.Enable(EnableCap.Texture2D);
         }
 
-        public static void DrawPolygon(Color4 color, Vector2[] points, int size)
+        public void DrawPolygon(Color4 color, Vector2[] points, int size)
         {
             GL.Color4(color);
             GL.Begin(PrimitiveType.LineLoop);

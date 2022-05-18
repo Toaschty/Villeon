@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Villeon.Render;
 using Villeon.Systems;
 
-namespace Villeon
+namespace Villeon.ECS
 {
     public class Scene : IUpdate, IRender
     {
-        private HashSet<IEntity> _entities = new ();
+        public HashSet<IEntity> _entities = new ();
         private HashSet<IUpdateSystem> _updateSystems = new ();
         private HashSet<IRenderSystem> _renderSystems = new ();
 
@@ -22,10 +23,10 @@ namespace Villeon
 
         public void AddSystem(ISystem system)
         {
-            if (system is IUpdateSystem)
+            if (system is IUpdateSystem && !_updateSystems.Contains((IUpdateSystem)system))
                 _updateSystems.Add((IUpdateSystem)system);
 
-            if (system is IRenderSystem)
+            if (system is IRenderSystem && !_renderSystems.Contains((IRenderSystem)system))
                 _renderSystems.Add((IRenderSystem)system);
 
             // Make sure, every system has its assigned Entities
@@ -132,7 +133,7 @@ namespace Villeon
                 if (!renderSystem.Entities.Contains(entity))
                 {
                     if (entity.Signature.Contains(renderSystem.Signature))
-                        renderSystem.Entities.Add(entity);
+                        renderSystem.Add(entity);
                 }
             }
         }
@@ -146,7 +147,7 @@ namespace Villeon
 
             foreach (IRenderSystem renderSystem in _renderSystems)
             {
-                renderSystem.Entities.Remove(entity);
+                renderSystem.Remove(entity);
             }
         }
     }

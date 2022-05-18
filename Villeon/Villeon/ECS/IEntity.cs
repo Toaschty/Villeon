@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Villeon
+namespace Villeon.ECS
 {
     public interface IEntity
     {
@@ -19,7 +19,7 @@ namespace Villeon
         public void RemoveComponent<T>()
             where T : class, IComponent;
 
-        public T GetComponent<T>()
+        public T? GetComponent<T>()
             where T : class, IComponent;
     }
 }

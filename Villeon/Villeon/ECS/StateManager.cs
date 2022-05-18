@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Villeon
+namespace Villeon.ECS
 {
     public static class StateManager
     {

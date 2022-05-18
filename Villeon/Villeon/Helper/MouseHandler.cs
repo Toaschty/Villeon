@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Villeon.ECS;
 using Villeon.Systems;
+using Villeon.Render;
 
 namespace Villeon.Helper
 {

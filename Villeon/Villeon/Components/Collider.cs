@@ -40,6 +40,23 @@ namespace Villeon.Components
             _lastVertex4 = new Vector2(_position.X, _position.Y + height);
         }
 
+        public Collider(Vector2 position, float width, float height)
+        {
+            Position = position - Vector2.Zero;
+            LastPosition = position - Vector2.Zero;
+            Width = width;
+            Height = height;
+            _offset = Vector2.Zero;
+
+            _vertex2 = new Vector2(_position.X + width, _position.Y);
+            _vertex3 = new Vector2(_position.X + width, _position.Y + height);
+            _vertex4 = new Vector2(_position.X, _position.Y + height);
+
+            _lastVertex2 = new Vector2(_position.X + width, _position.Y);
+            _lastVertex3 = new Vector2(_position.X + width, _position.Y + height);
+            _lastVertex4 = new Vector2(_position.X, _position.Y + height);
+        }
+
         public bool HasMoved { get; set; } = false;
 
         public bool HasCollidedTop { get; set; } = false;
