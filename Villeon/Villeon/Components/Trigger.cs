@@ -12,6 +12,7 @@ namespace Villeon.Components
     {
         MOB,
         DAMAGE,
+        PORTAL,
     }
 
     public class Trigger : IComponent
@@ -52,5 +53,7 @@ namespace Villeon.Components
         public int Damage { get; set; } = 0;
 
         public Vector2 Impulse { get; set; } = Vector2.Zero;
+
+        public string SceneName { get; set; }
     }
 }

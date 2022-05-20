@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
+using Villeon.ECS;
 
 namespace Villeon.Helper
 {
@@ -14,6 +15,8 @@ namespace Villeon.Helper
         ENEMY,
         ATTACKLEFT,
         ATTACKRIGHT,
+        DUNGEONENTRY,
+        VILLAGEENTRY,
     }
 
     public static class TriggerBuilder
@@ -61,7 +64,14 @@ namespace Villeon.Helper
                     trigger.Time = 0.3f;
                     trigger.Impulse = new Vector2(5000, 0);
                     break;
-
+                case TriggerID.DUNGEONENTRY:
+                    trigger = new Trigger(TriggerType.PORTAL, new Vector2(0, 0), 1f, 2f);
+                    trigger.SceneName = "DungeonScene";
+                    break;
+                case TriggerID.VILLAGEENTRY:
+                    trigger = new Trigger(TriggerType.PORTAL, new Vector2(0, 0), 1f, 2f);
+                    trigger.SceneName = "VillageScene";
+                    break;
                 default:
                     trigger = new Trigger(TriggerType.DAMAGE, new Vector2(0, 0), 0, 0);
                     break;

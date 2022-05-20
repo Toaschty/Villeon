@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenTK.Mathematics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +25,10 @@ namespace Villeon
 
         // Rendering
         public static int MAX_BATCH_SIZE { get; } = 1024;
+
+        // Spawnpoints
+        public static Vector2 VILLAGE_SPAWN_POINT { get; } = new Vector2(32, 32);
+
+        public static Vector2 DUNGEON_SPAWN_POINT { get; } = new Vector2(5, 2);
     }
 }

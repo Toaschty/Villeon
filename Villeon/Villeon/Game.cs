@@ -34,6 +34,7 @@ namespace Villeon
             GameWindow gameWindow = WindowCreator.CreateWindow();
             _fps = new FPS(gameWindow);
             Init();
+            CreateTriggers();
             SceneLoader.AddScene(_dungeonScene);
             SceneLoader.AddScene(_villageScene);
 
@@ -54,6 +55,17 @@ namespace Villeon
             gameWindow.RenderFrame += _ => gameWindow.SwapBuffers();
             gameWindow.Resize += Resize;
             gameWindow.Run();
+        }
+
+        private void CreateTriggers()
+        {
+            IEntity villageToDungeon = new Entity(new Transform(new Vector2(36, 32), 1f, 0f), "villageToDungeonPortal");
+            villageToDungeon.AddComponent(TriggerBuilder.Build(TriggerID.DUNGEONENTRY));
+            IEntity dungeonToVillage = new Entity(new Transform(new Vector2(25f, 1), 1f, 0f), "dungeonToVillagePortal");
+            dungeonToVillage.AddComponent(TriggerBuilder.Build(TriggerID.VILLAGEENTRY));
+
+            _dungeonScene.AddEntity(dungeonToVillage);
+            _villageScene.AddEntity(villageToDungeon);
         }
 
         private void Resize(ResizeEventArgs args)
@@ -99,6 +111,7 @@ namespace Villeon
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.AddSystem(new HealthSystem("HealthSystem"));
             _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            _villageScene.AddSystem(new TriggerSystem("Trigger"));
 
             _villageScene.SetTileMap(villageTileMap, false);
             _villageScene.AddEntity(_entity);
