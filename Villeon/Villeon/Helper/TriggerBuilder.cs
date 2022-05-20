@@ -49,15 +49,15 @@ namespace Villeon.Helper
                     break;
 
                 case TriggerID.ATTACKLEFT:
-                    trigger = new Trigger(TriggerType.DAMAGE, new Vector2(0.5f, -0.5f), 0.5f, 0.5f);
-                    trigger.Damage = 5;
+                    trigger = new Trigger(TriggerType.DAMAGE, new Vector2(1f, -0.5f), 1f, 1f);
+                    trigger.Damage = 30;
                     trigger.Time = 0.3f;
                     trigger.Impulse = new Vector2(-5000, 0);
                     break;
 
                 case TriggerID.ATTACKRIGHT:
-                    trigger = new Trigger(TriggerType.DAMAGE, new Vector2(-2f, -0.5f), 0.5f, 0.5f);
-                    trigger.Damage = 5;
+                    trigger = new Trigger(TriggerType.DAMAGE, new Vector2(-2f, -0.5f), 1f, 1f);
+                    trigger.Damage = 30;
                     trigger.Time = 0.3f;
                     trigger.Impulse = new Vector2(5000, 0);
                     break;

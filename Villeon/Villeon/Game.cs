@@ -76,9 +76,12 @@ namespace Villeon
             _entity.AddComponent(new Collider(new Vector2(0.5f, 0f), transform, 1f, 1f));
             _entity.AddComponent(TriggerBuilder.Build(TriggerID.PLAYER));
             _entity.AddComponent(new Player());
+            _entity.AddComponent(new Effect());
             _entity.AddComponent(new Health(200));
             _entity.AddComponent(new Sprite(Assets.GetTexture("Player.png"), SpriteLayer.Foreground, true));
 
+
+            _dungeonScene.AddSystem(new EffectSystem("Effects"));
             _dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
             _dungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             _dungeonScene.AddSystem(new SimpleAISystem("SimpleAISystem"));
