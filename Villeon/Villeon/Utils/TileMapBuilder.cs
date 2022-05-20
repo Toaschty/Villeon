@@ -56,9 +56,30 @@ namespace Villeon.Utils
                         // Create new entity for the upcoming tile
                         IEntity tileEntity = new Entity(new Transform(new Vector2(x, layer.Height - 1 - y), 1, 1), "Tile");
 
-                        // TODO - ANIMATED SPRITES
+                        // Setup Sprite Component
+                        Sprite tileSprite = new Sprite(currentTile, currentTile.TexCoords);
+
+                        // Make sprite dynamic in order to get updated after frame changes
+                        tileSprite.IsDynamic = true;
+                        tileEntity.AddComponent(tileSprite);
+
+                        // Add animation component if tile contains any frames
+                        if (currentTile.AnimationFrames.Count() != 0)
+                        {
+                            // Create new animation component for current tile
+                            Animation animation = new Animation(tileSprite, currentTile.FrameDuration);
+
+                            // Add each animationtile as sprite to frames
+                            foreach (Tile frameTile in currentTile.AnimationFrames)
+                            {
+                                animation.AnimationSprite.Add(new Sprite(frameTile, frameTile.TexCoords));
+                            }
+
+                            // Add animation component
+                            tileEntity.AddComponent(animation);
+                        }
+
                         // Convert current tile into Sprite
-                        tileEntity.AddComponent(new Sprite(currentTile, currentTile.TexCoords));
                         _entities.Add(tileEntity);
 
                         // If collider optimization is turned on and the current tile contains at least 1 collider..

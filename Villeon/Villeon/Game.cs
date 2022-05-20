@@ -14,6 +14,7 @@ using Villeon.GUI;
 using Villeon.Helper;
 using Villeon.Render;
 using Villeon.Systems;
+using Villeon.Systems.Update;
 using Villeon.Utils;
 using Zenseless.OpenTK;
 using Zenseless.Resources;
@@ -87,9 +88,12 @@ namespace Villeon
             _entity.AddComponent(new Collider(new Vector2(0.5f, 0f), transform, 1f, 1f));
             _entity.AddComponent(TriggerBuilder.Build(TriggerID.PLAYER));
             _entity.AddComponent(new Player());
+            _entity.AddComponent(new Effect());
             _entity.AddComponent(new Health(200));
             _entity.AddComponent(new Sprite(Assets.GetTexture("Player.png"), SpriteLayer.Foreground, true));
 
+
+            _dungeonScene.AddSystem(new EffectSystem("Effects"));
             _dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
             _dungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             _dungeonScene.AddSystem(new SimpleAISystem("SimpleAISystem"));
@@ -111,7 +115,7 @@ namespace Villeon
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.AddSystem(new HealthSystem("HealthSystem"));
             _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
-            _villageScene.AddSystem(new TriggerSystem("Trigger"));
+            _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
 
             _villageScene.SetTileMap(villageTileMap, false);
             _villageScene.AddEntity(_entity);
@@ -127,7 +131,7 @@ namespace Villeon
         {
             foreach (MouseHandler.ClickedMouseButton button in MouseHandler.ClickedMouseButtons)
             {
-                if (button.Button == MouseButton.Middle)
+                if (button.Button == MouseButton.Right)
                 {
                     SceneLoader.LoadScene("VillageScene");
                 }

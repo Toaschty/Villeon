@@ -37,6 +37,7 @@ namespace Villeon
             entity.AddComponent(new Collider(new Vector2(0f, 0f), position, 1.5f, 1f));
             entity.AddComponent(TriggerBuilder.Build(TriggerID.ENEMY));
             entity.AddComponent(new Health(200));
+            entity.AddComponent(new Effect());
             entity.AddComponent(new Physics());
             entity.AddComponent(new SimpleAI());
             entity.AddComponent(new Sprite(Assets.GetTexture("Player.png"), SpriteLayer.Foreground, true));

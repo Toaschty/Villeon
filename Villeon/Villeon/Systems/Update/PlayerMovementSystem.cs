@@ -56,13 +56,25 @@ namespace Villeon.Systems
 
                 if (KeyHandler.IsPressed(Keys.E))
                 {
-                    EntitySpawner.SpawnTrigger(TriggerID.ATTACKRIGHT, transform);
+                    Effect effect = entity.GetComponent<Effect>()!;
+                    if (!effect.Effects.ContainsKey("AttackCooldown"))
+                    {
+                        EntitySpawner.SpawnTrigger(TriggerID.ATTACKRIGHT, transform);
+                        effect.Effects.Add("AttackCooldown", 1);
+                    }
+
                     KeyHandler.RemoveKeyHold(Keys.E);
                 }
 
                 if (KeyHandler.IsPressed(Keys.Q))
                 {
-                    EntitySpawner.SpawnTrigger(TriggerID.ATTACKLEFT, transform);
+                    Effect effect = entity.GetComponent<Effect>()!;
+                    if (!effect.Effects.ContainsKey("AttackCooldown"))
+                    {
+                        EntitySpawner.SpawnTrigger(TriggerID.ATTACKLEFT, transform);
+                        effect.Effects.Add("AttackCooldown", 1);
+                    }
+
                     KeyHandler.RemoveKeyHold(Keys.Q);
                 }
 
