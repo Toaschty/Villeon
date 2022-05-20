@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Villeon.Components;
 
-namespace Villeon.Components
+namespace Villeon.Utils
 {
-    public class Animation : IComponent
+    public class Animation
     {
         // Animation variables
         private List<Sprite> _animationSprites;
@@ -14,7 +15,7 @@ namespace Villeon.Components
         private float _frameDuration;
         private float _elapsedTime;
 
-        public Animation(Sprite reference, float frameDuration)
+        public Animation(float frameDuration)
         {
             _animationSprites = new List<Sprite>();
             _frameDuration = frameDuration;

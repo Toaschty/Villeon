@@ -70,6 +70,11 @@ namespace Villeon.Utils
 
                             // Create new animation component for current tile
                             Animation animation = new Animation(tileSprite, currentTile.FrameDuration);
+                            // Create new animationController component for current tile
+                            AnimationController animController = new AnimationController();
+
+                            // Create new animation for tile
+                            Animation animation = new Animation(currentTile.FrameDuration);
 
                             // Add each animationtile as sprite to frames
                             foreach (Tile frameTile in currentTile.AnimationFrames)
@@ -77,8 +82,10 @@ namespace Villeon.Utils
                                 animation.AnimationSprite.Add(new Sprite(frameTile, frameTile.TexCoords));
                             }
 
+                            animController.addAnimation(animation);
+
                             // Add animation component
-                            tileEntity.AddComponent(animation);
+                            tileEntity.AddComponent(animController);
                         }
 
                         // Convert current tile into Sprite

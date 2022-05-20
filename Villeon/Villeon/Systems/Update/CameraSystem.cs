@@ -23,7 +23,7 @@ namespace Villeon.Systems
             foreach (var entity in Entities)
             {
                 Transform transform = entity.GetComponent<Transform>();
-                Camera.SetTracker(transform.Position);
+                Camera.SetTracker(transform.Position + transform.Scale);
             }
         }
     }
