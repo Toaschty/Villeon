@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Villeon.Components;
 using Villeon.ECS;
+using Villeon.Utils;
 
 namespace Villeon.Systems.Update
 {
@@ -13,7 +14,7 @@ namespace Villeon.Systems.Update
         public AnimationSystem(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(Animation));
+            Signature = Signature.AddToSignature(typeof(AnimationController));
             Signature = Signature.AddToSignature(typeof(Sprite));
         }
 
@@ -21,24 +22,26 @@ namespace Villeon.Systems.Update
         {
             foreach (IEntity entity in Entities)
             {
-                Animation animation = entity.GetComponent<Animation>();
+                AnimationController animation = entity.GetComponent<AnimationController>();
                 Sprite sprite = entity.GetComponent<Sprite>();
 
                 // Increase elapsed time in current animation
-                animation.ElapsedTime += time;
+                Animation currentAnim = animation.getSelectedAnimation();
+
+                currentAnim.ElapsedTime += time;
 
                 // Check if frame switch is necessary
-                if (animation.ElapsedTime > animation.FrameDuration)
+                if (currentAnim.ElapsedTime > currentAnim.FrameDuration)
                 {
                     // Reset timer
-                    animation.ElapsedTime = 0;
+                    currentAnim.ElapsedTime = 0;
 
                     // Increase current frame index
-                    animation.CurrentFrame++;
+                    currentAnim.CurrentFrame++;
 
                     // Set Texture and Texture Coordinates to new frame
-                    sprite.Texture = animation.AnimationSprite[animation.CurrentFrame].Texture;
-                    sprite.TexCoords = animation.AnimationSprite[animation.CurrentFrame].TexCoords;
+                    sprite.Texture = currentAnim.AnimationSprite[currentAnim.CurrentFrame].Texture;
+                    sprite.TexCoords = currentAnim.AnimationSprite[currentAnim.CurrentFrame].TexCoords;
                 }
             }
         }

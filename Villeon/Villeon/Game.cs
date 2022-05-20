@@ -70,7 +70,7 @@ namespace Villeon
 
             // Platformer Scene
             TileMapDictionary tileMap = new TileMapDictionary("DungeonTileMap.tmx");
-            Transform transform = new Transform(new Vector2(1f, 1f), 1f, 0f);
+            Transform transform = new Transform(new Vector2(1f, 1f), new Vector2(0.6f, 1f), 0f);
             _entity = new Entity(transform, "Marin");
             _entity.AddComponent(new Physics());
             _entity.AddComponent(new Collider(new Vector2(0.5f, 0f), transform, 1f, 1f));
@@ -91,8 +91,7 @@ namespace Villeon
             _dungeonScene.SetTileMap(tileMap, true);
             _dungeonScene.AddEntity(_entity);
 
-            //Village Scene
-            // TileMap villageTileMap = new TileMap("VillageTileMap.tmx", false);
+            // Village Scene
             TileMapDictionary villageTileMap = new TileMapDictionary("VillageTileMap.tmx");
             _villageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
             _villageScene.AddSystem(new CollisionSystem("Collision"));
@@ -101,6 +100,17 @@ namespace Villeon
             _villageScene.AddSystem(new HealthSystem("HealthSystem"));
             _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            _villageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
+
+            // Setup player animations
+            AnimationController animController = new AnimationController();
+            animController.addAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_idle.png", 5, 16, 34, 1));
+            animController.addAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_up.png", 6, 16, 34, 0.2f));
+            animController.addAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_down.png", 6, 16, 34, 0.2f));
+            animController.addAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_left.png", 6, 16, 34, 0.2f));
+            animController.addAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_right.png", 6, 16, 34, 0.2f));
+            _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            _entity.AddComponent(animController);
 
             _villageScene.SetTileMap(villageTileMap, false);
             _villageScene.AddEntity(_entity);
