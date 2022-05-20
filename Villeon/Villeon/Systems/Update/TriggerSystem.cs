@@ -22,6 +22,7 @@ namespace Villeon.Systems
         {
             List<IEntity> mobEntities = new List<IEntity>();
             List<IEntity> damageEntities = new List<IEntity>();
+            List<IEntity> portalEntities = new List<IEntity>();
 
             for (int i = 0; i < Entities.Count; i++)
             {
@@ -41,6 +42,7 @@ namespace Villeon.Systems
                     {
                         case TriggerType.MOB: mobEntities.Add(Entities.ElementAt(i)); break;
                         case TriggerType.DAMAGE: damageEntities.Add(Entities.ElementAt(i)); break;
+                        case TriggerType.PORTAL: portalEntities.Add(Entities.ElementAt(i)); break;
                     }
 
                     trigger.Time -= time;
@@ -61,6 +63,35 @@ namespace Villeon.Systems
                         health.Damage(damageTrigger.Damage);
                         mobEntity.GetComponent<Physics>().Acceleration += damageTrigger.Impulse;
                         damageTrigger.ToBeRemoved = true;
+                    }
+                }
+            }
+
+            // Check portals against mob
+            foreach (IEntity portal in portalEntities)
+            {
+                Trigger portalTrigger = portal.GetComponent<Trigger>();
+
+                foreach (IEntity mob in mobEntities)
+                {
+                    if (mob.Name == "Marin")
+                    {
+                        Trigger playerMobTrigger = mob.GetComponent<Trigger>();
+                        if (CollidesAABB(portalTrigger, playerMobTrigger))
+                        {
+                            if (portalTrigger.SceneName == "DungeonScene")
+                            {
+                                mob.GetComponent<Transform>().Position = Constants.DUNGEON_SPAWN_POINT;
+                                mob.GetComponent<Collider>().LastPosition = Constants.DUNGEON_SPAWN_POINT;
+                            }
+                            if (portalTrigger.SceneName == "VillageScene")
+                            {
+                                mob.GetComponent<Transform>().Position = Constants.VILLAGE_SPAWN_POINT;
+                                mob.GetComponent<Collider>().LastPosition = Constants.VILLAGE_SPAWN_POINT;
+                            }
+                            SceneLoader.LoadScene(portalTrigger.SceneName);
+
+                        }
                     }
                 }
             }

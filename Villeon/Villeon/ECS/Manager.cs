@@ -54,6 +54,17 @@ namespace Villeon.ECS
             _currentScene.EntityComponentRemoved<T>(entity);
         }
 
+        public IEntity GetEntity(string name)
+        {
+            foreach (IEntity entity in _currentScene.GetEntities())
+            {
+                if (entity.Name == name)
+                    return entity;
+            }
+
+            return null;
+        }
+
         public void Render()
         {
             _currentScene.Render();

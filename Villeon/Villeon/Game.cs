@@ -35,6 +35,7 @@ namespace Villeon
             GameWindow gameWindow = WindowCreator.CreateWindow();
             _fps = new FPS(gameWindow);
             Init();
+            CreateTriggers();
             SceneLoader.AddScene(_dungeonScene);
             SceneLoader.AddScene(_villageScene);
 
@@ -57,6 +58,17 @@ namespace Villeon
             gameWindow.Run();
         }
 
+        private void CreateTriggers()
+        {
+            IEntity villageToDungeon = new Entity(new Transform(new Vector2(36, 32), 1f, 0f), "villageToDungeonPortal");
+            villageToDungeon.AddComponent(TriggerBuilder.Build(TriggerID.DUNGEONENTRY));
+            IEntity dungeonToVillage = new Entity(new Transform(new Vector2(25f, 1), 1f, 0f), "dungeonToVillagePortal");
+            dungeonToVillage.AddComponent(TriggerBuilder.Build(TriggerID.VILLAGEENTRY));
+
+            _dungeonScene.AddEntity(dungeonToVillage);
+            _villageScene.AddEntity(villageToDungeon);
+        }
+
         private void Resize(ResizeEventArgs args)
         {
             Camera.Resize(args.Width, args.Height);
@@ -76,9 +88,12 @@ namespace Villeon
             _entity.AddComponent(new Collider(new Vector2(0.5f, 0f), transform, 1f, 1f));
             _entity.AddComponent(TriggerBuilder.Build(TriggerID.PLAYER));
             _entity.AddComponent(new Player());
+            _entity.AddComponent(new Effect());
             _entity.AddComponent(new Health(200));
             _entity.AddComponent(new Sprite(Assets.GetTexture("Player.png"), SpriteLayer.Foreground, true));
 
+
+            _dungeonScene.AddSystem(new EffectSystem("Effects"));
             _dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
             _dungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             _dungeonScene.AddSystem(new SimpleAISystem("SimpleAISystem"));
