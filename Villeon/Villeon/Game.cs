@@ -14,6 +14,7 @@ using Villeon.GUI;
 using Villeon.Helper;
 using Villeon.Render;
 using Villeon.Systems;
+using Villeon.Systems.Update;
 using Villeon.Utils;
 using Zenseless.OpenTK;
 using Zenseless.Resources;
@@ -99,6 +100,7 @@ namespace Villeon
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.AddSystem(new HealthSystem("HealthSystem"));
             _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
 
             _villageScene.SetTileMap(villageTileMap, false);
             _villageScene.AddEntity(_entity);
@@ -114,7 +116,7 @@ namespace Villeon
         {
             foreach (MouseHandler.ClickedMouseButton button in MouseHandler.ClickedMouseButtons)
             {
-                if (button.Button == MouseButton.Middle)
+                if (button.Button == MouseButton.Right)
                 {
                     SceneLoader.LoadScene("VillageScene");
                 }

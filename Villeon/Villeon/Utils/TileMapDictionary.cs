@@ -19,7 +19,6 @@ namespace Villeon.Utils
 
         // Dictionary tileId => Tile object
         private Dictionary<uint, Tile> _tiles = new Dictionary<uint, Tile>();
-        private Dictionary<uint, AnimatedTile> _animTiles = new Dictionary<uint, AnimatedTile>();
 
         private XmlDocument _tileSetXml;
 
@@ -37,8 +36,6 @@ namespace Villeon.Utils
         public TiledLib.Map Map => _map;
 
         public Dictionary<uint, Tile> Tiles => _tiles;
-
-        public Dictionary<uint, AnimatedTile> AnimatedTiles => _animTiles;
 
         // Start the setup prozess
         private void SetupTileDictionaries()
@@ -108,32 +105,31 @@ namespace Villeon.Utils
             }
         }
 
+        // Read animation data from file
         private void GetAnimationData(XmlNode tileChildNode, uint tileId)
         {
             // Get all child nodes from "animation" nodes
             XmlNodeList frames = tileChildNode.ChildNodes;
 
             Tile tile = _tiles[tileId];
-            AnimatedTile animTile = new AnimatedTile(tile.TexCoords.Min.X, tile.TexCoords.Min.Y, tile.TileSet, tile.Colliders);
 
             // Go through all "frame"-Nodes of animation
             foreach (XmlNode frame in frames)
             {
                 // Read animation frame id and save it into AnimationFrames
                 int frameId = int.Parse(frame.Attributes!["tileid"] !.Value);
-                animTile.AnimationFrames.Add(frameId);
+                // animTile.AnimationFrames.Add(frameId);
+                tile.AnimationFrames.Add(_tiles[(uint)frameId]);
 
                 // Add current frame duration to animation FrameDuration. Value given in ms => /1000
-                animTile.FrameDuration += float.Parse(frame.Attributes!["duration"] !.Value) / 1000;
+                tile.FrameDuration += float.Parse(frame.Attributes!["duration"] !.Value) / 1000;
             }
 
             // Divide by framecount => Average out different frame durations
-            animTile.FrameDuration /= animTile.AnimationFrames.Count;
-
-            // Add animated Tile to dictionary
-            _animTiles.Add(tileId + 1, animTile);
+            tile.FrameDuration /= tile.AnimationFrames.Count;
         }
 
+        // Read collision data from file
         private void GetCollisionData(XmlNode tileChildNode, uint tileId, TiledLib.ITileset tileSet)
         {
             // Get all child nodes from "objectgroup" nodes

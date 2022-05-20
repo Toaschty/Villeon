@@ -11,25 +11,36 @@ namespace Villeon.Utils
 {
     public class Tile
     {
+        // Texture coordinates of tile texture
         private readonly float _texCoordX;
         private readonly float _texCoordY;
 
+        // Frameduration of animation if needed
+        private float _frameDuration;
+
         public Tile(float textureCoordinateX, float textureCoordinateY, TileSetStruct tileset)
         {
+            // Set texture coordinates
             _texCoordX = textureCoordinateX;
             _texCoordY = textureCoordinateY;
+
+            // Set Tileset
             TileSet = tileset;
+
+            // Set empty animation => Static tile
+            FrameDuration = 0;
+            AnimationFrames = new List<Tile>();
         }
 
-        public Tile(float textureCoordinateX, float textureCoordinateY, TileSetStruct tileset, List<Box2> colliders)
+        public float FrameDuration
         {
-            _texCoordX = textureCoordinateX;
-            _texCoordY = textureCoordinateY;
-            TileSet = tileset;
-            Colliders = colliders;
+            get { return _frameDuration; }
+            set { _frameDuration = value; }
         }
 
         public TileSetStruct TileSet { get; set; }
+
+        public List<Tile> AnimationFrames { get; set; }
 
         public List<Box2> Colliders { get; set; } = new List<Box2>();
 
