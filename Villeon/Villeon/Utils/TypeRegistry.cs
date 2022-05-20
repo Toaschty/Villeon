@@ -12,7 +12,7 @@ namespace Villeon
 
         public static void Init()
         {
-            var types = AppDomain.CurrentDomain.GetAssemblies()
+            IEnumerable<Type> types = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(x => x.GetTypes())
             .Where(p => typeof(IComponent).IsAssignableFrom(p) && !p.IsInterface);
 

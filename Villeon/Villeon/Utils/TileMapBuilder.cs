@@ -60,12 +60,14 @@ namespace Villeon.Utils
                         Sprite tileSprite = new Sprite(currentTile, currentTile.TexCoords);
 
                         // Make sprite dynamic in order to get updated after frame changes
-                        tileSprite.IsDynamic = true;
                         tileEntity.AddComponent(tileSprite);
 
                         // Add animation component if tile contains any frames
                         if (currentTile.AnimationFrames.Count() != 0)
                         {
+                            // Dynamic: updated after frame changes
+                            tileSprite.IsDynamic = true;
+
                             // Create new animation component for current tile
                             Animation animation = new Animation(tileSprite, currentTile.FrameDuration);
 
