@@ -105,7 +105,7 @@ namespace Villeon
             _player.AddComponent(TriggerBuilder.Build(TriggerID.PLAYER));
             _player.AddComponent(new Player());
             _player.AddComponent(new Effect());
-            _player.AddComponent(new Health(200));
+            _player.AddComponent(new Health(Constants.PLAYER_MAX_HEALTH));
             _player.AddComponent(new Sprite(Assets.GetTexture("Player.png"), SpriteLayer.Foreground, true));
 
             // Setup player animations
@@ -147,6 +147,7 @@ namespace Villeon
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
             _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             _dungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            _dungeonScene.AddSystem(new HealthbarSystem("PlayerHealthbar", Constants.PLAYER_MAX_HEALTH));
             _dungeonScene.SetTileMap(tileMap, true);
         }
 
