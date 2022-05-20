@@ -38,7 +38,7 @@ namespace Villeon.ECS
                     new Vector2(rightX, topY),          // UV: Top right
                 };
                 Sprite sprite = new Sprite(texture, layer, texCoords, spriteWidth, spriteHeight);
-                _sprites.Add(sprite);
+                Sprites.Add(sprite);
 
                 // Go to next sprite
                 currentX += spriteWidth + spacing;
@@ -50,22 +50,24 @@ namespace Villeon.ECS
             }
         }
 
+        public List<Sprite> Sprites { get => _sprites; }
+
         public Sprite GetSprite(int index)
         {
-            return _sprites[index];
+            return Sprites[index];
         }
 
         public Sprite GetSprite(int index, SpriteLayer layer)
         {
-            _sprites[index].RenderLayer = layer;
-            return _sprites[index];
+            Sprites[index].RenderLayer = layer;
+            return Sprites[index];
         }
 
         public Sprite GetSprite(int index, SpriteLayer layer, bool isDynamic)
         {
-            _sprites[index].RenderLayer = layer;
-            _sprites[index].IsDynamic = isDynamic;
-            return _sprites[index];
+            Sprites[index].RenderLayer = layer;
+            Sprites[index].IsDynamic = isDynamic;
+            return Sprites[index];
         }
     }
 }

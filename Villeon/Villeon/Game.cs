@@ -103,39 +103,46 @@ namespace Villeon
             _dungeonScene.AddSystem(new CollisionSystem("Collision"));
             _dungeonScene.AddSystem(new HealthSystem("Health"));
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
-            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            _dungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _dungeonScene.SetTileMap(tileMap, true);
-            _dungeonScene.AddEntity(_entity);
 
             // Village Scene
             TileMapDictionary villageTileMap = new TileMapDictionary("VillageTileMap.tmx");
             _villageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
             _villageScene.AddSystem(new CollisionSystem("Collision"));
             _villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
+            _villageScene.AddSystem(new TriggerSystem("Trigger"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.AddSystem(new HealthSystem("HealthSystem"));
-            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
-            _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             _villageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
+            _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
 
             // Setup player animations
             AnimationController animController = new AnimationController();
-            animController.addAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_idle.png", 5, 16, 34, 1));
-            animController.addAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_up.png", 6, 16, 34, 0.2f));
-            animController.addAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_down.png", 6, 16, 34, 0.2f));
-            animController.addAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_left.png", 6, 16, 34, 0.2f));
-            animController.addAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_right.png", 6, 16, 34, 0.2f));
-            _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_idle.png", 0.5f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_up.png", 0.1f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_down.png", 0.1f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_left.png", 0.1f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_right.png", 0.1f));
             _entity.AddComponent(animController);
 
             _villageScene.SetTileMap(villageTileMap, false);
             _villageScene.AddEntity(_entity);
+            _dungeonScene.AddEntity(_entity);
         }
 
         private void LoadResources()
         {
             Assets.GetShader("shader");
             Assets.AddSpriteSheet("HenksFont.png", new SpriteSheet(Color4.White, Assets.GetTexture("HenksFont.png"), 5, 7, (10 * 10) - 5));
+            Assets.AddSpriteSheet("Animations.player_idle.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_idle.png"), 16, 34, 5, 0, SpriteLayer.Foreground));
+            Assets.AddSpriteSheet("Animations.player_walk_up.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_walk_up.png"), 16, 34, 6, 0, SpriteLayer.Foreground));
+            Assets.AddSpriteSheet("Animations.player_walk_down.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_walk_down.png"), 16, 34, 6, 0, SpriteLayer.Foreground));
+            Assets.AddSpriteSheet("Animations.player_walk_left.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_walk_left.png"), 16, 34, 6, 0, SpriteLayer.Foreground));
+            Assets.AddSpriteSheet("Animations.player_walk_right.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_walk_right.png"), 16, 34, 6, 0, SpriteLayer.Foreground));
+            Assets.AddSpriteSheet("Animations.slime_jumping.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.slime_jumping.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
         }
 
         private void UpdateFrame(FrameEventArgs args)

@@ -68,8 +68,6 @@ namespace Villeon.Utils
                             // Dynamic: updated after frame changes
                             tileSprite.IsDynamic = true;
 
-                            // Create new animation component for current tile
-                            Animation animation = new Animation(tileSprite, currentTile.FrameDuration);
                             // Create new animationController component for current tile
                             AnimationController animController = new AnimationController();
 
@@ -82,7 +80,7 @@ namespace Villeon.Utils
                                 animation.AnimationSprite.Add(new Sprite(frameTile, frameTile.TexCoords));
                             }
 
-                            animController.addAnimation(animation);
+                            animController.AddAnimation(animation);
 
                             // Add animation component
                             tileEntity.AddComponent(animController);

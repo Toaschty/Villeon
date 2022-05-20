@@ -22,21 +22,21 @@ namespace Villeon.Components
         }
 
         // Set current animation to play
-        public void setAnimation(int index)
+        public void SetAnimation(int index)
         {
             _selection = index;
         }
 
         // Add animation to the intenal animation list
-        public void addAnimation(Animation animation)
+        public void AddAnimation(Animation animation)
         {
             _animations.Add(animation);
         }
 
         // Get activated animation
-        public Animation getSelectedAnimation()
+        public Animation GetSelectedAnimation()
         {
-            return _animations[_selection];
+            return _animations.ElementAt(_selection);
         }
     }
 }

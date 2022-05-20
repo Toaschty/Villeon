@@ -12,6 +12,7 @@
   <ItemGroup>
     <None Remove="Assets\Player.png" />
     <None Remove="Assets\shader.vert" />
+    <None Remove="Assets\Slime.aseprite" />
     <None Remove="Assets\TileMap\Frame.aseprite" />
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +44,12 @@
     <PackageReference Include="TiledLib" Version="3.2.0" />
     <PackageReference Include="Zenseless.OpenTK" Version="0.1.40" />
     <PackageReference Include="Zenseless.Resources" Version="0.1.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Assets\Animations\player_idle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,6 @@ layout(location = 2) in vec2 texCoords;
 layout(location = 3) in float texID;
 
 uniform mat4 cameraMatrix;
-uniform bool usesCamera;
 
 out vec4 fColor;
 out vec2 fTexCoords;
@@ -18,10 +17,5 @@ void main()
 	fTexCoords = texCoords;
 	fTexID = texID;
 
-	if (!usesCamera)
-	{
-		gl_Position = position * cameraMatrix;
-	}
-	//gl_Position = position;
-
+	gl_Position = position * cameraMatrix;
 }

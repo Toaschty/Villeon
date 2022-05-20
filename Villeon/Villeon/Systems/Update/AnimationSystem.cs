@@ -26,7 +26,7 @@ namespace Villeon.Systems.Update
                 Sprite sprite = entity.GetComponent<Sprite>();
 
                 // Increase elapsed time in current animation
-                Animation currentAnim = animation.getSelectedAnimation();
+                Animation currentAnim = animation.GetSelectedAnimation();
 
                 currentAnim.ElapsedTime += time;
 

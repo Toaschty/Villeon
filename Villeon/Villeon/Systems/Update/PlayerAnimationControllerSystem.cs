@@ -32,18 +32,18 @@ namespace Villeon.Systems.Update
                 AnimationController controller = entity.GetComponent<AnimationController>();
 
                 // Default idle animation
-                controller.setAnimation(0);
+                controller.SetAnimation(0);
 
                 // Depending on direction -> Choose right animation
                 if (topDownAxis < 0)
-                    controller.setAnimation(2);
+                    controller.SetAnimation(2);
                 else if (topDownAxis > 0)
-                    controller.setAnimation(1);
+                    controller.SetAnimation(1);
 
                 if (leftRightAxis < 0)
-                    controller.setAnimation(3);
+                    controller.SetAnimation(3);
                 else if (leftRightAxis > 0)
-                    controller.setAnimation(4);
+                    controller.SetAnimation(4);
             }
         }
     }

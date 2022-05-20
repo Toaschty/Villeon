@@ -8,15 +8,12 @@ using Villeon.Components;
 using Villeon.ECS;
 using Villeon.Helper;
 using Villeon.Render;
+using Villeon.Utils;
 
 namespace Villeon
 {
     public class EntitySpawner
     {
-        public EntitySpawner()
-        {
-        }
-
         public static void SpawnTrigger(TriggerID id, Vector2 poition, float width, float height)
         {
             IEntity damageEntity = new Entity(new Transform(poition, width, height), "Attack");
@@ -41,6 +38,11 @@ namespace Villeon
             entity.AddComponent(new Physics());
             entity.AddComponent(new SimpleAI());
             entity.AddComponent(new Sprite(Assets.GetTexture("Player.png"), SpriteLayer.Foreground, true));
+
+            // Setup player animations
+            AnimationController animController = new AnimationController();
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.slime_jumping.png", 0.1f));
+            entity.AddComponent(animController);
             Manager.GetInstance().AddEntity(entity);
         }
     }
