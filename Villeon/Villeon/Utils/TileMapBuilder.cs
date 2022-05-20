@@ -58,7 +58,7 @@ namespace Villeon.Utils
 
                         // TODO - ANIMATED SPRITES
                         // Convert current tile into Sprite
-                        tileEntity.AddComponent(currentTile.ToSprite());
+                        tileEntity.AddComponent(new Sprite(currentTile, currentTile.TexCoords));
                         _entities.Add(tileEntity);
 
                         // If collider optimization is turned on and the current tile contains at least 1 collider..

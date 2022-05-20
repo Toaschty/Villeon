@@ -49,10 +49,10 @@ namespace Villeon.Helper
             }
         }
 
-        public static Sprite GetSprite(string texturePath, Color4 color, SpriteLayer spriteLayer, bool isDynamic)
+        public static Sprite GetSprite(string texturePath, SpriteLayer spriteLayer, bool isDynamic)
         {
             Texture2D texture = GetTexture(texturePath);
-            return new Sprite(color, texture, spriteLayer, isDynamic);
+            return new Sprite(texture, spriteLayer, isDynamic);
         }
 
         public static void AddSpriteSheet(string spriteSheetPath, SpriteSheet spriteSheet)

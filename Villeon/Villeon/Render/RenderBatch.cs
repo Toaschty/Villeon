@@ -253,20 +253,19 @@ namespace Villeon.Render
                 // Set dimensions
                 if (i == 1)
                 {
-                    add = new Vector2(data.Width, 0f);
+                    add = new Vector2(sprite.Width, 0f);
                 }
                 else if (i == 2)
                 {
-                    add = new Vector2(0f, data.Height);
+                    add = new Vector2(0f, sprite.Height);
                 }
                 else if (i == 3)
                 {
-                    add = new Vector2(data.Width, data.Height);
+                    add = new Vector2(sprite.Width, sprite.Height);
                 }
 
                 // Position
-                _vertices[offset + i].Position.X = transform.Position.X + (add.X * transform.Scale.X);
-                _vertices[offset + i].Position.Y = transform.Position.Y + (add.Y * transform.Scale.Y * sprite.AspectRatio);
+                _vertices[offset + i].Position = transform.Position - data.Offset + (add * data.Scale);
 
                 // Color
                 _vertices[offset + i].Color = sprite.Color;

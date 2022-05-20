@@ -42,7 +42,7 @@ namespace Villeon.Systems
 
                     float side = -(playerDirection.X / MathF.Abs(playerDirection.X));
 
-                    if (playerDirection.Length < 10 && playerDirection.Length > 1.2f)
+                    if (playerDirection.Length < 10 && playerDirection.Length > 2.2f)
                     {
                         Physics physics = entity.GetComponent<Physics>();
                         Collider collider = entity.GetComponent<Collider>();
@@ -54,7 +54,7 @@ namespace Villeon.Systems
                         else if (side > 0 && collider.HasCollidedRight && collider.HasCollidedBottom)
                             physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
                     }
-                    else if (playerDirection.Length <= 1.2f)
+                    else if (playerDirection.Length <= 10)
                     {
                         EntitySpawner.SpawnTrigger((side == 1) ? TriggerID.ATTACKRIGHT : TriggerID.ATTACKLEFT, transform);
                     }

@@ -35,18 +35,6 @@ namespace Villeon.Utils
 
         public Box2 TexCoords => new Box2(_texCoordX, _texCoordY, _texCoordX + TileSet.TileWidth, _texCoordY + TileSet.TileHeight);
 
-        public Sprite ToSprite()
-        {
-            Vector2[] texCoords = new Vector2[4]
-            {
-                new Vector2(TexCoords.Min.X, TexCoords.Min.Y),
-                new Vector2(TexCoords.Max.X, TexCoords.Min.Y),
-                new Vector2(TexCoords.Min.X, TexCoords.Max.Y),
-                new Vector2(TexCoords.Max.X, TexCoords.Max.Y),
-            };
-            return new Sprite(Color4.White, TileSet.Texture2D, Render.SpriteLayer.Background, texCoords);
-        }
-
         public struct TileSetStruct
         {
             public Texture2D Texture2D { get; set; }

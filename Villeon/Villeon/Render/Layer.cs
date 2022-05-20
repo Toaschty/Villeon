@@ -8,7 +8,6 @@ using Villeon.ECS;
 using Villeon.Systems;
 using Zenseless.OpenTK;
 
-
 namespace Villeon.Render
 {
     public class Layer : IRender

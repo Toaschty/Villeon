@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Villeon.ECS;
 
 namespace Villeon.Components
 {
@@ -22,6 +23,24 @@ namespace Villeon.Components
         private Vector2 _lastVertex4;
 
         private Vector2[] _polygon = new Vector2[6];
+
+        public Collider(Vector2 offset, Transform transform, float width, float height)
+        {
+
+            Position = transform.Position - offset;
+            LastPosition = transform.Position - offset;
+            Width = width * transform.Scale.X;
+            Height = height * transform.Scale.Y;
+            _offset = offset;
+
+            _vertex2 = new Vector2(_position.X + width, _position.Y);
+            _vertex3 = new Vector2(_position.X + width, _position.Y + height);
+            _vertex4 = new Vector2(_position.X, _position.Y + height);
+
+            _lastVertex2 = new Vector2(_position.X + width, _position.Y);
+            _lastVertex3 = new Vector2(_position.X + width, _position.Y + height);
+            _lastVertex4 = new Vector2(_position.X, _position.Y + height);
+        }
 
         public Collider(Vector2 offset, Vector2 position, float width, float height)
         {

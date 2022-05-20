@@ -11,9 +11,8 @@ namespace Villeon.Render
     public struct RenderingData
     {
         public Sprite? Sprite;
-        public Transform? Transform;
-        public Vector2 Position;
-        public float Width;
-        public float Height;
+        public Transform Transform;
+        public Vector2 Offset;
+        public Vector2 Scale;
     }
 }

@@ -16,6 +16,7 @@ namespace Villeon.GUI
         private List<IEntity> _letters;
         private IEntity _frame;
         private IEntity _background;
+        private IEntity _boundEntity;
 
         private string _text;
         private Vector2 _framePosition;
@@ -23,13 +24,14 @@ namespace Villeon.GUI
         private float _lineSpacing;
         private float _letterScale;
 
+        private Vector2 _lastBoundPosition;
 
         public TextBox(string text, Vector2 framePosition, float letterSpacing = 1.1f, float lineSpacing = 1.1f, float letterScale = 1f)
         {
             _text = text;
             _framePosition = framePosition;
-            _letterSpacing = letterSpacing;
-            _lineSpacing = lineSpacing;
+            _letterSpacing = letterSpacing * letterScale;
+            _lineSpacing = lineSpacing * letterScale;
             _letterScale = letterScale;
 
             _letters = CreateLetters(text);
@@ -42,6 +44,32 @@ namespace Villeon.GUI
         {
             RemoveAllText();
             _letters = CreateLetters(text);
+        }
+
+        public void BindPositionTo(IEntity entity)
+        {
+            _boundEntity = entity;
+        }
+
+        public void Update()
+        {
+            MoveTextbox(_boundEntity.GetComponent<Transform>().Position);
+        }
+
+        private void MoveTextbox(Vector2 newBoundPosition)
+        {
+            Vector2 positionChange = newBoundPosition - _lastBoundPosition;
+
+            // Move the textbox
+            foreach (IEntity entity in _letters)
+            {
+                entity.GetComponent<Transform>().Position += positionChange;
+            }
+
+            _frame.GetComponent<Transform>().Position += positionChange;
+            _background.GetComponent<Transform>().Position += positionChange;
+
+            _lastBoundPosition = newBoundPosition;
         }
 
         private void RemoveAllText()
@@ -88,22 +116,21 @@ namespace Villeon.GUI
 
         private IEntity CreateTextFrame(Vector2 position)
         {
-            position -= new Vector2(1.5f, 0.5f);
+            position -= new Vector2(0.5f, 0.5f);
+            float boxWidth = _text.Length * 1.1f;
             IEntity frame = new Entity(new Transform(position, 1f, 0f), "Frame");
-            Sprite sprite = Assets.GetSprite("Frame.png", Color4.White, SpriteLayer.GUIForeground, true);
-            float boxWidth = (_text.Length * 1.1f) + 2.5f;
-            sprite.SetOwnDimensions(boxWidth, _letterScale * 4f);
+            Sprite sprite = Assets.GetSprite("Frame.png", SpriteLayer.GUIForeground, true);
             frame.AddComponent(sprite);
             return frame;
         }
 
         private IEntity CreateBackground(Vector2 position)
         {
-            position -= new Vector2(1.5f, 0.5f);
+            float boxWidth = (_text.Length * 1.1f) + 4.7f;
+            position -= new Vector2(0.5f, 0.5f);
             IEntity background = new Entity(new Transform(position, 1f, 0f), "Frame Background");
-            Sprite sprite = new Sprite(Color4.Black, SpriteLayer.GUIBackground, true);
-            float boxWidth = (_text.Length * 1.1f) + 2.5f;
-            sprite.SetOwnDimensions(boxWidth, _letterScale * 4f);
+            Sprite sprite = new Sprite(SpriteLayer.GUIBackground, boxWidth, 1.8f, true);
+            sprite.Color = Color4.Black;
             background.AddComponent(sprite);
             return background;
         }

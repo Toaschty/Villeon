@@ -5,33 +5,37 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Render;
+using Villeon.Utils;
 using Zenseless.OpenTK;
 
 namespace Villeon.Components
 {
     public class Sprite : IComponent
     {
+        private Color4 _color = Color4.White;
         private Texture2D? _texture2D;
         private SpriteLayer _layer;
         private Vector2[] _texCoords;
-        private Color4 _color;
         private bool _isDynamic = false;
-        private float _aspectRatio = 1f;
         private float _width = 1f;
         private float _height = 1f;
+        private float _aspectRatio = 1f;
+        private float _tilePixels = 8;
 
-        // Create a sprite with Texture
-        public Sprite(Color4 color, Texture2D texture, SpriteLayer renderLayer, Vector2[] texCoords, bool isDynamic = false)
+        // Create a sprite from a Spritesheet
+        public Sprite(Texture2D texture, SpriteLayer renderLayer, Vector2[] texCoords, float spriteWidth, float spriteHeight, bool isDynamic = false)
         {
             _texture2D = texture;
             _layer = renderLayer;
             _texCoords = texCoords;
-            _color = color;
             _isDynamic = isDynamic;
-            _aspectRatio = texture.Height / (float)texture.Width;
+            _width = spriteWidth / _tilePixels;
+            _height = spriteHeight / _tilePixels;
+            _aspectRatio = _height / _width;
         }
 
-        public Sprite(Color4 color, Texture2D texture, SpriteLayer renderLayer, bool isDynamic = false)
+        // Sprite has the full texture as size
+        public Sprite(Texture2D texture, SpriteLayer renderLayer, bool isDynamic = false)
         {
             _texture2D = texture;
             _layer = renderLayer;
@@ -42,13 +46,14 @@ namespace Villeon.Components
                 new Vector2(0f, 1f),    // UV: Top left
                 new Vector2(1f, 1f),    // UV: Top right
             };
-            _color = color;
             _isDynamic = isDynamic;
-            _aspectRatio = texture.Height / (float)texture.Width;
+            _width = _texture2D.Width / _tilePixels;
+            _height = _texture2D.Height / _tilePixels;
+            _aspectRatio = _height / _width;
         }
 
-        // Create a sprite with no Texture (Just color)
-        public Sprite(Color4 color, SpriteLayer renderLayer, bool isDynamic = false)
+        // Create a sprite with no Texture, using tile widths
+        public Sprite(SpriteLayer renderLayer, float tileWidth, float tileHeight, bool isDynamic = false)
         {
             _texture2D = null;
             _layer = renderLayer;
@@ -59,14 +64,28 @@ namespace Villeon.Components
                 new Vector2(0f, 1f),    // UV: Top left
                 new Vector2(1f, 1f),    // UV: Top right
             };
-            _color = color;
             _isDynamic = isDynamic;
+            _width = tileWidth;
+            _height = tileHeight;
+            _aspectRatio = _height / _width;
         }
 
-        public void SetOwnDimensions(float width, float height)
+        // Create sprite from tile
+        public Sprite(Tile tile, Box2 tileTexCoords)
         {
-            _width = width;
-            _height = height;
+            Vector2[] texCoords = new Vector2[4]
+            {
+                new Vector2(tileTexCoords.Min.X, tileTexCoords.Min.Y),
+                new Vector2(tileTexCoords.Max.X, tileTexCoords.Min.Y),
+                new Vector2(tileTexCoords.Min.X, tileTexCoords.Max.Y),
+                new Vector2(tileTexCoords.Max.X, tileTexCoords.Max.Y),
+            };
+            _texture2D = tile.TileSet.Texture2D;
+            _layer = Render.SpriteLayer.Background;
+            _texCoords = texCoords;
+            _isDynamic = false;
+            _width = 1f;
+            _height = 1f;
             _aspectRatio = 1f;
         }
 

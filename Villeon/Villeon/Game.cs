@@ -27,6 +27,7 @@ namespace Villeon
         private Matrix4 _refCameraMatrix = Matrix4.Identity;
         private IEntity _entity;
         private FPS? _fps;
+        TextBox textBox;
 
         public void Start()
         {
@@ -41,8 +42,8 @@ namespace Villeon
             //SceneLoader.LoadScene("VillageScene");
 
             // Write some Text
-            TextBox textBox = new TextBox("ICH BIN MARVIN!", new Vector2(3, 3), 1.1f, 1.1f, 0.5f);
-
+            textBox = new TextBox("199", _entity.GetComponent<Transform>().Position + new Vector2(-3f, 3f), 1.1f, 1.1f, 1f);
+            textBox.BindPositionTo(_entity);
             gameWindow.KeyDown += KeyHandler.KeyDown;
             gameWindow.KeyUp += KeyHandler.KeyUp;
             gameWindow.MouseWheel += MouseHandler.MouseWheel;
@@ -68,23 +69,24 @@ namespace Villeon
 
             // Platformer Scene
             TileMapDictionary tileMap = new TileMapDictionary("DungeonTileMap.tmx");
-            _entity = new Entity(new Transform(new Vector2(1f, 1f), new Vector2(1.0f, 1.0f), 0f), "Marin");
+            Transform transform = new Transform(new Vector2(1f, 1f), 1f, 0f);
+            _entity = new Entity(transform, "Marin");
             _entity.AddComponent(new Physics());
-            _entity.AddComponent(new Collider(new Vector2(0.0f, 0.0f), new Vector2(5f, 3f), 1f, 1f));
+            _entity.AddComponent(new Collider(new Vector2(0.5f, 0f), transform, 1f, 1f));
             _entity.AddComponent(TriggerBuilder.Build(TriggerID.PLAYER));
             _entity.AddComponent(new Player());
             _entity.AddComponent(new Health(200));
-            _entity.AddComponent(new Sprite(Color4.White, Assets.GetTexture("Player.png"), SpriteLayer.Foreground, true));
+            _entity.AddComponent(new Sprite(Assets.GetTexture("Player.png"), SpriteLayer.Foreground, true));
 
             _dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
             _dungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             _dungeonScene.AddSystem(new SimpleAISystem("SimpleAISystem"));
             _dungeonScene.AddSystem(new PhysicsSystem("Physics"));
-            _dungeonScene.AddSystem(new CollisionSystem("Collision"));
             _dungeonScene.AddSystem(new TriggerSystem("Trigger"));
+            _dungeonScene.AddSystem(new CollisionSystem("Collision"));
             _dungeonScene.AddSystem(new HealthSystem("Health"));
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
-            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             _dungeonScene.SetTileMap(tileMap, true);
             _dungeonScene.AddEntity(_entity);
 
@@ -96,7 +98,7 @@ namespace Villeon
             _villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.AddSystem(new HealthSystem("HealthSystem"));
-            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
 
             _villageScene.SetTileMap(villageTileMap, false);
             _villageScene.AddEntity(_entity);
@@ -124,6 +126,7 @@ namespace Villeon
             }
 
             Manager.GetInstance().Update((float)args.Time);
+            textBox.Update();
             MouseHandler.ClickedMouseButtons.Clear();
         }
 

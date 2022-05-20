@@ -37,7 +37,7 @@ namespace Villeon.ECS
                     new Vector2(leftX, topY),           // UV: Top left
                     new Vector2(rightX, topY),          // UV: Top right
                 };
-                Sprite sprite = new Sprite(Color4.White, texture, layer, texCoords);
+                Sprite sprite = new Sprite(texture, layer, texCoords, spriteWidth, spriteHeight);
                 _sprites.Add(sprite);
 
                 // Go to next sprite
