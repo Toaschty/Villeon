@@ -130,6 +130,7 @@ namespace Villeon.Render
         public void Render()
         {
             _shader.Use();
+
             // Update Camera, Set Transform in VertexShader
             Camera.Update();
             _shader.UploadMat4("cameraMatrix", Camera.GetMatrix());

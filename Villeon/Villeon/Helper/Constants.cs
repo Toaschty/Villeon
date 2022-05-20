@@ -29,6 +29,6 @@ namespace Villeon
         // Spawnpoints
         public static Vector2 VILLAGE_SPAWN_POINT { get; } = new Vector2(32, 32);
 
-        public static Vector2 DUNGEON_SPAWN_POINT { get; } = new Vector2(5, 2);
+        public static Vector2 DUNGEON_SPAWN_POINT { get; } = new Vector2(5, 5);
     }
 }

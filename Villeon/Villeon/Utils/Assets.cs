@@ -70,5 +70,17 @@ namespace Villeon.Helper
 
             return null; // maybe return an empty spritesheet if it doesn't exist
         }
+
+        public static void LoadRessources()
+        {
+            Assets.GetShader("shader");
+            Assets.AddSpriteSheet("HenksFont.png", new SpriteSheet(Color4.White, Assets.GetTexture("HenksFont.png"), 5, 7, (10 * 10) - 5));
+            Assets.AddSpriteSheet("Animations.player_idle.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_idle.png"), 16, 34, 5, 0, SpriteLayer.Foreground));
+            Assets.AddSpriteSheet("Animations.player_walk_up.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_walk_up.png"), 16, 34, 6, 0, SpriteLayer.Foreground));
+            Assets.AddSpriteSheet("Animations.player_walk_down.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_walk_down.png"), 16, 34, 6, 0, SpriteLayer.Foreground));
+            Assets.AddSpriteSheet("Animations.player_walk_left.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_walk_left.png"), 16, 34, 6, 0, SpriteLayer.Foreground));
+            Assets.AddSpriteSheet("Animations.player_walk_right.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_walk_right.png"), 16, 34, 6, 0, SpriteLayer.Foreground));
+            Assets.AddSpriteSheet("Animations.slime_jumping.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.slime_jumping.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
+        }
     }
 }

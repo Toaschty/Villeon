@@ -89,7 +89,7 @@ namespace Villeon.Systems
                                 mob.GetComponent<Transform>().Position = Constants.VILLAGE_SPAWN_POINT;
                                 mob.GetComponent<Collider>().LastPosition = Constants.VILLAGE_SPAWN_POINT;
                             }
-                            SceneLoader.LoadScene(portalTrigger.SceneName);
+                            SceneLoader.SetActiveScene(portalTrigger.SceneName);
 
                         }
                     }

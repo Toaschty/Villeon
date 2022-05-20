@@ -7,7 +7,7 @@ namespace Villeon.ECS
     {
         private static List<Scene> _scenes = new List<Scene>();
 
-        public static void LoadScene(string sceneName)
+        public static void SetActiveScene(string sceneName)
         {
             foreach (Scene scene in _scenes)
             {

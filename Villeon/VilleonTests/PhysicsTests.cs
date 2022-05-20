@@ -22,7 +22,7 @@ namespace VilleonTests
         [TestInitialize]
         public void SetUp()
         {
-            TypeRegistry.Init();
+            TypeRegistry.SetupTypes();
 
             _testScene.AddSystem(new PhysicsSystem("Physics"));
             _testScene.AddSystem(new CollisionSystem("Collision"));

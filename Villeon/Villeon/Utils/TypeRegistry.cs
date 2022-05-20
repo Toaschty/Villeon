@@ -10,7 +10,7 @@ namespace Villeon
 
         private readonly Dictionary<Type, object> _types = new ();
 
-        public static void Init()
+        public static void SetupTypes()
         {
             IEnumerable<Type> types = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(x => x.GetTypes())

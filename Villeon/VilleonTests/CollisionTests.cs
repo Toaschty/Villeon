@@ -38,7 +38,7 @@ namespace VilleonTests
         [TestMethod]
         public void CleanCollisionUp()
         {
-            TypeRegistry.Init();
+            TypeRegistry.SetupTypes();
             CollisionSystem collisionSystem = new ("collisionSystem");
 
             Entity enemy = new Entity(new Transform(new Vector2(0, 0), 1.0f, 0.0f), "Enemy");
@@ -61,7 +61,7 @@ namespace VilleonTests
         [TestMethod]
         public void CleanCollisionDown()
         {
-            TypeRegistry.Init();
+            TypeRegistry.SetupTypes();
             CollisionSystem collisionSystem = new ("collisionSystem");
 
             Vector2 enemyStartPos = new Vector2(0, 2);
@@ -85,7 +85,7 @@ namespace VilleonTests
         [TestMethod]
         public void CleanCollisionRight()
         {
-            TypeRegistry.Init();
+            TypeRegistry.SetupTypes();
             CollisionSystem collisionSystem = new ("collisionSystem");
 
             Vector2 enemyStartPos = new Vector2(0, 0);
@@ -109,7 +109,7 @@ namespace VilleonTests
         [TestMethod]
         public void CleanCollisionLeft()
         {
-            TypeRegistry.Init();
+            TypeRegistry.SetupTypes();
             CollisionSystem collisionSystem = new ("collisionSystem");
 
             Vector2 enemyStartPos = new Vector2(2, 0);
@@ -164,7 +164,7 @@ namespace VilleonTests
         [TestMethod]
         public void DirtyCollisionUp()
         {
-            TypeRegistry.Init();
+            TypeRegistry.SetupTypes();
             CollisionSystem collisionSystem = new ("collisionSystem");
 
             Vector2 start_pos_enemy = new Vector2(0, 2);
@@ -190,7 +190,7 @@ namespace VilleonTests
         [TestMethod]
         public void DirtyCollisionDown()
         {
-            TypeRegistry.Init();
+            TypeRegistry.SetupTypes();
             CollisionSystem collisionSystem = new ("collisionSystem");
 
             Vector2 start_pos_enemy = new Vector2(0, 2);
@@ -216,7 +216,7 @@ namespace VilleonTests
         [TestMethod]
         public void DirtyCollisionRight()
         {
-            TypeRegistry.Init();
+            TypeRegistry.SetupTypes();
             CollisionSystem collisionSystem = new ("collisionSystem");
 
             Vector2 start_pos_enemy = new Vector2(2, 0);
@@ -242,7 +242,7 @@ namespace VilleonTests
         [TestMethod]
         public void DirtyCollisionLeft()
         {
-            TypeRegistry.Init();
+            TypeRegistry.SetupTypes();
             CollisionSystem collisionSystem = new ("collisionSystem");
 
             Vector2 start_pos_enemy = new Vector2(2, 0);
@@ -291,7 +291,7 @@ namespace VilleonTests
         [TestMethod]
         public void CleanedCollision()
         {
-            TypeRegistry.Init();
+            TypeRegistry.SetupTypes();
             CollisionSystem collisionSystem = new ("collisionSystem");
 
             // Create all entities

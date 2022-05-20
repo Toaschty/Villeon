@@ -37,7 +37,6 @@ namespace Villeon.GUI
             _letters = CreateLetters(text);
             _frame = CreateTextFrame(framePosition);
             _background = CreateBackground(framePosition);
-            ToScreenSpace();
             SpawnTextBox();
         }
 
@@ -54,11 +53,13 @@ namespace Villeon.GUI
         public void BindPositionTo(IEntity entity)
         {
             _boundEntity = entity;
+            _lastBoundPosition = entity.GetComponent<Transform>().Position;
         }
 
         public void Update()
         {
-            MoveTextbox(_boundEntity.GetComponent<Transform>().Position);
+            if (_boundEntity is not null)
+                MoveTextbox(_boundEntity.GetComponent<Transform>().Position);
         }
 
         private void MoveTextbox(Vector2 newBoundPosition)
@@ -138,21 +139,6 @@ namespace Villeon.GUI
             sprite.Color = Color4.Black;
             background.AddComponent(sprite);
             return background;
-        }
-
-        private void ToScreenSpace()
-        {
-                //Matrix4 fromViewportToWorldCoords = Camera.InverseViewportMatrix * Camera.GetInverseMatrix();
-                //Vector2 worldPosition = MousePosition.Transform(fromViewportToWorldCoords);
-                //ClickedMouseButtons.Add(new ClickedMouseButton { Button = args.Button, MousePosition = worldPosition });
-
-            foreach (IEntity entity in _letters)
-            {
-                entity.GetComponent<Transform>().Position.Transform(Camera.GetInverseMatrix());
-            }
-
-            _frame.GetComponent<Transform>().Position.Transform(Camera.GetInverseMatrix());
-            _background.GetComponent<Transform>().Position.Transform(Camera.GetInverseMatrix());
         }
 
         private void SpawnTextBox()
