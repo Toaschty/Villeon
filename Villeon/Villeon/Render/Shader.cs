@@ -68,6 +68,11 @@ namespace Villeon.Render
             GL.Uniform1(GetLocation(uniformName), array.Length, array);
         }
 
+        public void UploadBool(in string uniformName, bool value)
+        {
+            GL.Uniform1(GetLocation(uniformName), value ? 1 : 0);
+        }
+
         private int GetLocation(string uniformName)
         {
             if (_uniformLocations.ContainsKey(uniformName))

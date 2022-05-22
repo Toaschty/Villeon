@@ -22,10 +22,16 @@ namespace Villeon.Render
         {
             Signature = Signature.AddToSignature(typeof(Transform));
 
-            // Create Sprite Layers
-            for (int i = 0; i < _numSpriteLayers; i++)
+            // Create World Layers
+            for (int i = (int)SpriteLayer.Background; i <= (int)SpriteLayer.Collider; i++)
             {
-                _spriteLayers[i] = new Layer();
+                _spriteLayers[i] = new Layer(true);
+            }
+
+            // Create Screen Layers
+            for (int i = (int)SpriteLayer.ScreenGuiBackground; i <= (int)SpriteLayer.ScreenGuiForeground; i++)
+            {
+                _spriteLayers[i] = new Layer(false);
             }
 
             _entityRenderData = new Dictionary<IEntity, List<RenderingData>>();
@@ -58,7 +64,6 @@ namespace Villeon.Render
             {
                 if (trigger is not null)
                 {
-
                     AddTriggerSprite(trigger, ref data);
                     renderingDataList.Add(data);
                 }
@@ -73,32 +78,6 @@ namespace Villeon.Render
 
             if (renderingDataList.Count != 0)
                 _entityRenderData.Add(entity, renderingDataList);
-        }
-
-        private void AddSprite(Sprite? sprite, ref RenderingData data)
-        {
-            data.Sprite = sprite;
-            SpriteLayer spriteLayer = sprite.RenderLayer;
-            _spriteLayers[(int)spriteLayer].AddRenderingData(ref data);
-        }
-
-        private void AddTriggerSprite(Trigger? trigger, ref RenderingData data)
-        {
-            Color4 color = new Color4(1f, 0f, 1f, 0.3f);
-            data.Sprite = new Sprite(SpriteLayer.Collider, trigger.Width, trigger.Height, true);
-            data.Sprite.Color = color;
-            data.Offset = trigger.Offset;
-            data.Scale = new Vector2(1f, 1f);
-            _spriteLayers[(int)SpriteLayer.Collider].AddRenderingData(ref data);
-        }
-
-        private void AddColliderSprite(Collider? collider, ref RenderingData data)
-        {
-            Color4 color = new Color4(1f, 1f, 0f, 0.3f);
-            data.Sprite = new Sprite(SpriteLayer.Collider, collider.Width, collider.Height, true);
-            data.Sprite.Color = color;
-            data.Offset = -collider.Offset;
-            _spriteLayers[(int)SpriteLayer.Collider].AddRenderingData(ref data);
         }
 
         public void Remove(IEntity entity)
@@ -123,6 +102,32 @@ namespace Villeon.Render
         public bool Contains(IEntity entity)
         {
             return _entityRenderData.ContainsKey(entity);
+        }
+
+        private void AddSprite(Sprite sprite, ref RenderingData data)
+        {
+            data.Sprite = sprite;
+            SpriteLayer spriteLayer = sprite.RenderLayer;
+            _spriteLayers[(int)spriteLayer].AddRenderingData(ref data);
+        }
+
+        private void AddTriggerSprite(Trigger trigger, ref RenderingData data)
+        {
+            Color4 color = new Color4(1f, 0f, 1f, 0.3f);
+            data.Sprite = new Sprite(SpriteLayer.Collider, trigger.Width, trigger.Height, true);
+            data.Sprite.Color = color;
+            data.Offset = trigger.Offset;
+            data.Scale = new Vector2(1f, 1f);
+            _spriteLayers[(int)SpriteLayer.Collider].AddRenderingData(ref data);
+        }
+
+        private void AddColliderSprite(Collider collider, ref RenderingData data)
+        {
+            Color4 color = new Color4(1f, 1f, 0f, 0.3f);
+            data.Sprite = new Sprite(SpriteLayer.Collider, collider.Width, collider.Height, true);
+            data.Sprite.Color = color;
+            data.Offset = -collider.Offset;
+            _spriteLayers[(int)SpriteLayer.Collider].AddRenderingData(ref data);
         }
     }
 }

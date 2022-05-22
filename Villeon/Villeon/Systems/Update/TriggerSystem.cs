@@ -84,13 +84,14 @@ namespace Villeon.Systems
                                 mob.GetComponent<Transform>().Position = Constants.DUNGEON_SPAWN_POINT;
                                 mob.GetComponent<Collider>().LastPosition = Constants.DUNGEON_SPAWN_POINT;
                             }
+
                             if (portalTrigger.SceneName == "VillageScene")
                             {
                                 mob.GetComponent<Transform>().Position = Constants.VILLAGE_SPAWN_POINT;
                                 mob.GetComponent<Collider>().LastPosition = Constants.VILLAGE_SPAWN_POINT;
                             }
-                            SceneLoader.SetActiveScene(portalTrigger.SceneName);
 
+                            SceneLoader.SetActiveScene(portalTrigger.SceneName);
                         }
                     }
                 }

@@ -14,9 +14,9 @@ namespace Villeon.GUI
     public class TextBox
     {
         private List<IEntity> _letters;
-        private IEntity _frame;
-        private IEntity _background;
-        private IEntity _boundEntity;
+        private IEntity _frame = new Entity("FrameEmpty");
+        private IEntity _background = new Entity("Empty background!");
+        private IEntity _boundEntity = new Entity("Nothing bound!");
 
         private string _text;
         private Vector2 _framePosition;
@@ -93,7 +93,7 @@ namespace Villeon.GUI
             List<IEntity> letters = new List<IEntity>();
 
             // Fill in new Letters
-            SpriteSheet fontSheet = Assets.GetSpriteSheet("HenksFont.png")!;
+            SpriteSheet fontSheet = Assets.GetSpriteSheet("HenksFont.png") !;
             Sprite letterSprite;
 
             Vector2 letterPosition = _framePosition;
@@ -108,7 +108,7 @@ namespace Villeon.GUI
                 // Get Letter sprite
                 letterSprite = fontSheet.GetSprite(c - ' ', SpriteLayer.GUIMiddleground, true);
 
-                // Create Entity with letter spacing, scale & sprite 
+                // Create Entity with letter spacing, scale & sprite
                 IEntity letterEntity = new Entity(new Transform(letterPosition, _letterScale, 0f), "TBX[" + c + "]");
                 letterEntity.AddComponent(letterSprite);
                 letters.Add(letterEntity);

@@ -1,9 +1,9 @@
-﻿using OpenTK.Mathematics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK.Mathematics;
 
 namespace Villeon
 {
@@ -25,6 +25,8 @@ namespace Villeon
 
         // Rendering
         public static int MAX_BATCH_SIZE { get; } = 1024;
+
+        public static float SCREEN_SCALE { get; } = 9f;
 
         // Spawnpoints
         public static Vector2 VILLAGE_SPAWN_POINT { get; } = new Vector2(32, 32);

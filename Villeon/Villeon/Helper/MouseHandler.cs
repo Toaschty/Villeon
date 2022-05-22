@@ -4,8 +4,8 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.ECS;
-using Villeon.Systems;
 using Villeon.Render;
+using Villeon.Systems;
 
 namespace Villeon.Helper
 {

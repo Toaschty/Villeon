@@ -15,14 +15,6 @@ namespace Villeon.GUI
         private static SpriteSheet _fontSheet = Assets.GetSpriteSheet("HenksFont.png");
         private static Dictionary<IEntity, List<IEntity>> _textEntities = new Dictionary<IEntity, List<IEntity>>();
 
-        // The transform changes
-        // But the text doesn't
-        // confuse
-        // render system needs to look?
-
-        // Gui render loop?
-        // Text component would be a component with entities in it.. kinda weird
-
         public static void Write(IEntity entity, string text, Vector2 offset, float scale)
         {
             // Add the entity wich holds the text entities
@@ -58,8 +50,7 @@ namespace Villeon.GUI
 
         public void Clear(IEntity entity)
         {
-            // Deletes 
+            // Deletes
         }
-
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Villeon.Render
 {
-    public enum SpriteLayer
+    public enum SpriteLayer : int
     {
         Background,
         Middleground,
@@ -15,5 +15,8 @@ namespace Villeon.Render
         GUIMiddleground,
         GUIForeground,
         Collider,
+        ScreenGuiBackground,
+        ScreenGuiMiddleground,
+        ScreenGuiForeground,
     }
 }

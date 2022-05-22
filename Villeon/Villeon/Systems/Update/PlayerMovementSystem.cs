@@ -56,7 +56,7 @@ namespace Villeon.Systems
 
                 if (KeyHandler.IsPressed(Keys.E))
                 {
-                    Effect effect = entity.GetComponent<Effect>()!;
+                    Effect effect = entity.GetComponent<Effect>() !;
                     if (!effect.Effects.ContainsKey("AttackCooldown"))
                     {
                         EntitySpawner.SpawnTrigger(TriggerID.ATTACKRIGHT, transform);
@@ -68,7 +68,7 @@ namespace Villeon.Systems
 
                 if (KeyHandler.IsPressed(Keys.Q))
                 {
-                    Effect effect = entity.GetComponent<Effect>()!;
+                    Effect effect = entity.GetComponent<Effect>() !;
                     if (!effect.Effects.ContainsKey("AttackCooldown"))
                     {
                         EntitySpawner.SpawnTrigger(TriggerID.ATTACKLEFT, transform);

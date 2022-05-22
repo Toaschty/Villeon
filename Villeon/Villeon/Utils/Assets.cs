@@ -1,9 +1,9 @@
-﻿using OpenTK.Mathematics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK.Mathematics;
 using Villeon.Components;
 using Villeon.ECS;
 using Villeon.Render;
@@ -63,12 +63,9 @@ namespace Villeon.Helper
             }
         }
 
-        public static SpriteSheet? GetSpriteSheet(string spriteSheetPath)
+        public static SpriteSheet GetSpriteSheet(string spriteSheetPath)
         {
-            if (_spriteSheets.ContainsKey(spriteSheetPath))
-                return _spriteSheets[spriteSheetPath];
-
-            return null; // maybe return an empty spritesheet if it doesn't exist
+            return _spriteSheets[spriteSheetPath];
         }
 
         public static void LoadRessources()
@@ -81,6 +78,7 @@ namespace Villeon.Helper
             Assets.AddSpriteSheet("Animations.player_walk_left.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_walk_left.png"), 16, 34, 6, 0, SpriteLayer.Foreground));
             Assets.AddSpriteSheet("Animations.player_walk_right.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_walk_right.png"), 16, 34, 6, 0, SpriteLayer.Foreground));
             Assets.AddSpriteSheet("Animations.slime_jumping.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.slime_jumping.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
+            Assets.AddSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png", new SpriteSheet(Color4.White, Assets.GetTexture("TileMap.TilesetImages.DungeonTileSet.png"), 8, 8, 64, 0, SpriteLayer.Foreground));
         }
     }
 }

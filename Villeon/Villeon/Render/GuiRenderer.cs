@@ -3,36 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Villeon.Components;
 using Villeon.ECS;
 using Villeon.Systems;
 
 namespace Villeon.Render
 {
-    public class OnScreenRenderer : Villeon.Systems.System, IRenderSystem
+    public class GuiRenderer : Villeon.Systems.System, IRenderSystem
     {
-        public OnScreenRenderer(string name) 
+        public GuiRenderer(string name)
             : base(name)
         {
+            Signature = Signature.AddToSignature(typeof(Sprite));
+            Signature = Signature.AddToSignature(typeof(ScreenGui));
         }
 
         public void Add(IEntity entity)
         {
-            throw new NotImplementedException();
         }
 
         public bool Contains(IEntity entity)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public void Remove(IEntity entity)
         {
-            throw new NotImplementedException();
         }
 
         public void Render()
         {
-            
         }
     }
 }

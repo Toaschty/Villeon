@@ -118,7 +118,6 @@ namespace Villeon.Utils
             {
                 // Read animation frame id and save it into AnimationFrames
                 int frameId = int.Parse(frame.Attributes!["tileid"] !.Value);
-                // animTile.AnimationFrames.Add(frameId);
                 tile.AnimationFrames.Add(_tiles[(uint)frameId]);
 
                 // Add current frame duration to animation FrameDuration. Value given in ms => /1000

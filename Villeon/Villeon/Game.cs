@@ -25,21 +25,26 @@ namespace Villeon
     {
         private Scene _dungeonScene = new ("DungeonScene");
         private Scene _villageScene = new ("VillageScene");
+        private GameWindow _gameWindow;
         private Matrix4 _refCameraMatrix = Matrix4.Identity;
-        private IEntity? _player;
-        private FPS? _fps;
+        private IEntity _player;
+        private FPS _fps;
         private TextBox? _textBox;
+
+        public Game()
+        {
+            _gameWindow = WindowCreator.CreateWindow();
+            TypeRegistry.SetupTypes();
+            Assets.LoadRessources();
+            _player = new Entity("Player not Set!");
+            _fps = new FPS(_gameWindow);
+        }
 
         public void Start()
         {
-            GameWindow gameWindow = WindowCreator.CreateWindow();
-            _fps = new FPS(gameWindow);
-            TypeRegistry.SetupTypes();
-            Assets.LoadRessources();
             SceneLoader.AddScene(_dungeonScene);
             SceneLoader.AddScene(_villageScene);
             SceneLoader.SetActiveScene("DungeonScene");
-            //SceneLoader.SetActiveScene("VillageScene");
 
             AddDungeonSystems();
             AddVillageSystems();
@@ -47,16 +52,15 @@ namespace Villeon
             CreatePlayerEntity();
 
             // Add player to scenes
-            _villageScene.AddEntity(_player);
-            _dungeonScene.AddEntity(_player);
+            _villageScene.AddEntity(_player!);
+            _dungeonScene.AddEntity(_player!);
 
             // Add testing entities before the window starts
             DebuggingPlayground();
 
             // Init and Start the Window
-            InitWindowActions(gameWindow);
-            gameWindow.Run();
-
+            InitWindowActions(_gameWindow);
+            _gameWindow.Run();
         }
 
         private void DebuggingPlayground()
@@ -64,6 +68,11 @@ namespace Villeon
             // Write some Text
             _textBox = new TextBox("199", Constants.DUNGEON_SPAWN_POINT + new Vector2(-2, 3f), 1.1f, 1.1f, 1f);
             _textBox.BindPositionTo(_player);
+
+            // floor
+            IEntity floor = new Entity(new Transform(new Vector2(-20, -2), 1f, 0f), "Floor");
+            floor.AddComponent(new Collider(new Vector2(-20, -2), 100f, 1f));
+            _dungeonScene.AddEntity(floor);
         }
 
         private void InitWindowActions(GameWindow gameWindow)
@@ -127,7 +136,7 @@ namespace Villeon
             _villageScene.AddSystem(new TriggerSystem("Trigger"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.AddSystem(new HealthSystem("HealthSystem"));
-            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             _villageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _villageScene.SetTileMap(villageTileMap, false);
@@ -145,7 +154,7 @@ namespace Villeon
             _dungeonScene.AddSystem(new CollisionSystem("Collision"));
             _dungeonScene.AddSystem(new HealthSystem("Health"));
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
-            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             _dungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _dungeonScene.AddSystem(new HealthbarSystem("PlayerHealthbar", Constants.PLAYER_MAX_HEALTH));
             _dungeonScene.SetTileMap(tileMap, true);

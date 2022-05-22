@@ -17,6 +17,8 @@ namespace Villeon.Render
         private static Vector2 _cameraCenter = new (1f, 1f);
         private static float _cameraRotation;
         private static float _cameraScale = 9.0f;
+        private static float _screenWidth;
+        private static float _screenHeight;
 
         public static Matrix4 InverseViewportMatrix
         {
@@ -34,6 +36,9 @@ namespace Villeon.Render
 
         public static void Resize(int width, int height)
         {
+            _screenWidth = width;
+            _screenHeight = height;
+
             float aspectRatio = height / (float)width;
             _aspectRatioMatrix = Matrix4.CreateScale(aspectRatio, 1.0f, 1.0f);
 
@@ -73,6 +78,15 @@ namespace Villeon.Render
             _cameraScale += -MouseHandler.WheelChanged();
             if (_cameraScale < 1f)
                 _cameraScale = 1f;
+        }
+
+        public static Matrix4 GetScreenMatrix(float screenScale)
+        {
+            Matrix4 translation = Translate(-new Vector2(-(_screenWidth / _screenHeight) * screenScale, -screenScale));
+            Matrix4 rotation = RotateDegrees(-_cameraRotation);
+            Matrix4 scale = Scale(1 / screenScale);
+            _cameraMatrix = translation * rotation * scale * _aspectRatioMatrix;
+            return _cameraMatrix;
         }
     }
 }

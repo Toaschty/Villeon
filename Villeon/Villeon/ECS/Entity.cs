@@ -47,7 +47,7 @@ namespace Villeon.ECS
         public T GetComponent<T>()
             where T : class, IComponent
         {
-            return _components.GetInstance<T>();
+            return _components.GetInstance<T>() !;
         }
     }
 }

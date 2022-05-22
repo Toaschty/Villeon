@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Villeon.Components
 {
-    public class RenderOnScreen : IComponent
+    public class ScreenGui : IComponent
     {
     }
 }

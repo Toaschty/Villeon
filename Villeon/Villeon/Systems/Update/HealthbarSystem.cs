@@ -17,6 +17,7 @@ namespace Villeon.Systems.Update
             Signature = Signature.AddToSignature(typeof(Health));
             Signature = Signature.AddToSignature(typeof(Player));
 
+            _playerHealth = new Health(maxPlayerHealth);
             _healthBar = new PlayerHealthBar(maxPlayerHealth);
         }
 

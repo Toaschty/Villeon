@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,13 +31,14 @@ namespace Villeon.Helper
             if (_timer > 0.1f)
             {
                 _fps = 1 / time;
-                if (_fps > _max)
-                    _max = _fps;
-                if (_fps < _min)
-                    _min = _fps;
 
-                if (_times.Count > 100)
+                if (_times.Count > 10)
+                {
+                    _min = (_min + _times.Min()) / 2f;
+                    _max = _times.Max();
                     _times.Dequeue();
+                }
+
                 _times.Enqueue(_fps);
 
                 _avg = _times.Sum() / _times.Count;

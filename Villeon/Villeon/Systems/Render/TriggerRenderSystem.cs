@@ -22,7 +22,7 @@ namespace Villeon.Systems
         {
             foreach (IEntity entity in Entities)
             {
-                Trigger trigger = entity.GetComponent<Trigger>();
+                Trigger trigger = entity.GetComponent<Trigger>() !;
                 Graphics.DrawColliderQuad(Color4.Purple, trigger.Position, trigger.Width, trigger.Height);
             }
         }

@@ -18,6 +18,7 @@ namespace Villeon.Components
     public class Trigger : IComponent
     {
         private float _time = float.PositiveInfinity;
+        private string _sceneName = "NO_SCENE_SELECTED";
 
         public Trigger(TriggerType type, Vector2 offset, float width, float height)
         {
@@ -54,6 +55,6 @@ namespace Villeon.Components
 
         public Vector2 Impulse { get; set; } = Vector2.Zero;
 
-        public string SceneName { get; set; }
+        public string SceneName { get => _sceneName; set => _sceneName = value; }
     }
 }

@@ -13,9 +13,9 @@ namespace Villeon.GUI
 {
     public class PlayerHealthBar
     {
-        private IEntity _frame;
-        private IEntity _healthFilling;
-        private IEntity _background;
+        private IEntity _frame = new Entity("emptyFrame");
+        private IEntity _healthFilling = new Entity("emptyHealthFilling");
+        private IEntity _background = new Entity("emptyBackground");
 
         private float _width;
         private float _maxWidth;
@@ -26,7 +26,7 @@ namespace Villeon.GUI
 
         public PlayerHealthBar(int maxHealth)
         {
-            Vector2 position = new Vector2(0, 0);
+            Vector2 position = new Vector2(0.2f, 15.8f);
             _maxHealth = maxHealth;
 
             CreateFrame(position);
@@ -52,14 +52,14 @@ namespace Villeon.GUI
             if (newHealth == _maxHealth)
                 _width = _maxWidth;
 
-            Sprite sprite = _healthFilling.GetComponent<Sprite>();
+            Sprite sprite = _healthFilling.GetComponent<Sprite>() !;
             sprite.Width = _width;
         }
 
         private void CreateFrame(Vector2 position)
         {
             _frame = new Entity(new Transform(position, 1f, 0f), "Player Health Frame");
-            Sprite frame = Assets.GetSprite("Frame.png", SpriteLayer.GUIForeground, false);
+            Sprite frame = Assets.GetSprite("Frame.png", SpriteLayer.ScreenGuiForeground, false);
             _maxWidth = _width = frame.Width;
             _height = frame.Height;
 
@@ -69,7 +69,7 @@ namespace Villeon.GUI
         private void CreateFilling(Vector2 position, float width, float height)
         {
             _healthFilling = new Entity(new Transform(position, 1f, 0f), "Player Health Filling");
-            Sprite healthFilling = new Sprite(SpriteLayer.Middleground, width, height, true);
+            Sprite healthFilling = new Sprite(SpriteLayer.ScreenGuiMiddleground, width, height, true);
             healthFilling.Color = Color4.Red;
             _healthFilling.AddComponent(healthFilling);
         }
@@ -77,7 +77,7 @@ namespace Villeon.GUI
         private void CreateBackground(Vector2 position, float width, float height)
         {
             _background = new Entity(new Transform(position, 1f, 0f), "Player Health Background");
-            Sprite backgroundSprite = new Sprite(SpriteLayer.Background, width, height);
+            Sprite backgroundSprite = new Sprite(SpriteLayer.ScreenGuiBackground, width, height);
             backgroundSprite.Color = Color4.Black;
             _background.AddComponent(backgroundSprite);
         }

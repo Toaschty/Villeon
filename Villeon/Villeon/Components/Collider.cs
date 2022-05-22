@@ -26,7 +26,6 @@ namespace Villeon.Components
 
         public Collider(Vector2 offset, Transform transform, float width, float height)
         {
-
             Position = transform.Position - offset;
             LastPosition = transform.Position - offset;
             Width = width * transform.Scale.X;

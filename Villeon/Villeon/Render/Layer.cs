@@ -3,30 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Villeon.Components;
-using Villeon.ECS;
-using Villeon.Systems;
 using Zenseless.OpenTK;
 
 namespace Villeon.Render
 {
-    public class Layer : IRender
+    public class Layer
     {
         private List<RenderBatch> _dynamicBatches = new List<RenderBatch>();
         private List<RenderBatch> _staticBatches = new List<RenderBatch>();
+        private bool _usesCamera = true;
+
+        public Layer(bool usesCamera)
+        {
+            _usesCamera = usesCamera;
+        }
 
         public void AddRenderingData(ref RenderingData data)
         {
             bool added = false;
-            if (data.Sprite.IsDynamic == true)
+            if (data.Sprite is not null && data.Sprite.IsDynamic == true)
             {
                 added = AddDynamic(data);
 
                 // Batch is full or not created: create new, add to batch!
                 if (!added)
                 {
-                    RenderBatch newBatch = new RenderBatch();
-                    newBatch.Start();
+                    RenderBatch newBatch = CreateRenderBatch();
                     _dynamicBatches.Add(newBatch);
                     newBatch.AddSprite(data);
                 }
@@ -38,8 +40,7 @@ namespace Villeon.Render
                 // Batch is full or not created: create new, add to batch!
                 if (!added)
                 {
-                    RenderBatch newBatch = new RenderBatch();
-                    newBatch.Start();
+                    RenderBatch newBatch = CreateRenderBatch();
                     _staticBatches.Add(newBatch);
                     newBatch.AddSprite(data);
                     newBatch.LoadBuffer();
@@ -81,7 +82,7 @@ namespace Villeon.Render
                 if (!batch.Full())
                 {
                     // Check for Texture batching
-                    Texture2D texture = data.Sprite.Texture;
+                    Texture2D texture = data.Sprite!.Texture !;
                     if (texture == null || (batch.HasTexture(texture) || batch.HasTextureRoom()))
                     {
                         batch.AddSprite(data);
@@ -101,7 +102,7 @@ namespace Villeon.Render
                 if (!batch.Full())
                 {
                     // Check for Texture batching
-                    Texture2D texture = data.Sprite.Texture;
+                    Texture2D texture = data.Sprite!.Texture !;
                     if (texture == null || (batch.HasTexture(texture) || batch.HasTextureRoom()))
                     {
                         batch.AddSprite(data);
@@ -112,6 +113,13 @@ namespace Villeon.Render
             }
 
             return false;
+        }
+
+        private RenderBatch CreateRenderBatch()
+        {
+            RenderBatch newBatch = new RenderBatch(_usesCamera);
+            newBatch.Start();
+            return newBatch;
         }
     }
 }

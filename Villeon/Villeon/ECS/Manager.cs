@@ -54,7 +54,7 @@ namespace Villeon.ECS
             _currentScene.EntityComponentRemoved<T>(entity);
         }
 
-        public IEntity GetEntity(string name)
+        public IEntity? GetEntity(string name)
         {
             foreach (IEntity entity in _currentScene.GetEntities())
             {
@@ -99,6 +99,5 @@ namespace Villeon.ECS
         {
             return _currentScene.GetRenderSystems();
         }
-
     }
 }

@@ -19,12 +19,11 @@ namespace Villeon.Render
     {
         // Sprites Stored
         private HashSet<RenderingData> _renderingData;
-        private Sprite[] _sprites;
-        private Transform[] _transforms;
         private List<Texture2D> _textures;
         private int[] _texSlots = { 0, 1, 2, 3, 4, 5, 6, 7 };
         private int _spriteCount;
         private bool _isFull;
+        private bool _usesCamera = true;
 
         // Holds all Sprite Data (Position, Color, TextureCoods, TextureID)
         private Vertex[] _vertices;
@@ -34,7 +33,7 @@ namespace Villeon.Render
         private int _vaoID = 0;
         private Shader _shader;
 
-        public RenderBatch()
+        public RenderBatch(bool usesCamera)
         {
             _shader = Assets.GetShader(@"shader");
             _renderingData = new HashSet<RenderingData>(Constants.MAX_BATCH_SIZE);
@@ -44,6 +43,7 @@ namespace Villeon.Render
             _vertices = new Vertex[Constants.MAX_BATCH_SIZE * Size.QUAD];
             _spriteCount = 0;
             _isFull = false;
+            _usesCamera = usesCamera;
         }
 
         public void Start()
@@ -78,33 +78,6 @@ namespace Villeon.Render
             _shader.Use();
         }
 
-        private int[] GenerateIndices()
-        {
-            int[] elements = new int[6 * Constants.MAX_BATCH_SIZE];
-            for (int i = 0; i < Constants.MAX_BATCH_SIZE; i++)
-            {
-                LoadElementIndices(elements, i);
-            }
-
-            return elements;
-        }
-
-        private void LoadElementIndices(int[] elements, int index)
-        {
-            int offsetArrayIndex = 6 * index;
-            int offset = 4 * index;
-
-            // Triangle 1: 0, 1, 2
-            elements[offsetArrayIndex + 0] = offset + 0; // Bottom Right
-            elements[offsetArrayIndex + 1] = offset + 1; // Top Right
-            elements[offsetArrayIndex + 2] = offset + 2; // TOP Left
-
-            // Triangle 2: 2, 1, 3
-            elements[offsetArrayIndex + 3] = offset + 2; // Top Left
-            elements[offsetArrayIndex + 4] = offset + 1; // Bottom Left
-            elements[offsetArrayIndex + 5] = offset + 3; // Bottom Right
-        }
-
         public void LoadBuffer()
         {
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vboID);
@@ -134,6 +107,7 @@ namespace Villeon.Render
             // Update Camera, Set Transform in VertexShader
             Camera.Update();
             _shader.UploadMat4("cameraMatrix", Camera.GetMatrix());
+            _shader.UploadMat4("screenMatrix", Camera.GetScreenMatrix(Constants.SCREEN_SCALE));
 
             // Bind all textures that this batch contains
             int i = 0;
@@ -145,6 +119,7 @@ namespace Villeon.Render
             }
 
             _shader.UploadIntArray("textures", _texSlots);
+            _shader.UploadBool("usesCamera", _usesCamera);
 
             // Bind VAO & Enable all the attributes
             GL.BindVertexArray(_vaoID);
@@ -177,7 +152,7 @@ namespace Villeon.Render
             _spriteCount++;
 
             // If the sprite has a texture, add it to _textures
-            if (data.Sprite.Texture != null)
+            if (data.Sprite!.Texture != null)
             {
                 if (!_textures.Contains(data.Sprite.Texture))
                 {
@@ -220,12 +195,39 @@ namespace Villeon.Render
             return _textures.Contains(texture);
         }
 
+        private int[] GenerateIndices()
+        {
+            int[] elements = new int[6 * Constants.MAX_BATCH_SIZE];
+            for (int i = 0; i < Constants.MAX_BATCH_SIZE; i++)
+            {
+                LoadElementIndices(elements, i);
+            }
+
+            return elements;
+        }
+
+        private void LoadElementIndices(int[] elements, int index)
+        {
+            int offsetArrayIndex = 6 * index;
+            int offset = 4 * index;
+
+            // Triangle 1: 0, 1, 2
+            elements[offsetArrayIndex + 0] = offset + 0; // Bottom Right
+            elements[offsetArrayIndex + 1] = offset + 1; // Top Right
+            elements[offsetArrayIndex + 2] = offset + 2; // TOP Left
+
+            // Triangle 2: 2, 1, 3
+            elements[offsetArrayIndex + 3] = offset + 2; // Top Left
+            elements[offsetArrayIndex + 4] = offset + 1; // Bottom Left
+            elements[offsetArrayIndex + 5] = offset + 3; // Bottom Right
+        }
+
         private void FillVertexAttributes(RenderingData data, int index)
         {
             int offset = index * Size.QUAD;
-            Sprite sprite = data.Sprite;
-            Transform transform = data.Transform;
-            Vector2[] texCoords = sprite.TexCoords;
+            Sprite sprite = data.Sprite !;
+            Transform transform = data.Transform !;
+            Vector2[] texCoords = sprite.TexCoords !;
 
             // [0, tex1, tex2, tex3, ..]
             int slot = 0;

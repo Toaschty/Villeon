@@ -9,7 +9,7 @@ namespace Villeon.ECS
 {
     public class Scene : IUpdate, IRender
     {
-        public HashSet<IEntity> _entities = new ();
+        private HashSet<IEntity> _entities = new ();
         private HashSet<IUpdateSystem> _updateSystems = new ();
         private HashSet<IRenderSystem> _renderSystems = new ();
 

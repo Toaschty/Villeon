@@ -19,8 +19,8 @@ namespace Villeon.Components
         private bool _isDynamic = false;
         private float _width = 1f;
         private float _height = 1f;
-        private float _aspectRatio = 1f;
         private float _tilePixels = 8;
+        private bool _usesCamera = true;
 
         // Create a sprite from a Spritesheet
         public Sprite(Texture2D texture, SpriteLayer renderLayer, Vector2[] texCoords, float spriteWidth, float spriteHeight, bool isDynamic = false)
@@ -31,7 +31,6 @@ namespace Villeon.Components
             _isDynamic = isDynamic;
             _width = spriteWidth / _tilePixels;
             _height = spriteHeight / _tilePixels;
-            _aspectRatio = _height / _width;
         }
 
         // Sprite has the full texture as size
@@ -49,7 +48,6 @@ namespace Villeon.Components
             _isDynamic = isDynamic;
             _width = _texture2D.Width / _tilePixels;
             _height = _texture2D.Height / _tilePixels;
-            _aspectRatio = _height / _width;
         }
 
         // Create a sprite with no Texture, using tile widths
@@ -67,7 +65,6 @@ namespace Villeon.Components
             _isDynamic = isDynamic;
             _width = tileWidth;
             _height = tileHeight;
-            _aspectRatio = _height / _width;
         }
 
         // Create sprite from tile
@@ -86,7 +83,6 @@ namespace Villeon.Components
             _isDynamic = false;
             _width = 1f;
             _height = 1f;
-            _aspectRatio = 1f;
         }
 
         public Vector2[] TexCoords
@@ -119,11 +115,6 @@ namespace Villeon.Components
             set { _layer = value; }
         }
 
-        public float AspectRatio
-        {
-            get { return _aspectRatio; }
-        }
-
         public float Width
         {
             get => _width;
@@ -134,6 +125,12 @@ namespace Villeon.Components
         {
             get => _height;
             set => _height = value;
+        }
+
+        public bool UsesCamera
+        {
+            get => _usesCamera;
+            set => _usesCamera = value;
         }
     }
 }
