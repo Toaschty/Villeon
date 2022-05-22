@@ -59,7 +59,7 @@ namespace Villeon.GUI
         private void CreateFrame(Vector2 position)
         {
             _frame = new Entity(new Transform(position, 1f, 0f), "Player Health Frame");
-            Sprite frame = Assets.GetSprite("Frame.png", SpriteLayer.ScreenGuiForeground, false);
+            Sprite frame = Assets.GetSprite("GUI.Frame.png", SpriteLayer.ScreenGuiForeground, false);
             _maxWidth = _width = frame.Width;
             _height = frame.Height;
 

@@ -125,7 +125,7 @@ namespace Villeon.GUI
             position -= new Vector2(0.5f, 0.5f);
             float boxWidth = _text.Length * 1.1f;
             IEntity frame = new Entity(new Transform(position, 1f, 0f), "Frame");
-            Sprite sprite = Assets.GetSprite("Frame.png", SpriteLayer.GUIForeground, true);
+            Sprite sprite = Assets.GetSprite("GUI.Frame.png", SpriteLayer.GUIForeground, true);
             frame.AddComponent(sprite);
             return frame;
         }
