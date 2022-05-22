@@ -49,6 +49,7 @@ namespace Villeon
             AddDungeonSystems();
             AddVillageSystems();
             AddPortalEntities();
+            AddGUIEntities();
             CreatePlayerEntity();
 
             // Add player to scenes
@@ -158,6 +159,16 @@ namespace Villeon
             _dungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _dungeonScene.AddSystem(new HealthbarSystem("PlayerHealthbar", Constants.PLAYER_MAX_HEALTH));
             _dungeonScene.SetTileMap(tileMap, true);
+        }
+
+        private void AddGUIEntities()
+        {
+            // GUI - Village
+            Button dungeon_button = new Button("Dungeon_Button.png", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
+            Button map_button = new Button("Map_Button.png", new Vector2(3.2f, 0.5f), new Vector2(0.5f, 0.5f));
+            Button equipment_button = new Button("Equipment_Button.png", new Vector2(5.9f, 0.5f), new Vector2(0.5f, 0.5f));
+            Button inventar_button = new Button("Inventar_Button.png", new Vector2(8.6f, 0.5f), new Vector2(0.5f, 0.5f));
+            _villageScene.AddEntities(dungeon_button.Entity, map_button.Entity, equipment_button.Entity, inventar_button.Entity);
         }
 
         private void UpdateFrame(FrameEventArgs args)

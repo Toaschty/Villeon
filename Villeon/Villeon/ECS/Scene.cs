@@ -75,6 +75,15 @@ namespace Villeon.ECS
             AddToSystems(entity);
         }
 
+        public void AddEntities(params IEntity[] entities)
+        {
+            foreach (IEntity entity in entities)
+            {
+                _entities.Add(entity);
+                AddToSystems(entity);
+            }
+        }
+
         public bool RemoveEntity(IEntity entity)
         {
             if (!_entities.Contains(entity))
