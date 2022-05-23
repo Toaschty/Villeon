@@ -29,7 +29,6 @@ namespace Villeon
         private Matrix4 _refCameraMatrix = Matrix4.Identity;
         private IEntity _player;
         private FPS _fps;
-        private TextBox? _textBox;
 
         public Game()
         {
@@ -66,10 +65,6 @@ namespace Villeon
 
         private void DebuggingPlayground()
         {
-            // Write some Text
-            _textBox = new TextBox("199", Constants.DUNGEON_SPAWN_POINT + new Vector2(-2, 3f), 1.1f, 1.1f, 1f);
-            _textBox.BindPositionTo(_player);
-
             // floor
             IEntity floor = new Entity(new Transform(new Vector2(-20, -2), 1f, 0f), "Floor");
             floor.AddComponent(new Collider(new Vector2(-20, -2), 100f, 1f));
@@ -173,13 +168,7 @@ namespace Villeon
 
         private void UpdateFrame(FrameEventArgs args)
         {
-            if (KeyHandler.IsPressed(Keys.P))
-            {
-                _textBox!.Overwrite(_player.GetComponent<Health>().CurrentHealth.ToString());
-            }
-
             Manager.GetInstance().Update((float)args.Time);
-            _textBox!.Update();
             MouseHandler.ClickedMouseButtons.Clear();
         }
 
