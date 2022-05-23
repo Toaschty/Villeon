@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using Villeon.Components;
+using Villeon.ECS;
 using Villeon.Helper;
 
 namespace Villeon.Systems
 {
-    public class ColliderRenderSystem : System, IRenderSystem
+    public class ColliderRenderSystem : System //IRenderSystem
     {
         public ColliderRenderSystem(string name)
             : base(name)

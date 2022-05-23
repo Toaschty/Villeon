@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
+using Villeon.ECS;
 
 namespace Villeon.Helper
 {
@@ -14,6 +15,8 @@ namespace Villeon.Helper
         ENEMY,
         ATTACKLEFT,
         ATTACKRIGHT,
+        DUNGEONENTRY,
+        VILLAGEENTRY,
     }
 
     public static class TriggerBuilder
@@ -41,27 +44,34 @@ namespace Villeon.Helper
             switch (id)
             {
                 case TriggerID.PLAYER:
-                    trigger = new Trigger(TriggerType.MOB, new Vector2(0, 0), 0.5f, 0.5f);
+                    trigger = new Trigger(TriggerType.MOB, new Vector2(-0.5f, 0), 1f, 1f);
                     break;
 
                 case TriggerID.ENEMY:
-                    trigger = new Trigger(TriggerType.MOB, new Vector2(0, 0), 0.5f, 1f);
+                    trigger = new Trigger(TriggerType.MOB, new Vector2(-0.50f, 0), 1f, 1f);
                     break;
 
                 case TriggerID.ATTACKLEFT:
-                    trigger = new Trigger(TriggerType.DAMAGE, new Vector2(0.8f, -0.3f), 0.5f, 0.5f);
-                    trigger.Damage = 50;
+                    trigger = new Trigger(TriggerType.DAMAGE, new Vector2(1f, -0.5f), 1f, 1f);
+                    trigger.Damage = 30;
                     trigger.Time = 0.3f;
                     trigger.Impulse = new Vector2(-5000, 0);
                     break;
 
                 case TriggerID.ATTACKRIGHT:
-                    trigger = new Trigger(TriggerType.DAMAGE, new Vector2(-0.8f, -0.3f), 0.5f, 0.5f);
-                    trigger.Damage = 50;
+                    trigger = new Trigger(TriggerType.DAMAGE, new Vector2(-2f, -0.5f), 1f, 1f);
+                    trigger.Damage = 30;
                     trigger.Time = 0.3f;
                     trigger.Impulse = new Vector2(5000, 0);
                     break;
-
+                case TriggerID.DUNGEONENTRY:
+                    trigger = new Trigger(TriggerType.PORTAL, new Vector2(0, 0), 1f, 2f);
+                    trigger.SceneName = "DungeonScene";
+                    break;
+                case TriggerID.VILLAGEENTRY:
+                    trigger = new Trigger(TriggerType.PORTAL, new Vector2(0, 0), 1f, 2f);
+                    trigger.SceneName = "VillageScene";
+                    break;
                 default:
                     trigger = new Trigger(TriggerType.DAMAGE, new Vector2(0, 0), 0, 0);
                     break;

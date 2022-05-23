@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
+using Villeon.ECS;
 
 namespace Villeon.Systems
 {
@@ -19,9 +20,9 @@ namespace Villeon.Systems
 
         public void Update(float time)
         {
-            if (Constants.DEBUGPAUSEACTIVE)
+            if (StateManager.DEBUGPAUSEACTIVE)
             {
-                if (Constants.DEBUGNEXTFRAME && Constants.DEBUGTHISFRAMEPHYSICS)
+                if (StateManager.DEBUGNEXTFRAME && StateManager.DEBUGTHISFRAMEPHYSICS)
                 {
                     time = Constants.DEBUGTIME;
                 }
@@ -58,7 +59,7 @@ namespace Villeon.Systems
                     physics.Acceleration += new Vector2(0.0f, 2.0f * -Constants.GRAVITY);
 
                 // Friction
-                physics.Acceleration += new Vector2(-Constants.FRICTION * physics.Velocity.X, physics.Acceleration.Y);
+                physics.Acceleration += new Vector2(-Constants.FRICTION * physics.Velocity.X, 0);
 
                 // Physics calculation
                 Vector2 oldVelocity = physics.Velocity;

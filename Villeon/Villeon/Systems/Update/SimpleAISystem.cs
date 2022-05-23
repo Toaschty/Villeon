@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
+using Villeon.ECS;
 using Villeon.Helper;
 
 namespace Villeon.Systems
@@ -41,7 +42,7 @@ namespace Villeon.Systems
 
                     float side = -(playerDirection.X / MathF.Abs(playerDirection.X));
 
-                    if (playerDirection.Length < 10 && playerDirection.Length > 1.2f)
+                    if (playerDirection.Length < 10 && playerDirection.Length > 2.2f)
                     {
                         Physics physics = entity.GetComponent<Physics>();
                         Collider collider = entity.GetComponent<Collider>();
@@ -49,13 +50,18 @@ namespace Villeon.Systems
                         physics.Acceleration += new Vector2(Constants.MOVEMENTSPEED * side * 0.4f, physics.Acceleration.Y);
 
                         if (side < 0 && collider.HasCollidedLeft && collider.HasCollidedBottom)
-                             physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
+                            physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
                         else if (side > 0 && collider.HasCollidedRight && collider.HasCollidedBottom)
                             physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
                     }
-                    else if (playerDirection.Length <= 1.2f)
+                    else if (playerDirection.Length <= 10)
                     {
-                        EntitySpawner.SpawnTrigger((side == 1) ? TriggerID.ATTACKRIGHT : TriggerID.ATTACKLEFT, transform);
+                        Effect effect = entity.GetComponent<Effect>() !;
+                        if (!effect.Effects.ContainsKey("AttackCooldown"))
+                        {
+                            EntitySpawner.SpawnTrigger((side == 1) ? TriggerID.ATTACKRIGHT : TriggerID.ATTACKLEFT, transform);
+                            effect.Effects.Add("AttackCooldown", 1);
+                        }
                     }
                 }
             }

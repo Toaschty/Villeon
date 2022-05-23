@@ -9,16 +9,35 @@ namespace Villeon.Components
 {
     public class Transform : IComponent
     {
+        private Vector2 _scale;
+        private Vector2 _position;
+
         public Transform(Vector2 position, float scale, float degrees)
         {
-            Position = position;
-            Scale = scale;
+            _position = position;
+            _scale.X = scale;
+            _scale.Y = scale;
             Degrees = degrees;
         }
 
-        public Vector2 Position { get; set; }
+        public Transform(Vector2 position, Vector2 scale, float degrees)
+        {
+            _position = position;
+            _scale = scale;
+            Degrees = degrees;
+        }
 
-        public float Scale { get; set; }
+        public Vector2 Position
+        {
+            get { return _position; }
+            set { _position = value; }
+        }
+
+        public Vector2 Scale
+        {
+            get { return _scale; }
+            set { _scale = value; }
+        }
 
         public float Degrees { get; set; }
     }

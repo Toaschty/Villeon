@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
+using Villeon.ECS;
 
 namespace Villeon.Systems
 {
@@ -28,18 +29,18 @@ namespace Villeon.Systems
         // Collider, Transform, Physics
         public void Update(float time)
         {
-            if (Constants.DEBUGPAUSEACTIVE)
+            if (StateManager.DEBUGPAUSEACTIVE)
             {
-                if (Constants.DEBUGNEXTFRAME)
+                if (StateManager.DEBUGNEXTFRAME)
                 {
-                    if (Constants.DEBUGTHISFRAMEPHYSICS)
+                    if (StateManager.DEBUGTHISFRAMEPHYSICS)
                     {
-                        Constants.DEBUGTHISFRAMEPHYSICS = false;
+                        StateManager.DEBUGTHISFRAMEPHYSICS = false;
                         return;
                     }
                     else
                     {
-                        Constants.DEBUGTHISFRAMEPHYSICS = true;
+                        StateManager.DEBUGTHISFRAMEPHYSICS = true;
                     }
                 }
                 else

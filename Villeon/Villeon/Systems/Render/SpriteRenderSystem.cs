@@ -4,13 +4,13 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-
 using Villeon;
 using Villeon.Components;
+using Villeon.ECS;
 
 namespace Villeon.Systems
 {
-    public class SpriteRenderSystem : System, IRenderSystem
+    public class SpriteRenderSystem : System //IRenderSystem
     {
         public SpriteRenderSystem(string name)
             : base(name)

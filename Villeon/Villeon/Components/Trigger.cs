@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Villeon.ECS;
 
 namespace Villeon.Components
 {
@@ -11,11 +12,13 @@ namespace Villeon.Components
     {
         MOB,
         DAMAGE,
+        PORTAL,
     }
 
     public class Trigger : IComponent
     {
         private float _time = float.PositiveInfinity;
+        private string _sceneName = "NO_SCENE_SELECTED";
 
         public Trigger(TriggerType type, Vector2 offset, float width, float height)
         {
@@ -51,5 +54,7 @@ namespace Villeon.Components
         public int Damage { get; set; } = 0;
 
         public Vector2 Impulse { get; set; } = Vector2.Zero;
+
+        public string SceneName { get => _sceneName; set => _sceneName = value; }
     }
 }

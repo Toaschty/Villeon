@@ -9,10 +9,13 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
+using Villeon.ECS;
+using Villeon.GUI;
 using Villeon.Helper;
+using Villeon.Render;
 using Villeon.Systems;
-using Villeon.Systems.Render;
 using Villeon.Systems.Update;
+using Villeon.Utils;
 using Zenseless.OpenTK;
 using Zenseless.Resources;
 
@@ -22,28 +25,59 @@ namespace Villeon
     {
         private Scene _dungeonScene = new ("DungeonScene");
         private Scene _villageScene = new ("VillageScene");
-
+        private GameWindow _gameWindow;
         private Matrix4 _refCameraMatrix = Matrix4.Identity;
+        private IEntity _player;
+        private FPS _fps;
+        private TextBox? _textBox;
 
-        private IEntity _entity;
+        public Game()
+        {
+            _gameWindow = WindowCreator.CreateWindow();
+            TypeRegistry.SetupTypes();
+            Assets.LoadRessources();
+            _player = new Entity("Player not Set!");
+            _fps = new FPS(_gameWindow);
+        }
 
         public void Start()
         {
-            GameWindow gameWindow = WindowCreator.CreateWindow();
-            Init();
-
             SceneLoader.AddScene(_dungeonScene);
             SceneLoader.AddScene(_villageScene);
+            SceneLoader.SetActiveScene("DungeonScene");
 
-            // Load scene
-            // SceneLoader.LoadScene(dungeonScene);
-            SceneLoader.LoadScene("VillageScene");
+            AddDungeonSystems();
+            AddVillageSystems();
+            AddPortalEntities();
+            AddGUIEntities();
+            CreatePlayerEntity();
 
-            // Enable Texturing
-            GL.Enable(EnableCap.Texture2D);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-            GL.Enable(EnableCap.Blend);
+            // Add player to scenes
+            _villageScene.AddEntity(_player!);
+            _dungeonScene.AddEntity(_player!);
 
+            // Add testing entities before the window starts
+            DebuggingPlayground();
+
+            // Init and Start the Window
+            InitWindowActions(_gameWindow);
+            _gameWindow.Run();
+        }
+
+        private void DebuggingPlayground()
+        {
+            // Write some Text
+            _textBox = new TextBox("199", Constants.DUNGEON_SPAWN_POINT + new Vector2(-2, 3f), 1.1f, 1.1f, 1f);
+            _textBox.BindPositionTo(_player);
+
+            // floor
+            IEntity floor = new Entity(new Transform(new Vector2(-20, -2), 1f, 0f), "Floor");
+            floor.AddComponent(new Collider(new Vector2(-20, -2), 100f, 1f));
+            _dungeonScene.AddEntity(floor);
+        }
+
+        private void InitWindowActions(GameWindow gameWindow)
+        {
             gameWindow.KeyDown += KeyHandler.KeyDown;
             gameWindow.KeyUp += KeyHandler.KeyUp;
             gameWindow.MouseWheel += MouseHandler.MouseWheel;
@@ -53,7 +87,17 @@ namespace Villeon
             gameWindow.RenderFrame += RenderFrame;
             gameWindow.RenderFrame += _ => gameWindow.SwapBuffers();
             gameWindow.Resize += Resize;
-            gameWindow.Run();
+        }
+
+        private void AddPortalEntities()
+        {
+            IEntity villageToDungeon = new Entity(new Transform(new Vector2(36, 32), 1f, 0f), "villageToDungeonPortal");
+            villageToDungeon.AddComponent(TriggerBuilder.Build(TriggerID.DUNGEONENTRY));
+            IEntity dungeonToVillage = new Entity(new Transform(new Vector2(25f, 1), 1f, 0f), "dungeonToVillagePortal");
+            dungeonToVillage.AddComponent(TriggerBuilder.Build(TriggerID.VILLAGEENTRY));
+
+            _dungeonScene.AddEntity(dungeonToVillage);
+            _villageScene.AddEntity(villageToDungeon);
         }
 
         private void Resize(ResizeEventArgs args)
@@ -62,88 +106,87 @@ namespace Villeon
             GL.Viewport(0, 0, args.Width, args.Height);
         }
 
-        private void Init()
+        private void CreatePlayerEntity()
         {
-            TypeRegistry.Init();
+            Transform transform = new Transform(Constants.DUNGEON_SPAWN_POINT, 1f, 0f);
+            _player = new Entity(transform, "Marin");
+            _player.AddComponent(new Physics());
+            _player.AddComponent(new Collider(new Vector2(0.5f, 0f), transform, 1f, 1f));
+            _player.AddComponent(TriggerBuilder.Build(TriggerID.PLAYER));
+            _player.AddComponent(new Player());
+            _player.AddComponent(new Effect());
+            _player.AddComponent(new Health(Constants.PLAYER_MAX_HEALTH));
+            _player.AddComponent(new Sprite(Assets.GetTexture("Player.png"), SpriteLayer.Foreground, true));
 
-            // Platformer Scene
-            TileMap tileMap = new TileMap("DungeonTileMap.tmx", true);
-            _entity = new Entity("Marin");
-            _entity.AddComponent(new Physics());
-            _entity.AddComponent(new Collider(new Vector2(0.0f, 0.0f), new Vector2(35.0f, 35.0f), 0.5f, 0.5f));
-            _entity.AddComponent(TriggerBuilder.Build(TriggerID.PLAYER));
-            _entity.AddComponent(new Sprite(Color4.Cornsilk, new Vector2(1f, 1f)));
-            _entity.AddComponent(new Player());
-            _entity.AddComponent(new Health(200));
+            // Setup player animations
+            AnimationController animController = new AnimationController();
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_idle.png", 0.5f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_up.png", 0.1f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_down.png", 0.1f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_left.png", 0.1f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_right.png", 0.1f));
+            _player.AddComponent(animController);
+        }
 
-            _dungeonScene.AddEntity(_entity);
+        private void AddVillageSystems()
+        {
+            TileMapDictionary villageTileMap = new TileMapDictionary("VillageTileMap.tmx");
+            _villageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
+            _villageScene.AddSystem(new CollisionSystem("Collision"));
+            _villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
+            _villageScene.AddSystem(new TriggerSystem("Trigger"));
+            _villageScene.AddSystem(new CameraSystem("CameraSystem"));
+            _villageScene.AddSystem(new HealthSystem("HealthSystem"));
+            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            _villageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
+            _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            _villageScene.SetTileMap(villageTileMap, false);
+        }
+
+        private void AddDungeonSystems()
+        {
+            TileMapDictionary tileMap = new TileMapDictionary("DungeonTileMap.tmx");
+            _dungeonScene.AddSystem(new EffectSystem("Effects"));
             _dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
             _dungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             _dungeonScene.AddSystem(new SimpleAISystem("SimpleAISystem"));
-
             _dungeonScene.AddSystem(new PhysicsSystem("Physics"));
-            _dungeonScene.AddSystem(new CollisionSystem("Collision"));
             _dungeonScene.AddSystem(new TriggerSystem("Trigger"));
-
+            _dungeonScene.AddSystem(new CollisionSystem("Collision"));
             _dungeonScene.AddSystem(new HealthSystem("Health"));
-
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
+            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            _dungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            _dungeonScene.AddSystem(new HealthbarSystem("PlayerHealthbar", Constants.PLAYER_MAX_HEALTH));
+            _dungeonScene.SetTileMap(tileMap, true);
+        }
 
-            _dungeonScene.AddSystem(new TileRenderSystem("TileRenderSystem", tileMap));
-            _dungeonScene.AddSystem(new SpriteRenderSystem("SpriteRenderSystem"));
-            _dungeonScene.AddSystem(new ColliderRenderSystem("CollisionSystem"));
-            _dungeonScene.AddSystem(new TriggerRenderSystem("TriggerRenderer"));
-            _dungeonScene.SetTileMap(tileMap);
-
-            // Village Scene
-            TileMap villageTileMap = new TileMap("VillageTileMap.tmx", false);
-            _villageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
-            _villageScene.AddSystem(new CollisionSystem("Collision"));
-            _villageScene.AddSystem(new TileRenderSystem("TileRenderSystem", villageTileMap));
-
-            _villageScene.AddSystem(new ColliderRenderSystem("CollisionSystem"));
-            _villageScene.AddSystem(new AnimatedTileSystem("AnimatedTileSystem"));
-            _villageScene.AddSystem(new AnimatedTileRenderSystem("AnimatedTileRenderSystem", villageTileMap));
-
-            _villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
-            _villageScene.AddSystem(new SpriteRenderSystem("SpriteRenderSystem"));
-            _villageScene.AddSystem(new CameraSystem("CameraSystem"));
-            _villageScene.AddSystem(new HealthSystem("HealthSystem"));
-            _villageScene.SetTileMap(villageTileMap);
-            _villageScene.AddEntity(_entity);
+        private void AddGUIEntities()
+        {
+            // GUI - Village
+            Button dungeon_button = new Button("Dungeon_Button.png", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
+            Button map_button = new Button("Map_Button.png", new Vector2(3.2f, 0.5f), new Vector2(0.5f, 0.5f));
+            Button equipment_button = new Button("Equipment_Button.png", new Vector2(5.9f, 0.5f), new Vector2(0.5f, 0.5f));
+            Button inventar_button = new Button("Inventar_Button.png", new Vector2(8.6f, 0.5f), new Vector2(0.5f, 0.5f));
+            _villageScene.AddEntities(dungeon_button.Entity, map_button.Entity, equipment_button.Entity, inventar_button.Entity);
         }
 
         private void UpdateFrame(FrameEventArgs args)
         {
-            foreach (MouseHandler.ClickedMouseButton button in MouseHandler.ClickedMouseButtons)
+            if (KeyHandler.IsPressed(Keys.P))
             {
-                if (button.Button == MouseButton.Middle)
-                {
-                    SceneLoader.LoadScene("VillageScene");
-                }
-
-                if (button.Button == MouseButton.Right)
-                    SceneLoader.LoadScene("DungeonScene");
+                _textBox!.Overwrite(_player.GetComponent<Health>().CurrentHealth.ToString());
             }
 
-            if (KeyHandler.IsPressed(Keys.V))
-                SceneLoader.LoadScene("VillageScene");
-
-            if (KeyHandler.IsPressed(Keys.G))
-                Manager.GetInstance().RemoveComponent<Physics>(_entity);
-
             Manager.GetInstance().Update((float)args.Time);
-            DebugPrinter.PrintToConsole((float)args.Time);
+            _textBox!.Update();
             MouseHandler.ClickedMouseButtons.Clear();
         }
 
         private void RenderFrame(FrameEventArgs args)
         {
+            _fps!.SetFps((float)args.Time);
             GL.Clear(ClearBufferMask.ColorBufferBit);
-            Camera.Update();
-            _refCameraMatrix = Camera.GetMatrix();
-            GL.LoadMatrix(ref _refCameraMatrix);
-
             Manager.GetInstance().Render();
         }
     }

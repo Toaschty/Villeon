@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
+using Villeon.ECS;
 using Villeon.Helper;
 
 namespace Villeon.Systems
 {
-    internal class TriggerRenderSystem : System, IRenderSystem
+    internal class TriggerRenderSystem : System
     {
         public TriggerRenderSystem(string name)
             : base(name)
@@ -21,7 +22,7 @@ namespace Villeon.Systems
         {
             foreach (IEntity entity in Entities)
             {
-                Trigger trigger = entity.GetComponent<Trigger>();
+                Trigger trigger = entity.GetComponent<Trigger>() !;
                 Graphics.DrawColliderQuad(Color4.Purple, trigger.Position, trigger.Width, trigger.Height);
             }
         }

@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
+using Villeon.ECS;
+using Villeon.Helper;
 
 namespace Villeon.Systems
 {
@@ -20,25 +22,27 @@ namespace Villeon.Systems
         {
             List<IEntity> mobEntities = new List<IEntity>();
             List<IEntity> damageEntities = new List<IEntity>();
+            List<IEntity> portalEntities = new List<IEntity>();
 
             for (int i = 0; i < Entities.Count; i++)
             {
-                Trigger trigger = Entities[i].GetComponent<Trigger>();
+                Trigger trigger = Entities.ElementAt(i).GetComponent<Trigger>();
 
                 if (trigger.ToBeRemoved)
                 {
-                    Manager.GetInstance().RemoveEntity(Entities[i]);
+                    Manager.GetInstance().RemoveEntity(Entities.ElementAt(i));
                     i--;
                 }
                 else
                 {
-                    Transform transform = Entities[i].GetComponent<Transform>();
+                    Transform transform = Entities.ElementAt(i).GetComponent<Transform>();
                     trigger.Position = transform.Position - trigger.Offset;
 
                     switch (trigger.Type)
                     {
-                        case TriggerType.MOB: mobEntities.Add(Entities[i]); break;
-                        case TriggerType.DAMAGE: damageEntities.Add(Entities[i]); break;
+                        case TriggerType.MOB: mobEntities.Add(Entities.ElementAt(i)); break;
+                        case TriggerType.DAMAGE: damageEntities.Add(Entities.ElementAt(i)); break;
+                        case TriggerType.PORTAL: portalEntities.Add(Entities.ElementAt(i)); break;
                     }
 
                     trigger.Time -= time;
@@ -55,9 +59,40 @@ namespace Villeon.Systems
                     Trigger mobTrigger = mobEntity.GetComponent<Trigger>();
                     if (CollidesAABB(damageTrigger, mobTrigger))
                     {
-                        mobEntity.GetComponent<Health>()?.Damage(damageTrigger.Damage);
+                        Health health = mobEntity.GetComponent<Health>();
+                        health.Damage(damageTrigger.Damage);
                         mobEntity.GetComponent<Physics>().Acceleration += damageTrigger.Impulse;
                         damageTrigger.ToBeRemoved = true;
+                    }
+                }
+            }
+
+            // Check portals against mob
+            foreach (IEntity portal in portalEntities)
+            {
+                Trigger portalTrigger = portal.GetComponent<Trigger>();
+
+                foreach (IEntity mob in mobEntities)
+                {
+                    if (mob.Name == "Marin")
+                    {
+                        Trigger playerMobTrigger = mob.GetComponent<Trigger>();
+                        if (CollidesAABB(portalTrigger, playerMobTrigger))
+                        {
+                            if (portalTrigger.SceneName == "DungeonScene")
+                            {
+                                mob.GetComponent<Transform>().Position = Constants.DUNGEON_SPAWN_POINT;
+                                mob.GetComponent<Collider>().LastPosition = Constants.DUNGEON_SPAWN_POINT;
+                            }
+
+                            if (portalTrigger.SceneName == "VillageScene")
+                            {
+                                mob.GetComponent<Transform>().Position = Constants.VILLAGE_SPAWN_POINT;
+                                mob.GetComponent<Collider>().LastPosition = Constants.VILLAGE_SPAWN_POINT;
+                            }
+
+                            SceneLoader.SetActiveScene(portalTrigger.SceneName);
+                        }
                     }
                 }
             }

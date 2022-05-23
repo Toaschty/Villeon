@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
+using Villeon.ECS;
 using Villeon.Helper;
 
 namespace Villeon.Systems
@@ -31,6 +32,9 @@ namespace Villeon.Systems
                 collider = entity.GetComponent<Collider>();
                 transform = entity.GetComponent<Transform>();
 
+                // Check if player is grounded
+                StateManager.IsGrounded = collider.HasCollidedBottom;
+
                 if (KeyHandler.IsPressed(Keys.D))
                 {
                     physics.Acceleration += new Vector2(Constants.MOVEMENTSPEED, physics.Acceleration.Y);
@@ -43,19 +47,34 @@ namespace Villeon.Systems
 
                 if (KeyHandler.IsPressed(Keys.Space))
                 {
-                    if (collider.HasCollidedBottom)
+                    if (StateManager.IsGrounded)
+                    {
+                        StateManager.IsGrounded = false;
                         physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
+                    }
                 }
 
                 if (KeyHandler.IsPressed(Keys.E))
                 {
-                    EntitySpawner.SpawnTrigger(TriggerID.ATTACKRIGHT, transform);
+                    Effect effect = entity.GetComponent<Effect>() !;
+                    if (!effect.Effects.ContainsKey("AttackCooldown"))
+                    {
+                        EntitySpawner.SpawnTrigger(TriggerID.ATTACKRIGHT, transform);
+                        effect.Effects.Add("AttackCooldown", 1);
+                    }
+
                     KeyHandler.RemoveKeyHold(Keys.E);
                 }
 
                 if (KeyHandler.IsPressed(Keys.Q))
                 {
-                    EntitySpawner.SpawnTrigger(TriggerID.ATTACKLEFT, transform);
+                    Effect effect = entity.GetComponent<Effect>() !;
+                    if (!effect.Effects.ContainsKey("AttackCooldown"))
+                    {
+                        EntitySpawner.SpawnTrigger(TriggerID.ATTACKLEFT, transform);
+                        effect.Effects.Add("AttackCooldown", 1);
+                    }
+
                     KeyHandler.RemoveKeyHold(Keys.Q);
                 }
 
@@ -73,22 +92,22 @@ namespace Villeon.Systems
                 }
 
                 // Debug Mode
-                Constants.DEBUGNEXTFRAME = false;
+                StateManager.DEBUGNEXTFRAME = false;
                 if (KeyHandler.IsPressed(Keys.H))
                 {
-                    Constants.DEBUGPAUSEACTIVE = !Constants.DEBUGPAUSEACTIVE;
+                    StateManager.DEBUGPAUSEACTIVE = !StateManager.DEBUGPAUSEACTIVE;
                     KeyHandler.RemoveKeyHold(Keys.H);
                 }
 
                 if (KeyHandler.IsPressed(Keys.N))
                 {
-                    Constants.DEBUGNEXTFRAME = true;
+                    StateManager.DEBUGNEXTFRAME = true;
                     KeyHandler.RemoveKeyHold(Keys.N);
                 }
 
                 if (KeyHandler.IsPressed(Keys.M))
                 {
-                    Constants.DEBUGNEXTFRAME = true;
+                    StateManager.DEBUGNEXTFRAME = true;
                 }
 
                 if (KeyHandler.IsPressed(Keys.J))

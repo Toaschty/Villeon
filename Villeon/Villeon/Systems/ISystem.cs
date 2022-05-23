@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Villeon.ECS;
 using Villeon.Helper;
 
 namespace Villeon.Systems
@@ -11,7 +12,7 @@ namespace Villeon.Systems
     {
         string Name { get; }
 
-        List<IEntity> Entities { get; }
+        HashSet<IEntity> Entities { get; }
 
         ulong Signature { get; }
     }
