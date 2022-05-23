@@ -144,11 +144,15 @@ namespace Villeon.Render
             _shader.Detach();
         }
 
+        public void AddRenderingData(RenderingData data)
+        {
+            _renderingData.Add(data);
+        }
+
         public void AddSprite(RenderingData data)
         {
             // Save Current index & Store Sprite
             int index = _spriteCount;
-            _renderingData.Add(data);
             _spriteCount++;
 
             // If the sprite has a texture, add it to _textures

@@ -30,6 +30,7 @@ namespace Villeon.Render
                 {
                     RenderBatch newBatch = CreateRenderBatch();
                     _dynamicBatches.Add(newBatch);
+                    newBatch.AddRenderingData(data);
                     newBatch.AddSprite(data);
                 }
             }
@@ -42,6 +43,7 @@ namespace Villeon.Render
                 {
                     RenderBatch newBatch = CreateRenderBatch();
                     _staticBatches.Add(newBatch);
+                    newBatch.AddRenderingData(data);
                     newBatch.AddSprite(data);
                     newBatch.LoadBuffer();
                 }
@@ -85,6 +87,7 @@ namespace Villeon.Render
                     Texture2D texture = data.Sprite!.Texture !;
                     if (texture == null || (batch.HasTexture(texture) || batch.HasTextureRoom()))
                     {
+                        batch.AddRenderingData(data);
                         batch.AddSprite(data);
                         return true;
                     }
@@ -105,6 +108,7 @@ namespace Villeon.Render
                     Texture2D texture = data.Sprite!.Texture !;
                     if (texture == null || (batch.HasTexture(texture) || batch.HasTextureRoom()))
                     {
+                        batch.AddRenderingData(data);
                         batch.AddSprite(data);
                         batch.LoadBuffer();
                         return true;
