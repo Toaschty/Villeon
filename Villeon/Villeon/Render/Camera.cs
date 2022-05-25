@@ -10,7 +10,8 @@ namespace Villeon.Render
     {
         private static Matrix4 _cameraMatrix = Matrix4.Identity;
         private static Matrix4 _shiftOriginMatrix = Matrix4.CreateTranslation(-1.0f, -1.0f, 0.0f);
-        private static Matrix4 _aspectRatioMatrix = Matrix4.Identity;
+        private static Matrix4 _aspectRatioMatrixY = Matrix4.Identity;
+
         private static Matrix4 _inverseViewportMatrix = Matrix4.Identity;
         private static Vector2 _trackingPosition = Vector2.Zero;
 
@@ -39,8 +40,8 @@ namespace Villeon.Render
             _screenWidth = width;
             _screenHeight = height;
 
-            float aspectRatio = height / (float)width;
-            _aspectRatioMatrix = Matrix4.CreateScale(aspectRatio, 1.0f, 1.0f);
+            float aspectRatioY = width / (float)height;
+            _aspectRatioMatrixY = Matrix4.CreateScale(1.0f, aspectRatioY, 1.0f);
 
             // Window to World conversions matrix
             Matrix4 translate = Translate(-1f, 1f); // Top left <- ^
@@ -57,7 +58,7 @@ namespace Villeon.Render
             Matrix4 translation = Translate(-_cameraCenter);
             Matrix4 rotation = RotateDegrees(-_cameraRotation);
             Matrix4 scale = Scale(1 / _cameraScale);
-            _cameraMatrix = translation * rotation * scale * _aspectRatioMatrix;
+            _cameraMatrix = translation * rotation * scale * _aspectRatioMatrixY;
             return _cameraMatrix;
         }
 
@@ -82,11 +83,19 @@ namespace Villeon.Render
 
         public static Matrix4 GetScreenMatrix(float screenScale)
         {
-            Matrix4 translation = Translate(-new Vector2(-(_screenWidth / _screenHeight) * screenScale, -screenScale));
-            Matrix4 rotation = RotateDegrees(-_cameraRotation);
-            Matrix4 scale = Scale(1 / screenScale);
-            _cameraMatrix = translation * rotation * scale * _aspectRatioMatrix;
-            return _cameraMatrix;
+            float aspect = 16f / 9f;
+            float screenAspect = _screenWidth / (float)_screenHeight;
+            Matrix4 screenMatrix = Matrix4.Identity;
+            if (aspect <= screenAspect)
+            {
+                screenMatrix = Matrix4.CreateScale(aspect / screenAspect, 1f, 1f);
+            }
+            else
+            {
+                screenMatrix = Matrix4.CreateScale(1f, screenAspect / aspect, 1f);
+            }
+
+            return screenMatrix;
         }
     }
 }

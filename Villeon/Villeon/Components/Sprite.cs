@@ -22,6 +22,11 @@ namespace Villeon.Components
         private float _tilePixels = 8;
         private bool _usesCamera = true;
 
+        public Sprite(SpriteLayer renderLayer)
+        {
+            _layer = renderLayer;
+        }
+
         // Create a sprite from a Spritesheet
         public Sprite(Texture2D texture, SpriteLayer renderLayer, Vector2[] texCoords, float spriteWidth, float spriteHeight, bool isDynamic = false)
         {

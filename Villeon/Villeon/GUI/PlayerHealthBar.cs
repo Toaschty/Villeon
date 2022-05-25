@@ -26,7 +26,7 @@ namespace Villeon.GUI
 
         public PlayerHealthBar(int maxHealth)
         {
-            Vector2 position = new Vector2(0.2f, 15.8f);
+            Vector2 position = new Vector2(0.0f, 17f);
             _maxHealth = maxHealth;
 
             CreateFrame(position);
