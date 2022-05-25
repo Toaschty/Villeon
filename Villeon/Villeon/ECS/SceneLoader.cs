@@ -23,5 +23,10 @@ namespace Villeon.ECS
         {
             _scenes.Add(scene);
         }
+
+        public static List<Scene> GetScenes()
+        {
+            return _scenes;
+        }
     }
 }

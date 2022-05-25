@@ -10,8 +10,6 @@ namespace Villeon.ECS
     {
         public ulong Signature { get; }
 
-        public bool Enabled { get; set; }
-
         public string Name { get; }
 
         public void AddComponent(IComponent component);

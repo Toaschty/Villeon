@@ -44,7 +44,7 @@ namespace Villeon
         {
             SceneLoader.AddScene(_dungeonScene);
             SceneLoader.AddScene(_villageScene);
-            SceneLoader.SetActiveScene("VillageScene");
+            SceneLoader.SetActiveScene("DungeonScene");
 
             AddDungeonSystems();
             AddVillageSystems();
@@ -104,10 +104,10 @@ namespace Villeon
 
         private void CreatePlayerEntity()
         {
-            Transform transform = new Transform(Constants.DUNGEON_SPAWN_POINT, 1f, 0f);
+            Transform transform = new Transform(Constants.DUNGEON_SPAWN_POINT, 0.3f, 0f);
             _player = new Entity(transform, "Marin");
             _player.AddComponent(new Physics());
-            _player.AddComponent(new Collider(new Vector2(0.5f, 0f), transform, 1f, 1f));
+            _player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 1f, 1f));
             _player.AddComponent(TriggerBuilder.Build(TriggerID.PLAYER));
             _player.AddComponent(new Player());
             _player.AddComponent(new Effect());
@@ -133,7 +133,7 @@ namespace Villeon
             _villageScene.AddSystem(new TriggerSystem("Trigger"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.AddSystem(new HealthSystem("HealthSystem"));
-            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             _villageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _villageScene.SetTileMap(villageTileMap, false);
@@ -151,7 +151,7 @@ namespace Villeon
             _dungeonScene.AddSystem(new CollisionSystem("Collision"));
             _dungeonScene.AddSystem(new HealthSystem("Health"));
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
-            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             _dungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _dungeonScene.AddSystem(new HealthbarSystem("PlayerHealthbar", Constants.PLAYER_MAX_HEALTH));
             _dungeonScene.SetTileMap(tileMap, true);
