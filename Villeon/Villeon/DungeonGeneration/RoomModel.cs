@@ -10,6 +10,7 @@ namespace Villeon.DungeonGeneration
     {
         public RoomModel(int roomIdX, int roomIdY, int roomType, bool isStart, bool isEnd)
         {
+            RoomLayout = new string[0, 0];
             RoomIdX = roomIdX;
             RoomIdY = roomIdY;
             RoomType = roomType;

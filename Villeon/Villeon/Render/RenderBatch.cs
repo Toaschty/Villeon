@@ -35,7 +35,7 @@ namespace Villeon.Render
 
         public RenderBatch(bool usesCamera)
         {
-            _shader = Assets.GetShader(@"shader");
+            _shader = Assets.GetShader("Shaders.shader");
             _renderingData = new HashSet<RenderingData>(Constants.MAX_BATCH_SIZE);
             _textures = new List<Texture2D>();
 

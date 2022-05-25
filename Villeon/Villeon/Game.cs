@@ -9,6 +9,7 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
+using Villeon.DungeonGeneration;
 using Villeon.ECS;
 using Villeon.GUI;
 using Villeon.Helper;
@@ -69,6 +70,48 @@ namespace Villeon
             IEntity floor = new Entity(new Transform(new Vector2(-20, -2), 1f, 0f), "Floor");
             floor.AddComponent(new Collider(new Vector2(-20, -2), 100f, 1f));
             _dungeonScene.AddEntity(floor);
+
+            // Spawn Dungeon
+            LevelGeneration lvlGen = new LevelGeneration();
+            lvlGen.GenSolutionPath();
+            RoomGeneration roomGen = new RoomGeneration(lvlGen.StartRoomX, lvlGen.StartRoomY, lvlGen.EndRoomX, lvlGen.EndRoomY, lvlGen.RoomModels);
+
+            IEntity entity;
+            for (int i = 0; i < 4; i++)
+            {
+                for (int k = 0; k < 8; k++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        for (int l = 1; l < 10; l++)
+                        {
+                            if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "1")
+                            {
+                                entity = new Entity(new Transform(new Vector2(-20, -2), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
+                                entity.AddComponent(Assets.GetSpriteSheet("Tilemap.TilesetImages.DungeonTileSet.png").GetSprite(0, SpriteLayer.Background, false));
+                                entity.AddComponent(new Collider(new Vector2(0, 0), entity.GetComponent<Transform>(), 1f, 1f));
+                                _villageScene.AddEntity(entity);
+                            }
+                            else if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "2")
+                            {
+                                //different block
+                            }
+                            else if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "0")
+                            {
+                                //air
+                            }
+                            else if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "L")
+                            {
+                                //Ladder
+                            }
+                            else if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "P")
+                            {
+                                //Ladder top
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void InitWindowActions(GameWindow gameWindow)
@@ -111,7 +154,7 @@ namespace Villeon
             _player.AddComponent(new Player());
             _player.AddComponent(new Effect());
             _player.AddComponent(new Health(Constants.PLAYER_MAX_HEALTH));
-            _player.AddComponent(new Sprite(Assets.GetTexture("Player.png"), SpriteLayer.Foreground, true));
+            _player.AddComponent(new Sprite(Assets.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
 
             // Setup player animations
             AnimationController animController = new AnimationController();
