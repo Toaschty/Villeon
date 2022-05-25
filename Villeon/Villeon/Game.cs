@@ -70,48 +70,6 @@ namespace Villeon
             IEntity floor = new Entity(new Transform(new Vector2(-20, -2), 1f, 0f), "Floor");
             floor.AddComponent(new Collider(new Vector2(-20, -2), 100f, 1f));
             _dungeonScene.AddEntity(floor);
-
-            // Spawn Dungeon
-            LevelGeneration lvlGen = new LevelGeneration();
-            lvlGen.GenSolutionPath();
-            RoomGeneration roomGen = new RoomGeneration(lvlGen.StartRoomX, lvlGen.StartRoomY, lvlGen.EndRoomX, lvlGen.EndRoomY, lvlGen.RoomModels);
-
-            IEntity entity;
-            for (int i = 0; i < 4; i++)
-            {
-                for (int k = 0; k < 8; k++)
-                {
-                    for (int j = 0; j < 4; j++)
-                    {
-                        for (int l = 1; l < 10; l++)
-                        {
-                            if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "1")
-                            {
-                                entity = new Entity(new Transform(new Vector2(-20, -2), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
-                                entity.AddComponent(Assets.GetSpriteSheet("Tilemap.TilesetImages.DungeonTileSet.png").GetSprite(0, SpriteLayer.Background, false));
-                                entity.AddComponent(new Collider(new Vector2(0, 0), entity.GetComponent<Transform>(), 1f, 1f));
-                                _villageScene.AddEntity(entity);
-                            }
-                            else if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "2")
-                            {
-                                //different block
-                            }
-                            else if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "0")
-                            {
-                                //air
-                            }
-                            else if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "L")
-                            {
-                                //Ladder
-                            }
-                            else if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "P")
-                            {
-                                //Ladder top
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         private void InitWindowActions(GameWindow gameWindow)
@@ -202,18 +160,14 @@ namespace Villeon
         private void AddGUIEntities()
         {
             // Menu Buttons - Village
-            Button dungeon_button = new Button("Dungeon_Button.png", new Vector2(-0.97f, -0.97f), new Vector2(0.04f, 0.04f));
-            Button map_button = new Button("Map_Button.png", new Vector2(-0.77f, -0.97f), new Vector2(0.04f, 0.04f));
-            Button equipment_button = new Button("Equipment_Button.png", new Vector2(-0.57f, -0.97f), new Vector2(0.04f, 0.04f));
-            Button inventar_button = new Button("Inventar_Button.png", new Vector2(-0.37f, -0.97f), new Vector2(0.04f, 0.04f));
+            GUI.Image dungeon_button = new GUI.Image("Dungeon_Button.png", new Vector2(-0.97f, -0.97f), new Vector2(0.04f, 0.04f));
+            GUI.Image map_button = new GUI.Image("Map_Button.png", new Vector2(-0.77f, -0.97f), new Vector2(0.04f, 0.04f));
+            GUI.Image equipment_button = new GUI.Image("Equipment_Button.png", new Vector2(-0.57f, -0.97f), new Vector2(0.04f, 0.04f));
+            GUI.Image inventar_button = new GUI.Image("Inventar_Button.png", new Vector2(-0.37f, -0.97f), new Vector2(0.04f, 0.04f));
 
             _villageScene.AddEntities(dungeon_button.Entity, map_button.Entity, equipment_button.Entity, inventar_button.Entity);
 
             // Menu View - Village
-            Entity menu = new Entity(new Transform(new Vector2(-0.755f, -0.6f), new Vector2(0.04f, 0.04f), 0f), "Menu");
-            Sprite menuSprite = Assets.GetSprite("GUI.Scroll.png", SpriteLayer.ScreenGuiBackground, false);
-            menu.AddComponent(menuSprite);
-            _villageScene.AddEntity(menu);
         }
 
         private void UpdateFrame(FrameEventArgs args)
