@@ -29,7 +29,6 @@ namespace Villeon
         private Matrix4 _refCameraMatrix = Matrix4.Identity;
         private IEntity _player;
         private FPS _fps;
-        private TextBox? _textBox;
 
         public Game()
         {
@@ -66,10 +65,6 @@ namespace Villeon
 
         private void DebuggingPlayground()
         {
-            // Write some Text
-            _textBox = new TextBox("199", Constants.DUNGEON_SPAWN_POINT + new Vector2(-2, 3f), 1.1f, 1.1f, 1f);
-            _textBox.BindPositionTo(_player);
-
             // floor
             IEntity floor = new Entity(new Transform(new Vector2(-20, -2), 1f, 0f), "Floor");
             floor.AddComponent(new Collider(new Vector2(-20, -2), 100f, 1f));
@@ -137,7 +132,7 @@ namespace Villeon
             _villageScene.AddSystem(new TriggerSystem("Trigger"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.AddSystem(new HealthSystem("HealthSystem"));
-            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             _villageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _villageScene.SetTileMap(villageTileMap, false);
@@ -155,7 +150,7 @@ namespace Villeon
             _dungeonScene.AddSystem(new CollisionSystem("Collision"));
             _dungeonScene.AddSystem(new HealthSystem("Health"));
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
-            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             _dungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _dungeonScene.AddSystem(new HealthbarSystem("PlayerHealthbar", Constants.PLAYER_MAX_HEALTH));
             _dungeonScene.SetTileMap(tileMap, true);
@@ -173,13 +168,7 @@ namespace Villeon
 
         private void UpdateFrame(FrameEventArgs args)
         {
-            if (KeyHandler.IsPressed(Keys.P))
-            {
-                _textBox!.Overwrite(_player.GetComponent<Health>().CurrentHealth.ToString());
-            }
-
             Manager.GetInstance().Update((float)args.Time);
-            _textBox!.Update();
             MouseHandler.ClickedMouseButtons.Clear();
         }
 
