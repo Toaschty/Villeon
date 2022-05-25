@@ -43,7 +43,7 @@ namespace Villeon
         {
             SceneLoader.AddScene(_dungeonScene);
             SceneLoader.AddScene(_villageScene);
-            SceneLoader.SetActiveScene("DungeonScene");
+            SceneLoader.SetActiveScene("VillageScene");
 
             AddDungeonSystems();
             AddVillageSystems();
@@ -158,16 +158,19 @@ namespace Villeon
 
         private void AddGUIEntities()
         {
-            // GUI - Village
-            Button dungeon_button = new Button("Dungeon_Button.png", new Vector2(-1f, -1f), new Vector2(0.1f, 0.1f));
-            Button map_button = new Button("Map_Button.png", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f));
-            Button equipment_button = new Button("Equipment_Button.png", new Vector2(0.9f, 0.9f), new Vector2(0.1f, 0.1f));
-            Button inventar_button = new Button("Inventar_Button.png", new Vector2(8.6f, 0.5f), new Vector2(0.5f, 0.5f));
-            IEntity entity = new Entity(new Transform(new Vector2(-1f, -1f), 1f, 0f), "ScreenShow");
-            Sprite sprite = new Sprite(SpriteLayer.ScreenGuiForeground, 2f, 2f, true);
-            entity.AddComponent(sprite);
+            // Menu Buttons - Village
+            Button dungeon_button = new Button("Dungeon_Button.png", new Vector2(-0.97f, -0.97f), new Vector2(0.04f, 0.04f));
+            Button map_button = new Button("Map_Button.png", new Vector2(-0.77f, -0.97f), new Vector2(0.04f, 0.04f));
+            Button equipment_button = new Button("Equipment_Button.png", new Vector2(-0.57f, -0.97f), new Vector2(0.04f, 0.04f));
+            Button inventar_button = new Button("Inventar_Button.png", new Vector2(-0.37f, -0.97f), new Vector2(0.04f, 0.04f));
 
             _villageScene.AddEntities(dungeon_button.Entity, map_button.Entity, equipment_button.Entity, inventar_button.Entity);
+
+            // Menu View - Village
+            Entity menu = new Entity(new Transform(new Vector2(-0.755f, -0.6f), new Vector2(0.04f, 0.04f), 0f), "Menu");
+            Sprite menuSprite = Assets.GetSprite("GUI.Scroll.png", SpriteLayer.ScreenGuiBackground, false);
+            menu.AddComponent(menuSprite);
+            _villageScene.AddEntity(menu);
         }
 
         private void UpdateFrame(FrameEventArgs args)
