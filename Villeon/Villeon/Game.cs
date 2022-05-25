@@ -108,6 +108,7 @@ namespace Villeon
             _player = new Entity(transform, "Marin");
             _player.AddComponent(new Physics());
             _player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 1f, 1f));
+            _player.AddComponent(new DynamicCollider(_player.GetComponent<Collider>()));
             _player.AddComponent(TriggerBuilder.Build(TriggerID.PLAYER));
             _player.AddComponent(new Player());
             _player.AddComponent(new Effect());
