@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Villeon.Helper;
 using Villeon.Render;
 using Villeon.Utils;
 using Zenseless.OpenTK;
@@ -22,9 +23,20 @@ namespace Villeon.Components
         private float _tilePixels = 8;
         private bool _usesCamera = true;
 
-        public Sprite(SpriteLayer renderLayer)
+        public Sprite(SpriteLayer renderLayer, bool isDynamic)
         {
+            _texture2D = Assets.GetTexture("Empty.png");
             _layer = renderLayer;
+            _texCoords = _texCoords = new Vector2[4]
+            {
+                new Vector2(0f, 0f),    // UV: Bottom left
+                new Vector2(1f, 0f),    // UV: Bottom right
+                new Vector2(0f, 1f),    // UV: Top left
+                new Vector2(1f, 1f),    // UV: Top right
+            };
+            _isDynamic = isDynamic;
+            _width = _texture2D.Width / _tilePixels;
+            _height = _texture2D.Height / _tilePixels;
         }
 
         // Create a sprite from a Spritesheet

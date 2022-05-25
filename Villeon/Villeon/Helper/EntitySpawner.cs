@@ -37,7 +37,8 @@ namespace Villeon
             entity.AddComponent(new Effect());
             entity.AddComponent(new Physics());
             entity.AddComponent(new SimpleAI());
-            entity.AddComponent(new Sprite(SpriteLayer.Foreground));
+            entity.AddComponent(new Sprite(SpriteLayer.Foreground, true));
+            // width weird.
 
             // Setup player animations
             AnimationController animController = new AnimationController();

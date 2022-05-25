@@ -107,7 +107,7 @@ namespace Villeon.Render
             // Update Camera, Set Transform in VertexShader
             Camera.Update();
             _shader.UploadMat4("cameraMatrix", Camera.GetMatrix());
-            _shader.UploadMat4("screenMatrix", Camera.GetScreenMatrix(Constants.SCREEN_SCALE));
+            _shader.UploadMat4("screenMatrix", Camera.GetScreenMatrix());
 
             // Bind all textures that this batch contains
             int i = 0;
@@ -253,6 +253,12 @@ namespace Villeon.Render
             _vertices[offset + 2].TextureCoords = new Vector2(0.0001f, -0.0001f);
             _vertices[offset + 3].TextureCoords = new Vector2(-0.0001f, -0.0001f);
 
+            Vector2 screenScaling = Vector2.One;
+            if (!_usesCamera)
+                screenScaling.Y = 16f / 9f;
+            else
+                screenScaling = Vector2.One;
+
             // Fill vertex with attribute
             Vector2 add = new Vector2(0f, 0f);
             for (int i = 0; i < Size.QUAD; i++)
@@ -272,7 +278,7 @@ namespace Villeon.Render
                 }
 
                 // Position
-                _vertices[offset + i].Position = transform.Position - data.Offset + (add * data.Scale);
+                _vertices[offset + i].Position = transform.Position - data.Offset + (add * data.Scale * screenScaling);
 
                 // Color
                 _vertices[offset + i].Color = sprite.Color;
