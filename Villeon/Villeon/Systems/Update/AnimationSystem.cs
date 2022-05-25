@@ -42,6 +42,8 @@ namespace Villeon.Systems.Update
                     // Set Texture and Texture Coordinates to new frame
                     sprite.Texture = currentAnim.AnimationSprite[currentAnim.CurrentFrame].Texture;
                     sprite.TexCoords = currentAnim.AnimationSprite[currentAnim.CurrentFrame].TexCoords;
+                    sprite.Width = currentAnim.AnimationSprite[currentAnim.CurrentFrame].Width;
+                    sprite.Height = currentAnim.AnimationSprite[currentAnim.CurrentFrame].Height;
                 }
             }
         }

@@ -10,8 +10,8 @@ namespace Villeon
     /// <summary>
     /// Rectangle Min is the Bottom left corner, while Max is top right, relative to Min.
     /// </summary>
-    /// <param name="Min">Bottom left corner</param>
-    /// <param name="Max">Top right corner</param>
+    /// <param name="Min">Bottom left cornerl.</param>
+    /// <param name="Max">Top right corner.</param>
     public struct Rect
     {
         public Vector2 Min;

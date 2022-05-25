@@ -81,7 +81,7 @@ namespace Villeon.Render
                 _cameraScale = 1f;
         }
 
-        public static Matrix4 GetScreenMatrix(float screenScale)
+        public static Matrix4 GetScreenMatrix()
         {
             float aspect = 16f / 9f;
             float screenAspect = _screenWidth / (float)_screenHeight;
