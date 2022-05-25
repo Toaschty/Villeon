@@ -25,7 +25,7 @@ namespace Villeon.Components
 
         public Sprite(SpriteLayer renderLayer, bool isDynamic)
         {
-            _texture2D = Assets.GetTexture("Empty.png");
+            _texture2D = Assets.GetTexture("Sprites.Empty.png");
             _layer = renderLayer;
             _texCoords = _texCoords = new Vector2[4]
             {
