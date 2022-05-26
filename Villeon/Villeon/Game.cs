@@ -137,6 +137,9 @@ namespace Villeon
             _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             _villageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
+
+            _villageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
+
             _villageScene.SetTileMap(villageTileMap, false);
         }
 
@@ -169,6 +172,9 @@ namespace Villeon
             _villageScene.AddEntities(dungeon_button.Entity, map_button.Entity, equipment_button.Entity, inventar_button.Entity);
 
             // Menu View - Village
+            Entity guiHandlerEntity = new Entity("GuiHandler");
+            guiHandlerEntity.AddComponent(new GUIHandler());
+            _villageScene.AddEntity(guiHandlerEntity);
         }
 
         private void UpdateFrame(FrameEventArgs args)
