@@ -67,8 +67,9 @@ namespace Villeon
         private void DebuggingPlayground()
         {
             // floor
-            IEntity floor = new Entity(new Transform(new Vector2(-20, -2), 1f, 0f), "Floor");
-            floor.AddComponent(new Collider(new Vector2(-20, -2), 100f, 1f));
+            Transform transform = new Transform(new Vector2(-20, -2), 1f, 0f);
+            IEntity floor = new Entity(transform, "Floor");
+            floor.AddComponent(new Collider(Vector2.Zero, transform, 100f, 1f));
             _dungeonScene.AddEntity(floor);
         }
 
@@ -104,7 +105,7 @@ namespace Villeon
 
         private void CreatePlayerEntity()
         {
-            Transform transform = new Transform(Constants.DUNGEON_SPAWN_POINT, 0.3f, 0f);
+            Transform transform = new Transform(Constants.DUNGEON_SPAWN_POINT, 0.2f, 0f);
             _player = new Entity(transform, "Marin");
             _player.AddComponent(new Physics());
             _player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 1f, 1f));

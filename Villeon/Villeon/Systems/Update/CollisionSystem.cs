@@ -49,7 +49,7 @@ namespace Villeon.Systems
                 foreach (Collider e2Collider in entitiesCollider)
                 {
                     if (CollidesSAT(collider, dynamicColliders[i], e2Collider))
-                        HandleCleanCollision(CollidesDirectionAABB(collider, dynamicColliders[i], e2Collider), collider, e2Collider);
+                        HandleCleanCollision(CollidesDirectionAABB(collider, dynamicColliders[i], e2Collider), collider, dynamicColliders[i], e2Collider);
 
                     if (collider.Position == dynamicColliders[i].LastPosition)
                         break;
@@ -89,14 +89,13 @@ namespace Villeon.Systems
                 if (dynamicCollider != null)
                 {
                     Collider collider = entity.GetComponent<Collider>();
-                    Transform transform = entity.GetComponent<Transform>();
+                    entity.GetComponent<Transform>().Position = collider.Position - collider.Offset;
                     dynamicCollider.LastPosition = collider.Position;
-                    transform.Position = collider.Position - collider.Offset;
                 }
             }
         }
 
-        private void HandleCleanCollision(Direction direction, Collider collider, Collider e2Collider)
+        private void HandleCleanCollision(Direction direction, Collider collider, DynamicCollider dynamicCollider, Collider e2Collider)
         {
             switch (direction)
             {
@@ -117,6 +116,8 @@ namespace Villeon.Systems
                     collider.Position = new Vector2(e2Collider.Position.X + e2Collider.Width, collider.Position.Y);
                     break;
             }
+
+            dynamicCollider.Position = collider.Position;
         }
 
         private Direction CollidesDirectionAABB(Collider a, DynamicCollider da, Collider b)
@@ -179,15 +180,6 @@ namespace Villeon.Systems
                 mulitplierTop = float.PositiveInfinity;
                 mulitplierBottom = float.PositiveInfinity;
             }
-        }
-
-        private bool CollidesAABB(Collider a, Collider b)
-        {
-            if (a.Position.X >= (b.Position.X + b.Width) || b.Position.X >= (a.Position.X + a.Width))
-                return false;
-            if (a.Position.Y >= (b.Position.Y + b.Height) || b.Position.Y >= (a.Position.Y + a.Height))
-                return false;
-            return true;
         }
 
         private bool CollidesSAT(Collider a, DynamicCollider da, Collider b)
