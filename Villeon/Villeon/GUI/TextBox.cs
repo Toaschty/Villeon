@@ -26,17 +26,27 @@ namespace Villeon.GUI
 
         private Vector2 _lastBoundPosition;
 
-        public TextBox(string text, Vector2 framePosition, float letterSpacing = 1.1f, float lineSpacing = 1.1f, float letterScale = 1f)
+        private bool _hasBackground;
+        private bool _onGUI;
+
+        public TextBox(string text, Vector2 framePosition, bool hasBackground = true, bool onGUI = false, float letterSpacing = 1.1f, float lineSpacing = 1.1f, float letterScale = 1f)
         {
             _text = text;
             _framePosition = framePosition;
             _letterSpacing = letterSpacing * letterScale;
             _lineSpacing = lineSpacing * letterScale;
             _letterScale = letterScale;
+            _hasBackground = hasBackground;
+            _onGUI = onGUI;
 
             _letters = CreateLetters(text);
-            _frame = CreateTextFrame(framePosition);
-            _background = CreateBackground(framePosition);
+
+            if (_hasBackground)
+            {
+                _frame = CreateTextFrame(framePosition);
+                _background = CreateBackground(framePosition);
+            }
+
             SpawnTextBox();
         }
 
@@ -78,7 +88,7 @@ namespace Villeon.GUI
             _lastBoundPosition = newBoundPosition;
         }
 
-        private void RemoveAllText()
+        public void RemoveAllText()
         {
             foreach (IEntity entity in _letters)
             {
@@ -93,7 +103,7 @@ namespace Villeon.GUI
             List<IEntity> letters = new List<IEntity>();
 
             // Fill in new Letters
-            SpriteSheet fontSheet = Assets.GetSpriteSheet("HenksFont.png") !;
+            SpriteSheet fontSheet = Assets.GetSpriteSheet("Fonts.HenksFont.png") !;
             Sprite letterSprite;
 
             Vector2 letterPosition = _framePosition;
@@ -103,10 +113,14 @@ namespace Villeon.GUI
                 {
                     letterPosition.X = _framePosition.X;
                     letterPosition.Y -= _lineSpacing;
+                    continue;
                 }
 
                 // Get Letter sprite
-                letterSprite = fontSheet.GetSprite(c - ' ', SpriteLayer.GUIMiddleground, true);
+                if (_onGUI)
+                    letterSprite = fontSheet.GetSprite(c - ' ', SpriteLayer.ScreenGuiForeground, false);
+                else
+                    letterSprite = fontSheet.GetSprite(c - ' ', SpriteLayer.GUIMiddleground, true);
 
                 // Create Entity with letter spacing, scale & sprite
                 IEntity letterEntity = new Entity(new Transform(letterPosition, _letterScale, 0f), "TBX[" + c + "]");
@@ -148,8 +162,11 @@ namespace Villeon.GUI
                 Manager.GetInstance().AddEntity(entity);
             }
 
-            Manager.GetInstance().AddEntity(_frame);
-            Manager.GetInstance().AddEntity(_background);
+            if (_hasBackground)
+            {
+                Manager.GetInstance().AddEntity(_frame);
+                Manager.GetInstance().AddEntity(_background);
+            }
         }
     }
 }
