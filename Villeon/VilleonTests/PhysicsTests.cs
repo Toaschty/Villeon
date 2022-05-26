@@ -35,6 +35,7 @@ namespace VilleonTests
             Entity physicEntity = new Entity("Physic");
             physicEntity.AddComponent(new Physics());
             physicEntity.AddComponent(new Collider(new Vector2(0, 0), new Vector2(0, 0), 1, 1));
+            physicEntity.AddComponent(new DynamicCollider(physicEntity.GetComponent<Collider>()));
 
             // Setup Test-Scene
             _testScene.AddEntity(physicEntity);
@@ -67,6 +68,7 @@ namespace VilleonTests
             Entity physicEntity = new Entity("Physic");
             physicEntity.AddComponent(new Physics());
             physicEntity.AddComponent(new Collider(new Vector2(0, 0), new Vector2(0, 5), 1, 1));
+            physicEntity.AddComponent(new DynamicCollider(physicEntity.GetComponent<Collider>()));
 
             // Instanciate "Floor" to collide with
             Entity floor = new Entity("Floor");
@@ -108,6 +110,7 @@ namespace VilleonTests
             Entity physicEntity = new Entity("Physic");
             physicEntity.AddComponent(new Physics());
             physicEntity.AddComponent(new Collider(new Vector2(0, 0), new Vector2(0, 0), 1, 1));
+            physicEntity.AddComponent(new DynamicCollider(physicEntity.GetComponent<Collider>()));
 
             // Instanciate "Ceiling" to collide with
             Entity ceiling = new Entity("Ceiling");
@@ -149,13 +152,14 @@ namespace VilleonTests
             Entity physicEntity = new Entity("Physic");
             physicEntity.AddComponent(new Physics());
             physicEntity.AddComponent(new Collider(new Vector2(0, 0), new Vector2(0, 1), 1, 1));
+            physicEntity.AddComponent(new DynamicCollider(physicEntity.GetComponent<Collider>()));
 
             // Instanciate "Floor" to collide with
-            Entity floor = new Entity("Floor");
+            Entity floor = new Entity(new Transform(new Vector2(-25, 0), 1f, 0f), "Floor");
             floor.AddComponent(new Collider(new Vector2(0, 0), new Vector2(-25, 0), 50, 1));
 
             // Instanciate "Wall" to collide with
-            Entity wall = new Entity("Wall");
+            Entity wall = new Entity(new Transform(new Vector2(-25, 0), 1f, 0f), "Wall");
             wall.AddComponent(new Collider(new Vector2(0, 0), new Vector2(-25, 1), 1, 10));
 
             // Setup Test-Scene
@@ -196,13 +200,14 @@ namespace VilleonTests
             Entity physicEntity = new Entity("Physic");
             physicEntity.AddComponent(new Physics());
             physicEntity.AddComponent(new Collider(new Vector2(0, 0), new Vector2(0, 1), 1, 1));
+            physicEntity.AddComponent(new DynamicCollider(physicEntity.GetComponent<Collider>()));
 
             // Instanciate "Floor" to collide with
-            Entity floor = new Entity("Floor");
+            Entity floor = new Entity(new Transform(new Vector2(-25, 0), 1f, 0f), "Floor");
             floor.AddComponent(new Collider(new Vector2(0, 0), new Vector2(-25, 0), 50, 1));
 
             // Instanciate "Wall" to collide with
-            Entity wall = new Entity("Wall");
+            Entity wall = new Entity(new Transform(new Vector2(25, 0), 1f, 0f), "Wall");
             wall.AddComponent(new Collider(new Vector2(0, 0), new Vector2(25, 1), 1, 10));
 
             // Setup Test-Scene
@@ -216,7 +221,7 @@ namespace VilleonTests
                 _testScene.Update(0.1f);
 
                 // Add acceleration of -80f in x direction each update
-                physicEntity.GetComponent<Physics>().Acceleration += new Vector2(80f, 60f);
+                physicEntity.GetComponent<Physics>().Acceleration += new Vector2(80f, 0);
             }
 
             // -8 equals the default X velocity a entity has when standing still with an delta time of 0.1f
