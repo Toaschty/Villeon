@@ -47,16 +47,18 @@ namespace Villeon.GUI
             _entities.Add(hLine4);
 
             // Text
-            TextBox caveSelect = new TextBox("Cave", new Vector2(-0.48f, 0.61f), false, true, 0.7f, 1.1f, 0.06f);
-            TextBox castleSelect = new TextBox("Castle", new Vector2(-0.48f, 0.36f), false, true, 0.7f, 1.1f, 0.06f);
-            TextBox swampSelect = new TextBox("Swamp", new Vector2(-0.48f, 0.12f), false, true, 0.7f, 1.1f, 0.06f);
-            TextBox mushroomsSelect = new TextBox("Mushrooms", new Vector2(-0.48f, -0.13f), false, true, 0.7f, 1.1f, 0.06f);
+            float letterSpacing = 1f;
+            float lineSpacing = 2.5f;
+            TextBox caveSelect = new TextBox("Cave", new Vector2(-0.48f, 0.61f), false, true, letterSpacing, lineSpacing, 0.06f);
+            TextBox castleSelect = new TextBox("Castle", new Vector2(-0.48f, 0.36f), false, true, letterSpacing, lineSpacing, 0.06f);
+            TextBox swampSelect = new TextBox("Swamp", new Vector2(-0.48f, 0.12f), false, true, letterSpacing, lineSpacing, 0.06f);
+            TextBox mushroomsSelect = new TextBox("Mushrooms", new Vector2(-0.48f, -0.13f), false, true, letterSpacing, lineSpacing, 0.06f);
 
             // Info
-            TextBox caveText = new TextBox("Cave", new Vector2(0.2f, 0.61f), false, true, 0.7f, 1.1f, 0.06f);
-            TextBox caveDescription = new TextBox("A dark and spooky\nCave in the woods.\nYou will probably\nfind some slimes\nin there.", new Vector2(0.05f, 0.4f), false, true, 0.7f, 1.7f, 0.04f);
+            TextBox caveText = new TextBox("Cave", new Vector2(0.2f, 0.61f), false, true, letterSpacing, lineSpacing, 0.06f);
+            TextBox caveDescription = new TextBox("A dark and spooky\nCave in the woods.\nYou will probably\nfind some slimes\nin there.", new Vector2(0.05f, 0.4f), false, true, letterSpacing, lineSpacing, 0.04f);
 
-            TextBox goText = new TextBox("Explore", new Vector2(0.188f, -0.28f), false, true, 0.7f, 1.1f, 0.04f);
+            TextBox goText = new TextBox("Explore", new Vector2(0.188f, -0.28f), false, true, letterSpacing, lineSpacing, 0.04f);
         }
 
         public IEntity[] GetEntities()

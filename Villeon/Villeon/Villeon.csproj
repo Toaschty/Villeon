@@ -10,6 +10,7 @@
 	<EmbeddedResource Include="Assets\**\*.*" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\Fonts\VilleonFont.aseprite" />
     <None Remove="Assets\Player.png" />
     <None Remove="Assets\shader.vert" />
     <None Remove="Assets\Slime.aseprite" />

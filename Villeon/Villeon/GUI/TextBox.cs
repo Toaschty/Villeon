@@ -103,7 +103,7 @@ namespace Villeon.GUI
             List<IEntity> letters = new List<IEntity>();
 
             // Fill in new Letters
-            SpriteSheet fontSheet = Assets.GetSpriteSheet("Fonts.HenksFont.png") !;
+            SpriteSheet fontSheet = Assets.GetSpriteSheet("Fonts.VilleonFont.png") !;
             Sprite letterSprite;
 
             Vector2 letterPosition = _framePosition;
