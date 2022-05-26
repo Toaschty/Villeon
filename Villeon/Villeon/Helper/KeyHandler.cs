@@ -35,7 +35,7 @@ namespace Villeon.Helper
 
         public static bool WasReleased(Keys key)
         {
-            if (_releasedKeys.Count != 0)
+            if (_releasedKeys.Contains(key))
             {
                 _releasedKeys.Remove(key);
                 return true;

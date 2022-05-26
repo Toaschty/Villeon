@@ -11,6 +11,7 @@ namespace Villeon.Components
     {
         private DungeonMenu _dungeonMenu;
         private EquipmentMenu _equipmentMenu;
+        private InventoryMenu _inventoryMenu;
 
         private IGUIMenu? _currentMenu;
 
@@ -18,12 +19,15 @@ namespace Villeon.Components
         {
             _dungeonMenu = new DungeonMenu();
             _equipmentMenu = new EquipmentMenu();
+            _inventoryMenu = new InventoryMenu();
             _currentMenu = null;
         }
 
         public DungeonMenu DungeonMenu => _dungeonMenu;
 
         public EquipmentMenu EquipmentMenu => _equipmentMenu;
+
+        public InventoryMenu InventoryMenu => _inventoryMenu;
 
         public IGUIMenu? CurrentMenu
         {

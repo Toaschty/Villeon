@@ -11,7 +11,7 @@ using Villeon.Render;
 
 namespace Villeon.GUI
 {
-    public class Inventory
+    public class InventoryMenu : IGUIMenu
     {
         private IEntity _backgroundImage;
         private InventorySlot[,] _inventorySlots;
@@ -23,7 +23,7 @@ namespace Villeon.GUI
         private float _offsetX = 0.4f;
         private float _offsetY = 0.4f;
 
-        public Inventory()
+        public InventoryMenu()
         {
             _backgroundImage = CreateFrame();
             _inventorySlots = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
@@ -31,14 +31,19 @@ namespace Villeon.GUI
             FillInventorySlots();
         }
 
-        public void Enable()
+        public IEntity[] GetEntities()
         {
-            DisplayInventory();
-        }
+            IEntity[] entities = new IEntity[_inventorySlots.Length];
 
-        public void Disable()
-        {
-            RemoveInventory();
+            for (int i = 0; i < _inventorySlotsY; i++)
+            {
+                for (int j = 0; j < _inventorySlotsX; j++)
+                {
+                    entities[i] = _inventorySlots[i, j].SlotBackground.Entity;
+                }
+            }
+
+            return entities;
         }
 
         // Calculate the position for every slot
@@ -71,44 +76,6 @@ namespace Villeon.GUI
                     _inventorySlots[y, x] = new InventorySlot(new Transform(pos, 1f, 0));
                 }
             }
-        }
-
-        private void DisplayInventory()
-        {
-            Console.WriteLine("DISPLAY!!!");
-            Manager manager = Manager.GetInstance();
-
-            /*
-            for (int y = 0; y < _inventorySlotsY; y++)
-            {
-                for (int x = 0; x < _inventorySlotsX; x++)
-                {
-                    manager.AddEntity(_inventorySlots[y, x].SlotBackground.Entity);
-                    Console.WriteLine("X: " + x + " Y: " + y + " Pos: " + _inventorySlots[y, x].SlotBackground.Entity.GetComponent<Transform>().Position);
-                }
-            }
-            */
-
-            _inventorySlots[0, 0].SlotPosition = new Vector2(0.5f, 0.5f);
-            manager.AddEntity(_inventorySlots[0, 0].SlotBackground.Entity);
-            Console.WriteLine(_inventorySlots[0, 0].SlotBackground.Entity.GetComponent<Transform>().Position);
-
-            //manager.AddEntity(_backgroundImage);
-        }
-
-        private void RemoveInventory()
-        {
-            Manager manager = Manager.GetInstance();
-
-            for (int i = 0; i < _inventorySlotsY; i++)
-            {
-                for (int j = 0; j < _inventorySlotsX; j++)
-                {
-                    manager.RemoveEntity(_inventorySlots[i, j].SlotBackground.Entity);
-                }
-            }
-
-            manager.RemoveEntity(_backgroundImage);
         }
 
         private IEntity CreateFrame()
