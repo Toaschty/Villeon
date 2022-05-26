@@ -25,11 +25,13 @@ namespace Villeon.Systems
         {
             Physics physics;
             Collider collider;
+            DynamicCollider dynamicCollider;
             Transform transform;
             foreach (IEntity entity in Entities)
             {
                 physics = entity.GetComponent<Physics>();
                 collider = entity.GetComponent<Collider>();
+                dynamicCollider = entity.GetComponent<DynamicCollider>();
                 transform = entity.GetComponent<Transform>();
 
                 // Check if player is grounded
@@ -82,7 +84,7 @@ namespace Villeon.Systems
                 if (KeyHandler.IsPressed(Keys.R))
                 {
                     transform.Position = new Vector2(5f, 5f);
-                    collider.LastPosition = new Vector2(5f, 5f);
+                    dynamicCollider.LastPosition = new Vector2(5f, 5f);
                     physics.Velocity = Vector2.Zero;
                 }
 

@@ -35,7 +35,7 @@ namespace Villeon.Systems
 
                         health.Heal(200);
                         Entities.ElementAt(i).GetComponent<Transform>().Position = new Vector2(5f, 5f);
-                        Entities.ElementAt(i).GetComponent<Collider>().LastPosition = new Vector2(5f, 5f);
+                        Entities.ElementAt(i).GetComponent<DynamicCollider>().LastPosition = new Vector2(5f, 5f);
                         Entities.ElementAt(i).GetComponent<Physics>().Velocity = Vector2.Zero;
                         Entities.ElementAt(i).GetComponent<Physics>().Acceleration = Vector2.Zero;
 

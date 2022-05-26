@@ -29,110 +29,73 @@ namespace Villeon.Systems
         // Collider, Transform, Physics
         public void Update(float time)
         {
-            if (StateManager.DEBUGPAUSEACTIVE)
-            {
-                if (StateManager.DEBUGNEXTFRAME)
-                {
-                    if (StateManager.DEBUGTHISFRAMEPHYSICS)
-                    {
-                        StateManager.DEBUGTHISFRAMEPHYSICS = false;
-                        return;
-                    }
-                    else
-                    {
-                        StateManager.DEBUGTHISFRAMEPHYSICS = true;
-                    }
-                }
-                else
-                {
-                    return;
-                }
-            }
-
             List<Collider> entitiesCollider = new List<Collider>();
-            List<Collider> dirtyEntitiesCollider = new List<Collider>();
+            List<Collider> dynamicEntitiesCollider = new List<Collider>();
+            List<DynamicCollider> dynamicColliders = new List<DynamicCollider>();
 
-            // Fill entity lists
-            foreach (IEntity entity in Entities)
+            FillEntityLists(entitiesCollider, dynamicEntitiesCollider, dynamicColliders);
+
+            CheckAndResolveCollisions(entitiesCollider, dynamicEntitiesCollider, dynamicColliders);
+
+            UpdatePositions();
+        }
+
+        private void CheckAndResolveCollisions(List<Collider> entitiesCollider, List<Collider> dynamicEntitiesCollider, List<DynamicCollider> dynamicColliders)
+        {
+            for (int i = 0; i < dynamicEntitiesCollider.Count(); i++)
             {
-                Collider collider = entity.GetComponent<Collider>();
-                Transform transform = entity.GetComponent<Transform>();
-
-                collider.Position = transform.Position + collider.Offset;
-
-                if (transform.Position == collider.LastPosition)
-                    collider.HasMoved = false;
-                else
-                    collider.HasMoved = true;
-
-                collider.HasCollidedLeft = false;
-                collider.HasCollidedRight = false;
-                collider.HasCollidedTop = false;
-                collider.HasCollidedBottom = false;
-
-                if (collider.HasMoved)
-                    dirtyEntitiesCollider.Add(collider);
-                else
-                    entitiesCollider.Add(collider);
-            }
-
-            // Test against clean entities
-            for (int i = 0; i < dirtyEntitiesCollider.Count(); i++)
-            {
-                if (i < 0) break;
-
-                bool clean = false;
-                Collider collider = dirtyEntitiesCollider[i];
+                Collider collider = dynamicEntitiesCollider[i];
 
                 foreach (Collider e2Collider in entitiesCollider)
                 {
-                    if (CollidesSAT(collider, e2Collider))
-                        HandleCleanCollision(CollidesDirectionAABB(collider, e2Collider), collider, e2Collider);
+                    if (CollidesSAT(collider, dynamicColliders[i], e2Collider))
+                        HandleCleanCollision(CollidesDirectionAABB(collider, dynamicColliders[i], e2Collider), collider, dynamicColliders[i], e2Collider);
 
-                    if (collider.Position == collider.LastPosition)
-                    {
-                        clean = true;
+                    if (collider.Position == dynamicColliders[i].LastPosition)
                         break;
-                    }
-                }
-
-                if (clean)
-                {
-                    entitiesCollider.Add(collider);
-                    dirtyEntitiesCollider.RemoveAt(i);
-                    i--;
-                    i -= CollidesCleanedEntity(dirtyEntitiesCollider, entitiesCollider, collider, i, 0);
                 }
             }
+        }
 
-            // Test against dirty entities
-            foreach (Collider collider in dirtyEntitiesCollider)
-            {
-                foreach (Collider e2Collider in dirtyEntitiesCollider)
-                {
-                    if (collider != e2Collider)
-                    {
-                        if (CollidesAABB(collider, e2Collider))
-                            HandleDirtyCollision(CollidesDirectionAABB(collider, e2Collider), collider);
-                    }
-                }
-            }
-
+        private void FillEntityLists(List<Collider> entitiesCollider, List<Collider> dynamicEntitiesCollider, List<DynamicCollider> dynamicColliders)
+        {
             foreach (IEntity entity in Entities)
             {
                 Collider collider = entity.GetComponent<Collider>();
 
-                if (collider.HasMoved)
-                {
-                    Transform transform = entity.GetComponent<Transform>();
-                    transform.Position = collider.Position - collider.Offset;
-                }
+                collider.Position = entity.GetComponent<Transform>().Position + collider.Offset;
 
-                collider.LastPosition = collider.Position;
+                collider.ResetHasCollided();
+
+                DynamicCollider dynamicCollider = entity.GetComponent<DynamicCollider>();
+                if (dynamicCollider != null)
+                {
+                    dynamicCollider.Position = collider.Position;
+                    dynamicEntitiesCollider.Add(collider);
+                    dynamicColliders.Add(dynamicCollider);
+                }
+                else
+                {
+                    entitiesCollider.Add(collider);
+                }
             }
         }
 
-        private void HandleCleanCollision(Direction direction, Collider collider, Collider e2Collider)
+        private void UpdatePositions()
+        {
+            foreach (IEntity entity in Entities)
+            {
+                DynamicCollider dynamicCollider = entity.GetComponent<DynamicCollider>();
+                if (dynamicCollider != null)
+                {
+                    Collider collider = entity.GetComponent<Collider>();
+                    entity.GetComponent<Transform>().Position = collider.Position - collider.Offset;
+                    dynamicCollider.LastPosition = collider.Position;
+                }
+            }
+        }
+
+        private void HandleCleanCollision(Direction direction, Collider collider, DynamicCollider dynamicCollider, Collider e2Collider)
         {
             switch (direction)
             {
@@ -153,117 +116,37 @@ namespace Villeon.Systems
                     collider.Position = new Vector2(e2Collider.Position.X + e2Collider.Width, collider.Position.Y);
                     break;
             }
+
+            dynamicCollider.Position = collider.Position;
         }
 
-        private void HandleDirtyCollision(Direction direction, Collider collider)
+        private Direction CollidesDirectionAABB(Collider a, DynamicCollider da, Collider b)
         {
-            switch (direction)
-            {
-                case Direction.DOWN:
-                    collider.HasCollidedTop = true;
-                    collider.Position = new Vector2(collider.Position.X - collider.Offset.X, collider.LastPosition.Y - collider.Offset.Y);
-                    break;
-                case Direction.UP:
-                    collider.HasCollidedBottom = true;
-                    collider.Position = new Vector2(collider.Position.X - collider.Offset.X, collider.LastPosition.Y - collider.Offset.Y);
-                    break;
-                case Direction.LEFT:
-                    collider.HasCollidedRight = true;
-                    collider.Position = new Vector2(collider.LastPosition.X - collider.Offset.X, collider.Position.Y - collider.Offset.Y);
-                    break;
-                case Direction.RIGHT:
-                    collider.HasCollidedLeft = true;
-                    collider.Position = new Vector2(collider.LastPosition.X - collider.Offset.X, collider.Position.Y - collider.Offset.Y);
-                    break;
-            }
-        }
-
-        private int CollidesCleanedEntity(List<Collider> dirtyEntitiesCollider, List<Collider> entitiesCollider, Collider cleanedEntityCollider, int lastToTest, int depth)
-        {
-            int entitiesCleaned = 0;
-            for (int i = 0; i <= lastToTest; i++)
-            {
-                if (lastToTest >= dirtyEntitiesCollider.Count || i < 0)
-                    return entitiesCleaned;
-
-                Collider dirtyEntitiyCollider = dirtyEntitiesCollider[i];
-
-                if (CollidesSAT(dirtyEntitiyCollider, cleanedEntityCollider))
-                    HandleCleanCollision(CollidesDirectionAABB(dirtyEntitiyCollider, cleanedEntityCollider), dirtyEntitiyCollider, cleanedEntityCollider);
-
-                if (dirtyEntitiyCollider.Position == dirtyEntitiyCollider.LastPosition)
-                {
-                    entitiesCollider.Add(dirtyEntitiyCollider);
-                    dirtyEntitiesCollider.RemoveAt(i);
-                    int newEntitiesCleaned = CollidesCleanedEntity(dirtyEntitiesCollider, entitiesCollider, dirtyEntitiyCollider, i--, depth++) + 1;
-                    i -= newEntitiesCleaned;
-                    entitiesCleaned += newEntitiesCleaned;
-                }
-            }
-
-            return entitiesCleaned;
-        }
-
-        private Direction CollidesDirectionAABB(Collider a, Collider b)
-        {
-            Vector2 v = new (a.Position.X - a.LastPosition.X, a.Position.Y - a.LastPosition.Y);
+            Vector2 v = new (a.Position.X - da.LastPosition.X, a.Position.Y - da.LastPosition.Y);
 
             // test for top side
-            float mulitplierTop = (b.Position.Y + b.Height + (a.Height / 2) - a.LastCenter.Y) / v.Y;
+            float mulitplierTop = (b.Position.Y + b.Height + (a.Height / 2) - da.LastCenter.Y) / v.Y;
 
             // test for bottom side
-            float mulitplierBottom = (b.Position.Y - (a.Height / 2) - a.LastCenter.Y) / v.Y;
+            float mulitplierBottom = (b.Position.Y - (a.Height / 2) - da.LastCenter.Y) / v.Y;
 
             // test for right side
-            float mulitplierRight = (b.Position.X + b.Width + (a.Width / 2) - a.LastCenter.X) / v.X;
+            float mulitplierRight = (b.Position.X + b.Width + (a.Width / 2) - da.LastCenter.X) / v.X;
 
             // test for left side
-            float mulitplierLeft = (b.Position.X - (a.Width / 2) - a.LastCenter.X) / v.X;
+            float mulitplierLeft = (b.Position.X - (a.Width / 2) - da.LastCenter.X) / v.X;
 
-            int zeros = 0;
-            if (mulitplierTop == 0) zeros++;
-            if (mulitplierBottom == 0) zeros++;
-            if (mulitplierRight == 0) zeros++;
-            if (mulitplierLeft == 0) zeros++;
+            int zeros = Convert.ToInt32(mulitplierTop == 0) +
+                        Convert.ToInt32(mulitplierBottom == 0) +
+                        Convert.ToInt32(mulitplierRight == 0) +
+                        Convert.ToInt32(mulitplierLeft == 0);
             if (zeros > 1)
             {
                 Console.WriteLine(zeros);
                 return Direction.UP;
             }
 
-            //Check if collided already last update
-            if (CollidesLastLastAABB(a, b))
-            {
-                if (mulitplierTop > 0 && float.IsFinite(mulitplierTop)) mulitplierTop = float.PositiveInfinity;
-                if (mulitplierBottom > 0 && float.IsFinite(mulitplierBottom)) mulitplierBottom = float.PositiveInfinity;
-                if (mulitplierRight > 0 && float.IsFinite(mulitplierRight)) mulitplierRight = float.PositiveInfinity;
-                if (mulitplierLeft > 0 && float.IsFinite(mulitplierLeft)) mulitplierLeft = float.PositiveInfinity;
-
-                mulitplierTop = MathF.Abs(mulitplierTop);
-                mulitplierBottom = MathF.Abs(mulitplierBottom);
-                mulitplierRight = MathF.Abs(mulitplierRight);
-                mulitplierLeft = MathF.Abs(mulitplierLeft);
-            }
-            else
-            {
-                // if vector goes backwards it's automatically not the right direction
-                if (mulitplierTop < 0 && float.IsFinite(mulitplierTop)) mulitplierTop = float.PositiveInfinity;
-                if (mulitplierBottom < 0 && float.IsFinite(mulitplierBottom)) mulitplierBottom = float.PositiveInfinity;
-                if (mulitplierRight < 0 && float.IsFinite(mulitplierRight)) mulitplierRight = float.PositiveInfinity;
-                if (mulitplierLeft < 0 && float.IsFinite(mulitplierLeft)) mulitplierLeft = float.PositiveInfinity;
-            }
-
-            if (v.X == 0)
-            {
-                mulitplierRight = float.PositiveInfinity;
-                mulitplierLeft = float.PositiveInfinity;
-            }
-
-            if (v.Y == 0)
-            {
-                mulitplierTop = float.PositiveInfinity;
-                mulitplierBottom = float.PositiveInfinity;
-            }
+            CheckEdgeCases(v, ref mulitplierTop, ref mulitplierBottom, ref mulitplierRight, ref mulitplierLeft);
 
             if (mulitplierLeft < mulitplierBottom && mulitplierLeft < mulitplierRight && mulitplierLeft < mulitplierTop)
                 return Direction.LEFT;
@@ -278,30 +161,33 @@ namespace Villeon.Systems
             return Direction.NONE;
         }
 
-        private bool CollidesLastLastAABB(Collider a, Collider b)
+        private void CheckEdgeCases(Vector2 v, ref float mulitplierTop, ref float mulitplierBottom, ref float mulitplierRight, ref float mulitplierLeft)
         {
-            if (a.LastPosition.X >= (b.LastPosition.X + b.Width) || b.LastPosition.X >= (a.LastPosition.X + a.Width))
-                return false;
-            if (a.LastPosition.Y >= (b.LastPosition.Y + b.Height) || b.LastPosition.Y >= (a.LastPosition.Y + a.Height))
-                return false;
-            return true;
+            // if vector goes backwards it's automatically not the right direction
+            if (mulitplierTop < 0 && float.IsFinite(mulitplierTop)) mulitplierTop = float.PositiveInfinity;
+            if (mulitplierBottom < 0 && float.IsFinite(mulitplierBottom)) mulitplierBottom = float.PositiveInfinity;
+            if (mulitplierRight < 0 && float.IsFinite(mulitplierRight)) mulitplierRight = float.PositiveInfinity;
+            if (mulitplierLeft < 0 && float.IsFinite(mulitplierLeft)) mulitplierLeft = float.PositiveInfinity;
+
+            if (v.X == 0)
+            {
+                mulitplierRight = float.PositiveInfinity;
+                mulitplierLeft = float.PositiveInfinity;
+            }
+
+            if (v.Y == 0)
+            {
+                mulitplierTop = float.PositiveInfinity;
+                mulitplierBottom = float.PositiveInfinity;
+            }
         }
 
-        private bool CollidesAABB(Collider a, Collider b)
+        private bool CollidesSAT(Collider a, DynamicCollider da, Collider b)
         {
-            if (a.Position.X >= (b.Position.X + b.Width) || b.Position.X >= (a.Position.X + a.Width))
-                return false;
-            if (a.Position.Y >= (b.Position.Y + b.Height) || b.Position.Y >= (a.Position.Y + a.Height))
-                return false;
-            return true;
-        }
-
-        private bool CollidesSAT(Collider a, Collider b)
-        {
-            Vector2[] polygon1 = a.GetPolygon();
+            Vector2[] polygon1 = da.GetPolygon();
             Vector2[] polygon2 = b.GetPolygon();
-            int polygon1Size = a.PolygonSize;
-            int polygon2Size = b.PolygonSize;
+            int polygon1Size = da.PolygonSize;
+            int polygon2Size = 4;
 
             for (int shape = 0; shape < 2; shape++)
             {
@@ -310,8 +196,8 @@ namespace Villeon.Systems
                     Vector2[] temp = polygon1;
                     polygon1 = polygon2;
                     polygon2 = temp;
-                    polygon1Size = b.PolygonSize;
-                    polygon2Size = a.PolygonSize;
+                    polygon1Size = 4;
+                    polygon2Size = da.PolygonSize;
                 }
 
                 for (int v1 = 0; v1 < polygon1Size; v1++)

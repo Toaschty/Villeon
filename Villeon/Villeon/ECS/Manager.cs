@@ -31,6 +31,14 @@ namespace Villeon.ECS
             return entity;
         }
 
+        public void AddEntities(IEntity[] entities)
+        {
+            foreach (IEntity entity in entities)
+            {
+                _currentScene.AddEntity(entity);
+            }
+        }
+
         public void RegisterSystem(ISystem system)
         {
             _currentScene.AddSystem(system);
@@ -73,6 +81,14 @@ namespace Villeon.ECS
         public bool RemoveEntity(IEntity entity)
         {
             return _currentScene.RemoveEntity(entity);
+        }
+
+        public void RemoveEntities(IEntity[] entities)
+        {
+            foreach (IEntity entity in entities)
+            {
+                _currentScene.RemoveEntity(entity);
+            }
         }
 
         public bool UnregisterSystem(ISystem system)

@@ -67,8 +67,9 @@ namespace Villeon
         private void DebuggingPlayground()
         {
             // floor
-            IEntity floor = new Entity(new Transform(new Vector2(-20, -2), 1f, 0f), "Floor");
-            floor.AddComponent(new Collider(new Vector2(-20, -2), 100f, 1f));
+            Transform transform = new Transform(new Vector2(-20, -2), 1f, 0f);
+            IEntity floor = new Entity(transform, "Floor");
+            floor.AddComponent(new Collider(Vector2.Zero, transform, 100f, 1f));
             _dungeonScene.AddEntity(floor);
         }
 
@@ -104,10 +105,11 @@ namespace Villeon
 
         private void CreatePlayerEntity()
         {
-            Transform transform = new Transform(Constants.DUNGEON_SPAWN_POINT, 0.3f, 0f);
+            Transform transform = new Transform(Constants.DUNGEON_SPAWN_POINT, 0.2f, 0f);
             _player = new Entity(transform, "Marin");
             _player.AddComponent(new Physics());
             _player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 1f, 1f));
+            _player.AddComponent(new DynamicCollider(_player.GetComponent<Collider>()));
             _player.AddComponent(TriggerBuilder.Build(TriggerID.PLAYER));
             _player.AddComponent(new Player());
             _player.AddComponent(new Effect());
@@ -136,6 +138,9 @@ namespace Villeon
             _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             _villageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
+
+            _villageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
+
             _villageScene.SetTileMap(villageTileMap, false);
         }
 
@@ -168,6 +173,9 @@ namespace Villeon
             _villageScene.AddEntities(dungeon_button.Entity, map_button.Entity, equipment_button.Entity, inventar_button.Entity);
 
             // Menu View - Village
+            Entity guiHandlerEntity = new Entity("GuiHandler");
+            guiHandlerEntity.AddComponent(new GUIHandler());
+            _villageScene.AddEntity(guiHandlerEntity);
         }
 
         private void UpdateFrame(FrameEventArgs args)
