@@ -7,22 +7,16 @@ using OpenTK.Mathematics;
 using Villeon.ECS;
 using Villeon.GUI;
 using Villeon.Helper;
+using Villeon.Render;
 
 namespace Villeon.Components
 {
     public class InventorySlot
     {
         private Item? _item;
-        private Image _slotBackground;
-        private bool _active; // TODO: Find a better name
+        private IEntity _slotBackground;
+        private bool _active; //TODO: Find a better name
         private Transform _transform;
-
-        public InventorySlot()
-        {
-            _item = null;
-            _transform = new Transform(Vector2.Zero, 1f, 0f);
-            _slotBackground = CreateBackground();
-        }
 
         public InventorySlot(Transform transform)
         {
@@ -31,7 +25,7 @@ namespace Villeon.Components
             _slotBackground = CreateBackground();
         }
 
-        public Image SlotBackground
+        public IEntity SlotBackground
         {
             get { return _slotBackground; }
         }
@@ -40,15 +34,18 @@ namespace Villeon.Components
         {
             get { return _transform.Position; }
 
-            set 
+            set
             {
-                _slotBackground.Entity.GetComponent<Transform>().Position = value;
+                _slotBackground.GetComponent<Transform>().Position = value;
             }
         }
 
-        private Image CreateBackground()
+        private IEntity CreateBackground()
         {
-            Image background = new Image("Slot.png", _transform.Position, Vector2.Zero);
+            IEntity background = new Entity(_transform, "SlotBackground");
+            Sprite slotSprite = Assets.GetSprite("GUI.Slot.png", SpriteLayer.ScreenGuiMiddleground, false);
+            background.AddComponent(slotSprite);
+
             return background;
         }
     }

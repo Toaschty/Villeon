@@ -18,32 +18,50 @@ namespace Villeon.GUI
         private int _inventorySlotsX = 5;
         private int _inventorySlotsY = 5;
 
-        private Vector2 _startPos = new Vector2(-0.75f, -0.6f);
+        private Vector2 _startPos = new Vector2(-0.51f, 0.4f);
+        private float _scale = 0.0285f;
         private float _slotSize = 0.5f;
-        private float _offsetX = 0.4f;
-        private float _offsetY = 0.4f;
+        private float _offsetX = 0.02f;
+        private float _offsetY = 0.02f;
 
         public InventoryMenu()
         {
             _backgroundImage = CreateFrame();
             _inventorySlots = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
 
+            InitializeSlots();
             FillInventorySlots();
         }
 
         public IEntity[] GetEntities()
         {
-            IEntity[] entities = new IEntity[_inventorySlots.Length];
+            IEntity[] entities = new IEntity[_inventorySlots.Length + 1];
+            Console.WriteLine("LENGHT: " + _inventorySlots.Length);
 
             for (int i = 0; i < _inventorySlotsY; i++)
             {
                 for (int j = 0; j < _inventorySlotsX; j++)
                 {
-                    entities[i] = _inventorySlots[i, j].SlotBackground.Entity;
+                    entities[i] = _inventorySlots[i, j].SlotBackground;
                 }
             }
 
+            //IEntity[] entities = new IEntity[2];
+            //entities[0] = _inventorySlots[0, 0].SlotBackground;
+            //entities[1] = _backgroundImage;
+
             return entities;
+        }
+
+        private void InitializeSlots()
+        {
+            for (int i = 0; i < _inventorySlotsY; i++)
+            {
+                for (int j = 0; j < _inventorySlotsX; j++)
+                {
+                    _inventorySlots[i, j] = new InventorySlot(new Transform(_startPos, _scale, 0));
+                }
+            }
         }
 
         // Calculate the position for every slot
@@ -55,19 +73,16 @@ namespace Villeon.GUI
             {
                 for (int x = 0; x < _inventorySlotsX; x++)
                 {
-                    // TODO: Set to start pos
                     if (y == 0 && x == 0)
                     {
-                        _inventorySlots[y, x] = new InventorySlot(new Transform(new Vector2(-1f, 0), 1f, 0));
+                        _inventorySlots[y, x] = new InventorySlot(new Transform(_startPos, _scale, 0));
                         continue;
                     }
 
                     if (y == 0 && x != 0)
                         previousSlotPos = _inventorySlots[y, x - 1].SlotPosition;
-                    else if (x == 0 && y != 0)
-                        previousSlotPos = _inventorySlots[y - 1, x].SlotPosition;
                     else
-                        previousSlotPos = _inventorySlots[y - 1, x - 1].SlotPosition;
+                        previousSlotPos = _startPos;
 
                     pos = new Vector2(previousSlotPos.X + _offsetX, previousSlotPos.Y + _offsetY);
 
