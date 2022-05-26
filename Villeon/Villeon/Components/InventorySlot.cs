@@ -34,10 +34,7 @@ namespace Villeon.Components
         {
             get { return _transform.Position; }
 
-            set
-            {
-                _slotBackground.GetComponent<Transform>().Position = value;
-            }
+            set { _slotBackground.GetComponent<Transform>().Position = value; }
         }
 
         private IEntity CreateBackground()
