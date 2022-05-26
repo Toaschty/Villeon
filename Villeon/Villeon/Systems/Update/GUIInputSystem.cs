@@ -26,20 +26,16 @@ namespace Villeon.Systems.Update
                 GUIHandler handler = entity.GetComponent<GUIHandler>();
 
                 // Dungeon Menu
-                if (KeyHandler.IsPressed(Keys.L))
-                {
+                if (KeyHandler.WasReleased(Keys.L))
                     ChangeMenu(handler, handler.DungeonMenu);
 
-                    KeyHandler.RemoveKeyHold(Keys.L);
-                }
-
                 // Equipment Menu
-                if (KeyHandler.IsPressed(Keys.P))
-                {
+                if (KeyHandler.WasReleased(Keys.P))
                     ChangeMenu(handler, handler.EquipmentMenu);
 
-                    KeyHandler.RemoveKeyHold(Keys.P);
-                }
+                // Inventory Menu
+                if (KeyHandler.WasReleased(Keys.Tab) || KeyHandler.WasReleased(Keys.I))
+                    ChangeMenu(handler, handler.InventoryMenu);
             }
         }
 
