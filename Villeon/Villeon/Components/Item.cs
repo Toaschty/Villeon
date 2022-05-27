@@ -29,13 +29,16 @@ namespace Villeon.Components
             _itemType = type;
         }
 
-        public Sprite? Sprite { get { return _sprite; } }
-
         public enum Type
         {
             WEAPON,
             POTION,
             MATERIAL,
+        }
+
+        public Sprite? Sprite
+        {
+            get { return _sprite; }
         }
     }
 }
