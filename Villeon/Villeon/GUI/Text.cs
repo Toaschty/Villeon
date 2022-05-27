@@ -42,10 +42,12 @@ namespace Villeon.GUI
 
         private void CreateLetters()
         {
-            SpriteSheet fontSheet = Assets.GetSpriteSheet("Fonts.VilleonFont.png");
+            SpriteSheet fontSheet = Assets.GetSpriteSheet("Fonts.HenksFont.png");
             Sprite letterSprite;
 
             Vector2 letterPosition = _position;
+            float spriteWidth = fontSheet.SpriteWidth * _letterScale;
+            float spriteHeight = fontSheet.SpriteHeight * _letterScale;
 
             foreach (char c in _text)
             {
@@ -53,7 +55,7 @@ namespace Villeon.GUI
                 if (c == '\n')
                 {
                     letterPosition.X = _position.X;
-                    letterPosition.Y -= _lineSpacing;
+                    letterPosition.Y -= spriteHeight + _lineSpacing;
                     continue;
                 }
 
@@ -66,7 +68,7 @@ namespace Villeon.GUI
                 _letters.Add(letterEntity);
 
                 // Set position for next letter
-                letterPosition.X += _letterSpacing;
+                letterPosition.X += spriteWidth + _letterSpacing;
             }
         }
     }

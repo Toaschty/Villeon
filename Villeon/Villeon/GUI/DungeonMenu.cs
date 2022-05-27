@@ -25,6 +25,7 @@ namespace Villeon.GUI
             Sprite horizontalLine2Sprite = Assets.GetSprite("GUI.Scroll_Horizontal_Line_2.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
             Sprite horizontalLine3Sprite = Assets.GetSprite("GUI.Scroll_Horizontal_Line_3.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
             Sprite verticalLineSprite = Assets.GetSprite("GUI.Scroll_Vertical_Line_1.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite selectionSprite = Assets.GetSprite("GUI.Scroll_Selection.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
 
             // Background
             Vector2 scrollMiddle = new Vector2(backgroundScrollSprite.Width / 2f, backgroundScrollSprite.Height / 2f);
@@ -33,49 +34,42 @@ namespace Villeon.GUI
             _entities.Add(backgroundImage);
 
             // Horizontal Lines
-            Entity hLine1 = new Entity(new Transform(new Vector2(-6.3f, 2.6f), 0.5f, 0f), "Horizontal Line 1");
-            hLine1.AddComponent(horizontalLine1Sprite);
-            Entity hLine2 = new Entity(new Transform(new Vector2(-6.3f, 1), 0.5f, 0f), "Horizontal Line 2");
-            hLine2.AddComponent(horizontalLine2Sprite);
-            Entity hLine3 = new Entity(new Transform(new Vector2(-6.3f, -0.6f), 0.5f, 0f), "Horizontal Line 3");
-            hLine3.AddComponent(horizontalLine3Sprite);
-            Entity hLine4 = new Entity(new Transform(new Vector2(-6.3f, -2.2f), 0.5f, 0f), "Horizontal Line 4");
-            hLine4.AddComponent(horizontalLine2Sprite);
+            Entity horizontalLine1 = new Entity(new Transform(new Vector2(-6.3f, 2.6f), 0.5f, 0f), "Horizontal Line 1");
+            horizontalLine1.AddComponent(horizontalLine1Sprite);
+            Entity horizontalLine2 = new Entity(new Transform(new Vector2(-6.3f, 1), 0.5f, 0f), "Horizontal Line 2");
+            horizontalLine2.AddComponent(horizontalLine2Sprite);
+            Entity horizontalLine3 = new Entity(new Transform(new Vector2(-6.3f, -0.6f), 0.5f, 0f), "Horizontal Line 3");
+            horizontalLine3.AddComponent(horizontalLine3Sprite);
 
-            _entities.Add(hLine1);
-            _entities.Add(hLine2);
-            _entities.Add(hLine3);
-            _entities.Add(hLine4);
+            _entities.Add(horizontalLine1);
+            _entities.Add(horizontalLine2);
+            _entities.Add(horizontalLine3);
+
+            // Menu Selection
+            Entity selection = new Entity(new Transform(new Vector2(-6.4f, 3.1f), 0.5f, 0f), "Horizontal Line 1"); 
+            selection.AddComponent(selectionSprite);
+            _entities.Add(selection);
 
             // Text - Overview
-            Text caveTitle = new Text("Crumbly Cave", new Vector2(-6f, 3f), 0.9f, 1.1f, 0.5f);
+            Text caveTitle = new Text("Crumbly Cave", new Vector2(-5.9f, 3.2f), 0.1f, 1.1f, 0.5f);
             Array.ForEach(caveTitle.GetEntities(), entity => _entities.Add(entity));
-            Text darkLair = new Text("Darkend Lair", new Vector2(-6f, 1.4f), 0.9f, 1.1f, 0.5f);
+            Text darkLair = new Text("Darkend Lair", new Vector2(-5.9f, 1.7f), 0.1f, 1.1f, 0.5f);
             Array.ForEach(darkLair.GetEntities(), entity => _entities.Add(entity));
-            Text swampyGrot = new Text("Swampy Grot", new Vector2(-6f, -0.2f), 0.9f, 1.1f, 0.5f);
+            Text swampyGrot = new Text("Swampy Grot", new Vector2(-5.9f, 0.1f), 0.1f, 1.1f, 0.5f);
             Array.ForEach(swampyGrot.GetEntities(), entity => _entities.Add(entity));
-            Text hellishHole = new Text("Hellish Hole", new Vector2(-6f, -1.8f), 0.8f, 1.1f, 0.5f);
+            Text hellishHole = new Text("Hellish Hole", new Vector2(-5.9f, -1.5f), 0.1f, 1.1f, 0.5f);
             Array.ForEach(hellishHole.GetEntities(), entity => _entities.Add(entity));
 
             // Text - Selection
-            Text caveTitleSelection = new Text("Crumbly Cave", new Vector2(0.6f, 3f), 0.9f, 1.1f, 0.5f);
+            Text caveTitleSelection = new Text("Crumbly Cave", new Vector2(0.6f, 3.1f), 0.1f, 1.1f, 0.5f);
             Array.ForEach(caveTitleSelection.GetEntities(), entity => _entities.Add(entity));
 
             // Text - Description
-            String desciption = "This cave is located in\n" +
-                                "the nearby woods. The\n" +
-                                "entrance is often buried\n" +
-                                "under a pile of rocks.\n" +
-                                "The villagers themselves\n" +
-                                "even dont know where this\n" +
-                                "is coming from. Due to the\n" +
-                                "lack of name ideas - It is\n" +
-                                "now called 'Crumbly Cave'.";
-            Text caveDescription = new Text(desciption, new Vector2(0.6f, 2f), 0.9f, 2f, 0.25f);
+            Text caveDescription = new Text("", new Vector2(0.6f, 2f), 0.1f, 0.5f, 0.25f);
             Array.ForEach(caveDescription.GetEntities(), entity => _entities.Add(entity));
 
             // Text - Explore
-            Text explore = new Text("Go exploring", new Vector2(0.6f, -3.7f), 0.9f, 3f, 0.5f);
+            Text explore = new Text("Go exploring", new Vector2(0.9f, -3.6f), 0.1f, 3f, 0.5f);
             Array.ForEach(explore.GetEntities(), entity => _entities.Add(entity));
         }
 

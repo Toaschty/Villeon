@@ -72,6 +72,7 @@ namespace Villeon.Helper
         {
             Assets.GetShader("Shaders.shader");
             Assets.AddSpriteSheet("Fonts.VilleonFont.png", new SpriteSheet(Color4.White, Assets.GetTexture("Fonts.VilleonFont.png"), 8, 12, 95));
+            Assets.AddSpriteSheet("Fonts.VilleonFontThin.png", new SpriteSheet(Color4.White, Assets.GetTexture("Fonts.VilleonFontThin.png"), 7, 12, 95));
             Assets.AddSpriteSheet("Fonts.HenksFont.png", new SpriteSheet(Color4.White, Assets.GetTexture("Fonts.HenksFont.png"), 6, 8, 95));
             Assets.AddSpriteSheet("Animations.player_idle.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_idle.png"), 16, 34, 5, 0, SpriteLayer.Foreground));
             Assets.AddSpriteSheet("Animations.player_walk_up.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_walk_up.png"), 16, 34, 6, 0, SpriteLayer.Foreground));
