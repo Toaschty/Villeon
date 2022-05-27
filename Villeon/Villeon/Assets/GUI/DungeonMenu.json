@@ -1,0 +1,23 @@
+﻿{
+  "caves": [
+    {
+      "name": "Crumbly Cave",
+      "description": "This cave is located in\nthe nearby woods. The\nentrance is often buried\nunder a pile of rocks.\nThe villagers themselves\neven don't know where this\nis coming from. Due to the\nlack of name ideas - It is\nnow called 'Crumbly Cave'."
+    },
+    {
+      "name": "Darkend Lair",
+      "description": "It is dark i guess"
+    },
+    {
+      "name": "Swampy Grot",
+      "description": "Swampy area with a lot\nof slimes. They like\nwater... propably"
+    },
+    {
+      "name": "Hellish Hole",
+      "description": "Welcome to Hell...\nOr maybe it is just a\nCave with interesting red\nmushrooms. Who knows?"
+    },
+    {
+      "name": "Duuuummy"
+    }
+  ]
+}

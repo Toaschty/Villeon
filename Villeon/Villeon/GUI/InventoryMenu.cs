@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
 using Villeon.ECS;
 using Villeon.Helper;
@@ -32,6 +33,8 @@ namespace Villeon.GUI
         // Scroll
         private float _scrollScale = 0.5f;
 
+        private Vector2 _playerCurrentSlotPosition = new Vector2(0, 0);
+
         public InventoryMenu()
         {
             _backgroundImage = CreateInventoryBackground();
@@ -40,6 +43,7 @@ namespace Villeon.GUI
             SetInventorySlotPositions();
 
             _allEntities.AddRange(GetAllSlotEntities());
+            _allEntities.Add(_inventorySlots[0, 0].SlotSelection);
             _allEntities.Add(_backgroundImage); // Add the background sroll
         }
 
@@ -72,6 +76,16 @@ namespace Villeon.GUI
         public IEntity[] GetEntities()
         {
             return _allEntities.ToArray();
+        }
+
+        public void OnKeyReleased(Keys key)
+        {
+            Console.WriteLine("PRESSED: " + key);
+            if (key == Keys.H)
+            {
+                AddItem(new Item("HealthPotion", Assets.GetSprite("GUI.Potion_Item.png", Render.SpriteLayer.ScreenGuiForeground, false), 12, Item.Type.POTION));
+                Console.WriteLine("Spawning Health potion!");
+            }
         }
 
         private List<IEntity> GetAllSlotEntities()
