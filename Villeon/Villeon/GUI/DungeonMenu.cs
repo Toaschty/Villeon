@@ -182,7 +182,7 @@ namespace Villeon.GUI
             Array.ForEach(_title.GetEntities(), entity => _entities.Add(entity));
 
             // Description
-            _description = new Text(_cavesJson.caves[_currentSelection].description.ToString(), new Vector2(0.6f, 2f), 0.1f, 0.5f, _letterScaleSmall);
+            _description = new Text(_cavesJson.caves[_currentSelection].description.ToString(), new Vector2(0.6f, 2.1f), 0.1f, 0.5f, _letterScaleSmall);
             Array.ForEach(_description.GetEntities(), entity => _entities.Add(entity));
         }
 
