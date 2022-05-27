@@ -13,6 +13,7 @@ namespace Villeon.Components
 {
     public class InventorySlot
     {
+        public static float SlotSize = Assets.GetSprite("GUI.Slot.png", SpriteLayer.ScreenGuiMiddleground, false).Width;
         private Item? _item;
         private IEntity _slotBackground;
         private bool _active; //TODO: Find a better name

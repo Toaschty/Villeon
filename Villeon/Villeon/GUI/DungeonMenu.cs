@@ -27,18 +27,19 @@ namespace Villeon.GUI
             Sprite verticalLineSprite = Assets.GetSprite("GUI.Scroll_Line_Vertical.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
 
             // Background
-            Entity backgroundImage = new Entity(new Transform(new Vector2(-0.755f, -0.6f), 0.04f, 0f), "BackgroundImage");
+            Vector2 scrollMiddle = new Vector2(backgroundScrollSprite.Width / 2f, backgroundScrollSprite.Height / 2f);
+            Entity backgroundImage = new Entity(new Transform(Vector2.Zero - (scrollMiddle * 0.5f), 0.5f, 0f), "BackgroundImage");
             backgroundImage.AddComponent(backgroundScrollSprite);
             _entities.Add(backgroundImage);
 
             // Horizontal Lines
-            Entity hLine1 = new Entity(new Transform(new Vector2(-0.5f, 0.49f), 0.04f, 0f), "Horizontal Line 1");
+            Entity hLine1 = new Entity(new Transform(new Vector2(-6f, 2), 0.5f, 0f), "Horizontal Line 1");
             hLine1.AddComponent(horizontalLine1Sprite);
-            Entity hLine2 = new Entity(new Transform(new Vector2(-0.5f, 0.24f), 0.04f, 0f), "Horizontal Line 2");
+            Entity hLine2 = new Entity(new Transform(new Vector2(-6f, 0), 0.5f, 0f), "Horizontal Line 2");
             hLine2.AddComponent(horizontalLine2Sprite);
-            Entity hLine3 = new Entity(new Transform(new Vector2(-0.5f, -0.01f), 0.04f, 0f), "Horizontal Line 3");
+            Entity hLine3 = new Entity(new Transform(new Vector2(-6f, -2), 0.5f, 0f), "Horizontal Line 3");
             hLine3.AddComponent(horizontalLine3Sprite);
-            Entity hLine4 = new Entity(new Transform(new Vector2(-0.5f, -0.26f), 0.04f, 0f), "Horizontal Line 4");
+            Entity hLine4 = new Entity(new Transform(new Vector2(-6f, -4), 0.5f, 0f), "Horizontal Line 4");
             hLine4.AddComponent(horizontalLine2Sprite);
 
             _entities.Add(hLine1);
@@ -47,18 +48,19 @@ namespace Villeon.GUI
             _entities.Add(hLine4);
 
             // Text
-            float letterSpacing = 1f;
-            float lineSpacing = 2.5f;
-            TextBox caveSelect = new TextBox("Cave", new Vector2(-0.48f, 0.61f), false, true, letterSpacing, lineSpacing, 0.06f);
-            TextBox castleSelect = new TextBox("Castle", new Vector2(-0.48f, 0.36f), false, true, letterSpacing, lineSpacing, 0.06f);
-            TextBox swampSelect = new TextBox("Swamp", new Vector2(-0.48f, 0.12f), false, true, letterSpacing, lineSpacing, 0.06f);
-            TextBox mushroomsSelect = new TextBox("Mushrooms", new Vector2(-0.48f, -0.13f), false, true, letterSpacing, lineSpacing, 0.06f);
+            float letterSpacing = 0.01f;
+            float lineSpacing = 0.01f;
+            float letterScale = 0.6f;
+            TextBox caveSelect = new TextBox("Cave", new Vector2(-6f, 2.5f), false, true, letterSpacing, lineSpacing, letterScale);
+            TextBox castleSelect = new TextBox("Castle", new Vector2(-6f, 0.5f), false, true, letterSpacing, lineSpacing, letterScale);
+            TextBox swampSelect = new TextBox("Swamp", new Vector2(-6f, -1.5f), false, true, letterSpacing, lineSpacing, letterScale);
+            TextBox mushroomsSelect = new TextBox("Mushrooms", new Vector2(-6f, -3.5f), false, true, letterSpacing, lineSpacing, letterScale);
 
-            // Info
-            TextBox caveText = new TextBox("Cave", new Vector2(0.2f, 0.61f), false, true, letterSpacing, lineSpacing, 0.06f);
-            TextBox caveDescription = new TextBox("A dark and spooky\nCave in the woods.\nYou will probably\nfind some slimes\nin there.", new Vector2(0.05f, 0.4f), false, true, letterSpacing, lineSpacing, 0.04f);
+            // Infos
+            TextBox caveText = new TextBox("Cave", new Vector2(1f, 3f), false, true, letterSpacing, lineSpacing, letterScale);
+            TextBox caveDescription = new TextBox("A dark and spooky\nCave in the woods.\nYou will probably\nfind some slimes\nin there.", new Vector2(1f, 1f), false, true, letterSpacing, lineSpacing, letterScale / 2f);
 
-            TextBox goText = new TextBox("Explore", new Vector2(0.188f, -0.28f), false, true, letterSpacing, lineSpacing, 0.04f);
+            TextBox goText = new TextBox("Explore", new Vector2(2f, -3.2f), false, true, letterSpacing, lineSpacing, letterScale / 1.5f);
         }
 
         public IEntity[] GetEntities()

@@ -165,10 +165,10 @@ namespace Villeon
         private void AddGUIEntities()
         {
             // Menu Buttons - Village
-            GUI.Image dungeon_button = new GUI.Image("Dungeon_Button.png", new Vector2(-0.97f, -0.97f), new Vector2(0.04f, 0.04f));
-            GUI.Image map_button = new GUI.Image("Map_Button.png", new Vector2(-0.77f, -0.97f), new Vector2(0.04f, 0.04f));
-            GUI.Image equipment_button = new GUI.Image("Equipment_Button.png", new Vector2(-0.57f, -0.97f), new Vector2(0.04f, 0.04f));
-            GUI.Image inventar_button = new GUI.Image("Inventar_Button.png", new Vector2(-0.37f, -0.97f), new Vector2(0.04f, 0.04f));
+            GUI.Image dungeon_button = new GUI.Image("Dungeon_Button.png", new Vector2(-9f, -5f), new Vector2(0.3f));
+            GUI.Image map_button = new GUI.Image("Map_Button.png", new Vector2(-7.5f, -5f), new Vector2(0.3f));
+            GUI.Image equipment_button = new GUI.Image("Equipment_Button.png", new Vector2(-6f, -5f), new Vector2(0.3f));
+            GUI.Image inventar_button = new GUI.Image("Inventar_Button.png", new Vector2(-4.5f, -5f), new Vector2(0.3f));
 
             _villageScene.AddEntities(dungeon_button.Entity, map_button.Entity, equipment_button.Entity, inventar_button.Entity);
 

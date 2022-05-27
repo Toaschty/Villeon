@@ -20,13 +20,16 @@ namespace Villeon.GUI
             _entities = new List<Entity>();
 
             // Background
-            Entity backgroundImage = new Entity(new Transform(new Vector2(-0.755f, -0.6f), 0.04f, 0f), "BackgroundImage");
+            float scrollScale = 0.5f;
             Sprite backgroundSprite = Assets.GetSprite("GUI.Scroll.png", Render.SpriteLayer.ScreenGuiBackground, false);
+            Vector2 middle = new Vector2(backgroundSprite.Width / 2f, backgroundSprite.Height / 2f);
+            middle *= scrollScale;
+            Entity backgroundImage = new Entity(new Transform(Vector2.Zero - middle, scrollScale, 0f), "BackgroundImage");
             backgroundImage.AddComponent(backgroundSprite);
             _entities.Add(backgroundImage);
 
             // Image
-            Entity image = new Entity(new Transform(new Vector2(-0.755f, -0.6f), 0.04f, 0f), "Image");
+            Entity image = new Entity(new Transform(new Vector2(-3f, 0f), 0.5f, 0f), "Image");
             Sprite player = Assets.GetSprite("Animations.player_walk_left.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
             image.AddComponent(player);
             _entities.Add(image);

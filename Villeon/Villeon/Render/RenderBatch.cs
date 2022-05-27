@@ -256,7 +256,7 @@ namespace Villeon.Render
             Vector2 screenScaling = Vector2.One;
             if (!_usesCamera)
             {
-                screenScaling.Y = 16f / 9f;
+                //screenScaling.Y = 16f / 9f;
             }
             else
             {
