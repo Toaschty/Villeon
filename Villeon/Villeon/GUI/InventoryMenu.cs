@@ -24,13 +24,13 @@ namespace Villeon.GUI
         private int _inventorySlotsY = 4;
 
         // Align inventory slots
-        private Vector2 _startPos = new Vector2(-6f, 1f);
-        private float _slotScalingFactor = 0.4f;
+        private Vector2 _startPos = new Vector2(-5f, 1f);
+        private float _slotScalingFactor = 0.3f;
         private float _slotSize = InventorySlot.SlotSize;
-        private float _offset = 0.2f;
+        private float _offset = 0.3f;
 
         // Scroll
-        private float _scrollScale = 0.5f;
+        private float _scrollScale = 0.45f;
 
         public InventoryMenu()
         {
@@ -72,6 +72,8 @@ namespace Villeon.GUI
                     }
                 }
             }
+
+            Console.WriteLine("LENGTH Array: " + list.Count);
 
             list.Add(_backgroundImage); // Add the background sroll
             return list.ToArray();

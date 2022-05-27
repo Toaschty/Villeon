@@ -39,8 +39,8 @@ namespace Villeon.Systems.Update
 
                 if (KeyHandler.WasReleased(Keys.H))
                 {
-                    InventoryMenu.GetInstance().AddItem(new Item("HealthPotion", Assets.GetSprite("GUI.Potion_Item.png", Render.SpriteLayer.ScreenGuiForeground, true), 12, Item.Type.POTION));
-                    Console.WriteLine("Spawning Helathpotion!");
+                    InventoryMenu.GetInstance().AddItem(new Item("HealthPotion", Assets.GetSprite("GUI.Potion_Item.png", Render.SpriteLayer.ScreenGuiForeground, false), 12, Item.Type.POTION));
+                    Console.WriteLine("Spawning Health potion!");
                 }
             }
         }
