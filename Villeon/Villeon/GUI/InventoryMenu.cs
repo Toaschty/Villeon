@@ -94,25 +94,35 @@ namespace Villeon.GUI
             {
                 if (_playerCurrentSlotPosition.Y > 0)
                     _playerCurrentSlotPosition.Y -= 1;
+                else
+                    _playerCurrentSlotPosition.Y = _inventorySlotsY - 1;
             }
             else if (key == Keys.S)
             {
                 if (_playerCurrentSlotPosition.Y < _inventorySlotsY - 1)
                     _playerCurrentSlotPosition.Y += 1;
+                else
+                    _playerCurrentSlotPosition.Y = 0;
             }
             else if (key == Keys.A)
             {
                 if (_playerCurrentSlotPosition.X > 0)
                     _playerCurrentSlotPosition.X -= 1;
+                else
+                    _playerCurrentSlotPosition.X = _inventorySlotsX - 1;
             }
             else if (key == Keys.D)
             {
                 if (_playerCurrentSlotPosition.X < _inventorySlotsX - 1)
                     _playerCurrentSlotPosition.X += 1;
+                else
+                    _playerCurrentSlotPosition.X = 0;
             }
 
             // Add the new selection frame
             _allEntities.Add(_inventorySlots[_playerCurrentSlotPosition.Y, _playerCurrentSlotPosition.X].SlotSelection);
+
+            return true;
         }
 
         private List<IEntity> GetAllSlotEntities()

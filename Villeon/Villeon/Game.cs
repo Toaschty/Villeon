@@ -248,7 +248,7 @@ namespace Villeon
 
             // Menu View - Village
             Entity guiHandlerEntity = new Entity("GuiHandler");
-            guiHandlerEntity.AddComponent(new GUIHandler());
+            guiHandlerEntity.AddComponent(GUIHandler.GetInstance());
             _villageScene.AddEntity(guiHandlerEntity);
         }
 

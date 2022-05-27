@@ -82,7 +82,7 @@ namespace Villeon.GUI
             }
 
             // Text - Explore
-            Text explore = new Text("Go exploring", new Vector2(0.9f, -3.6f), 0.1f, 3f, 0.5f);
+            Text explore = new Text("Go explore", new Vector2(1.3f, -3.6f), 0.1f, 3f, 0.5f);
             Array.ForEach(explore.GetEntities(), entity => _entities.Add(entity));
 
             // Load in first text
@@ -141,10 +141,10 @@ namespace Villeon.GUI
                 UpdateSelectionPosition();
             }
 
-            if (key == Keys.Enter && _onExplore)
+            if (key == Keys.Space && _onExplore)
             {
+                Manager.GetInstance().RemoveEntities(GetEntities());
                 SceneLoader.SetActiveScene("DungeonScene");
-                // Manager.GetInstance().RemoveEntities(_entities.ToArray());
                 return false;
             }
 
