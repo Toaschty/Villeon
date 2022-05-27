@@ -18,15 +18,7 @@ namespace Villeon.ECS
 
         public static bool IsGrounded { get; set; } = false;
 
-        public static bool InDialog { get; set; } = false;
-
-        public static bool InInventory { get; set; } = false;
-
-        public static bool InEquipment { get; set; } = false;
-
-        public static bool InMap { get; set; } = false;
-
-        public static bool InDungeonSelection { get; set; } = false;
+        public static bool InMenu { get; set; } = false;
 
         // Debug
         public static bool DEBUGPAUSEACTIVE { get; set; } = false;

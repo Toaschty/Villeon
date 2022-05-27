@@ -96,7 +96,7 @@ namespace Villeon.Components
             float newScale = _transform.Scale.X + 0.02f;
             Vector2 newPos = _transform.Position - new Vector2(0.04f);
 
-            Transform newTransform = new Transform( newPos, newScale, _transform.Degrees);
+            Transform newTransform = new Transform(newPos, newScale, _transform.Degrees);
             IEntity selection = new Entity(newTransform, "SlotSelection");
             Sprite slotSprite = Assets.GetSprite("GUI.Inventory.InventorySlotSelection.png", SpriteLayer.ScreenGuiMiddleground, false);
 

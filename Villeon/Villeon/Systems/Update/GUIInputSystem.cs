@@ -25,23 +25,31 @@ namespace Villeon.Systems.Update
             {
                 GUIHandler handler = entity.GetComponent<GUIHandler>();
 
-                // Dungeon Menu
-                if (KeyHandler.WasReleased(Keys.L))
-                    ChangeMenu(handler, handler.DungeonMenu);
+                CheckKeyMenu(handler);
 
-                // Equipment Menu
-                if (KeyHandler.WasReleased(Keys.P))
-                    ChangeMenu(handler, handler.EquipmentMenu);
+                if (StateManager.InMenu)
+                    handler.CurrentMenu!.OnKeyReleased(KeyHandler.GetLastReleasedKey());
+            }
+        }
 
-                // Inventory Menu
-                if (KeyHandler.WasReleased(Keys.Tab) || KeyHandler.WasReleased(Keys.I))
-                    ChangeMenu(handler, handler.InventoryMenu);
+        private void CheckKeyMenu(GUIHandler handler)
+        {
+            // Dungeon Menu
+            if (KeyHandler.WasReleased(Keys.L))
+                ChangeMenu(handler, handler.DungeonMenu);
 
-                if (KeyHandler.WasReleased(Keys.H))
-                {
-                    InventoryMenu.GetInstance().AddItem(new Item("HealthPotion", Assets.GetSprite("GUI.Potion_Item.png", Render.SpriteLayer.ScreenGuiForeground, false), 12, Item.Type.POTION));
-                    Console.WriteLine("Spawning Health potion!");
-                }
+            // Equipment Menu
+            if (KeyHandler.WasReleased(Keys.P))
+                ChangeMenu(handler, handler.EquipmentMenu);
+
+            // Inventory Menu
+            if (KeyHandler.WasReleased(Keys.Tab) || KeyHandler.WasReleased(Keys.I))
+                ChangeMenu(handler, handler.InventoryMenu);
+
+            if (KeyHandler.WasReleased(Keys.H))
+            {
+                InventoryMenu.GetInstance().AddItem(new Item("HealthPotion", Assets.GetSprite("GUI.Potion_Item.png", Render.SpriteLayer.ScreenGuiForeground, false), 12, Item.Type.POTION));
+                Console.WriteLine("Spawning Health potion!");
             }
         }
 
@@ -52,6 +60,8 @@ namespace Villeon.Systems.Update
             {
                 handler.CurrentMenu = menu;
                 LoadMenu(menu);
+                KeyHandler.ClearReleasedKeys();
+                StateManager.InMenu = true;
             }
 
             // Selected menu already loaded -> Unload menu
@@ -59,6 +69,7 @@ namespace Villeon.Systems.Update
             {
                 UnloadMenu(menu);
                 handler.CurrentMenu = null;
+                StateManager.InMenu = false;
             }
 
             // Other menu currently loaded -> Unload current menu -> Load selected menu

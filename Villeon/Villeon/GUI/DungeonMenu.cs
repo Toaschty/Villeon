@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
 using Villeon.ECS;
 using Villeon.Helper;
@@ -46,7 +47,7 @@ namespace Villeon.GUI
             _entities.Add(horizontalLine3);
 
             // Menu Selection
-            Entity selection = new Entity(new Transform(new Vector2(-6.4f, 3.1f), 0.5f, 0f), "Horizontal Line 1"); 
+            Entity selection = new Entity(new Transform(new Vector2(-6.4f, 3.1f), 0.5f, 0f), "Horizontal Line 1");
             selection.AddComponent(selectionSprite);
             _entities.Add(selection);
 
@@ -76,6 +77,11 @@ namespace Villeon.GUI
         public IEntity[] GetEntities()
         {
             return _entities.ToArray();
+        }
+
+        public void OnKeyReleased(Keys key)
+        {
+            throw new NotImplementedException();
         }
     }
 }
