@@ -115,6 +115,7 @@ namespace Villeon
             _player.AddComponent(new Effect());
             _player.AddComponent(new Health(Constants.PLAYER_MAX_HEALTH));
             _player.AddComponent(new Sprite(Assets.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
+            _player.AddComponent(new DamageReceiver());
 
             // Setup player animations
             AnimationController animController = new AnimationController();

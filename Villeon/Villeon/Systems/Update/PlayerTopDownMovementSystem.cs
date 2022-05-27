@@ -16,8 +16,7 @@ namespace Villeon.Systems
         public PlayerTopDownMovementSystem(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(Collider));
-            Signature = Signature.AddToSignature(typeof(Player));
+            Signature.Include(typeof(Collider), typeof(Player));
         }
 
         public void Update(float time)

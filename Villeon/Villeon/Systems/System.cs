@@ -19,6 +19,6 @@ namespace Villeon.Systems
 
         public HashSet<IEntity> Entities { get; private set; } = new ();
 
-        public ulong Signature { get; protected set; } = 0;
+        public SystemSignature Signature { get; protected set; } = new ();
     }
 }

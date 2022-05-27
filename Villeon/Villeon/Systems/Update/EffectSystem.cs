@@ -13,7 +13,7 @@ namespace Villeon.Systems
         public EffectSystem(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(Effect));
+            Signature.Include(typeof(Effect));
         }
 
         public void Update(float time)

@@ -46,7 +46,7 @@ namespace Villeon.GUI
             _entities.Add(horizontalLine3);
 
             // Menu Selection
-            Entity selection = new Entity(new Transform(new Vector2(-6.4f, 3.1f), 0.5f, 0f), "Horizontal Line 1"); 
+            Entity selection = new Entity(new Transform(new Vector2(-6.4f, 3.1f), 0.5f, 0f), "Horizontal Line 1");
             selection.AddComponent(selectionSprite);
             _entities.Add(selection);
 
@@ -65,7 +65,7 @@ namespace Villeon.GUI
             Array.ForEach(caveTitleSelection.GetEntities(), entity => _entities.Add(entity));
 
             // Text - Description
-            Text caveDescription = new Text("", new Vector2(0.6f, 2f), 0.1f, 0.5f, 0.25f);
+            Text caveDescription = new Text(string.Empty, new Vector2(0.6f, 2f), 0.1f, 0.5f, 0.25f);
             Array.ForEach(caveDescription.GetEntities(), entity => _entities.Add(entity));
 
             // Text - Explore

@@ -15,8 +15,7 @@ namespace Villeon.Systems
         public SimpleAISystem(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(Physics));
-            Signature = Signature.AddToSignature(typeof(SimpleAI));
+            Signature.Include(typeof(Physics), typeof(SimpleAI));
         }
 
         public void Update(float time)

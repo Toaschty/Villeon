@@ -31,7 +31,7 @@ namespace Villeon.ECS
             // Make sure, every system has its assigned Entities
             foreach (IEntity entity in _entities)
             {
-                if (entity.Signature.Contains(system.Signature))
+                if (system.Signature.Contains(entity.Signature))
                     system.Entities.Add(entity);
             }
         }
@@ -130,7 +130,7 @@ namespace Villeon.ECS
             {
                 if (!system.Entities.Contains(entity))
                 {
-                    if (entity.Signature.Contains(system.Signature))
+                    if (system.Signature.Contains(entity.Signature))
                         system.Entities.Add(entity);
                 }
             }
@@ -139,7 +139,7 @@ namespace Villeon.ECS
             {
                 if (!renderSystem.Contains(entity))
                 {
-                    if (entity.Signature.Contains(renderSystem.Signature))
+                    if (renderSystem.Signature.Contains(entity.Signature))
                         renderSystem.Add(entity);
                 }
             }
