@@ -11,7 +11,7 @@ using Villeon.Render;
 
 namespace Villeon.GUI
 {
-    public class TextBox
+    public class DeprecatedTextBox
     {
         private List<IEntity> _letters;
         private IEntity _frame = new Entity("FrameEmpty");
@@ -29,7 +29,7 @@ namespace Villeon.GUI
         private bool _hasBackground;
         private bool _onGUI;
 
-        public TextBox(string text, Vector2 framePosition, bool hasBackground = true, bool onGUI = false, float letterSpacing = 0.1f, float lineSpacing = 0.1f, float letterScale = 1f)
+        public DeprecatedTextBox(string text, Vector2 framePosition, bool hasBackground = true, bool onGUI = false, float letterSpacing = 1.1f, float lineSpacing = 1.1f, float letterScale = 1f)
         {
             _text = text;
             _framePosition = framePosition;

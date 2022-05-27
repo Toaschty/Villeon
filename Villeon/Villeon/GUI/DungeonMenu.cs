@@ -21,10 +21,10 @@ namespace Villeon.GUI
 
             // Load Sprites
             Sprite backgroundScrollSprite = Assets.GetSprite("GUI.Scroll_Dungeonmenu.png", Render.SpriteLayer.ScreenGuiBackground, false);
-            Sprite horizontalLine1Sprite = Assets.GetSprite("GUI.Scroll_Line_Horizontal_1.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite horizontalLine2Sprite = Assets.GetSprite("GUI.Scroll_Line_Horizontal_2.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite horizontalLine3Sprite = Assets.GetSprite("GUI.Scroll_Line_Horizontal_3.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite verticalLineSprite = Assets.GetSprite("GUI.Scroll_Line_Vertical.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite horizontalLine1Sprite = Assets.GetSprite("GUI.Scroll_Horizontal_Line_1.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite horizontalLine2Sprite = Assets.GetSprite("GUI.Scroll_Horizontal_Line_2.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite horizontalLine3Sprite = Assets.GetSprite("GUI.Scroll_Horizontal_Line_3.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite verticalLineSprite = Assets.GetSprite("GUI.Scroll_Vertical_Line_1.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
 
             // Background
             Vector2 scrollMiddle = new Vector2(backgroundScrollSprite.Width / 2f, backgroundScrollSprite.Height / 2f);
@@ -47,20 +47,36 @@ namespace Villeon.GUI
             _entities.Add(hLine3);
             _entities.Add(hLine4);
 
-            // Text
-            float letterSpacing = 0.01f;
-            float lineSpacing = 0.01f;
-            float letterScale = 0.6f;
-            TextBox caveSelect = new TextBox("Cave", new Vector2(-6f, 2.5f), false, true, letterSpacing, lineSpacing, letterScale);
-            TextBox castleSelect = new TextBox("Castle", new Vector2(-6f, 0.5f), false, true, letterSpacing, lineSpacing, letterScale);
-            TextBox swampSelect = new TextBox("Swamp", new Vector2(-6f, -1.5f), false, true, letterSpacing, lineSpacing, letterScale);
-            TextBox mushroomsSelect = new TextBox("Mushrooms", new Vector2(-6f, -3.5f), false, true, letterSpacing, lineSpacing, letterScale);
+            // Text - Overview
+            Text caveTitle = new Text("Crumbly Cave", new Vector2(-0.48f, 0.61f), 0.9f, 1.1f, 0.04f);
+            Array.ForEach(caveTitle.GetEntities(), entity => _entities.Add(entity));
+            Text darkLair = new Text("Darkend Lair", new Vector2(-0.48f, 0.38f), 0.9f, 1.1f, 0.04f);
+            Array.ForEach(darkLair.GetEntities(), entity => _entities.Add(entity));
+            Text swampyGrot = new Text("Swampy Grot", new Vector2(-0.48f, 0.15f), 0.9f, 1.1f, 0.04f);
+            Array.ForEach(swampyGrot.GetEntities(), entity => _entities.Add(entity));
+            Text hellishHole = new Text("Hellish Hole", new Vector2(-0.48f, -0.08f), 0.8f, 1.1f, 0.04f);
+            Array.ForEach(hellishHole.GetEntities(), entity => _entities.Add(entity));
 
-            // Infos
-            TextBox caveText = new TextBox("Cave", new Vector2(1f, 3f), false, true, letterSpacing, lineSpacing, letterScale);
-            TextBox caveDescription = new TextBox("A dark and spooky\nCave in the woods.\nYou will probably\nfind some slimes\nin there.", new Vector2(1f, 1f), false, true, letterSpacing, lineSpacing, letterScale / 2f);
+            // Text - Selection
+            Text caveTitleSelection = new Text("Crumbly Cave", new Vector2(0.05f, 0.61f), 0.9f, 1.1f, 0.04f);
+            Array.ForEach(caveTitleSelection.GetEntities(), entity => _entities.Add(entity));
 
-            TextBox goText = new TextBox("Explore", new Vector2(2f, -3.2f), false, true, letterSpacing, lineSpacing, letterScale / 1.5f);
+            // Text - Description
+            String desciption = "This cave is located in\n" +
+                                "the nearby woods. The\n" +
+                                "entrance is often buried\n" +
+                                "under a pile of gravel.\n" +
+                                "The villagers themselves\n" +
+                                "even dont know where this\n" +
+                                "is coming from. Due to the\n" +
+                                "lack of name ideas - It is\n" +
+                                "now called 'Crumbly Cave'.";
+            Text caveDescription = new Text(desciption, new Vector2(0.05f, 0.4f), 0.9f, 3f, 0.02f, -0.005f);
+            Array.ForEach(caveDescription.GetEntities(), entity => _entities.Add(entity));
+
+            // Text - Explore
+            Text explore = new Text("Go exploring", new Vector2(0.1f, -0.35f), 0.9f, 3f, 0.03f);
+            Array.ForEach(explore.GetEntities(), entity => _entities.Add(entity));
         }
 
         public IEntity[] GetEntities()

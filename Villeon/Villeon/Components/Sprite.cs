@@ -102,6 +102,26 @@ namespace Villeon.Components
             _height = 1f;
         }
 
+        // Copy constructor
+        public Sprite(Sprite copySprite)
+        {
+            _color = copySprite.Color;
+            _texture2D = copySprite._texture2D;
+            _layer = copySprite._layer;
+            _texCoords = new Vector2[4]
+            {
+                new Vector2(copySprite._texCoords[0].X, copySprite._texCoords[0].Y),
+                new Vector2(copySprite._texCoords[1].X, copySprite._texCoords[1].Y),
+                new Vector2(copySprite._texCoords[2].X, copySprite._texCoords[2].Y),
+                new Vector2(copySprite._texCoords[3].X, copySprite._texCoords[3].Y),
+            };
+            _isDynamic = copySprite._isDynamic;
+            _width = copySprite._width;
+            _height = copySprite._height;
+            _tilePixels = copySprite._tilePixels;
+            _usesCamera = copySprite._usesCamera;
+        }
+
         public Vector2[] TexCoords
         {
             get { return _texCoords; }
