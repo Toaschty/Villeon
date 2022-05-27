@@ -31,7 +31,7 @@ namespace Villeon.GUI
         private void CreateImage(string imageName)
         {
             _image = new Entity(new Transform(_position, _scale, 0f), "ButtonFrame");
-            Sprite image = Assets.GetSprite("GUI." + imageName, SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite image = Assets.GetSprite("GUI." + imageName, SpriteLayer.ScreenGuiBackground, false);
             _image.AddComponent(image);
         }
     }

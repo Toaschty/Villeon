@@ -255,9 +255,13 @@ namespace Villeon.Render
 
             Vector2 screenScaling = Vector2.One;
             if (!_usesCamera)
-                screenScaling.Y = 16f / 9f;
+            {
+                //screenScaling.Y = 16f / 9f;
+            }
             else
+            {
                 screenScaling = Vector2.One;
+            }
 
             // Fill vertex with attribute
             Vector2 add = new Vector2(0f, 0f);

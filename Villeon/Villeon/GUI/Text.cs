@@ -7,50 +7,67 @@ using OpenTK.Mathematics;
 using Villeon.Components;
 using Villeon.ECS;
 using Villeon.Helper;
+using Villeon.Render;
 
 namespace Villeon.GUI
 {
     public class Text
     {
-        private static SpriteSheet _fontSheet = Assets.GetSpriteSheet("HenksFont.png");
-        private static Dictionary<IEntity, List<IEntity>> _textEntities = new Dictionary<IEntity, List<IEntity>>();
+        private List<Entity> _letters;
 
-        public static void Write(IEntity entity, string text, Vector2 offset, float scale)
+        // Text settings
+        private string _text;
+        private Vector2 _position;
+        private float _letterSpacing;
+        private float _lineSpacing;
+        private float _letterScale;
+
+        public Text(string text, Vector2 position, float letterSpacing = 1.1f, float lineSpacing = 1.1f, float letterScale = 1f)
         {
-            // Add the entity wich holds the text entities
-            _textEntities.Add(entity, new List<IEntity>());
+            _letters = new List<Entity>();
 
-            // Add each letters to the list
-            Transform transform = entity.GetComponent<Transform>();
-            Vector2 textPosition = transform.Position + offset;
-            foreach (char c in text.ToCharArray())
+            _text = text;
+            _position = position;
+            _letterSpacing = letterSpacing * letterScale;
+            _lineSpacing = lineSpacing * letterScale;
+            _letterScale = letterScale;
+
+            CreateLetters();
+        }
+
+        public Entity[] GetEntities()
+        {
+            return _letters.ToArray();
+        }
+
+        private void CreateLetters()
+        {
+            SpriteSheet fontSheet = Assets.GetSpriteSheet("Fonts.VilleonFont.png");
+            Sprite letterSprite;
+
+            Vector2 letterPosition = _position;
+
+            foreach (char c in _text)
             {
+                // Move to next line '\n'
                 if (c == '\n')
                 {
-                    textPosition.Y += -1.1f * scale;
-                    textPosition.X = 0f;
+                    letterPosition.X = _position.X;
+                    letterPosition.Y -= _lineSpacing;
                     continue;
                 }
 
-                //Transform trans = new Transform(transform.Position, transform.Scale, transform.Degrees);
-                IEntity letter = new Entity(transform, c.ToString());
+                letterSprite = fontSheet.GetSprite(c - ' ', SpriteLayer.ScreenGuiForeground, false);
 
-                letter.AddComponent(_fontSheet.GetSprite(c - ' ', Render.SpriteLayer.Foreground, true));
-                _textEntities[entity].Add(letter);
-                Manager.GetInstance().AddEntity(letter);
+                // Create Entity for letter
+                Entity letterEntity = new Entity(new Transform(letterPosition, _letterScale, 0f), "TBX[" + c + "]");
+                Sprite letterSpriteCopy = new Sprite(letterSprite);
+                letterEntity.AddComponent(letterSpriteCopy);
+                _letters.Add(letterEntity);
 
-                textPosition.X += 1.1f * scale;
+                // Set position for next letter
+                letterPosition.X += _letterSpacing;
             }
-        }
-
-        public void Overwrite(IEntity entity, string newText)
-        {
-            // Overwrites old text
-        }
-
-        public void Clear(IEntity entity)
-        {
-            // Deletes
         }
     }
 }

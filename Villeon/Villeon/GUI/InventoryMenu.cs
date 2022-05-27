@@ -24,12 +24,13 @@ namespace Villeon.GUI
         private int _inventorySlotsY = 4;
 
         // Align inventory slots
-        private Vector2 _startPos = new Vector2(-0.46f, 0.2f);
-        private float _scale = 0.0285f;
-        private float _slotSize = 0.114f;
-        private float _offset = 0.02f;
+        private Vector2 _startPos = new Vector2(-6f, 1f);
+        private float _slotScalingFactor = 0.4f;
+        private float _slotSize = InventorySlot.SlotSize;
+        private float _offset = 0.2f;
 
-        IEntity _item;
+        // Scroll
+        private float _scrollScale = 0.5f;
 
         public InventoryMenu()
         {
@@ -101,22 +102,25 @@ namespace Villeon.GUI
             {
                 for (int x = 0; x < _inventorySlotsX; x++)
                 {
-                    _inventorySlots[y, x] = new InventorySlot(new Transform(position, _scale, 0));
+                    _inventorySlots[y, x] = new InventorySlot(new Transform(position, _slotScalingFactor, 0));
 
                     // calculate the next position
-                    position += new Vector2(_offset + _slotSize, 0);
+                    position += new Vector2(_offset + (_slotSize * _slotScalingFactor), 0);
                 }
 
                 // calculate the position for the new row
                 position.X = _startPos.X;
-                position.Y = position.Y - _offset - (_slotSize * (16f / 9f));
+                position.Y = position.Y - _offset - (_slotSize * _slotScalingFactor);
             }
         }
 
         private IEntity CreateInventoryBackground()
         {
-            IEntity background = new Entity(new Transform(new Vector2(-0.75f, -0.6f), 0.04f, 0f), "InventoryBackImage");
             Sprite scrollImage = Assets.GetSprite("GUI.Scroll.png", SpriteLayer.ScreenGuiBackground, false);
+            Vector2 middle = new Vector2(scrollImage.Width / 2f, scrollImage.Height / 2f);
+            middle *= _scrollScale;
+
+            IEntity background = new Entity(new Transform(new Vector2(0f) - middle, _scrollScale, 0f), "InventoryBackImage");
             background.AddComponent(scrollImage);
 
             return background;

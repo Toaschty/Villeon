@@ -8,7 +8,6 @@ namespace Villeon.Render
 {
     public static class Camera
     {
-        private static Matrix4 _cameraMatrix = Matrix4.Identity;
         private static Matrix4 _shiftOriginMatrix = Matrix4.CreateTranslation(-1.0f, -1.0f, 0.0f);
         private static Matrix4 _aspectRatioMatrixY = Matrix4.Identity;
 
@@ -17,7 +16,7 @@ namespace Villeon.Render
 
         private static Vector2 _cameraCenter = new (1f, 1f);
         private static float _cameraRotation;
-        private static float _cameraScale = 9.0f;
+        private static float _cameraScale = 10.0f;
         private static float _screenWidth;
         private static float _screenHeight;
 
@@ -58,8 +57,8 @@ namespace Villeon.Render
             Matrix4 translation = Translate(-_cameraCenter);
             Matrix4 rotation = RotateDegrees(-_cameraRotation);
             Matrix4 scale = Scale(1 / _cameraScale);
-            _cameraMatrix = translation * rotation * scale * _aspectRatioMatrixY;
-            return _cameraMatrix;
+            Matrix4 cameraMatrix = translation * rotation * scale * _aspectRatioMatrixY;
+            return cameraMatrix;
         }
 
         public static Matrix4 GetInverseMatrix() => GetMatrix().Inverted();
@@ -83,19 +82,21 @@ namespace Villeon.Render
 
         public static Matrix4 GetScreenMatrix()
         {
+            float scaling = 10f;
             float aspect = 16f / 9f;
             float screenAspect = _screenWidth / (float)_screenHeight;
             Matrix4 screenMatrix = Matrix4.Identity;
+            Matrix4 scaleMatrix = Scale(1 / scaling);
             if (aspect <= screenAspect)
             {
-                screenMatrix = Matrix4.CreateScale(aspect / screenAspect, 1f, 1f);
+                screenMatrix = Matrix4.CreateScale(aspect / screenAspect, aspect, 1f);
             }
             else
             {
-                screenMatrix = Matrix4.CreateScale(1f, screenAspect / aspect, 1f);
+                screenMatrix = Matrix4.CreateScale(1f, (screenAspect / aspect) * aspect, 1f);
             }
 
-            return screenMatrix;
+            return scaleMatrix * screenMatrix;
         }
     }
 }

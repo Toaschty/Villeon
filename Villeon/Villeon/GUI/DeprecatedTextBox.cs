@@ -11,7 +11,7 @@ using Villeon.Render;
 
 namespace Villeon.GUI
 {
-    public class TextBox
+    public class DeprecatedTextBox
     {
         private List<IEntity> _letters;
         private IEntity _frame = new Entity("FrameEmpty");
@@ -29,12 +29,12 @@ namespace Villeon.GUI
         private bool _hasBackground;
         private bool _onGUI;
 
-        public TextBox(string text, Vector2 framePosition, bool hasBackground = true, bool onGUI = false, float letterSpacing = 1.1f, float lineSpacing = 1.1f, float letterScale = 1f)
+        public DeprecatedTextBox(string text, Vector2 framePosition, bool hasBackground = true, bool onGUI = false, float letterSpacing = 1.1f, float lineSpacing = 1.1f, float letterScale = 1f)
         {
             _text = text;
             _framePosition = framePosition;
-            _letterSpacing = letterSpacing * letterScale;
-            _lineSpacing = lineSpacing * letterScale;
+            _letterSpacing = letterSpacing;
+            _lineSpacing = lineSpacing;
             _letterScale = letterScale;
             _hasBackground = hasBackground;
             _onGUI = onGUI;
@@ -103,7 +103,9 @@ namespace Villeon.GUI
             List<IEntity> letters = new List<IEntity>();
 
             // Fill in new Letters
-            SpriteSheet fontSheet = Assets.GetSpriteSheet("Fonts.HenksFont.png") !;
+            SpriteSheet fontSheet = Assets.GetSpriteSheet("Fonts.VilleonFont.png") !;
+            float spriteWidth = fontSheet.SpriteWidth * _letterScale;
+            float spriteHeight = fontSheet.SpriteHeight * _letterScale;
             Sprite letterSprite;
 
             Vector2 letterPosition = _framePosition;
@@ -112,7 +114,7 @@ namespace Villeon.GUI
                 if (c == '\n')
                 {
                     letterPosition.X = _framePosition.X;
-                    letterPosition.Y -= _lineSpacing;
+                    letterPosition.Y -= spriteHeight + _lineSpacing;
                     continue;
                 }
 
@@ -128,7 +130,7 @@ namespace Villeon.GUI
                 letters.Add(letterEntity);
 
                 // Set position for next letter
-                letterPosition.X += _letterSpacing;
+                letterPosition.X += spriteWidth + _letterSpacing;
             }
 
             return letters;
