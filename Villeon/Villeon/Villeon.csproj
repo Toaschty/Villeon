@@ -17,6 +17,7 @@
     <None Remove="Assets\TileMap\Frame.aseprite" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DungeonGeneration\RoomGeneration.cs" />
     <EmbeddedResource Include="Systems\IRender.cs" />
     <EmbeddedResource Include="Systems\IRenderSystem.cs" />
     <EmbeddedResource Include="Systems\ISystem.cs" />
@@ -52,5 +53,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>
