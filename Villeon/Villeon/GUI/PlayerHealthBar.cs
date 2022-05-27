@@ -24,9 +24,15 @@ namespace Villeon.GUI
         private float _oldHealth;
         private float _maxHealth;
 
+        private float _scale = 0.5f;
+
         public PlayerHealthBar(int maxHealth)
         {
-            Vector2 position = new Vector2(-0.98f, 0.84f);
+            Sprite sprite = Assets.GetSprite("GUI.Frame.png", SpriteLayer.ScreenGuiForeground, false);
+            _width = _maxWidth = sprite.Width;
+            _height = sprite.Height;
+
+            Vector2 position = new Vector2(-10, 5.65f - (_height * _scale));
             _maxHealth = maxHealth;
 
             CreateFrame(position);
@@ -58,17 +64,15 @@ namespace Villeon.GUI
 
         private void CreateFrame(Vector2 position)
         {
-            _frame = new Entity(new Transform(position, 0.04f, 0f), "Player Health Frame");
+            _frame = new Entity(new Transform(position, _scale, 0f), "Player Health Frame");
             Sprite frame = Assets.GetSprite("GUI.Frame.png", SpriteLayer.ScreenGuiForeground, false);
-            _maxWidth = _width = frame.Width;
-            _height = frame.Height;
 
             _frame.AddComponent(frame);
         }
 
         private void CreateFilling(Vector2 position, float width, float height)
         {
-            _healthFilling = new Entity(new Transform(position, 0.04f, 0f), "Player Health Filling");
+            _healthFilling = new Entity(new Transform(position, _scale, 0f), "Player Health Filling");
             Sprite healthFilling = new Sprite(SpriteLayer.ScreenGuiMiddleground, width, height, true);
             healthFilling.Color = Color4.Red;
             _healthFilling.AddComponent(healthFilling);
@@ -76,7 +80,7 @@ namespace Villeon.GUI
 
         private void CreateBackground(Vector2 position, float width, float height)
         {
-            _background = new Entity(new Transform(position, 0.04f, 0f), "Player Health Background");
+            _background = new Entity(new Transform(position, _scale, 0f), "Player Health Background");
             Sprite backgroundSprite = new Sprite(SpriteLayer.ScreenGuiBackground, width, height);
             backgroundSprite.Color = Color4.Black;
             _background.AddComponent(backgroundSprite);
