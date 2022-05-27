@@ -19,7 +19,7 @@ namespace Villeon.Components
         {
             _dungeonMenu = new DungeonMenu();
             _equipmentMenu = new EquipmentMenu();
-            _inventoryMenu = new InventoryMenu();
+            _inventoryMenu = InventoryMenu.GetInstance();
             _currentMenu = null;
         }
 

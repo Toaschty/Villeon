@@ -13,6 +13,9 @@ namespace Villeon.GUI
 {
     public class InventoryMenu : IGUIMenu
     {
+        private static InventoryMenu? _inventory;
+
+        private List<IEntity> _allEntities;
         private IEntity _backgroundImage;
         private InventorySlot[,] _inventorySlots;
 
@@ -26,33 +29,71 @@ namespace Villeon.GUI
         private float _slotSize = 0.114f;
         private float _offset = 0.02f;
 
+        IEntity _item;
+
         public InventoryMenu()
         {
+            _allEntities = new List<IEntity>();
             _backgroundImage = CreateInventoryBackground();
             _inventorySlots = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
 
-            FillInventorySlots();
+            SetInventorySlotPositions();
+        }
+
+        public static InventoryMenu GetInstance()
+        {
+            if (_inventory == null)
+                _inventory = new InventoryMenu();
+            return _inventory;
         }
 
         public IEntity[] GetEntities()
         {
-            IEntity[] entities = new Entity[_inventorySlots.Length + 1];
+            List<IEntity> list = new List<IEntity>();
 
+            // Get all inventory slot background entities
             for (int y = 0; y < _inventorySlotsY; y++)
             {
                 for (int x = 0; x < _inventorySlotsX; x++)
                 {
-                    entities[(_inventorySlotsX * y) + x] = _inventorySlots[y, x].SlotBackground;
+                    list.Add(_inventorySlots[y, x].SlotBackground);
                 }
             }
 
-            entities[_inventorySlots.Length] = _backgroundImage;
+            // Get all item entities
+            for (int y = 0; y < _inventorySlotsY; y++)
+            {
+                for (int x = 0; x < _inventorySlotsX; x++)
+                {
+                    if (_inventorySlots[y, x].HasItem())
+                    {
+                        list.Add(_inventorySlots[y, x].ItemEntity);
+                    }
+                }
+            }
 
-            return entities;
+            list.Add(_backgroundImage); // Add the background sroll
+            return list.ToArray();
+        }
+
+        public void AddItem(Item newItem)
+        {
+            for (int y = 0; y < _inventorySlotsY; y++)
+            {
+                for (int x = 0; x < _inventorySlotsX; x++)
+                {
+                    if (_inventorySlots[y, x].HasItem() == false)
+                    {
+                        // There is no item in the current slot
+                        _inventorySlots[y, x].Item = newItem;
+                        return; // New item has been added
+                    }
+                }
+            }
         }
 
         // Calculate the position for every slot
-        private void FillInventorySlots()
+        private void SetInventorySlotPositions()
         {
             Vector2 position = _startPos;
 

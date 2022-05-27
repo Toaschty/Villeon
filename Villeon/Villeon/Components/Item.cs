@@ -9,17 +9,29 @@ namespace Villeon.Components
     public class Item
     {
         private string _name;
-        private Sprite _sprite;
+        private Sprite? _sprite;
         private int _prize;
+        private Type _itemType;
 
-        public Item(string name, Sprite sprite, int prize)
+        public Item()
+        {
+            _name = "Empty";
+            _sprite = null;
+            _prize = -1;
+            _itemType = 0;
+        }
+
+        public Item(string name, Sprite sprite, int prize, Type type)
         {
             _name = name;
             _sprite = sprite;
             _prize = prize;
+            _itemType = type;
         }
 
-        private enum Type
+        public Sprite? Sprite { get { return _sprite; } }
+
+        public enum Type
         {
             WEAPON,
             POTION,
