@@ -32,6 +32,8 @@ namespace Villeon.GUI
         // Scroll
         private float _scrollScale = 0.5f;
 
+        private Vector2 _playerCurrentSlotPosition = new Vector2(0, 0);
+
         public InventoryMenu()
         {
             _backgroundImage = CreateInventoryBackground();
@@ -40,6 +42,7 @@ namespace Villeon.GUI
             SetInventorySlotPositions();
 
             _allEntities.AddRange(GetAllSlotEntities());
+            _allEntities.Add(_inventorySlots[0, 0].SlotSelection);
             _allEntities.Add(_backgroundImage); // Add the background sroll
         }
 

@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Villeon.Helper;
 
 namespace Villeon.Components
 {
     public class Item
     {
         private string _name;
-        private Sprite? _sprite;
+        private Sprite _sprite;
         private int _prize;
         private Type _itemType;
 
         public Item()
         {
             _name = "Empty";
-            _sprite = null;
+            _sprite = Assets.GetSprite("GUI.Inventory.InventoryEmptySlot.png", Render.SpriteLayer.GUIForeground, false);
             _prize = -1;
             _itemType = 0;
         }
@@ -36,7 +37,7 @@ namespace Villeon.Components
             MATERIAL,
         }
 
-        public Sprite? Sprite
+        public Sprite Sprite
         {
             get { return _sprite; }
         }
