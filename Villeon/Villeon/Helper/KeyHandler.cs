@@ -57,7 +57,7 @@ namespace Villeon.Helper
 
         public static Keys? GetLastReleasedKey()
         {
-            if ( _releasedKeys.Count != 0)
+            if (_releasedKeys.Count != 0)
             {
                 Keys key = _releasedKeys.Last();
                 _releasedKeys.Remove(key);

@@ -33,7 +33,7 @@ namespace Villeon.GUI
         // Scroll
         private float _scrollScale = 0.5f;
 
-        private Vector2 _playerCurrentSlotPosition = new Vector2(0, 0);
+        private Vector2i _playerCurrentSlotPosition = new Vector2i(0, 0);
 
         public InventoryMenu()
         {
@@ -42,8 +42,9 @@ namespace Villeon.GUI
 
             SetInventorySlotPositions();
 
-            _allEntities.AddRange(GetAllSlotEntities());
-            _allEntities.Add(_inventorySlots[0, 0].SlotSelection);
+            // Set the selection frame to the starting point
+            _allEntities.Add(_inventorySlots[_playerCurrentSlotPosition.Y, _playerCurrentSlotPosition.X].SlotSelection);
+            _allEntities.AddRange(GetAllSlotEntities()); // Add all slot entities
             _allEntities.Add(_backgroundImage); // Add the background sroll
         }
 
@@ -80,14 +81,38 @@ namespace Villeon.GUI
 
         public bool OnKeyReleased(Keys key)
         {
-            Console.WriteLine("PRESSED: " + key);
+            // Remove the old selection frame
+            _allEntities.Remove(_inventorySlots[_playerCurrentSlotPosition.Y, _playerCurrentSlotPosition.X].SlotSelection);
+            Manager.GetInstance().RemoveEntity(_inventorySlots[_playerCurrentSlotPosition.Y, _playerCurrentSlotPosition.X].SlotSelection);
+
             if (key == Keys.H)
             {
                 AddItem(new Item("HealthPotion", Assets.GetSprite("GUI.Potion_Item.png", Render.SpriteLayer.ScreenGuiForeground, false), 12, Item.Type.POTION));
                 Console.WriteLine("Spawning Health potion!");
             }
+            else if (key == Keys.W)
+            {
+                if (_playerCurrentSlotPosition.Y > 0)
+                    _playerCurrentSlotPosition.Y -= 1;
+            }
+            else if (key == Keys.S)
+            {
+                if (_playerCurrentSlotPosition.Y < _inventorySlotsY - 1)
+                    _playerCurrentSlotPosition.Y += 1;
+            }
+            else if (key == Keys.A)
+            {
+                if (_playerCurrentSlotPosition.X > 0)
+                    _playerCurrentSlotPosition.X -= 1;
+            }
+            else if (key == Keys.D)
+            {
+                if (_playerCurrentSlotPosition.X < _inventorySlotsX - 1)
+                    _playerCurrentSlotPosition.X += 1;
+            }
 
-            return true;
+            // Add the new selection frame
+            _allEntities.Add(_inventorySlots[_playerCurrentSlotPosition.Y, _playerCurrentSlotPosition.X].SlotSelection);
         }
 
         private List<IEntity> GetAllSlotEntities()
