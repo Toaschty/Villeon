@@ -14,10 +14,10 @@ namespace Villeon.GUI
 {
     public class InventorySlot
     {
-        private static float _slotSize = Assets.GetSprite("GUI.Slot.png", SpriteLayer.ScreenGuiMiddleground, false).Width;
+        private static float _slotSize = Assets.GetSprite("GUI.Inventory.InventorySlot.png", SpriteLayer.ScreenGuiMiddleground, false).Width;
         private Item? _item;
         private IEntity _slotBackground;
-        private bool _selectedByPlayer;
+        private IEntity _slotSelection;
         private Transform _transform;
 
         public InventorySlot(Transform transform)
@@ -25,6 +25,7 @@ namespace Villeon.GUI
             _item = null;
             _transform = transform;
             _slotBackground = CreateBackground();
+            _slotSelection = CreateSlotSelection();
         }
 
         public static float SlotSize
@@ -35,6 +36,20 @@ namespace Villeon.GUI
         public IEntity SlotBackground
         {
             get { return _slotBackground; }
+        }
+
+        public IEntity SlotSelection
+        {
+            get { return _slotSelection; }
+        }
+
+        public Sprite SlotSelectionSprite
+        {
+            set
+            {
+                Sprite s = _slotSelection.GetComponent<Sprite>();
+                s = value;
+            }
         }
 
         public Vector2 SlotPosition
@@ -49,7 +64,7 @@ namespace Villeon.GUI
             get
             {
                 IEntity itemEntity = new Entity(_transform, "Item");
-                itemEntity.AddComponent(_item.Sprite);
+                itemEntity.AddComponent(_item!.Sprite);
                 return itemEntity;
             }
         }
@@ -70,10 +85,25 @@ namespace Villeon.GUI
         private IEntity CreateBackground()
         {
             IEntity background = new Entity(_transform, "SlotBackground");
-            Sprite slotSprite = Assets.GetSprite("GUI.Slot.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite slotSprite = Assets.GetSprite("GUI.Inventory.InventorySlot.png", SpriteLayer.ScreenGuiMiddleground, false);
+
             background.AddComponent(slotSprite);
 
             return background;
+        }
+
+        private IEntity CreateSlotSelection()
+        {
+            float newScale = _transform.Scale.X + 0.02f;
+            Vector2 newPos = _transform.Position - new Vector2(0.04f);
+
+            Transform newTransform = new Transform(newPos, newScale, _transform.Degrees);
+            IEntity selection = new Entity(newTransform, "SlotSelection");
+            Sprite slotSprite = Assets.GetSprite("GUI.Inventory.InventorySlotSelection.png", SpriteLayer.ScreenGuiMiddleground, false);
+
+            selection.AddComponent(slotSprite);
+
+            return selection;
         }
     }
 }

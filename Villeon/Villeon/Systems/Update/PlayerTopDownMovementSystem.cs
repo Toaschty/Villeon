@@ -21,6 +21,9 @@ namespace Villeon.Systems
 
         public void Update(float time)
         {
+            if (StateManager.InMenu)
+                return;
+
             float leftRightAxis = KeyHandler.IsPressed(Keys.A) ? -1 : KeyHandler.IsPressed(Keys.D) ? 1 : 0;
             float topDownAxis = KeyHandler.IsPressed(Keys.S) ? -1 : KeyHandler.IsPressed(Keys.W) ? 1 : 0;
 

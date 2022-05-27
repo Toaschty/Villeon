@@ -6,7 +6,7 @@
     },
     {
       "name": "Darkend Lair",
-      "description": "It is dark i guess"
+      "description": "This lair is found in the ruins of an old castle. It once served as an hiding space for many bandits and culpits. "
     },
     {
       "name": "Swampy Grot",
@@ -15,6 +15,6 @@
     {
       "name": "Hellish Hole",
       "description": "Welcome to Hell...\nOr maybe it is just a\nCave with interesting red\nmushrooms. Who knows?"
-    }
+    } 
   ]
 }

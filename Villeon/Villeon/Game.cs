@@ -44,7 +44,7 @@ namespace Villeon
         {
             SceneLoader.AddScene(_dungeonScene);
             SceneLoader.AddScene(_villageScene);
-            SceneLoader.SetActiveScene("VillageScene");
+            SceneLoader.SetActiveScene("DungeonScene");
 
             AddDungeonSystems();
             AddVillageSystems();
@@ -67,10 +67,85 @@ namespace Villeon
         private void DebuggingPlayground()
         {
             // floor
-            Transform transform = new Transform(new Vector2(-20, -2), 1f, 0f);
-            IEntity floor = new Entity(transform, "Floor");
-            floor.AddComponent(new Collider(Vector2.Zero, transform, 100f, 1f));
+            IEntity floor = new Entity(new Transform(new Vector2(-20, -2), 1f, 0f), "Floor");
+            floor.AddComponent(new Collider(new Vector2(0), new Transform(new Vector2(-20, -2), 1f, 0f), 100f, 1f));
             _dungeonScene.AddEntity(floor);
+
+            // Spawn Dungeon
+            LevelGeneration lvlGen = new LevelGeneration();
+            lvlGen.GenSolutionPath();
+            RoomGeneration roomGen = new RoomGeneration(lvlGen.StartRoomX, lvlGen.StartRoomY, lvlGen.EndRoomX, lvlGen.EndRoomY, lvlGen.RoomModels);
+
+            IEntity entity;
+            for (int i = 0; i < 4; i++)
+            {
+                for (int k = 0; k < 8; k++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        for (int l = 1; l < 10; l++)
+                        {
+                            int x = 32 - k;
+                            int y = 40 - l;
+
+                            if (i == 1)
+                                x -= 8;
+                            else if (i == 2)
+                                x -= 16;
+                            else if (i == 3)
+                                x -= 24;
+                            else if (i == 4)
+                                x -= 32;
+
+                            if (j == 1)
+                                y -= 9;
+                            else if (j == 2)
+                                y -= 18;
+                            else if (j == 3)
+                                y -= 27;
+                            else if (j == 4)
+                                y -= 38;
+
+                            if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "1")
+                            {
+                                entity = new Entity(new Transform(new Vector2(y, x), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
+                                entity.AddComponent(Assets.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(63, SpriteLayer.Background, false));
+                                entity.AddComponent(new Collider(new Vector2(0, 0), entity.GetComponent<Transform>(), 1f, 1f));
+                                _dungeonScene.AddEntity(entity);
+                            }
+                            else if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "2")
+                            {
+                                // different block
+                                entity = new Entity(new Transform(new Vector2(y, x), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
+                                entity.AddComponent(Assets.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(20, SpriteLayer.Background, false));
+                                entity.AddComponent(new Collider(new Vector2(0, 0), entity.GetComponent<Transform>(), 1f, 1f));
+                                _dungeonScene.AddEntity(entity);
+                            }
+                            else if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "0")
+                            {
+                                // air
+                                entity = new Entity(new Transform(new Vector2(y, x), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
+                                entity.AddComponent(Assets.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(0, SpriteLayer.Background, false));
+                                _dungeonScene.AddEntity(entity);
+                            }
+                            else if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "L")
+                            {
+                                // Ladder
+                                entity = new Entity(new Transform(new Vector2(y, x), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
+                                entity.AddComponent(Assets.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(0, SpriteLayer.Background, false));
+                                _dungeonScene.AddEntity(entity);
+                            }
+                            else if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "P")
+                            {
+                                // Ladder top
+                                entity = new Entity(new Transform(new Vector2(y, x), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
+                                entity.AddComponent(Assets.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(0, SpriteLayer.Background, false));
+                                _dungeonScene.AddEntity(entity);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void InitWindowActions(GameWindow gameWindow)
@@ -139,7 +214,6 @@ namespace Villeon
             _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             _villageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
-
             _villageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
 
             _villageScene.SetTileMap(villageTileMap, false);
@@ -175,7 +249,7 @@ namespace Villeon
 
             // Menu View - Village
             Entity guiHandlerEntity = new Entity("GuiHandler");
-            guiHandlerEntity.AddComponent(new GUIHandler());
+            guiHandlerEntity.AddComponent(GUIHandler.GetInstance());
             _villageScene.AddEntity(guiHandlerEntity);
         }
 
