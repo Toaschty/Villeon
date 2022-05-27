@@ -33,13 +33,13 @@ namespace Villeon.GUI
             _entities.Add(backgroundImage);
 
             // Horizontal Lines
-            Entity hLine1 = new Entity(new Transform(new Vector2(-6f, 2), 0.5f, 0f), "Horizontal Line 1");
+            Entity hLine1 = new Entity(new Transform(new Vector2(-6.3f, 2.6f), 0.5f, 0f), "Horizontal Line 1");
             hLine1.AddComponent(horizontalLine1Sprite);
-            Entity hLine2 = new Entity(new Transform(new Vector2(-6f, 0), 0.5f, 0f), "Horizontal Line 2");
+            Entity hLine2 = new Entity(new Transform(new Vector2(-6.3f, 1), 0.5f, 0f), "Horizontal Line 2");
             hLine2.AddComponent(horizontalLine2Sprite);
-            Entity hLine3 = new Entity(new Transform(new Vector2(-6f, -2), 0.5f, 0f), "Horizontal Line 3");
+            Entity hLine3 = new Entity(new Transform(new Vector2(-6.3f, -0.6f), 0.5f, 0f), "Horizontal Line 3");
             hLine3.AddComponent(horizontalLine3Sprite);
-            Entity hLine4 = new Entity(new Transform(new Vector2(-6f, -4), 0.5f, 0f), "Horizontal Line 4");
+            Entity hLine4 = new Entity(new Transform(new Vector2(-6.3f, -2.2f), 0.5f, 0f), "Horizontal Line 4");
             hLine4.AddComponent(horizontalLine2Sprite);
 
             _entities.Add(hLine1);
@@ -48,34 +48,34 @@ namespace Villeon.GUI
             _entities.Add(hLine4);
 
             // Text - Overview
-            Text caveTitle = new Text("Crumbly Cave", new Vector2(-0.48f, 0.61f), 0.9f, 1.1f, 0.04f);
+            Text caveTitle = new Text("Crumbly Cave", new Vector2(-6f, 3f), 0.9f, 1.1f, 0.5f);
             Array.ForEach(caveTitle.GetEntities(), entity => _entities.Add(entity));
-            Text darkLair = new Text("Darkend Lair", new Vector2(-0.48f, 0.38f), 0.9f, 1.1f, 0.04f);
+            Text darkLair = new Text("Darkend Lair", new Vector2(-6f, 1.4f), 0.9f, 1.1f, 0.5f);
             Array.ForEach(darkLair.GetEntities(), entity => _entities.Add(entity));
-            Text swampyGrot = new Text("Swampy Grot", new Vector2(-0.48f, 0.15f), 0.9f, 1.1f, 0.04f);
+            Text swampyGrot = new Text("Swampy Grot", new Vector2(-6f, -0.2f), 0.9f, 1.1f, 0.5f);
             Array.ForEach(swampyGrot.GetEntities(), entity => _entities.Add(entity));
-            Text hellishHole = new Text("Hellish Hole", new Vector2(-0.48f, -0.08f), 0.8f, 1.1f, 0.04f);
+            Text hellishHole = new Text("Hellish Hole", new Vector2(-6f, -1.8f), 0.8f, 1.1f, 0.5f);
             Array.ForEach(hellishHole.GetEntities(), entity => _entities.Add(entity));
 
             // Text - Selection
-            Text caveTitleSelection = new Text("Crumbly Cave", new Vector2(0.05f, 0.61f), 0.9f, 1.1f, 0.04f);
+            Text caveTitleSelection = new Text("Crumbly Cave", new Vector2(0.6f, 3f), 0.9f, 1.1f, 0.5f);
             Array.ForEach(caveTitleSelection.GetEntities(), entity => _entities.Add(entity));
 
             // Text - Description
             String desciption = "This cave is located in\n" +
                                 "the nearby woods. The\n" +
                                 "entrance is often buried\n" +
-                                "under a pile of gravel.\n" +
+                                "under a pile of rocks.\n" +
                                 "The villagers themselves\n" +
                                 "even dont know where this\n" +
                                 "is coming from. Due to the\n" +
                                 "lack of name ideas - It is\n" +
                                 "now called 'Crumbly Cave'.";
-            Text caveDescription = new Text(desciption, new Vector2(0.05f, 0.4f), 0.9f, 3f, 0.02f, -0.005f);
+            Text caveDescription = new Text(desciption, new Vector2(0.6f, 2f), 0.9f, 2f, 0.25f);
             Array.ForEach(caveDescription.GetEntities(), entity => _entities.Add(entity));
 
             // Text - Explore
-            Text explore = new Text("Go exploring", new Vector2(0.1f, -0.35f), 0.9f, 3f, 0.03f);
+            Text explore = new Text("Go exploring", new Vector2(0.6f, -3.7f), 0.9f, 3f, 0.5f);
             Array.ForEach(explore.GetEntities(), entity => _entities.Add(entity));
         }
 

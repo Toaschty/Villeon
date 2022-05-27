@@ -21,9 +21,8 @@ namespace Villeon.GUI
         private float _letterSpacing;
         private float _lineSpacing;
         private float _letterScale;
-        private float _shadowHeight;
 
-        public Text(string text, Vector2 position, float letterSpacing = 1.1f, float lineSpacing = 1.1f, float letterScale = 1f, float shadowHeight = -0.01f)
+        public Text(string text, Vector2 position, float letterSpacing = 1.1f, float lineSpacing = 1.1f, float letterScale = 1f)
         {
             _letters = new List<Entity>();
 
@@ -32,7 +31,6 @@ namespace Villeon.GUI
             _letterSpacing = letterSpacing * letterScale;
             _lineSpacing = lineSpacing * letterScale;
             _letterScale = letterScale;
-            _shadowHeight = shadowHeight;
 
             CreateLetters();
         }
@@ -61,17 +59,9 @@ namespace Villeon.GUI
 
                 letterSprite = fontSheet.GetSprite(c - ' ', SpriteLayer.ScreenGuiForeground, false);
 
-                // Create shadow Entity
-                Entity shadowEntity = new Entity(new Transform(letterPosition + new Vector2(0f, _shadowHeight), _letterScale, 0f), "TBX[" + c + "]");
-                Sprite letterShadowSpriteCopy = new Sprite(letterSprite);
-                letterShadowSpriteCopy.Color = Color4.Black;
-                shadowEntity.AddComponent(letterShadowSpriteCopy);
-                _letters.Add(shadowEntity);
-
                 // Create Entity for letter
                 Entity letterEntity = new Entity(new Transform(letterPosition, _letterScale, 0f), "TBX[" + c + "]");
                 Sprite letterSpriteCopy = new Sprite(letterSprite);
-                letterSpriteCopy.Color = Color4.White;
                 letterEntity.AddComponent(letterSpriteCopy);
                 _letters.Add(letterEntity);
 
