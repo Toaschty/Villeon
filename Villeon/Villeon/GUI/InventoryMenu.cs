@@ -15,7 +15,7 @@ namespace Villeon.GUI
     {
         private static InventoryMenu? _inventory;
 
-        private List<IEntity> _allEntities;
+        private List<IEntity> _allEntities = new List<IEntity>();
         private IEntity _backgroundImage;
         private InventorySlot[,] _inventorySlots;
 
@@ -30,15 +30,17 @@ namespace Villeon.GUI
         private float _offset = 0.3f;
 
         // Scroll
-        private float _scrollScale = 0.45f;
+        private float _scrollScale = 0.5f;
 
         public InventoryMenu()
         {
-            _allEntities = new List<IEntity>();
             _backgroundImage = CreateInventoryBackground();
             _inventorySlots = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
 
             SetInventorySlotPositions();
+
+            _allEntities.AddRange(GetAllSlotEntities());
+            _allEntities.Add(_backgroundImage); // Add the background sroll
         }
 
         public static InventoryMenu GetInstance()
@@ -46,37 +48,6 @@ namespace Villeon.GUI
             if (_inventory == null)
                 _inventory = new InventoryMenu();
             return _inventory;
-        }
-
-        public IEntity[] GetEntities()
-        {
-            List<IEntity> list = new List<IEntity>();
-
-            // Get all inventory slot background entities
-            for (int y = 0; y < _inventorySlotsY; y++)
-            {
-                for (int x = 0; x < _inventorySlotsX; x++)
-                {
-                    list.Add(_inventorySlots[y, x].SlotBackground);
-                }
-            }
-
-            // Get all item entities
-            for (int y = 0; y < _inventorySlotsY; y++)
-            {
-                for (int x = 0; x < _inventorySlotsX; x++)
-                {
-                    if (_inventorySlots[y, x].HasItem())
-                    {
-                        list.Add(_inventorySlots[y, x].ItemEntity);
-                    }
-                }
-            }
-
-            Console.WriteLine("LENGTH Array: " + list.Count);
-
-            list.Add(_backgroundImage); // Add the background sroll
-            return list.ToArray();
         }
 
         public void AddItem(Item newItem)
@@ -89,10 +60,34 @@ namespace Villeon.GUI
                     {
                         // There is no item in the current slot
                         _inventorySlots[y, x].Item = newItem;
+                        _allEntities.Add(_inventorySlots[y, x].ItemEntity);
                         return; // New item has been added
                     }
                 }
             }
+
+            Console.WriteLine("Inventory FULL!");
+        }
+
+        public IEntity[] GetEntities()
+        {
+            return _allEntities.ToArray();
+        }
+
+        private List<IEntity> GetAllSlotEntities()
+        {
+            List<IEntity> allSlotEntities = new List<IEntity>();
+
+            // Get all inventory slot background entities
+            for (int y = 0; y < _inventorySlotsY; y++)
+            {
+                for (int x = 0; x < _inventorySlotsX; x++)
+                {
+                    allSlotEntities.Add(_inventorySlots[y, x].SlotBackground);
+                }
+            }
+
+            return allSlotEntities;
         }
 
         // Calculate the position for every slot

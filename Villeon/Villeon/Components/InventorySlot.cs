@@ -13,10 +13,10 @@ namespace Villeon.Components
 {
     public class InventorySlot
     {
-        public static float SlotSize = Assets.GetSprite("GUI.Slot.png", SpriteLayer.ScreenGuiMiddleground, false).Width;
+        private static float _slotSize = Assets.GetSprite("GUI.Slot.png", SpriteLayer.ScreenGuiMiddleground, false).Width;
         private Item? _item;
         private IEntity _slotBackground;
-        private bool _active; //TODO: Find a better name
+        private bool _selectedByPlayer;
         private Transform _transform;
 
         public InventorySlot(Transform transform)
@@ -24,6 +24,11 @@ namespace Villeon.Components
             _item = null;
             _transform = transform;
             _slotBackground = CreateBackground();
+        }
+
+        public static float SlotSize
+        {
+            get => _slotSize;
         }
 
         public IEntity SlotBackground
@@ -64,7 +69,7 @@ namespace Villeon.Components
         private IEntity CreateBackground()
         {
             IEntity background = new Entity(_transform, "SlotBackground");
-            Sprite slotSprite = Assets.GetSprite("GUI.Slot.png", SpriteLayer.ScreenGuiMiddleground, true);
+            Sprite slotSprite = Assets.GetSprite("GUI.Slot.png", SpriteLayer.ScreenGuiMiddleground, false);
             background.AddComponent(slotSprite);
 
             return background;
