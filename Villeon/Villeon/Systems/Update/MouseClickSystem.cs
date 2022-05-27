@@ -18,7 +18,7 @@ namespace Villeon.Systems
         public MouseClickSystem(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(Collider));
+            Signature.Include(typeof(Collider));
         }
 
         public void Update(float time)

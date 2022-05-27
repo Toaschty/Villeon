@@ -16,9 +16,7 @@ namespace Villeon.Systems
         public PlayerMovementSystem(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(Physics));
-            Signature = Signature.AddToSignature(typeof(Collider));
-            Signature = Signature.AddToSignature(typeof(Player));
+            Signature.Include(typeof(Physics), typeof(Collider), typeof(Player));
         }
 
         public void Update(float time)

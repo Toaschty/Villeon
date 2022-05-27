@@ -14,7 +14,7 @@ namespace Villeon.Systems
         public CollisionSystem(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(Collider));
+            Signature.Include(typeof(Collider));
         }
 
         private enum Direction

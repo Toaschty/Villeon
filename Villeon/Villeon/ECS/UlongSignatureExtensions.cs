@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Villeon.Helper;
 
 namespace Villeon.ECS
 {
-    public static class Signature
+    public static class UlongSignatureExtensions
     {
         public static ulong AddToSignature(this ulong signature, Type component)
         {

@@ -14,8 +14,7 @@ namespace Villeon.Render
         public GuiRenderer(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(Sprite));
-            Signature = Signature.AddToSignature(typeof(ScreenGui));
+            Signature.Include(typeof(Sprite), typeof(ScreenGui));
         }
 
         public void Add(IEntity entity)

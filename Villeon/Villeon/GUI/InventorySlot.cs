@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Villeon.Components;
 using Villeon.ECS;
 using Villeon.GUI;
 using Villeon.Helper;
 using Villeon.Render;
 
-namespace Villeon.Components
+namespace Villeon.GUI
 {
     public class InventorySlot
     {

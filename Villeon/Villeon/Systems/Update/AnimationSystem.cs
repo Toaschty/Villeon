@@ -14,8 +14,7 @@ namespace Villeon.Systems.Update
         public AnimationSystem(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(AnimationController));
-            Signature = Signature.AddToSignature(typeof(Sprite));
+            Signature.Include(typeof(AnimationController), typeof(Sprite));
         }
 
         public void Update(float time)
