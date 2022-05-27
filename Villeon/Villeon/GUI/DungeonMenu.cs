@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
 using Villeon.ECS;
 using Villeon.Helper;
@@ -99,6 +100,11 @@ namespace Villeon.GUI
         public IEntity[] GetEntities()
         {
             return _entities.ToArray();
+        }
+
+        public void OnKeyReleased(Keys key)
+        {
+            throw new NotImplementedException();
         }
     }
 }
