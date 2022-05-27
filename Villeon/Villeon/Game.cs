@@ -213,7 +213,6 @@ namespace Villeon
             _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             _villageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
-
             _villageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
 
             _villageScene.SetTileMap(villageTileMap, false);

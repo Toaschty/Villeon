@@ -31,7 +31,14 @@ namespace Villeon.Systems.Update
                 {
                     Keys? currentkey = KeyHandler.GetLastReleasedKey();
                     if (currentkey != null)
-                        handler.CurrentMenu!.OnKeyReleased((Keys)currentkey);
+                    {
+                        bool updateMenu = handler.CurrentMenu!.OnKeyReleased((Keys)currentkey);
+                        if (updateMenu)
+                        {
+                            UnloadMenu(handler.CurrentMenu);
+                            LoadMenu(handler.CurrentMenu);
+                        }
+                    }
                 }
             }
         }

@@ -41,7 +41,7 @@ namespace Villeon.GUI
             return _entities.ToArray();
         }
 
-        public void OnKeyReleased(Keys key)
+        public bool OnKeyReleased(Keys key)
         {
             throw new NotImplementedException();
         }

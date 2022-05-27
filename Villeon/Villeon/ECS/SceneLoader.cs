@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Villeon.Helper;
 using Villeon.Systems;
 
 namespace Villeon.ECS
@@ -13,6 +14,9 @@ namespace Villeon.ECS
             {
                 if (scene.Name == sceneName)
                 {
+                    // Clear all pressed and released keys before loading new scene
+                    KeyHandler.ClearKeys();
+
                     Manager.GetInstance().SetScene(scene);
                     break;
                 }

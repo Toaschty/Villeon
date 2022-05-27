@@ -78,7 +78,7 @@ namespace Villeon.GUI
             return _allEntities.ToArray();
         }
 
-        public void OnKeyReleased(Keys key)
+        public bool OnKeyReleased(Keys key)
         {
             Console.WriteLine("PRESSED: " + key);
             if (key == Keys.H)
@@ -86,6 +86,8 @@ namespace Villeon.GUI
                 AddItem(new Item("HealthPotion", Assets.GetSprite("GUI.Potion_Item.png", Render.SpriteLayer.ScreenGuiForeground, false), 12, Item.Type.POTION));
                 Console.WriteLine("Spawning Health potion!");
             }
+
+            return true;
         }
 
         private List<IEntity> GetAllSlotEntities()

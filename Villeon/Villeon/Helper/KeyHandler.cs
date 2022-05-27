@@ -49,6 +49,12 @@ namespace Villeon.Helper
             _releasedKeys.Clear();
         }
 
+        public static void ClearKeys()
+        {
+            _pressedKeys.Clear();
+            _releasedKeys.Clear();
+        }
+
         public static Keys? GetLastReleasedKey()
         {
             if ( _releasedKeys.Count != 0)
