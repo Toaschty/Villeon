@@ -28,7 +28,11 @@ namespace Villeon.Systems.Update
                 CheckKeyMenu(handler);
 
                 if (StateManager.InMenu)
-                    handler.CurrentMenu!.OnKeyReleased(KeyHandler.GetLastReleasedKey());
+                {
+                    Keys? currentkey = KeyHandler.GetLastReleasedKey();
+                    if (currentkey != null)
+                        handler.CurrentMenu!.OnKeyReleased((Keys)currentkey);
+                }
             }
         }
 
@@ -45,12 +49,6 @@ namespace Villeon.Systems.Update
             // Inventory Menu
             if (KeyHandler.WasReleased(Keys.Tab) || KeyHandler.WasReleased(Keys.I))
                 ChangeMenu(handler, handler.InventoryMenu);
-
-            if (KeyHandler.WasReleased(Keys.H))
-            {
-                InventoryMenu.GetInstance().AddItem(new Item("HealthPotion", Assets.GetSprite("GUI.Potion_Item.png", Render.SpriteLayer.ScreenGuiForeground, false), 12, Item.Type.POTION));
-                Console.WriteLine("Spawning Health potion!");
-            }
         }
 
         private void ChangeMenu(GUIHandler handler, IGUIMenu menu)

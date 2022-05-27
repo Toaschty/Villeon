@@ -78,6 +78,16 @@ namespace Villeon.GUI
             return _allEntities.ToArray();
         }
 
+        public void OnKeyReleased(Keys key)
+        {
+            Console.WriteLine("PRESSED: " + key);
+            if (key == Keys.H)
+            {
+                AddItem(new Item("HealthPotion", Assets.GetSprite("GUI.Potion_Item.png", Render.SpriteLayer.ScreenGuiForeground, false), 12, Item.Type.POTION));
+                Console.WriteLine("Spawning Health potion!");
+            }
+        }
+
         private List<IEntity> GetAllSlotEntities()
         {
             List<IEntity> allSlotEntities = new List<IEntity>();
@@ -125,11 +135,6 @@ namespace Villeon.GUI
             background.AddComponent(scrollImage);
 
             return background;
-        }
-
-        public void OnKeyReleased(Keys key)
-        {
-            throw new NotImplementedException();
         }
     }
 }

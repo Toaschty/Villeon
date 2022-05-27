@@ -49,12 +49,17 @@ namespace Villeon.Helper
             _releasedKeys.Clear();
         }
 
-        public static Keys GetLastReleasedKey()
+        public static Keys? GetLastReleasedKey()
         {
-            Keys key = _releasedKeys.Last();
-            _releasedKeys.Remove(key);
+            if ( _releasedKeys.Count != 0)
+            {
+                Keys key = _releasedKeys.Last();
+                _releasedKeys.Remove(key);
 
-            return key;
+                return key;
+            }
+
+            return null;
         }
 
         public static void RemoveKeyHold(Keys key)
