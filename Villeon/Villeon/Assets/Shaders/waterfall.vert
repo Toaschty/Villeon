@@ -13,7 +13,7 @@ out vec4 fColor;
 out vec2 fTexCoords;
 out float fTexID;
 
-void main()
+void main() 
 {
 	fColor = color;
 	fTexCoords = texCoords;
@@ -27,5 +27,4 @@ void main()
 	{
 		gl_Position = position * screenMatrix;
 	}
-
 }

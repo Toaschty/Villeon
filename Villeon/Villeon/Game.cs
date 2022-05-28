@@ -77,8 +77,10 @@ namespace Villeon
             lvlGen.GenSolutionPath();
             RoomGeneration roomGen = new RoomGeneration(lvlGen.StartRoomX, lvlGen.StartRoomY, lvlGen.EndRoomX, lvlGen.EndRoomY, lvlGen.RoomModels);
 
-            // Font load
-            
+            //// Waterfall
+            //IEntity waterfall = new Entity(new Transform(new Vector2(-10, -5), 0.1f, 0), "Waterfall");
+            //waterfall.AddComponent(new Sprite(Assets.GetTexture("Shaders.waterfallClouds.jpg"), SpriteLayer.ScreenGuiForeground, true));
+            //_dungeonScene.AddEntity(waterfall);
 
             IEntity entity;
             for (int i = 0; i < 4; i++)
@@ -266,6 +268,8 @@ namespace Villeon
         private void RenderFrame(FrameEventArgs args)
         {
             _fps!.SetFps((float)args.Time);
+            Time.SetTime((float)args.Time);
+            Console.WriteLine(Time.ElapsedTime);
             GL.Clear(ClearBufferMask.ColorBufferBit);
             Manager.GetInstance().Render();
         }

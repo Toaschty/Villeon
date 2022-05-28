@@ -69,6 +69,7 @@ namespace Villeon.Helper
         {
             // Shader
             Assets.GetShader("Shaders.shader");
+            Assets.GetShader("Shaders.waterfall");
 
             // Font
             Assets.AddSpriteSheet("Fonts.VilleonFont.png", new SpriteSheet(Color4.White, Assets.GetTexture("Fonts.VilleonFont.png"), 8, 12, 95));
