@@ -77,9 +77,6 @@ namespace Villeon
             lvlGen.GenSolutionPath();
             RoomGeneration roomGen = new RoomGeneration(lvlGen.StartRoomX, lvlGen.StartRoomY, lvlGen.EndRoomX, lvlGen.EndRoomY, lvlGen.RoomModels);
 
-            // Font load
-            
-
             IEntity entity;
             for (int i = 0; i < 4; i++)
             {

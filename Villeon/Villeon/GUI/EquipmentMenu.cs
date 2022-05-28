@@ -32,6 +32,8 @@ namespace Villeon.GUI
 
             // Load Sprites
             Sprite backgroundScrollSprite = Assets.GetSprite("GUI.Scroll_Equipment.png", Render.SpriteLayer.ScreenGuiBackground, false);
+            Sprite swordSlotSprite = Assets.GetSprite("GUI.Inventory.InventorySlot_Sword.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite shieldSlotSprite = Assets.GetSprite("GUI.Inventory.InventorySlot_Shield.png", SpriteLayer.ScreenGuiMiddleground, false);
             Sprite slotSprite = Assets.GetSprite("GUI.Inventory.InventorySlot.png", SpriteLayer.ScreenGuiMiddleground, false);
 
             // Background
@@ -46,7 +48,7 @@ namespace Villeon.GUI
             Array.ForEach(name.GetEntities(), entity => _entities.Add(entity));
 
             // Profil
-            Entity image = new Entity(new Transform(new Vector2(-5f, -2f), 1f, 0f), "Image");
+            Entity image = new Entity(new Transform(new Vector2(-4.5f, -2f), 1f, 0f), "Profil");
             Sprite player = Assets.GetSprite("Animations.player_walk_right.png", Render.SpriteLayer.ScreenGuiMiddleground, true);
             AnimationController controller = new AnimationController();
             controller.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_idle.png", 0.3f));
@@ -55,11 +57,27 @@ namespace Villeon.GUI
             image.AddComponent(controller);
             _entities.Add(image);
 
+            // Weapon
+            Text weapon = new Text("Sword & Shield", new Vector2(0.6f, 3.2f), "Alagard", 0f, 0.5f, _letterScale);
+            Array.ForEach(weapon.GetEntities(), entity => _entities.Add(entity));
+
+            // Weapon Slot
+            Entity weaponSlot = new Entity(new Transform(new Vector2(2.1f, 1f), 0.3f, 0f), "Weapon Slot");
+            Entity shieldSlot = new Entity(new Transform(new Vector2(3.6f, 1f), 0.3f, 0f), "Shield Slot");
+            weaponSlot.AddComponent(swordSlotSprite);
+            shieldSlot.AddComponent(shieldSlotSprite);
+            _entities.Add(weaponSlot);
+            _entities.Add(shieldSlot);
+
+            // Hot Bar
+            Text hotbar = new Text("Equiped Items", new Vector2(0.85f, -1f), "Alagard", 0f, 0.5f, _letterScale);
+            Array.ForEach(hotbar.GetEntities(), entity => _entities.Add(entity));
+
             // Hotbar Slots
-            Entity slot1 = new Entity(new Transform(new Vector2(0f, 0f), 0.3f, 0f), "Slot1");
-            Entity slot2 = new Entity(new Transform(new Vector2(1f, 0f), 0.3f, 0f), "Slot2");
-            Entity slot3 = new Entity(new Transform(new Vector2(2f, 0f), 0.3f, 0f), "Slot3");
-            Entity slot4 = new Entity(new Transform(new Vector2(3f, 0f), 0.3f, 0f), "Slot4");
+            Entity slot1 = new Entity(new Transform(new Vector2(0.6f, -3.2f), 0.3f, 0f), "Slot1");
+            Entity slot2 = new Entity(new Transform(new Vector2(2.1f, -3.2f), 0.3f, 0f), "Slot2");
+            Entity slot3 = new Entity(new Transform(new Vector2(3.6f, -3.2f), 0.3f, 0f), "Slot3");
+            Entity slot4 = new Entity(new Transform(new Vector2(5.1f, -3.2f), 0.3f, 0f), "Slot4");
             slot1.AddComponent(slotSprite);
             slot2.AddComponent(slotSprite);
             slot3.AddComponent(slotSprite);
