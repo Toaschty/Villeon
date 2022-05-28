@@ -40,7 +40,7 @@ namespace Villeon.GUI
             return _letters.ToArray();
         }
 
-        private void CreateLetters()
+        private void CreateLetters2()
         {
             SpriteSheet fontSheet = Assets.GetSpriteSheet("Fonts.HenksFont.png");
             Sprite letterSprite;
@@ -60,6 +60,36 @@ namespace Villeon.GUI
                 }
 
                 letterSprite = fontSheet.GetSprite(c - ' ', SpriteLayer.ScreenGuiForeground, false);
+
+                // Create Entity for letter
+                Entity letterEntity = new Entity(new Transform(letterPosition, _letterScale, 0f), "TBX[" + c + "]");
+                Sprite letterSpriteCopy = new Sprite(letterSprite);
+                letterEntity.AddComponent(letterSpriteCopy);
+                _letters.Add(letterEntity);
+
+                // Set position for next letter
+                letterPosition.X += spriteWidth + _letterSpacing;
+            }
+        }
+
+        private void CreateLetters()
+        {
+            Font font = new Font(Color4.White, Assets.GetTexture("Fonts.Alagard.png"), "Fonts.Alagard.json");
+
+            Vector2 letterPosition = _position;
+            float spriteHeight = font.FontHeight * _letterScale;
+            foreach (char c in _text)
+            {
+                // Move to next line '\n'
+                if (c == '\n')
+                {
+                    letterPosition.X = _position.X;
+                    letterPosition.Y -= spriteHeight + _lineSpacing;
+                    continue;
+                }
+
+                Sprite letterSprite = font.GetCharacter(c, SpriteLayer.ScreenGuiForeground, false);
+                float spriteWidth = letterSprite.Width * _letterScale;
 
                 // Create Entity for letter
                 Entity letterEntity = new Entity(new Transform(letterPosition, _letterScale, 0f), "TBX[" + c + "]");

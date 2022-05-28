@@ -78,14 +78,7 @@ namespace Villeon
             RoomGeneration roomGen = new RoomGeneration(lvlGen.StartRoomX, lvlGen.StartRoomY, lvlGen.EndRoomX, lvlGen.EndRoomY, lvlGen.RoomModels);
 
             // Font load
-            dynamic fontJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Fonts.Alagard.json")) !;
-
-            int charCount = fontJson.characters.Count;
-            int charHeight = fontJson.characterHeight;
-            for (int i = 0; i < charCount; i++)
-            {
-                Console.WriteLine(i + " = " + fontJson.characters[i].width);
-            }
+            
 
             IEntity entity;
             for (int i = 0; i < 4; i++)

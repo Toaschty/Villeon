@@ -25,8 +25,8 @@ namespace Villeon.GUI
         private Vector2 _overviewSpacing = new Vector2(0, 1.5f);
         private Vector2 _onExplorePosition = new Vector2(0.4f, -3.7f);
 
-        private float _letterScaleBig = 0.5f;
-        private float _letterScaleSmall = 0.25f;
+        private float _letterScaleBig = 0.35f;
+        private float _letterScaleSmall = 0.18f;
 
         private int _currentSelection = 0;
         private bool _onExplore = false;

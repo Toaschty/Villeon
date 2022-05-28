@@ -1,7 +1,13 @@
 ﻿{
   "gridCellWidth": 20,
   "gridCellHeight": 20,
+  "rows": 10,
+  "cols": 10,
   "characterHeight": 14,
+  "borderTop": 1,
+  "borderBottom": 1,
+  "borderLeft": 1,
+  "borderRight": 1,
   "characters": [
     {
       "character": " ",
