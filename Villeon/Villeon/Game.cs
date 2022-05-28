@@ -269,6 +269,7 @@ namespace Villeon
         {
             _fps!.SetFps((float)args.Time);
             Time.SetTime((float)args.Time);
+            Console.WriteLine(Time.ElapsedTime);
             GL.Clear(ClearBufferMask.ColorBufferBit);
             Manager.GetInstance().Render();
         }

@@ -48,7 +48,7 @@ namespace Villeon.GUI
             Array.ForEach(name.GetEntities(), entity => _entities.Add(entity));
 
             // Profil
-            Entity image = new Entity(new Transform(new Vector2(-4.5f, -2f), 1f, 0f), "Profil");
+            Entity image = new Entity(new Transform(new Vector2(-4.2f, -1.6f), 0.7f, 0f), "Profil");
             Sprite player = Assets.GetSprite("Animations.player_walk_right.png", Render.SpriteLayer.ScreenGuiMiddleground, true);
             AnimationController controller = new AnimationController();
             controller.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_idle.png", 0.3f));
