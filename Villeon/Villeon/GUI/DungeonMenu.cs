@@ -26,7 +26,7 @@ namespace Villeon.GUI
         private Vector2 _onExplorePosition = new Vector2(0.4f, -3.7f);
 
         private float _letterScaleBig = 0.35f;
-        private float _letterScaleSmall = 0.18f;
+        private float _letterScaleSmall = 0.15f;
 
         private int _currentSelection = 0;
         private bool _onExplore = false;
@@ -82,7 +82,7 @@ namespace Villeon.GUI
             }
 
             // Text - Explore
-            Text explore = new Text("Go explore", new Vector2(1.3f, -3.6f), 0.1f, 3f, 0.5f);
+            Text explore = new Text("Go explore", new Vector2(0.3f, -3.8f), 0.1f, 3f, 0.5f);
             Array.ForEach(explore.GetEntities(), entity => _entities.Add(entity));
 
             // Load in first text
@@ -178,11 +178,11 @@ namespace Villeon.GUI
         private void LoadText()
         {
             // Title
-            _title = new Text(_cavesJson.caves[_currentSelection].name.ToString(), new Vector2(0.6f, 3.2f), 0.1f, 0.5f, _letterScaleBig);
+            _title = new Text(_cavesJson.caves[_currentSelection].name.ToString(), new Vector2(0.6f, 3.2f), 0.05f, 0.5f, _letterScaleBig);
             Array.ForEach(_title.GetEntities(), entity => _entities.Add(entity));
 
             // Description
-            _description = new Text(_cavesJson.caves[_currentSelection].description.ToString(), new Vector2(0.6f, 2.1f), 0.1f, 0.5f, _letterScaleSmall);
+            _description = new Text(_cavesJson.caves[_currentSelection].description.ToString(), new Vector2(0.6f, 2.1f), 0.00f, 0.5f, _letterScaleSmall);
             Array.ForEach(_description.GetEntities(), entity => _entities.Add(entity));
         }
 
