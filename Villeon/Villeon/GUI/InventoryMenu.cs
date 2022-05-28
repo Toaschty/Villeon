@@ -17,35 +17,33 @@ namespace Villeon.GUI
         private static InventoryMenu? _inventory;
 
         private List<IEntity> _allEntities = new List<IEntity>();
-        private IEntity _backgroundImage;
         private InventorySlot[,] _inventorySlots;
+        private IEntity[,] _tabBar = new IEntity[2, 2];
 
         // Inventory
         private int _inventorySlotsX = 7;
         private int _inventorySlotsY = 4;
 
         // Align inventory slots
-        private Vector2 _startPos = new Vector2(-5f, 1f);
+        private Vector2 _startPos = new Vector2(-5f, 0.3f);
         private float _slotScalingFactor = 0.3f;
         private float _slotSize = InventorySlot.SlotSize;
         private float _offset = 0.3f;
+        private bool _onSlots = true;
 
         // Scroll
         private float _scrollScale = 0.5f;
 
-        private Vector2i _playerCurrentSlotPosition = new Vector2i(0, 0);
+        private Vector2i _playerInventoryPosition = new Vector2i(0, 0);
+        private Vector2i _playerTabbarPosition = new Vector2i(0, 0);
 
-        public InventoryMenu()
+        private InventoryMenu()
         {
-            _backgroundImage = CreateInventoryBackground();
             _inventorySlots = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
 
             SetInventorySlotPositions();
-
-            // Set the selection frame to the starting point
-            _allEntities.Add(_inventorySlots[_playerCurrentSlotPosition.Y, _playerCurrentSlotPosition.X].SlotSelection);
-            _allEntities.AddRange(GetAllSlotEntities()); // Add all slot entities
-            _allEntities.Add(_backgroundImage); // Add the background sroll
+            InitializeTabbar();
+            AddEntitiesToList();
         }
 
         public static InventoryMenu GetInstance()
@@ -81,48 +79,113 @@ namespace Villeon.GUI
 
         public bool OnKeyReleased(Keys key)
         {
-            // Remove the old selection frame
-            _allEntities.Remove(_inventorySlots[_playerCurrentSlotPosition.Y, _playerCurrentSlotPosition.X].SlotSelection);
-            Manager.GetInstance().RemoveEntity(_inventorySlots[_playerCurrentSlotPosition.Y, _playerCurrentSlotPosition.X].SlotSelection);
-
             if (key == Keys.H)
             {
                 AddItem(new Item("HealthPotion", Assets.GetSprite("GUI.Potion_Item.png", Render.SpriteLayer.ScreenGuiForeground, false), 12, Item.Type.POTION));
                 Console.WriteLine("Spawning Health potion!");
             }
-            else if (key == Keys.W)
+
+            if (_onSlots)
+                HandleInventorySlot(key);
+            else
+                HandleTabNavigation(key);
+
+            return true;
+        }
+
+        private void HandleInventorySlot(Keys key)
+        {
+            // Remove the old selection frame
+            _allEntities.Remove(_inventorySlots[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
+            Manager.GetInstance().RemoveEntity(_inventorySlots[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
+
+            if (key == Keys.W)
             {
-                if (_playerCurrentSlotPosition.Y > 0)
-                    _playerCurrentSlotPosition.Y -= 1;
+                if (_playerInventoryPosition.Y > 0)
+                    _playerInventoryPosition.Y -= 1;
                 else
-                    _playerCurrentSlotPosition.Y = _inventorySlotsY - 1;
+                {
+                    // Reset the inventory slot background and add the navigation background 
+                    _allEntities.Add(_tabBar[_playerTabbarPosition.Y, _playerTabbarPosition.X]);
+                    Manager.GetInstance().RemoveEntity(_inventorySlots[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
+                    _onSlots = false;
+                    return;
+                }
             }
             else if (key == Keys.S)
             {
-                if (_playerCurrentSlotPosition.Y < _inventorySlotsY - 1)
-                    _playerCurrentSlotPosition.Y += 1;
+                if (_playerInventoryPosition.Y < _inventorySlotsY - 1)
+                    _playerInventoryPosition.Y += 1;
                 else
-                    _playerCurrentSlotPosition.Y = 0;
+                    _playerInventoryPosition.Y = 0;
             }
             else if (key == Keys.A)
             {
-                if (_playerCurrentSlotPosition.X > 0)
-                    _playerCurrentSlotPosition.X -= 1;
+                if (_playerInventoryPosition.X > 0)
+                    _playerInventoryPosition.X -= 1;
                 else
-                    _playerCurrentSlotPosition.X = _inventorySlotsX - 1;
+                    _playerInventoryPosition.X = _inventorySlotsX - 1;
             }
             else if (key == Keys.D)
             {
-                if (_playerCurrentSlotPosition.X < _inventorySlotsX - 1)
-                    _playerCurrentSlotPosition.X += 1;
+                if (_playerInventoryPosition.X < _inventorySlotsX - 1)
+                    _playerInventoryPosition.X += 1;
                 else
-                    _playerCurrentSlotPosition.X = 0;
+                    _playerInventoryPosition.X = 0;
             }
 
             // Add the new selection frame
-            _allEntities.Add(_inventorySlots[_playerCurrentSlotPosition.Y, _playerCurrentSlotPosition.X].SlotSelection);
+            _allEntities.Add(_inventorySlots[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
+        }
 
-            return true;
+        private void HandleTabNavigation(Keys key)
+        {
+            _allEntities.Remove(_tabBar[_playerTabbarPosition.Y, _playerTabbarPosition.X]);
+            Manager.GetInstance().RemoveEntity(_tabBar[_playerTabbarPosition.Y, _playerTabbarPosition.X]);
+
+            if (key == Keys.W)
+            {
+                if (_playerTabbarPosition.Y < 1)
+                    _playerTabbarPosition.Y += 1;
+            }
+            else if (key == Keys.S)
+            {
+                if (_playerTabbarPosition.Y > 0)
+                    _playerTabbarPosition.Y -= 1;
+                else
+                {
+                    // Reset the navigation background and add the inventory slot background
+                    _allEntities.Add(_inventorySlots[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
+                    Manager.GetInstance().RemoveEntity(_inventorySlots[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
+                    _onSlots = true;
+                    return;
+                }
+            }
+            else if (key == Keys.A)
+            {
+                if (_playerTabbarPosition.X > 0)
+                    _playerTabbarPosition.X -= 1;
+                else
+                    _playerTabbarPosition.X = 1;
+            }
+            else if (key == Keys.D)
+            {
+                if (_playerTabbarPosition.X < 1)
+                    _playerTabbarPosition.X += 1;
+                else
+                    _playerTabbarPosition.X = 0;
+            }
+
+            Console.WriteLine(_playerTabbarPosition);
+            _allEntities.Add(_tabBar[_playerTabbarPosition.Y, _playerTabbarPosition.X]);
+        }
+
+        private void AddEntitiesToList()
+        {
+            _allEntities.AddRange(GetAllSlotEntities()); // Add all slot entities
+            _allEntities.AddRange(GetTabbarEntities()); // Add the text that will be on the top
+            _allEntities.Add(_inventorySlots[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection); // Set the selection frame to the starting point
+            _allEntities.Add(CreateInventoryBackground()); // Add the background sroll
         }
 
         private List<IEntity> GetAllSlotEntities()
@@ -139,6 +202,46 @@ namespace Villeon.GUI
             }
 
             return allSlotEntities;
+        }
+
+        private List<IEntity> GetTabbarEntities()
+        {
+            List<IEntity> textEntities = new List<IEntity>();
+
+            float letterSpacing = 0.2f;
+            float lineSpacing = 0.5f;
+            float letterScale = 0.4f;
+
+            float positionY = _startPos.Y + 2f;
+
+            // Make text
+            Text allText = new Text("All", new Vector2(_startPos.X + 1.4f, positionY + 0.8f), letterSpacing, lineSpacing, letterScale);
+            textEntities.AddRange(allText.GetEntities());
+
+            Text weaponText = new Text("Weapons", new Vector2(_startPos.X, positionY - 0.4f), letterSpacing, lineSpacing, letterScale);
+            textEntities.AddRange(weaponText.GetEntities());
+
+            Text potionText = new Text("Potions", new Vector2(_startPos.X + 6.2f, positionY + 0.8f), letterSpacing, lineSpacing, letterScale);
+            textEntities.AddRange(potionText.GetEntities());
+
+            Text materialText = new Text("Materials", new Vector2(_startPos.X + 5.7f, positionY - 0.4f), letterSpacing, lineSpacing, letterScale);
+            textEntities.AddRange(materialText.GetEntities());
+
+            float horizontalLineY = _startPos.Y + 2.5f;
+            float horizontalLineScale = 0.3f;
+
+            // Make HirzontalLine
+            IEntity firstHorizontalLine = new Entity(new Transform(new Vector2(_startPos.X, horizontalLineY), horizontalLineScale, 0f), "InventoryHorizontalLine");
+            Sprite firstHorizontalSprite = Assets.GetSprite("GUI.Scroll_Horizontal_Line_1.png", SpriteLayer.ScreenGuiForeground, false);
+            firstHorizontalLine.AddComponent(firstHorizontalSprite);
+            textEntities.Add(firstHorizontalLine);
+
+            IEntity secondHorizontalLine = new Entity(new Transform(new Vector2(_startPos.X + 6f, horizontalLineY), horizontalLineScale, 0f), "InventoryHorizontalLine");
+            Sprite secondHorizontalSprite = Assets.GetSprite("GUI.Scroll_Horizontal_Line_2.png", SpriteLayer.ScreenGuiForeground, false);
+            secondHorizontalLine.AddComponent(secondHorizontalSprite);
+            textEntities.Add(secondHorizontalLine);
+
+            return textEntities;
         }
 
         // Calculate the position for every slot
@@ -159,6 +262,30 @@ namespace Villeon.GUI
                 // calculate the position for the new row
                 position.X = _startPos.X;
                 position.Y = position.Y - _offset - (_slotSize * _slotScalingFactor);
+            }
+        }
+
+        private void InitializeTabbar()
+        {
+            float scale = 0.3f;
+            float positionX = _startPos.X + 0.5f;
+            float positionY = _startPos.Y + 1.8f;
+            float offsetX = 5.5f;
+            float offsetY = 1.2f;
+
+            _tabBar[0, 0] = new Entity(new Transform(new Vector2(positionX, positionY), scale, 0f), "First Text");
+            _tabBar[0, 1] = new Entity(new Transform(new Vector2(positionX + offsetX, positionY), scale, 0f), "Second Text");
+            _tabBar[1, 0] = new Entity(new Transform(new Vector2(positionX, positionY + offsetY), scale, 0f), "Third Text");
+            _tabBar[1, 1] = new Entity(new Transform(new Vector2(positionX + offsetX, positionY + offsetY), scale, 0f), "Fourth Text");
+
+            Sprite selectionBackground = Assets.GetSprite("GUI.Scroll_Selection.png", SpriteLayer.ScreenGuiMiddleground, false);
+
+            for (int i = 0; i < 2; i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    _tabBar[i, j].AddComponent(selectionBackground);
+                }
             }
         }
 
