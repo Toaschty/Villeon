@@ -215,16 +215,16 @@ namespace Villeon.GUI
             float positionY = _startPos.Y + 2f;
 
             // Make text
-            Text allText = new Text("All", new Vector2(_startPos.X + 1.4f, positionY + 0.8f), letterSpacing, lineSpacing, letterScale);
+            Text allText = new Text("All", new Vector2(_startPos.X + 1.4f, positionY + 0.8f), "Alagard", letterSpacing, lineSpacing, letterScale);
             textEntities.AddRange(allText.GetEntities());
 
-            Text weaponText = new Text("Weapons", new Vector2(_startPos.X, positionY - 0.4f), letterSpacing, lineSpacing, letterScale);
+            Text weaponText = new Text("Weapons", new Vector2(_startPos.X, positionY - 0.4f), "Alagard", letterSpacing, lineSpacing, letterScale);
             textEntities.AddRange(weaponText.GetEntities());
 
-            Text potionText = new Text("Potions", new Vector2(_startPos.X + 6.2f, positionY + 0.8f), letterSpacing, lineSpacing, letterScale);
+            Text potionText = new Text("Potions", new Vector2(_startPos.X + 6.2f, positionY + 0.8f), "Alagard", letterSpacing, lineSpacing, letterScale);
             textEntities.AddRange(potionText.GetEntities());
 
-            Text materialText = new Text("Materials", new Vector2(_startPos.X + 5.7f, positionY - 0.4f), letterSpacing, lineSpacing, letterScale);
+            Text materialText = new Text("Materials", new Vector2(_startPos.X + 5.7f, positionY - 0.4f), "Alagard", letterSpacing, lineSpacing, letterScale);
             textEntities.AddRange(materialText.GetEntities());
 
             float horizontalLineY = _startPos.Y + 2.5f;

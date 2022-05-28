@@ -45,7 +45,7 @@ namespace Villeon
         {
             SceneLoader.AddScene(_dungeonScene);
             SceneLoader.AddScene(_villageScene);
-            SceneLoader.SetActiveScene("DungeonScene");
+            SceneLoader.SetActiveScene("VillageScene");
 
             AddDungeonSystems();
             AddVillageSystems();

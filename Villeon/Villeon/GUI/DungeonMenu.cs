@@ -19,15 +19,18 @@ namespace Villeon.GUI
 
         private Entity _menuSelection;
 
+        // Positions and offsets for gui elements
         private Vector2 _overviewSelectionStartPosition = new Vector2(-6.4f, 3.1f);
         private Vector2 _overviewLineStartPostition = new Vector2(-6.3f, 2.6f);
         private Vector2 _overviewStartPosition = new Vector2(-5.9f, 3.2f);
         private Vector2 _overviewSpacing = new Vector2(0, 1.5f);
         private Vector2 _onExplorePosition = new Vector2(0.4f, -3.7f);
 
+        // Text size
         private float _letterScaleBig = 0.35f;
-        private float _letterScaleSmall = 0.15f;
+        private float _letterScaleSmall = 0.2f;
 
+        // Selection variables
         private int _currentSelection = 0;
         private bool _onExplore = false;
         private int _elementCount = 0;
@@ -35,6 +38,7 @@ namespace Villeon.GUI
         private Text _title;
         private Text _description;
 
+        // Holds Json file of cave data
         private dynamic _cavesJson;
 
         public DungeonMenu()
@@ -69,7 +73,7 @@ namespace Villeon.GUI
             for (int i = 0; i < _elementCount; i++)
             {
                 // Text
-                Text overViewText = new Text(_cavesJson.caves[i].name.ToString(), _overviewStartPosition - (i * _overviewSpacing), 0.1f, 0.5f, _letterScaleBig);
+                Text overViewText = new Text(_cavesJson.caves[i].name.ToString(), _overviewStartPosition - (i * _overviewSpacing), "Alagard", 0f, 0.5f, _letterScaleBig);
                 Array.ForEach(overViewText.GetEntities(), entity => _entities.Add(entity));
 
                 // Line
@@ -82,7 +86,7 @@ namespace Villeon.GUI
             }
 
             // Text - Explore
-            Text explore = new Text("Go explore", new Vector2(0.3f, -3.8f), 0.1f, 3f, 0.5f);
+            Text explore = new Text("Go explore", _onExplorePosition + new Vector2(1f, 0), "Alagard", 0f, 3f, _letterScaleBig);
             Array.ForEach(explore.GetEntities(), entity => _entities.Add(entity));
 
             // Load in first text
@@ -121,7 +125,6 @@ namespace Villeon.GUI
                 // Move position
                 UpdateSelectionPosition();
 
-                // Update text
                 UpdateText();
             }
 
@@ -178,11 +181,13 @@ namespace Villeon.GUI
         private void LoadText()
         {
             // Title
-            _title = new Text(_cavesJson.caves[_currentSelection].name.ToString(), new Vector2(0.6f, 3.2f), 0.05f, 0.5f, _letterScaleBig);
+            string title = _cavesJson.caves[_currentSelection].name.ToString();
+            _title = new Text(title, new Vector2(0.6f, 3.2f), "Alagard", 0f, 0.5f, _letterScaleBig);
             Array.ForEach(_title.GetEntities(), entity => _entities.Add(entity));
 
             // Description
-            _description = new Text(_cavesJson.caves[_currentSelection].description.ToString(), new Vector2(0.6f, 2.1f), 0.00f, 0.5f, _letterScaleSmall);
+            string description = _cavesJson.caves[_currentSelection].description.ToString();
+            _description = new Text(description, new Vector2(0.4f, 2.1f), "Alagard_Thin", 0f, 0.5f, _letterScaleSmall);
             Array.ForEach(_description.GetEntities(), entity => _entities.Add(entity));
         }
 

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
 using Villeon.ECS;
 using Villeon.Helper;
+using Villeon.Render;
+using Villeon.Utils;
 
 namespace Villeon.GUI
 {
@@ -15,25 +18,56 @@ namespace Villeon.GUI
     {
         private List<Entity> _entities;
 
+        private float _letterScale = 0.35f;
+
+        private dynamic _charakterJson;
+
         public EquipmentMenu()
         {
             // Create Menu layout
             _entities = new List<Entity>();
 
+            // Load character data
+            _charakterJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Character.json")) !;
+
+            // Load Sprites
+            Sprite backgroundScrollSprite = Assets.GetSprite("GUI.Scroll_Equipment.png", Render.SpriteLayer.ScreenGuiBackground, false);
+            Sprite slotSprite = Assets.GetSprite("GUI.Inventory.InventorySlot.png", SpriteLayer.ScreenGuiMiddleground, false);
+
             // Background
-            float scrollScale = 0.5f;
-            Sprite backgroundSprite = Assets.GetSprite("GUI.Scroll.png", Render.SpriteLayer.ScreenGuiBackground, false);
-            Vector2 middle = new Vector2(backgroundSprite.Width / 2f, backgroundSprite.Height / 2f);
-            middle *= scrollScale;
-            Entity backgroundImage = new Entity(new Transform(Vector2.Zero - middle, scrollScale, 0f), "BackgroundImage");
-            backgroundImage.AddComponent(backgroundSprite);
+            Vector2 scrollMiddle = new Vector2(backgroundScrollSprite.Width / 2f, backgroundScrollSprite.Height / 2f);
+            Entity backgroundImage = new Entity(new Transform(Vector2.Zero - (scrollMiddle * 0.5f), 0.5f, 0f), "BackgroundImage");
+            backgroundImage.AddComponent(backgroundScrollSprite);
             _entities.Add(backgroundImage);
 
-            // Image
-            Entity image = new Entity(new Transform(new Vector2(-3f, 0f), 0.5f, 0f), "Image");
-            Sprite player = Assets.GetSprite("Animations.player_walk_left.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
+            // Character name
+            string charakterName = _charakterJson.name.ToString();
+            Text name = new Text(charakterName, new Vector2(-5.9f, 3.2f), "Alagard", 0f, 0.5f, _letterScale);
+            Array.ForEach(name.GetEntities(), entity => _entities.Add(entity));
+
+            // Profil
+            Entity image = new Entity(new Transform(new Vector2(-5f, -2f), 1f, 0f), "Image");
+            Sprite player = Assets.GetSprite("Animations.player_walk_right.png", Render.SpriteLayer.ScreenGuiMiddleground, true);
+            AnimationController controller = new AnimationController();
+            controller.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_idle.png", 0.3f));
+            controller.SetAnimation(0);
             image.AddComponent(player);
+            image.AddComponent(controller);
             _entities.Add(image);
+
+            // Hotbar Slots
+            Entity slot1 = new Entity(new Transform(new Vector2(0f, 0f), 0.3f, 0f), "Slot1");
+            Entity slot2 = new Entity(new Transform(new Vector2(1f, 0f), 0.3f, 0f), "Slot2");
+            Entity slot3 = new Entity(new Transform(new Vector2(2f, 0f), 0.3f, 0f), "Slot3");
+            Entity slot4 = new Entity(new Transform(new Vector2(3f, 0f), 0.3f, 0f), "Slot4");
+            slot1.AddComponent(slotSprite);
+            slot2.AddComponent(slotSprite);
+            slot3.AddComponent(slotSprite);
+            slot4.AddComponent(slotSprite);
+            _entities.Add(slot1);
+            _entities.Add(slot2);
+            _entities.Add(slot3);
+            _entities.Add(slot4);
         }
 
         public IEntity[] GetEntities()
@@ -43,7 +77,7 @@ namespace Villeon.GUI
 
         public bool OnKeyReleased(Keys key)
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }
