@@ -18,6 +18,7 @@ namespace Villeon.GUI
         private Item? _item;
         private IEntity _slotBackground;
         private IEntity _slotSelection;
+        private IEntity _itemEntity;
         private Transform _transform;
 
         public InventorySlot(Transform transform)
@@ -26,6 +27,7 @@ namespace Villeon.GUI
             _transform = transform;
             _slotBackground = CreateBackground();
             _slotSelection = CreateSlotSelection();
+            _itemEntity = new Entity(transform, "ItemEntity");
         }
 
         public static float SlotSize
@@ -63,14 +65,14 @@ namespace Villeon.GUI
         {
             get
             {
-                IEntity itemEntity = new Entity(_transform, "Item");
-                itemEntity.AddComponent(_item!.Sprite);
-                return itemEntity;
+                _itemEntity.AddComponent(_item!.Sprite);
+                return _itemEntity;
             }
         }
 
-        public Item Item
+        public Item? Item
         {
+            get { return _item; }
             set { _item = value; }
         }
 
