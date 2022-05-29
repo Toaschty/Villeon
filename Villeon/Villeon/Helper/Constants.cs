@@ -31,7 +31,7 @@ namespace Villeon
         // Spawnpoints
         public static Vector2 VILLAGE_SPAWN_POINT { get; } = new Vector2(32, 32);
 
-        public static Vector2 DUNGEON_SPAWN_POINT { get; } = new Vector2(5, 5);
+        public static Vector2 DUNGEON_SPAWN_POINT { get; } = new Vector2(94.75f, 57);
 
         // Player
         public static int PLAYER_MAX_HEALTH { get; } = 200;

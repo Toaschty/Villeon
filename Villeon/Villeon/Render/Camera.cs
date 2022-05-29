@@ -78,6 +78,9 @@ namespace Villeon.Render
             _cameraScale += -MouseHandler.WheelChanged();
             if (_cameraScale < 1f)
                 _cameraScale = 1f;
+            if (_cameraScale > 20f)
+                _cameraScale = 20f;
+
         }
 
         public static Matrix4 GetScreenMatrix()
