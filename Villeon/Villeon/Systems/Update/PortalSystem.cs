@@ -8,16 +8,16 @@ using Villeon.ECS;
 
 namespace Villeon.Systems.Update
 {
-    public class DamageSystem : System, IUpdateSystem
+    public class PortalSystem : System, IUpdateSystem
     {
         private TriggerLayer[] _triggerLayers = new TriggerLayer[Enum.GetNames(typeof(TriggerLayerType)).Length];
 
-        public DamageSystem(string name)
+        public PortalSystem(string name)
             : base(name)
         {
             Signature.
                 Include(typeof(Trigger)).
-                AndEither(typeof(Health), typeof(Damage));
+                AndEither(typeof(Player), typeof(Portal));
 
             for (int i = 0; i < _triggerLayers.Count(); i++)
             {
@@ -35,10 +35,10 @@ namespace Villeon.Systems.Update
             {
                 if (triggerLayerType.HasFlag((TriggerLayerType)i))
                 {
-                    if (entity.GetComponent<Health>() is not null)
+                    if (entity.GetComponent<Player>() is not null)
                         _triggerLayers[i / 2].AddReceiverEntiy(entity);
 
-                    if (entity.GetComponent<Damage>() is not null)
+                    if (entity.GetComponent<Portal>() is not null)
                         _triggerLayers[i / 2].AddActingEntiy(entity);
                 }
             }
@@ -71,12 +71,11 @@ namespace Villeon.Systems.Update
 
                 foreach (var collisionPair in _triggerLayers[i].Collisions)
                 {
-                    Damage damage = collisionPair.Item1.GetComponent<Damage>();
-                    Health health = collisionPair.Item2.GetComponent<Health>();
-                    health.Damage(damage.Amount);
+                    Portal portal = collisionPair.Item1.GetComponent<Portal>();
+                    Transform playerTransform = collisionPair.Item2.GetComponent<Transform>();
 
-                    // Remove the DamageEntity
-                    RemoveEntity(collisionPair.Item1);
+                    playerTransform.Position = portal.PositionToTeleport;
+                    SceneLoader.SetActiveScene(portal.SceneToLoad);
                 }
             }
         }

@@ -24,7 +24,7 @@ namespace Villeon
         public static void SpawnTrigger(TriggerLayerType triggerLayerType, Transform transform)
         {
             IEntity damageEntity = new Entity(transform, "Attack");
-            damageEntity.AddComponent(new Trigger(triggerLayerType, new Vector2(2f, 1f), 1f, 1f, 0.1f));
+            damageEntity.AddComponent(new Trigger(triggerLayerType, new Vector2(2f, 0f), 1f, 1f, 0.1f));
             damageEntity.AddComponent(new Damage(50));
             Manager.GetInstance().AddEntity(damageEntity);
         }

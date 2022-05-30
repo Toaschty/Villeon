@@ -164,9 +164,11 @@ namespace Villeon
         private void AddPortalEntities()
         {
             IEntity villageToDungeon = new Entity(new Transform(new Vector2(36, 32), 1f, 0f), "villageToDungeonPortal");
-            //villageToDungeon.AddComponent(TriggerBuilder.Build(TriggerID.DUNGEONENTRY));
+            villageToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 2f));
+            villageToDungeon.AddComponent(new Portal("DungeonScene", Constants.DUNGEON_SPAWN_POINT));
             IEntity dungeonToVillage = new Entity(new Transform(new Vector2(25f, 1), 1f, 0f), "dungeonToVillagePortal");
-            //dungeonToVillage.AddComponent(TriggerBuilder.Build(TriggerID.VILLAGEENTRY));
+            dungeonToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 2f));
+            dungeonToVillage.AddComponent(new Portal("VillageScene", Constants.VILLAGE_SPAWN_POINT));
 
             _dungeonScene.AddEntity(dungeonToVillage);
             _villageScene.AddEntity(villageToDungeon);
@@ -184,7 +186,7 @@ namespace Villeon
             _player = new Entity(transform, "Marin");
             _player.AddComponent(new Physics());
             _player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 1f, 1f));
-            _player.AddComponent(new Trigger(TriggerLayerType.FRIEND, Vector2.Zero, 0.5f, 0.5f));
+            _player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL, Vector2.Zero, 0.5f, 0.5f));
             _player.AddComponent(new DynamicCollider(_player.GetComponent<Collider>()));
             _player.AddComponent(new Player());
             _player.AddComponent(new Effect());
@@ -208,6 +210,7 @@ namespace Villeon
             _villageScene.AddSystem(new CollisionSystem("Collision"));
             _villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             _villageScene.AddSystem(new TriggerSystem("Trigger"));
+            _villageScene.AddSystem(new PortalSystem("PortalSystem"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.AddSystem(new HealthSystem("HealthSystem"));
             _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
@@ -227,6 +230,7 @@ namespace Villeon
             _dungeonScene.AddSystem(new SimpleAISystem("SimpleAISystem"));
             _dungeonScene.AddSystem(new PhysicsSystem("Physics"));
             _dungeonScene.AddSystem(new TriggerSystem("Trigger"));
+            _dungeonScene.AddSystem(new PortalSystem("PortalSystem"));
             _dungeonScene.AddSystem(new DamageSystem("DamageSystem"));
             _dungeonScene.AddSystem(new CollisionSystem("Collision"));
             _dungeonScene.AddSystem(new HealthSystem("Health"));
