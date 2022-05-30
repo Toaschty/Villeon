@@ -45,7 +45,7 @@ namespace Villeon
         {
             SceneLoader.AddScene(_dungeonScene);
             SceneLoader.AddScene(_villageScene);
-            SceneLoader.SetActiveScene("DungeonScene");
+            SceneLoader.SetActiveScene("VillageScene");
 
             AddDungeonSystems();
             AddVillageSystems();
@@ -170,8 +170,8 @@ namespace Villeon
             dungeonToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 2f));
             dungeonToVillage.AddComponent(new Portal("VillageScene", Constants.VILLAGE_SPAWN_POINT));
 
-            _dungeonScene.AddEntity(dungeonToVillage);
             _villageScene.AddEntity(villageToDungeon);
+            _dungeonScene.AddEntity(dungeonToVillage);
         }
 
         private void Resize(ResizeEventArgs args)
@@ -182,7 +182,7 @@ namespace Villeon
 
         private void CreatePlayerEntity()
         {
-            Transform transform = new Transform(Constants.DUNGEON_SPAWN_POINT, 0.5f, 0f);
+            Transform transform = new Transform(Constants.VILLAGE_SPAWN_POINT, 0.5f, 0f);
             _player = new Entity(transform, "Marin");
             _player.AddComponent(new Physics());
             _player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 1f, 1f));
@@ -213,7 +213,7 @@ namespace Villeon
             _villageScene.AddSystem(new PortalSystem("PortalSystem"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.AddSystem(new HealthSystem("HealthSystem"));
-            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             _villageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _villageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));

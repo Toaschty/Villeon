@@ -73,8 +73,10 @@ namespace Villeon.Systems.Update
                 {
                     Portal portal = collisionPair.Item1.GetComponent<Portal>();
                     Transform playerTransform = collisionPair.Item2.GetComponent<Transform>();
-
+                    DynamicCollider playerCollider = collisionPair.Item2.GetComponent<DynamicCollider>();
                     playerTransform.Position = portal.PositionToTeleport;
+                    playerCollider.LastPosition = portal.PositionToTeleport;
+
                     SceneLoader.SetActiveScene(portal.SceneToLoad);
                 }
             }
