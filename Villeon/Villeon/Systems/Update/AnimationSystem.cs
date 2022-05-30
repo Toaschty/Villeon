@@ -14,7 +14,7 @@ namespace Villeon.Systems.Update
         public AnimationSystem(string name)
             : base(name)
         {
-            Signature.Include(typeof(AnimationController), typeof(Sprite));
+            Signature.IncludeAND(typeof(AnimationController), typeof(Sprite));
         }
 
         public void Update(float time)

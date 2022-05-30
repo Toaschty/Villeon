@@ -14,7 +14,7 @@ namespace Villeon.Systems.Update
         public HealthbarSystem(string name, int maxPlayerHealth)
             : base(name)
         {
-            Signature.Include(typeof(Health), typeof(Player));
+            Signature.IncludeAND(typeof(Health), typeof(Player));
 
             _playerHealth = new Health(maxPlayerHealth);
             _healthBar = new PlayerHealthBar(maxPlayerHealth);

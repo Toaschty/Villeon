@@ -16,8 +16,8 @@ namespace Villeon.Systems.Update
             : base(name)
         {
             Signature.
-                Include(typeof(Trigger)).
-                AndEither(typeof(Player), typeof(Portal));
+                IncludeAND(typeof(Trigger)).
+                ANDEither(typeof(Player), typeof(Portal));
 
             for (int i = 0; i < _triggerLayers.Count(); i++)
             {

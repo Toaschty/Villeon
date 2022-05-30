@@ -57,6 +57,7 @@ namespace Villeon
             _villageScene.AddEntity(_player!);
             _dungeonScene.AddEntity(_player!);
 
+            Manager.GetInstance().RebufferRenderer();
             // Add testing entities before the window starts
             DebuggingPlayground();
 

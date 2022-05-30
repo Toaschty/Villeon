@@ -12,7 +12,7 @@ namespace Villeon.ECS
         private ulong _baseSignature = 0;
         private List<ulong> _signatures = new List<ulong>();
 
-        public SystemSignature Include(params Type[] component)
+        public SystemSignature IncludeAND(params Type[] component)
         {
             for (int i = 0; i < component.Length; i++)
             {
@@ -22,7 +22,17 @@ namespace Villeon.ECS
             return this;
         }
 
-        public SystemSignature AndEither(params Type[] component)
+        public SystemSignature IncludeOR(params Type[] component)
+        {
+            for (int i = 0; i < component.Length; i++)
+            {
+                _signatures.Add(TypeRegistry.GetFlag(component[i]));
+            }
+
+            return this;
+        }
+
+        public SystemSignature ANDEither(params Type[] component)
         {
             for (int i = 0; i < component.Length; i++)
             {

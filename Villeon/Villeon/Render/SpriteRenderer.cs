@@ -20,7 +20,7 @@ namespace Villeon.Render
         public SpriteRenderer(string name, bool renderColliders)
             : base(name)
         {
-            Signature.Include(typeof(Transform));
+            Signature.IncludeAND(typeof(Transform));
 
             // Create World Layers
             for (int i = (int)SpriteLayer.Background; i <= (int)SpriteLayer.Collider; i++)
@@ -89,6 +89,14 @@ namespace Villeon.Render
             }
 
             _entityRenderData.Remove(entity);
+        }
+
+        public void RebufferAll()
+        {
+            for (int i = 0; i < _numSpriteLayers; i++)
+            {
+                _spriteLayers[i].RebufferAll();
+            }
         }
 
         public void Render()

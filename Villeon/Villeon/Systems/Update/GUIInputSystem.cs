@@ -16,7 +16,7 @@ namespace Villeon.Systems.Update
         public GUIInputSystem(string name)
             : base(name)
         {
-            Signature.Include(typeof(GUIHandler));
+            Signature.IncludeAND(typeof(GUIHandler));
         }
 
         public void Update(float time)

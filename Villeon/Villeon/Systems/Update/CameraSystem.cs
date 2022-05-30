@@ -14,7 +14,7 @@ namespace Villeon.Systems
         public CameraSystem(string name)
             : base(name)
         {
-            Signature.Include(typeof(Collider), typeof(Player));
+            Signature.IncludeAND(typeof(Collider), typeof(Player));
         }
 
         public void Update(float time)

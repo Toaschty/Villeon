@@ -11,10 +11,15 @@ namespace Villeon.Systems
 {
     public class CollisionSystem : System, IUpdateSystem
     {
+        public static int CollisionChecks = 0;
+        private List<IEntity> _colliderEntities = new List<IEntity>();
+        private List<IEntity> _dynamicColliderEntities = new List<IEntity>();
+
         public CollisionSystem(string name)
             : base(name)
         {
-            Signature.Include(typeof(Collider));
+            Signature.IncludeOR(typeof(Collider), typeof(DynamicCollider));
+
         }
 
         private enum Direction
@@ -24,6 +29,27 @@ namespace Villeon.Systems
             LEFT,
             RIGHT,
             NONE,
+        }
+
+        public override void AddEntity(IEntity entity)
+        {
+            base.AddEntity(entity);
+
+            if (entity.GetComponent<Collider>() is not null)
+            {
+                _colliderEntities.Add(entity);
+            }
+
+            if (entity.GetComponent<DynamicCollider>() is not null)
+            {
+                _dynamicColliderEntities.Add(entity);
+                Console.WriteLine("Added DynamicCollider: " + entity.Name);
+            }
+        }
+
+        public override void RemoveEntity(IEntity entity)
+        {
+            base.RemoveEntity(entity);
         }
 
         // Collider, Transform, Physics

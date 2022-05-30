@@ -20,6 +20,9 @@ namespace Villeon.ECS
 
         public static bool InMenu { get; set; } = false;
 
+        // Startup
+        public static bool InStartup { get; set; } = false;
+
         // Debug
         public static bool DEBUGPAUSEACTIVE { get; set; } = false;
 

@@ -69,6 +69,14 @@ namespace Villeon.ECS
             return removed;
         }
 
+        internal void RebufferAll()
+        {
+            foreach (IRenderSystem renderSystem in _renderSystems)
+            {
+                renderSystem.RebufferAll();
+            }
+        }
+
         public void AddEntity(IEntity entity)
         {
             _entities.Add(entity);

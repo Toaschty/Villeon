@@ -78,6 +78,11 @@ namespace Villeon.ECS
             _currentScene.Render();
         }
 
+        public void RebufferRenderer()
+        {
+            _currentScene.RebufferAll();
+        }
+
         public bool RemoveEntity(IEntity entity)
         {
             return _currentScene.RemoveEntity(entity);

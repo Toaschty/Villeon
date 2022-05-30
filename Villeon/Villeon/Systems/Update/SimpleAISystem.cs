@@ -15,7 +15,7 @@ namespace Villeon.Systems
         public SimpleAISystem(string name)
             : base(name)
         {
-            Signature.Include(typeof(Physics), typeof(SimpleAI));
+            Signature.IncludeAND(typeof(Physics), typeof(SimpleAI));
         }
 
         public void Update(float time)

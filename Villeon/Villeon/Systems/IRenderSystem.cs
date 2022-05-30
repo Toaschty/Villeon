@@ -10,5 +10,7 @@ namespace Villeon.Systems
     public interface IRenderSystem : IRender, ISystem
     {
         bool Contains(IEntity entity);
+
+        void RebufferAll();
     }
 }
