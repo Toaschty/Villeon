@@ -7,6 +7,8 @@ namespace Villeon.ECS
         public static bool IsPlaying => !(InPause || InOptions || InShop);
 
         // Menu
+        public static bool InMainMenu { get; set; } = true;
+
         public static bool InPause { get; set; } = false;
 
         public static bool InOptions { get; set; } = false;

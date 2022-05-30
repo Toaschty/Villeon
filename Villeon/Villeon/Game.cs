@@ -25,6 +25,8 @@ namespace Villeon
 {
     public class Game
     {
+        private Scene _mainMenuScene = new ("MainMenuScene");
+        private Scene _loadingScene = new ("LoadingScene");
         private Scene _dungeonScene = new ("DungeonScene");
         private Scene _villageScene = new ("VillageScene");
         private GameWindow _gameWindow;
@@ -43,15 +45,18 @@ namespace Villeon
 
         public void Start()
         {
+            SceneLoader.AddScene(_mainMenuScene);
+            SceneLoader.AddScene(_loadingScene);
             SceneLoader.AddScene(_dungeonScene);
             SceneLoader.AddScene(_villageScene);
-            SceneLoader.SetActiveScene("VillageScene");
+            SceneLoader.SetActiveScene("MainMenuScene");
 
-            AddDungeonSystems();
-            AddVillageSystems();
-            AddPortalEntities();
-            AddGUIEntities();
-            CreatePlayerEntity();
+            SetupMainMenuScene();
+            //AddDungeonSystems();
+            //AddVillageSystems();
+            //AddPortalEntities();
+            //AddGUIEntities();
+            //CreatePlayerEntity();
 
             // Add player to scenes
             _villageScene.AddEntity(_player!);
@@ -202,6 +207,35 @@ namespace Villeon
             animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_left.png", 0.08f));
             animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_right.png", 0.08f));
             _player.AddComponent(animController);
+        }
+
+        private void SetupMainMenuScene()
+        {
+            // Show background image
+            Entity villageRenderEntity = new Entity(new Transform(new Vector2(0, 0), 0.3f, 0f), "VillageRender");
+            villageRenderEntity.AddComponent(new Sprite(Assets.GetTexture("VillageRender.png"), SpriteLayer.Background, false));
+            _mainMenuScene.AddEntity(villageRenderEntity);
+
+            // Enable camera movement
+            Entity cameraMovementEntity = new Entity(new Transform(Vector2.Zero, 1f, 0f), "CameraMovement");
+            cameraMovementEntity.AddComponent(new AutoCameraMovement(new Vector2(115f, 70f), 50f, 0.02f));
+            _mainMenuScene.AddEntity(cameraMovementEntity);
+
+            // Main menu
+            MainMenu mainMenu = new MainMenu();
+            Manager.GetInstance().AddEntities(mainMenu.GetEntities());
+
+            // Main Menu - Input
+            Entity guiHandlerEntity = new Entity("GuiHandler");
+            guiHandlerEntity.AddComponent(GUIHandler.GetInstance());
+            GUIHandler.GetInstance().CurrentMenu = GUIHandler.GetInstance().MainMenu;
+            _mainMenuScene.AddEntity(guiHandlerEntity);
+
+            // Add required systems
+            _mainMenuScene.AddSystem(new CameraSystem("CameraSystem"));
+            _mainMenuScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            _mainMenuScene.AddSystem(new AutoCameraMovementSystem("MovingCamera"));
+            _mainMenuScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
         }
 
         private void AddVillageSystems()

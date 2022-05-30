@@ -29,7 +29,7 @@ namespace Villeon
         public static float SCREEN_SCALE { get; } = 9f;
 
         // Spawnpoints
-        public static Vector2 VILLAGE_SPAWN_POINT { get; } = new Vector2(50, 50);
+        public static Vector2 VILLAGE_SPAWN_POINT { get; } = new Vector2(94.5f, 57f);
 
         public static Vector2 DUNGEON_SPAWN_POINT { get; } = new Vector2(5, 5);
 
