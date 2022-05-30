@@ -47,11 +47,19 @@ namespace Villeon.GUI
             Text name = new Text(charakterName, new Vector2(-5.9f, 3.2f), "Alagard", 0f, 0.5f, _letterScale);
             Array.ForEach(name.GetEntities(), entity => _entities.Add(entity));
 
-            // Profil
+            // Idle player animation
             Entity image = new Entity(new Transform(new Vector2(-4.2f, -1.6f), 0.7f, 0f), "Profil");
-            Sprite player = Assets.GetSprite("Animations.player_walk_right.png", Render.SpriteLayer.ScreenGuiMiddleground, true);
+        
+            // Load animation from file
+            Animation idleAnimation = AnimationLoader.CreateAnimationFromFile("Animations.player_idle.png", 0.3f);
+
+            // Create sprite with first frame as start image
+            Sprite player = new Sprite(idleAnimation.AnimationSprite.First());
+            player.IsDynamic = true;
+            player.RenderLayer = SpriteLayer.ScreenGuiMiddleground;
+
             AnimationController controller = new AnimationController();
-            controller.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_idle.png", 0.3f));
+            controller.AddAnimation(idleAnimation);
             controller.SetAnimation(0);
             image.AddComponent(player);
             image.AddComponent(controller);

@@ -196,16 +196,16 @@ namespace Villeon
             // Setup player animations
             AnimationController animController = new AnimationController();
             animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_idle.png", 0.5f));
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_up.png", 0.1f));
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_down.png", 0.1f));
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_left.png", 0.1f));
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_right.png", 0.1f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_up.png", 0.08f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_down.png", 0.08f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_left.png", 0.08f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_right.png", 0.08f));
             _player.AddComponent(animController);
         }
 
         private void AddVillageSystems()
         {
-            TileMapDictionary villageTileMap = new TileMapDictionary("VillageTileMap.tmx");
+            TileMapDictionary villageTileMap = new TileMapDictionary("Village.tmx");
             _villageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
             _villageScene.AddSystem(new CollisionSystem("Collision"));
             _villageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
@@ -213,7 +213,7 @@ namespace Villeon
             _villageScene.AddSystem(new PortalSystem("PortalSystem"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
             _villageScene.AddSystem(new HealthSystem("HealthSystem"));
-            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             _villageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _villageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
