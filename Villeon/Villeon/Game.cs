@@ -246,12 +246,10 @@ namespace Villeon
             _villageScene.AddSystem(new TriggerSystem("Trigger"));
             _villageScene.AddSystem(new PortalSystem("PortalSystem"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
-            _villageScene.AddSystem(new HealthSystem("HealthSystem"));
             _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             _villageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _villageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
-            _villageScene.AddSystem(new DamageSystem("TriggerIntersectSystem"));
             _villageScene.SetTileMap(villageTileMap, false);
         }
 
