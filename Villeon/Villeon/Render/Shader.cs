@@ -119,6 +119,5 @@ namespace Villeon.Render
 
             return true;
         }
-
     }
 }

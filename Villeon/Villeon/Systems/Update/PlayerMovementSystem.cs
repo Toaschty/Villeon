@@ -59,8 +59,8 @@ namespace Villeon.Systems
                     Effect effect = entity.GetComponent<Effect>() !;
                     if (!effect.Effects.ContainsKey("AttackCooldown"))
                     {
-                        EntitySpawner.SpawnTrigger(TriggerID.ATTACKRIGHT, transform);
-                        effect.Effects.Add("AttackCooldown", 1);
+                        EntitySpawner.SpawnTrigger(TriggerLayerType.ENEMY, transform);
+                        effect.Effects.Add("AttackCooldown", 0.1f);
                     }
 
                     KeyHandler.RemoveKeyHold(Keys.E);
@@ -71,8 +71,8 @@ namespace Villeon.Systems
                     Effect effect = entity.GetComponent<Effect>() !;
                     if (!effect.Effects.ContainsKey("AttackCooldown"))
                     {
-                        EntitySpawner.SpawnTrigger(TriggerID.ATTACKLEFT, transform);
-                        effect.Effects.Add("AttackCooldown", 1);
+                        EntitySpawner.SpawnTrigger(TriggerLayerType.ENEMY, transform);
+                        effect.Effects.Add("AttackCooldown", 0.1f);
                     }
 
                     KeyHandler.RemoveKeyHold(Keys.Q);

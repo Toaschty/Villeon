@@ -274,7 +274,7 @@ namespace Villeon.Render
                 }
 
                 // Position
-                _vertices[offset + i].Position = transform.Position - data.Offset + (add * data.Scale);
+                _vertices[offset + i].Position = transform.Position + data.Offset + (add * data.Scale);
 
                 // Color
                 _vertices[offset + i].Color = sprite.Color;

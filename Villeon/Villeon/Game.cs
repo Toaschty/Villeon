@@ -45,7 +45,7 @@ namespace Villeon
         {
             SceneLoader.AddScene(_dungeonScene);
             SceneLoader.AddScene(_villageScene);
-            SceneLoader.SetActiveScene("VillageScene");
+            SceneLoader.SetActiveScene("DungeonScene");
 
             AddDungeonSystems();
             AddVillageSystems();
@@ -76,12 +76,6 @@ namespace Villeon
             LevelGeneration lvlGen = new LevelGeneration();
             lvlGen.GenSolutionPath();
             RoomGeneration roomGen = new RoomGeneration(lvlGen.StartRoomX, lvlGen.StartRoomY, lvlGen.EndRoomX, lvlGen.EndRoomY, lvlGen.RoomModels);
-
-            //// Waterfall
-            //IEntity waterfall = new Entity(new Transform(new Vector2(-10, -5), 0.1f, 0), "Waterfall");
-            //waterfall.AddComponent(new Sprite(Assets.GetTexture("Shaders.waterfallClouds.jpg"), SpriteLayer.ScreenGuiForeground, true));
-            //_dungeonScene.AddEntity(waterfall);
-
             IEntity entity;
             for (int i = 0; i < 4; i++)
             {
@@ -170,9 +164,9 @@ namespace Villeon
         private void AddPortalEntities()
         {
             IEntity villageToDungeon = new Entity(new Transform(new Vector2(36, 32), 1f, 0f), "villageToDungeonPortal");
-            villageToDungeon.AddComponent(TriggerBuilder.Build(TriggerID.DUNGEONENTRY));
+            //villageToDungeon.AddComponent(TriggerBuilder.Build(TriggerID.DUNGEONENTRY));
             IEntity dungeonToVillage = new Entity(new Transform(new Vector2(25f, 1), 1f, 0f), "dungeonToVillagePortal");
-            dungeonToVillage.AddComponent(TriggerBuilder.Build(TriggerID.VILLAGEENTRY));
+            //dungeonToVillage.AddComponent(TriggerBuilder.Build(TriggerID.VILLAGEENTRY));
 
             _dungeonScene.AddEntity(dungeonToVillage);
             _villageScene.AddEntity(villageToDungeon);
@@ -186,17 +180,16 @@ namespace Villeon
 
         private void CreatePlayerEntity()
         {
-            Transform transform = new Transform(Constants.DUNGEON_SPAWN_POINT, 0.2f, 0f);
+            Transform transform = new Transform(Constants.DUNGEON_SPAWN_POINT, 0.5f, 0f);
             _player = new Entity(transform, "Marin");
             _player.AddComponent(new Physics());
             _player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 1f, 1f));
+            _player.AddComponent(new Trigger(TriggerLayerType.FRIEND, Vector2.Zero, 0.5f, 0.5f));
             _player.AddComponent(new DynamicCollider(_player.GetComponent<Collider>()));
-            _player.AddComponent(TriggerBuilder.Build(TriggerID.PLAYER));
             _player.AddComponent(new Player());
             _player.AddComponent(new Effect());
             _player.AddComponent(new Health(Constants.PLAYER_MAX_HEALTH));
             _player.AddComponent(new Sprite(Assets.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
-            _player.AddComponent(new DamageReceiver());
 
             // Setup player animations
             AnimationController animController = new AnimationController();
@@ -221,7 +214,7 @@ namespace Villeon
             _villageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _villageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
-
+            _villageScene.AddSystem(new DamageSystem("TriggerIntersectSystem"));
             _villageScene.SetTileMap(villageTileMap, false);
         }
 
@@ -234,6 +227,7 @@ namespace Villeon
             _dungeonScene.AddSystem(new SimpleAISystem("SimpleAISystem"));
             _dungeonScene.AddSystem(new PhysicsSystem("Physics"));
             _dungeonScene.AddSystem(new TriggerSystem("Trigger"));
+            _dungeonScene.AddSystem(new DamageSystem("DamageSystem"));
             _dungeonScene.AddSystem(new CollisionSystem("Collision"));
             _dungeonScene.AddSystem(new HealthSystem("Health"));
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
@@ -269,7 +263,6 @@ namespace Villeon
         {
             _fps!.SetFps((float)args.Time);
             Time.SetTime((float)args.Time);
-            Console.WriteLine(Time.ElapsedTime);
             GL.Clear(ClearBufferMask.ColorBufferBit);
             Manager.GetInstance().Render();
         }

@@ -9,23 +9,13 @@ namespace Villeon.Components
 {
     public class GUIHandler : IComponent
     {
-        private static GUIHandler _instance;
+        private static GUIHandler? _instance;
 
         private DungeonMenu _dungeonMenu;
         private EquipmentMenu _equipmentMenu;
         private InventoryMenu _inventoryMenu;
 
         private IGUIMenu? _currentMenu;
-
-        public static GUIHandler GetInstance()
-        {
-            if (_instance == null)
-            {
-                _instance = new GUIHandler();
-            }
-
-            return _instance;
-        }
 
         private GUIHandler()
         {
@@ -45,6 +35,16 @@ namespace Villeon.Components
         {
             get { return _currentMenu; }
             set { _currentMenu = value; }
+        }
+
+        public static GUIHandler GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new GUIHandler();
+            }
+
+            return _instance;
         }
     }
 }

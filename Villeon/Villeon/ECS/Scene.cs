@@ -32,7 +32,7 @@ namespace Villeon.ECS
             foreach (IEntity entity in _entities)
             {
                 if (system.Signature.Contains(entity.Signature))
-                    system.Entities.Add(entity);
+                    system.AddEntity(entity);
             }
         }
 
@@ -47,13 +47,13 @@ namespace Villeon.ECS
             foreach (IUpdateSystem updateSystem in _updateSystems)
             {
                 if (updateSystem.Signature.Contains(TypeRegistry.GetFlag(typeof(T))))
-                    updateSystem.Entities.Remove(entity);
+                    updateSystem.RemoveEntity(entity);
             }
 
             foreach (IRenderSystem renderSystem in _renderSystems)
             {
                 if (renderSystem.Signature.Contains(TypeRegistry.GetFlag(typeof(T))))
-                    renderSystem.Entities.Remove(entity);
+                    renderSystem.RemoveEntity(entity);
             }
         }
 
@@ -131,7 +131,7 @@ namespace Villeon.ECS
                 if (!system.Entities.Contains(entity))
                 {
                     if (system.Signature.Contains(entity.Signature))
-                        system.Entities.Add(entity);
+                        system.AddEntity(entity);
                 }
             }
 
@@ -140,7 +140,7 @@ namespace Villeon.ECS
                 if (!renderSystem.Contains(entity))
                 {
                     if (renderSystem.Signature.Contains(entity.Signature))
-                        renderSystem.Add(entity);
+                        renderSystem.AddEntity(entity);
                 }
             }
         }
@@ -149,13 +149,13 @@ namespace Villeon.ECS
         {
             foreach (IUpdateSystem updateSystem in _updateSystems)
             {
-                updateSystem.Entities.Remove(entity);
+                updateSystem.RemoveEntity(entity);
             }
 
             foreach (IRenderSystem renderSystem in _renderSystems)
             {
                 if (renderSystem.Contains(entity))
-                    renderSystem.Remove(entity);
+                    renderSystem.RemoveEntity(entity);
             }
         }
     }

@@ -38,7 +38,7 @@ namespace Villeon.Render
             _renderColliders = renderColliders;
         }
 
-        public void Add(IEntity entity)
+        public override void AddEntity(IEntity entity)
         {
             // Create new renderingDataList
             List<RenderingData> renderingDataList = new List<RenderingData>();
@@ -80,7 +80,7 @@ namespace Villeon.Render
                 _entityRenderData.Add(entity, renderingDataList);
         }
 
-        public void Remove(IEntity entity)
+        public override void RemoveEntity(IEntity entity)
         {
             for (int i = 0; i < _numSpriteLayers; i++)
             {

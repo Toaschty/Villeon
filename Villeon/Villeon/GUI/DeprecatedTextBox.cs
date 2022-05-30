@@ -60,6 +60,16 @@ namespace Villeon.GUI
             }
         }
 
+        public void RemoveAllText()
+        {
+            foreach (IEntity entity in _letters)
+            {
+                Manager.GetInstance().RemoveEntity(entity);
+            }
+
+            _letters.Clear();
+        }
+
         public void BindPositionTo(IEntity entity)
         {
             _boundEntity = entity;
@@ -86,16 +96,6 @@ namespace Villeon.GUI
             _background.GetComponent<Transform>().Position += positionChange;
 
             _lastBoundPosition = newBoundPosition;
-        }
-
-        public void RemoveAllText()
-        {
-            foreach (IEntity entity in _letters)
-            {
-                Manager.GetInstance().RemoveEntity(entity);
-            }
-
-            _letters.Clear();
         }
 
         private List<IEntity> CreateLetters(string text)

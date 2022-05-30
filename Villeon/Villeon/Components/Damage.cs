@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Villeon.Components
 {
-    public class DamageReceiver : IComponent
+    public class Damage : IComponent
     {
+        public Damage(int amount)
+        {
+            Amount = amount;
+        }
+
+        public int Amount { get; set; }
     }
 }

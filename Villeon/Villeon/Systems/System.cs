@@ -20,5 +20,15 @@ namespace Villeon.Systems
         public HashSet<IEntity> Entities { get; private set; } = new ();
 
         public SystemSignature Signature { get; protected set; } = new ();
+
+        public virtual void AddEntity(IEntity entity)
+        {
+            Entities.Add(entity);
+        }
+
+        public virtual void RemoveEntity(IEntity entity)
+        {
+            Entities.Remove(entity);
+        }
     }
 }

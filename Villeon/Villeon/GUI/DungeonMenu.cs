@@ -35,8 +35,8 @@ namespace Villeon.GUI
         private bool _onExplore = false;
         private int _elementCount = 0;
 
-        private Text _title;
-        private Text _description;
+        private Text? _title;
+        private Text? _description;
 
         // Holds Json file of cave data
         private dynamic _cavesJson;
@@ -164,14 +164,14 @@ namespace Villeon.GUI
         private void UnloadText()
         {
             // Remove all title letters from the scene and the local list of entities
-            Array.ForEach(_title.GetEntities(), entity =>
+            Array.ForEach(_title!.GetEntities(), entity =>
             {
                 _entities.Remove(entity);
                 Manager.GetInstance().RemoveEntity(entity);
             });
 
             // Remove all description letters from the scene and the local list of entities
-            Array.ForEach(_description.GetEntities(), entity =>
+            Array.ForEach(_description!.GetEntities(), entity =>
             {
                 _entities.Remove(entity);
                 Manager.GetInstance().RemoveEntity(entity);

@@ -8,27 +8,35 @@ using Villeon.ECS;
 
 namespace Villeon.Components
 {
-    public enum TriggerType
+    public enum TriggerLayerType
     {
-        MOB,
-        DAMAGE,
+        FRIEND,
+        ENEMY,
         PORTAL,
     }
 
     public class Trigger : IComponent
     {
         private float _time = float.PositiveInfinity;
-        private string _sceneName = "NO_SCENE_SELECTED";
 
-        public Trigger(TriggerType type, Vector2 offset, float width, float height)
+        public Trigger(TriggerLayerType layerType, Vector2 offset, float width, float height)
         {
-            Type = type;
+            LayerType = layerType;
             Offset = offset;
             Width = width;
             Height = height;
         }
 
-        public TriggerType Type { get; private set; }
+        public Trigger(TriggerLayerType layerType, Vector2 offset, float width, float height, float timeInSeconds)
+        {
+            LayerType = layerType;
+            Offset = offset;
+            Width = width;
+            Height = height;
+            Time = timeInSeconds;
+        }
+
+        public TriggerLayerType LayerType { get; private set; }
 
         public Vector2 Position { get; set; }
 
@@ -51,10 +59,12 @@ namespace Villeon.Components
 
         public bool ToBeRemoved { get; set; } = false;
 
-        public int Damage { get; set; } = 0;
+        //public int Damage { get; set; } = 0;
 
-        public Vector2 Impulse { get; set; } = Vector2.Zero;
+        //public Vector2 Impulse { get; set; } = Vector2.Zero;
 
-        public string SceneName { get => _sceneName; set => _sceneName = value; }
+        //public string SceneName { get => _sceneName; set => _sceneName = value; }
+
+        //private string _sceneName = "NO_SCENE_SELECTED";
     }
 }
