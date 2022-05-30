@@ -49,20 +49,19 @@ namespace Villeon
             SceneLoader.AddScene(_loadingScene);
             SceneLoader.AddScene(_dungeonScene);
             SceneLoader.AddScene(_villageScene);
-            SceneLoader.SetActiveScene("MainMenuScene");
+            SceneLoader.SetActiveScene("VillageScene");
 
-            SetupMainMenuScene();
-            //AddDungeonSystems();
-            //AddVillageSystems();
-            //AddPortalEntities();
-            //AddGUIEntities();
-            //CreatePlayerEntity();
+            //SetupMainMenuScene();
+            AddDungeonSystems();
+            AddVillageSystems();
+            AddPortalEntities();
+            AddGUIEntities();
+            CreatePlayerEntity();
 
             // Add player to scenes
             _villageScene.AddEntity(_player!);
             _dungeonScene.AddEntity(_player!);
 
-            Manager.GetInstance().RebufferRenderer();
             // Add testing entities before the window starts
             DebuggingPlayground();
 
@@ -169,7 +168,7 @@ namespace Villeon
 
         private void AddPortalEntities()
         {
-            IEntity villageToDungeon = new Entity(new Transform(new Vector2(36, 32), 1f, 0f), "villageToDungeonPortal");
+            IEntity villageToDungeon = new Entity(new Transform(Constants.VILLAGE_SPAWN_POINT + new Vector2(5, 0), 1f, 0f), "villageToDungeonPortal");
             villageToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 2f));
             villageToDungeon.AddComponent(new Portal("DungeonScene", Constants.DUNGEON_SPAWN_POINT));
             IEntity dungeonToVillage = new Entity(new Transform(new Vector2(25f, 1), 1f, 0f), "dungeonToVillagePortal");

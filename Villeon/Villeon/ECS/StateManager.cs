@@ -7,7 +7,7 @@ namespace Villeon.ECS
         public static bool IsPlaying => !(InPause || InOptions || InShop);
 
         // Menu
-        public static bool InMainMenu { get; set; } = true;
+        public static bool InMainMenu { get; set; } = false;
 
         public static bool InPause { get; set; } = false;
 
@@ -21,9 +21,6 @@ namespace Villeon.ECS
         public static bool IsGrounded { get; set; } = false;
 
         public static bool InMenu { get; set; } = false;
-
-        // Startup
-        public static bool InStartup { get; set; } = false;
 
         // Debug
         public static bool DEBUGPAUSEACTIVE { get; set; } = false;

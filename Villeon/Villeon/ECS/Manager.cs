@@ -31,6 +31,11 @@ namespace Villeon.ECS
             return entity;
         }
 
+        public void AddEntityToScene(IEntity entity, string sceneName)
+        {
+            SceneLoader.AddToScene(entity, sceneName);
+        }
+
         public void AddEntities(IEntity[] entities)
         {
             foreach (IEntity entity in entities)
@@ -76,11 +81,6 @@ namespace Villeon.ECS
         public void Render()
         {
             _currentScene.Render();
-        }
-
-        public void RebufferRenderer()
-        {
-            _currentScene.RebufferAll();
         }
 
         public bool RemoveEntity(IEntity entity)

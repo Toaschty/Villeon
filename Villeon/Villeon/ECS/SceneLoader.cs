@@ -28,6 +28,18 @@ namespace Villeon.ECS
             }
         }
 
+        public static void AddToScene(IEntity entity, string sceneName)
+        {
+            foreach (Scene scene in _scenes)
+            {
+                if (scene.Name == sceneName)
+                {
+                    scene.AddEntity(entity);
+                    break;
+                }
+            }
+        }
+
         public static void AddScene(Scene scene)
         {
             _scenes.Add(scene);

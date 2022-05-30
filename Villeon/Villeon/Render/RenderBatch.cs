@@ -87,7 +87,7 @@ namespace Villeon.Render
             GL.Enable(EnableCap.Blend);
         }
 
-        public void RebufferAll()
+        public void Rebuffer()
         {
             int tmpSpriteCount = _spriteCount;
             _spriteCount = 0;
@@ -179,7 +179,7 @@ namespace Villeon.Render
             {
                 _renderingData.Remove(data);
                 _spriteCount--;
-                RebufferAll();
+                Rebuffer();
             }
         }
 

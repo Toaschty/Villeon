@@ -69,14 +69,6 @@ namespace Villeon.ECS
             return removed;
         }
 
-        internal void RebufferAll()
-        {
-            foreach (IRenderSystem renderSystem in _renderSystems)
-            {
-                renderSystem.RebufferAll();
-            }
-        }
-
         public void AddEntity(IEntity entity)
         {
             _entities.Add(entity);
@@ -157,7 +149,8 @@ namespace Villeon.ECS
         {
             foreach (IUpdateSystem updateSystem in _updateSystems)
             {
-                updateSystem.RemoveEntity(entity);
+                if (updateSystem.Entities.Contains(entity))
+                    updateSystem.RemoveEntity(entity);
             }
 
             foreach (IRenderSystem renderSystem in _renderSystems)

@@ -45,6 +45,7 @@ namespace Villeon.Render
                     _staticBatches.Add(newBatch);
                     newBatch.AddRenderingData(data);
                     newBatch.AddSprite(data);
+                    newBatch.LoadBuffer();
                 }
             }
         }
@@ -71,21 +72,8 @@ namespace Villeon.Render
 
             foreach (RenderBatch renderBatch in _dynamicBatches)
             {
-                renderBatch.RebufferAll();
+                renderBatch.Rebuffer();
                 renderBatch.Render();
-            }
-        }
-
-        public void RebufferAll()
-        {
-            foreach (RenderBatch renderBatch in _staticBatches)
-            {
-                renderBatch.RebufferAll();
-            }
-
-            foreach (RenderBatch renderBatch in _dynamicBatches)
-            {
-                renderBatch.RebufferAll();
             }
         }
 
@@ -122,6 +110,7 @@ namespace Villeon.Render
                     {
                         batch.AddRenderingData(data);
                         batch.AddSprite(data);
+                        batch.LoadBuffer();
                         return true;
                     }
                 }

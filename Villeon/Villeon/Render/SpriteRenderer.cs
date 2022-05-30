@@ -91,14 +91,6 @@ namespace Villeon.Render
             _entityRenderData.Remove(entity);
         }
 
-        public void RebufferAll()
-        {
-            for (int i = 0; i < _numSpriteLayers; i++)
-            {
-                _spriteLayers[i].RebufferAll();
-            }
-        }
-
         public void Render()
         {
             for (int i = 0; i < _numSpriteLayers; i++)
