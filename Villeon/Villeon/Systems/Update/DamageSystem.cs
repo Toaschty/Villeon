@@ -42,8 +42,6 @@ namespace Villeon.Systems.Update
                         _triggerLayers[i / 2].AddActingEntiy(entity);
                 }
             }
-
-            Console.WriteLine("Added: " + entity.Name);
         }
 
         // Remove Entity from TriggerLayer & Base

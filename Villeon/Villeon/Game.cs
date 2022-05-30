@@ -259,14 +259,14 @@ namespace Villeon
 
         private void UpdateFrame(FrameEventArgs args)
         {
+            _fps!.SetFps((float)args.Time);
+            Time.SetTime((float)args.Time);
             Manager.GetInstance().Update((float)args.Time);
             MouseHandler.ClickedMouseButtons.Clear();
         }
 
         private void RenderFrame(FrameEventArgs args)
         {
-            _fps!.SetFps((float)args.Time);
-            Time.SetTime((float)args.Time);
             GL.Clear(ClearBufferMask.ColorBufferBit);
             Manager.GetInstance().Render();
         }
