@@ -52,17 +52,9 @@ namespace Villeon
             SceneLoader.AddScene(_villageScene);
             SceneLoader.SetActiveScene("MainMenuScene");
 
+            // Setup scenes
             SetupMainMenuScene();
             SetupLoadingScene();
-            // AddDungeonSystems();
-            // AddVillageSystems();
-            // AddPortalEntities();
-            // AddGUIEntities();
-            // CreatePlayerEntity();
-
-            // Add player to scenes
-            _villageScene.AddEntity(_player!);
-            _dungeonScene.AddEntity(_player!);
 
             // Add testing entities before the window starts
             DebuggingPlayground();
@@ -164,7 +156,6 @@ namespace Villeon
             gameWindow.MouseMove += MouseHandler.MouseMove;
             gameWindow.UpdateFrame += UpdateFrame;
             gameWindow.RenderFrame += RenderFrame;
-            gameWindow.RenderFrame += _ => gameWindow.SwapBuffers();
             gameWindow.Resize += Resize;
         }
 
@@ -189,7 +180,7 @@ namespace Villeon
 
         private void CreatePlayerEntity()
         {
-            Transform transform = new Transform(Constants.VILLAGE_SPAWN_POINT, 0.5f, 0f);
+            Transform transform = new Transform(Constants.VILLAGE_SPAWN_POINT, 0.25f, 0f);
             _player = new Entity(transform, "Marin");
             _player.AddComponent(new Physics());
             _player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 1f, 1f));
@@ -208,6 +199,10 @@ namespace Villeon
             animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_left.png", 0.08f));
             animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_right.png", 0.08f));
             _player.AddComponent(animController);
+
+            // Add player to scenes
+            _villageScene.AddEntity(_player);
+            _dungeonScene.AddEntity(_player);
         }
 
         private void SetupMainMenuScene()
@@ -240,15 +235,28 @@ namespace Villeon
 
         private void SetupLoadingScene()
         {
+            // Setup GUI
+            Text loadingText = new Text("Loading...", new Vector2(-9.5f, -5.15f), "Alagard", 0f, 1f, 0.3f);
+            Array.ForEach(loadingText.GetEntities(), entity => Manager.GetInstance().AddEntityToScene(entity, "LoadingScene"));
+
+            // Add required systems
+            _loadingScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+
+            // Function which handles loading
             _loadingScene.AddStartUpFunc(() =>
             {
-                Console.WriteLine("LOADING");
+                // Render one frame to show the loading screen
+                RenderFrame(new FrameEventArgs(0f));
+
+                // Handle the actual loading
                 AddDungeonSystems();
                 AddVillageSystems();
                 AddPortalEntities();
                 AddGUIEntities();
                 CreatePlayerEntity();
-                Console.WriteLine("DONE LOADING");
+
+                // Switch scene if loading is done
+                SceneLoader.SetActiveScene("VillageScene");
                 return true;
             });
         }
@@ -317,6 +325,7 @@ namespace Villeon
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
             Manager.GetInstance().Render();
+            _gameWindow.SwapBuffers();
         }
     }
 }
