@@ -12,6 +12,7 @@ namespace Villeon.ECS
         private HashSet<IEntity> _entities = new ();
         private HashSet<IUpdateSystem> _updateSystems = new ();
         private HashSet<IRenderSystem> _renderSystems = new ();
+        private Func<bool> _startUp;
 
         public Scene(string name)
         {
@@ -108,6 +109,7 @@ namespace Villeon.ECS
 
         public HashSet<IEntity> GetEntities() => _entities;
 
+
         public void Update(float time)
         {
             foreach (IUpdateSystem system in _updateSystems)
@@ -122,6 +124,17 @@ namespace Villeon.ECS
             {
                 renderSystem.Render();
             }
+        }
+
+        public void AddStartUpFunc(Func<bool> startUp)
+        {
+            _startUp = startUp;
+        }
+
+        public void StartUp()
+        {
+            if (_startUp != null)
+                _startUp();
         }
 
         private void AddToSystems(IEntity entity)

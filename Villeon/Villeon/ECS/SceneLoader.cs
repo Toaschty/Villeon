@@ -23,6 +23,7 @@ namespace Villeon.ECS
                     GUIHandler.GetInstance().CurrentMenu = null;
 
                     Manager.GetInstance().SetScene(scene);
+                    scene.StartUp();
                     break;
                 }
             }

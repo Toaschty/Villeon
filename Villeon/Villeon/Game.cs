@@ -47,16 +47,18 @@ namespace Villeon
         public void Start()
         {
             SceneLoader.AddScene(_mainMenuScene);
+            SceneLoader.AddScene(_loadingScene);
             SceneLoader.AddScene(_dungeonScene);
             SceneLoader.AddScene(_villageScene);
             SceneLoader.SetActiveScene("MainMenuScene");
 
             SetupMainMenuScene();
-            AddDungeonSystems();
-            AddVillageSystems();
-            AddPortalEntities();
-            AddGUIEntities();
-            CreatePlayerEntity();
+            SetupLoadingScene();
+            // AddDungeonSystems();
+            // AddVillageSystems();
+            // AddPortalEntities();
+            // AddGUIEntities();
+            // CreatePlayerEntity();
 
             // Add player to scenes
             _villageScene.AddEntity(_player!);
@@ -234,6 +236,21 @@ namespace Villeon
             _mainMenuScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             _mainMenuScene.AddSystem(new AutoCameraMovementSystem("MovingCamera"));
             _mainMenuScene.AddSystem(new MainMenuInputSystem("MainMenuInput"));
+        }
+
+        private void SetupLoadingScene()
+        {
+            _loadingScene.AddStartUpFunc(() =>
+            {
+                Console.WriteLine("LOADING");
+                AddDungeonSystems();
+                AddVillageSystems();
+                AddPortalEntities();
+                AddGUIEntities();
+                CreatePlayerEntity();
+                Console.WriteLine("DONE LOADING");
+                return true;
+            });
         }
 
         private void AddVillageSystems()
