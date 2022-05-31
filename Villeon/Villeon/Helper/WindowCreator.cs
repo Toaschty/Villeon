@@ -11,18 +11,26 @@ namespace Villeon.Helper
 {
     public static class WindowCreator
     {
+        private static GameWindow? _window;
+
         public static GameWindow CreateWindow()
         {
             NativeWindowSettings windowSettings = new NativeWindowSettings();
             windowSettings.Profile = ContextProfile.Compatability;
-            GameWindow window = new GameWindow(GameWindowSettings.Default, windowSettings);
+            _window = new GameWindow(GameWindowSettings.Default, windowSettings);
 
-            MonitorInfo monitorInfo = Monitors.GetMonitorFromWindow(window);
-            window.Size = new Vector2i(monitorInfo.HorizontalResolution, monitorInfo.VerticalResolution) / 2;
-            window.VSync = VSyncMode.Off;
-            window.UpdateFrequency = 120;
-            window.RenderFrequency = 120;
-            return window;
+            MonitorInfo monitorInfo = Monitors.GetMonitorFromWindow(_window);
+            _window.Size = new Vector2i(monitorInfo.HorizontalResolution, monitorInfo.VerticalResolution) / 2;
+            _window.VSync = VSyncMode.Off;
+            _window.UpdateFrequency = 120;
+            _window.RenderFrequency = 120;
+            return _window;
+        }
+
+        public static void CloseWindow()
+        {
+            if (_window is not null)
+                _window.Close();
         }
     }
 }

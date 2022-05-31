@@ -65,9 +65,9 @@ namespace Villeon.Systems.Update
         {
             switch (menu.CurrentSelection)
             {
-                case 0: SceneLoader.SetActiveScene("LoadingScene"); break;
-                case 1: SceneLoader.SetActiveScene("LoadingScene"); break;
-                case 2: Console.WriteLine("EXIT GAME"); break;
+                case 0: SceneLoader.SetActiveScene("VillageScene"); break;
+                case 1: SceneLoader.SetActiveScene("VillageScene"); break;
+                case 2: WindowCreator.CloseWindow(); break;
             }
         }
 
