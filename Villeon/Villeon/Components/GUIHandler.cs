@@ -11,7 +11,6 @@ namespace Villeon.Components
     {
         private static GUIHandler? _instance;
 
-        private MainMenu _mainMenu;
         private DungeonMenu _dungeonMenu;
         private EquipmentMenu _equipmentMenu;
         private InventoryMenu _inventoryMenu;
@@ -20,14 +19,11 @@ namespace Villeon.Components
 
         private GUIHandler()
         {
-            _mainMenu = new MainMenu();
             _dungeonMenu = new DungeonMenu();
             _equipmentMenu = new EquipmentMenu();
             _inventoryMenu = InventoryMenu.GetInstance();
             _currentMenu = null;
         }
-
-        public MainMenu MainMenu => _mainMenu;
 
         public DungeonMenu DungeonMenu => _dungeonMenu;
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OpenTK.Graphics.OpenGL;
@@ -46,12 +47,11 @@ namespace Villeon
         public void Start()
         {
             SceneLoader.AddScene(_mainMenuScene);
-            SceneLoader.AddScene(_loadingScene);
             SceneLoader.AddScene(_dungeonScene);
             SceneLoader.AddScene(_villageScene);
-            SceneLoader.SetActiveScene("VillageScene");
+            SceneLoader.SetActiveScene("MainMenuScene");
 
-            //SetupMainMenuScene();
+            SetupMainMenuScene();
             AddDungeonSystems();
             AddVillageSystems();
             AddPortalEntities();
@@ -220,21 +220,20 @@ namespace Villeon
             cameraMovementEntity.AddComponent(new AutoCameraMovement(new Vector2(115f, 70f), 50f, 0.02f));
             _mainMenuScene.AddEntity(cameraMovementEntity);
 
-            // Main menu
-            MainMenu mainMenu = new MainMenu();
-            Manager.GetInstance().AddEntities(mainMenu.GetEntities());
+            // Main menu GUI Setup
+            new MainMenuSetup();
 
-            // Main Menu - Input
-            Entity guiHandlerEntity = new Entity("GuiHandler");
-            guiHandlerEntity.AddComponent(GUIHandler.GetInstance());
-            GUIHandler.GetInstance().CurrentMenu = GUIHandler.GetInstance().MainMenu;
-            _mainMenuScene.AddEntity(guiHandlerEntity);
+            Entity selectorEntity = new Entity(new Transform(Vector2.Zero, 1f, 0f), "Selector");
+            selectorEntity.AddComponent(new MainMenu());
+            _mainMenuScene.AddEntity(selectorEntity);
+
+            StateManager.InMenu = true;
 
             // Add required systems
             _mainMenuScene.AddSystem(new CameraSystem("CameraSystem"));
             _mainMenuScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             _mainMenuScene.AddSystem(new AutoCameraMovementSystem("MovingCamera"));
-            _mainMenuScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
+            _mainMenuScene.AddSystem(new MainMenuInputSystem("MainMenuInput"));
         }
 
         private void AddVillageSystems()

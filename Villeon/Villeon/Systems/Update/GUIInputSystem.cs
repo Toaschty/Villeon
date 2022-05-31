@@ -23,26 +23,7 @@ namespace Villeon.Systems.Update
         {
             foreach (IEntity entity in Entities)
             {
-                GUIHandler handler = entity.GetComponent<GUIHandler>();
-
-                // Check if player is in main menu
-                if (StateManager.InMainMenu)
-                {
-                    Keys? currentkey = KeyHandler.GetLastReleasedKey();
-
-                    if (currentkey != null)
-                    {
-                        bool updateMenu = handler.MainMenu.OnKeyReleased((Keys)currentkey);
-                        if (updateMenu)
-                        {
-                            Console.WriteLine("NEW");
-                            UnloadMenu(handler.MainMenu);
-                            LoadMenu(handler.MainMenu);
-                        }
-                    }
-
-                    continue;
-                }
+                GUIHandler handler = GUIHandler.GetInstance();
 
                 CheckKeyMenu(handler);
 
