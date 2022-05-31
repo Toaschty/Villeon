@@ -15,8 +15,7 @@ namespace Villeon.Systems
         public SimpleAISystem(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(Physics));
-            Signature = Signature.AddToSignature(typeof(SimpleAI));
+            Signature.IncludeAND(typeof(Physics), typeof(SimpleAI));
         }
 
         public void Update(float time)
@@ -59,7 +58,7 @@ namespace Villeon.Systems
                         Effect effect = entity.GetComponent<Effect>() !;
                         if (!effect.Effects.ContainsKey("AttackCooldown"))
                         {
-                            EntitySpawner.SpawnTrigger((side == 1) ? TriggerID.ATTACKRIGHT : TriggerID.ATTACKLEFT, transform);
+                            EntitySpawner.SpawnTrigger((side == 1) ? TriggerLayerType.FRIEND : TriggerLayerType.FRIEND, transform);
                             effect.Effects.Add("AttackCooldown", 1);
                         }
                     }

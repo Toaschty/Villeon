@@ -22,7 +22,7 @@ namespace Villeon.GUI
         private float _lineSpacing;
         private float _letterScale;
 
-        public Text(string text, Vector2 position, float letterSpacing = 1.1f, float lineSpacing = 1.1f, float letterScale = 1f)
+        public Text(string text, Vector2 position, string font, float letterSpacing = 1.1f, float lineSpacing = 1.1f, float letterScale = 1f)
         {
             _letters = new List<Entity>();
 
@@ -32,7 +32,7 @@ namespace Villeon.GUI
             _lineSpacing = lineSpacing * letterScale;
             _letterScale = letterScale;
 
-            CreateLetters();
+            CreateLetters(font);
         }
 
         public Entity[] GetEntities()
@@ -40,15 +40,12 @@ namespace Villeon.GUI
             return _letters.ToArray();
         }
 
-        private void CreateLetters()
+        private void CreateLetters(string fontName)
         {
-            SpriteSheet fontSheet = Assets.GetSpriteSheet("Fonts.HenksFont.png");
-            Sprite letterSprite;
+            Font font = new Font(Color4.White, Assets.GetTexture("Fonts." + fontName + ".png"), "Fonts." + fontName + ".json");
 
             Vector2 letterPosition = _position;
-            float spriteWidth = fontSheet.SpriteWidth * _letterScale;
-            float spriteHeight = fontSheet.SpriteHeight * _letterScale;
-
+            float spriteHeight = font.FontHeight * _letterScale;
             foreach (char c in _text)
             {
                 // Move to next line '\n'
@@ -59,7 +56,8 @@ namespace Villeon.GUI
                     continue;
                 }
 
-                letterSprite = fontSheet.GetSprite(c - ' ', SpriteLayer.ScreenGuiForeground, false);
+                Sprite letterSprite = font.GetCharacter(c, SpriteLayer.ScreenGuiForeground, false);
+                float spriteWidth = letterSprite.Width * _letterScale;
 
                 // Create Entity for letter
                 Entity letterEntity = new Entity(new Transform(letterPosition, _letterScale, 0f), "TBX[" + c + "]");

@@ -28,6 +28,8 @@ namespace Villeon.Helper
         {
             _timer += time;
 
+            if ((1 / time) < 30)
+                Console.WriteLine("FPS: " + 1/ time);
             if (_timer > 0.1f)
             {
                 _fps = 1 / time;

@@ -4,7 +4,7 @@ namespace Villeon.ECS
 {
     public static class StateManager
     {
-        public static bool IsPlaying => !(InPause || InOptions || InShop);
+        public static bool IsPlaying => !(InPause || InOptions || InShop || InMenu);
 
         // Menu
         public static bool InPause { get; set; } = false;

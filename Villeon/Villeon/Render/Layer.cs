@@ -72,7 +72,7 @@ namespace Villeon.Render
 
             foreach (RenderBatch renderBatch in _dynamicBatches)
             {
-                renderBatch.RebufferAll();
+                renderBatch.Rebuffer();
                 renderBatch.Render();
             }
         }

@@ -16,14 +16,14 @@ namespace Villeon.Systems.Update
         public GUIInputSystem(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(GUIHandler));
+            Signature.IncludeAND(typeof(GUIHandler));
         }
 
         public void Update(float time)
         {
             foreach (IEntity entity in Entities)
             {
-                GUIHandler handler = entity.GetComponent<GUIHandler>();
+                GUIHandler handler = GUIHandler.GetInstance();
 
                 CheckKeyMenu(handler);
 
@@ -31,7 +31,14 @@ namespace Villeon.Systems.Update
                 {
                     Keys? currentkey = KeyHandler.GetLastReleasedKey();
                     if (currentkey != null)
-                        handler.CurrentMenu!.OnKeyReleased((Keys)currentkey);
+                    {
+                        bool updateMenu = handler.CurrentMenu!.OnKeyReleased((Keys)currentkey);
+                        if (updateMenu)
+                        {
+                            UnloadMenu(handler.CurrentMenu);
+                            LoadMenu(handler.CurrentMenu);
+                        }
+                    }
                 }
             }
         }

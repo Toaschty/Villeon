@@ -20,7 +20,7 @@ namespace Villeon.Render
         public SpriteRenderer(string name, bool renderColliders)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(Transform));
+            Signature.IncludeAND(typeof(Transform));
 
             // Create World Layers
             for (int i = (int)SpriteLayer.Background; i <= (int)SpriteLayer.Collider; i++)
@@ -38,7 +38,7 @@ namespace Villeon.Render
             _renderColliders = renderColliders;
         }
 
-        public void Add(IEntity entity)
+        public override void AddEntity(IEntity entity)
         {
             // Create new renderingDataList
             List<RenderingData> renderingDataList = new List<RenderingData>();
@@ -80,7 +80,7 @@ namespace Villeon.Render
                 _entityRenderData.Add(entity, renderingDataList);
         }
 
-        public void Remove(IEntity entity)
+        public override void RemoveEntity(IEntity entity)
         {
             for (int i = 0; i < _numSpriteLayers; i++)
             {

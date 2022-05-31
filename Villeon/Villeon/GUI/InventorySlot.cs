@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Villeon.Components;
 using Villeon.ECS;
 using Villeon.GUI;
 using Villeon.Helper;
 using Villeon.Render;
 
-namespace Villeon.Components
+namespace Villeon.GUI
 {
     public class InventorySlot
     {
@@ -17,6 +18,7 @@ namespace Villeon.Components
         private Item? _item;
         private IEntity _slotBackground;
         private IEntity _slotSelection;
+        private IEntity _itemEntity;
         private Transform _transform;
 
         public InventorySlot(Transform transform)
@@ -25,6 +27,7 @@ namespace Villeon.Components
             _transform = transform;
             _slotBackground = CreateBackground();
             _slotSelection = CreateSlotSelection();
+            _itemEntity = new Entity(transform, "ItemEntity");
         }
 
         public static float SlotSize
@@ -62,14 +65,14 @@ namespace Villeon.Components
         {
             get
             {
-                IEntity itemEntity = new Entity(_transform, "Item");
-                itemEntity.AddComponent(_item!.Sprite);
-                return itemEntity;
+                _itemEntity.AddComponent(_item!.Sprite);
+                return _itemEntity;
             }
         }
 
-        public Item Item
+        public Item? Item
         {
+            get { return _item; }
             set { _item = value; }
         }
 

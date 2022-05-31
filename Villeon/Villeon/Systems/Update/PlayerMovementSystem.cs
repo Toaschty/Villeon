@@ -16,9 +16,7 @@ namespace Villeon.Systems
         public PlayerMovementSystem(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(Physics));
-            Signature = Signature.AddToSignature(typeof(Collider));
-            Signature = Signature.AddToSignature(typeof(Player));
+            Signature.IncludeAND(typeof(Physics), typeof(Collider), typeof(Player));
         }
 
         public void Update(float time)
@@ -61,8 +59,8 @@ namespace Villeon.Systems
                     Effect effect = entity.GetComponent<Effect>() !;
                     if (!effect.Effects.ContainsKey("AttackCooldown"))
                     {
-                        EntitySpawner.SpawnTrigger(TriggerID.ATTACKRIGHT, transform);
-                        effect.Effects.Add("AttackCooldown", 1);
+                        EntitySpawner.SpawnTrigger(TriggerLayerType.ENEMY, transform);
+                        effect.Effects.Add("AttackCooldown", 0.1f);
                     }
 
                     KeyHandler.RemoveKeyHold(Keys.E);
@@ -73,8 +71,8 @@ namespace Villeon.Systems
                     Effect effect = entity.GetComponent<Effect>() !;
                     if (!effect.Effects.ContainsKey("AttackCooldown"))
                     {
-                        EntitySpawner.SpawnTrigger(TriggerID.ATTACKLEFT, transform);
-                        effect.Effects.Add("AttackCooldown", 1);
+                        EntitySpawner.SpawnTrigger(TriggerLayerType.ENEMY, transform);
+                        effect.Effects.Add("AttackCooldown", 0.1f);
                     }
 
                     KeyHandler.RemoveKeyHold(Keys.Q);

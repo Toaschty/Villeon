@@ -12,6 +12,7 @@ namespace Villeon.ECS
         private HashSet<IEntity> _entities = new ();
         private HashSet<IUpdateSystem> _updateSystems = new ();
         private HashSet<IRenderSystem> _renderSystems = new ();
+        private Func<bool> _startUp;
 
         public Scene(string name)
         {
@@ -31,8 +32,8 @@ namespace Villeon.ECS
             // Make sure, every system has its assigned Entities
             foreach (IEntity entity in _entities)
             {
-                if (entity.Signature.Contains(system.Signature))
-                    system.Entities.Add(entity);
+                if (system.Signature.Contains(entity.Signature))
+                    system.AddEntity(entity);
             }
         }
 
@@ -47,13 +48,13 @@ namespace Villeon.ECS
             foreach (IUpdateSystem updateSystem in _updateSystems)
             {
                 if (updateSystem.Signature.Contains(TypeRegistry.GetFlag(typeof(T))))
-                    updateSystem.Entities.Remove(entity);
+                    updateSystem.RemoveEntity(entity);
             }
 
             foreach (IRenderSystem renderSystem in _renderSystems)
             {
                 if (renderSystem.Signature.Contains(TypeRegistry.GetFlag(typeof(T))))
-                    renderSystem.Entities.Remove(entity);
+                    renderSystem.RemoveEntity(entity);
             }
         }
 
@@ -108,6 +109,7 @@ namespace Villeon.ECS
 
         public HashSet<IEntity> GetEntities() => _entities;
 
+
         public void Update(float time)
         {
             foreach (IUpdateSystem system in _updateSystems)
@@ -124,14 +126,25 @@ namespace Villeon.ECS
             }
         }
 
+        public void AddStartUpFunc(Func<bool> startUp)
+        {
+            _startUp = startUp;
+        }
+
+        public void StartUp()
+        {
+            if (_startUp != null)
+                _startUp();
+        }
+
         private void AddToSystems(IEntity entity)
         {
             foreach (ISystem system in _updateSystems)
             {
                 if (!system.Entities.Contains(entity))
                 {
-                    if (entity.Signature.Contains(system.Signature))
-                        system.Entities.Add(entity);
+                    if (system.Signature.Contains(entity.Signature))
+                        system.AddEntity(entity);
                 }
             }
 
@@ -139,8 +152,8 @@ namespace Villeon.ECS
             {
                 if (!renderSystem.Contains(entity))
                 {
-                    if (entity.Signature.Contains(renderSystem.Signature))
-                        renderSystem.Add(entity);
+                    if (renderSystem.Signature.Contains(entity.Signature))
+                        renderSystem.AddEntity(entity);
                 }
             }
         }
@@ -149,13 +162,14 @@ namespace Villeon.ECS
         {
             foreach (IUpdateSystem updateSystem in _updateSystems)
             {
-                updateSystem.Entities.Remove(entity);
+                if (updateSystem.Entities.Contains(entity))
+                    updateSystem.RemoveEntity(entity);
             }
 
             foreach (IRenderSystem renderSystem in _renderSystems)
             {
                 if (renderSystem.Contains(entity))
-                    renderSystem.Remove(entity);
+                    renderSystem.RemoveEntity(entity);
             }
         }
     }

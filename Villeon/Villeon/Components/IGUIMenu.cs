@@ -12,6 +12,6 @@ namespace Villeon.Components
     {
         public IEntity[] GetEntities();
 
-        public void OnKeyReleased(Keys key);
+        public bool OnKeyReleased(Keys key);
     }
 }

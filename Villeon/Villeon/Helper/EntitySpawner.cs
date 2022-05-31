@@ -17,14 +17,15 @@ namespace Villeon
         public static void SpawnTrigger(TriggerID id, Vector2 poition, float width, float height)
         {
             IEntity damageEntity = new Entity(new Transform(poition, width, height), "Attack");
-            damageEntity.AddComponent(TriggerBuilder.Build(id));
+            //damageEntity.AddComponent(TriggerBuilder.Build(id));
             Manager.GetInstance().AddEntity(damageEntity);
         }
 
-        public static void SpawnTrigger(TriggerID id, Transform transform)
+        public static void SpawnTrigger(TriggerLayerType triggerLayerType, Transform transform)
         {
             IEntity damageEntity = new Entity(transform, "Attack");
-            damageEntity.AddComponent(TriggerBuilder.Build(id));
+            damageEntity.AddComponent(new Trigger(triggerLayerType, new Vector2(2f, 0f), 1f, 1f, 0.1f));
+            damageEntity.AddComponent(new Damage(50));
             Manager.GetInstance().AddEntity(damageEntity);
         }
 
@@ -33,7 +34,7 @@ namespace Villeon
             IEntity entity = new Entity(new Transform(position, 1.0f, 0f), "Peter");
             entity.AddComponent(new Collider(new Vector2(0f, 0f), position, 1.5f, 1f));
             entity.AddComponent(new DynamicCollider(entity.GetComponent<Collider>()));
-            entity.AddComponent(TriggerBuilder.Build(TriggerID.ENEMY));
+            entity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(0), 2f, 2f));
             entity.AddComponent(new Health(200));
             entity.AddComponent(new Effect());
             entity.AddComponent(new Physics());

@@ -16,7 +16,7 @@ namespace Villeon.Systems
         public HealthSystem(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(Health));
+            Signature.IncludeAND(typeof(Health));
         }
 
         public void Update(float time)

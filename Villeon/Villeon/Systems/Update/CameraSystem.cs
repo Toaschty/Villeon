@@ -14,8 +14,7 @@ namespace Villeon.Systems
         public CameraSystem(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(Collider));
-            Signature = Signature.AddToSignature(typeof(Player));
+            Signature.IncludeAND(typeof(Collider), typeof(Player));
         }
 
         public void Update(float time)
