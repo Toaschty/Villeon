@@ -77,11 +77,11 @@ namespace Villeon
             RoomGeneration roomGen = new RoomGeneration(lvlGen.StartRoomX, lvlGen.StartRoomY, lvlGen.EndRoomX, lvlGen.EndRoomY, lvlGen.RoomModels);
 
             IEntity entity;
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < lvlGen.RoomModels.GetLength(0); i++)
             {
                 for (int k = 0; k < 8; k++)
                 {
-                    for (int j = 0; j < 4; j++)
+                    for (int j = 0; j < lvlGen.RoomModels.GetLength(1); j++)
                     {
                         for (int l = 1; l < 10; l++)
                         {

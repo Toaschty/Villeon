@@ -16,6 +16,7 @@
     <None Remove="Assets\shader.vert" />
     <None Remove="Assets\Slime.aseprite" />
     <None Remove="Assets\TileMap\Frame.aseprite" />
+    <None Remove="Assets\TileMap\obstacles.json" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DungeonGeneration\RoomGeneration.cs" />
