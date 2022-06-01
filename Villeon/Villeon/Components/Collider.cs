@@ -23,6 +23,8 @@ namespace Villeon.Components
         {
             Position = transform.Position - offset;
             _offset = offset;
+            Width = width;
+            Height = height;
 
             _vertex2 = new Vector2(_position.X + width, _position.Y);
             _vertex3 = new Vector2(_position.X + width, _position.Y + height);

@@ -197,7 +197,7 @@ namespace Villeon
             IEntity player;
             Transform transform = new Transform(Constants.VILLAGE_SPAWN_POINT, 0.25f, 0f);
             player = new Entity(transform, "VillageMarin");
-            player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 1f, 1f));
+            player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 0.5f, 0.5f));
             player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
             player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL, new Vector2(0f, 0f), 0.5f, 0.5f));
             player.AddComponent(new Sprite(Assets.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
@@ -242,6 +242,12 @@ namespace Villeon
             _mainMenuScene.AddSystem(new MainMenuInputSystem("MainMenuInput"));
         }
 
+        private void CreatePlayers()
+        {
+            _villageScene.AddEntity(CreateVillagePlayer());
+            _dungeonScene.AddEntity(CreateDungeonPlayer());
+        }
+
         private void SetupLoadingScene()
         {
             // Setup GUI
@@ -262,7 +268,7 @@ namespace Villeon
                 SetupVillageScene();
                 AddPortalEntities();
                 SetupGUIEntities();
-                CreatePlayerEntity();
+                CreatePlayers();
                 DebuggingPlayground();
                 GUIHandler.GetInstance().LoadGUI();
 

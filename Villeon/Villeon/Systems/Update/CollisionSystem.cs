@@ -37,6 +37,7 @@ namespace Villeon.Systems
             DynamicCollider dynamicCollider = entity.GetComponent<DynamicCollider>();
             if (dynamicCollider is not null)
             {
+                Console.WriteLine("Dynamic Added" + entity.Name);
                 Transform dynamicTransform = entity.GetComponent<Transform>();
                 dynamicCollider.Position = collider!.Position;
                 _dynamicTuple.Add(Tuple.Create(collider, dynamicCollider, dynamicTransform));
