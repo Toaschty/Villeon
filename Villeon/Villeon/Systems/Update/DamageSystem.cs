@@ -17,7 +17,7 @@ namespace Villeon.Systems.Update
         {
             Signature.
                 IncludeAND(typeof(Trigger)).
-                ANDEither(typeof(Health), typeof(Damage));
+                ANDEither(typeof(Health), typeof(Damage)).Complete();
 
             for (int i = 0; i < _triggerLayers.Count(); i++)
             {

@@ -15,7 +15,7 @@ namespace Villeon.Systems.Update
         public AutoCameraMovementSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(AutoCameraMovement));
+            Signature.IncludeAND(typeof(AutoCameraMovement)).Complete();
         }
 
         public void Update(float time)

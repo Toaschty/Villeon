@@ -16,7 +16,7 @@ namespace Villeon.Systems
         public PlayerMovementSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Physics), typeof(Collider), typeof(Player));
+            Signature.IncludeAND(typeof(Physics), typeof(Collider), typeof(Player)).Complete();
         }
 
         public void Update(float time)
@@ -25,12 +25,12 @@ namespace Villeon.Systems
             Collider collider;
             DynamicCollider dynamicCollider;
             Transform transform;
-            foreach (IEntity entity in Entities)
+            foreach (IEntity player in Entities)
             {
-                physics = entity.GetComponent<Physics>();
-                collider = entity.GetComponent<Collider>();
-                dynamicCollider = entity.GetComponent<DynamicCollider>();
-                transform = entity.GetComponent<Transform>();
+                physics = player.GetComponent<Physics>();
+                collider = player.GetComponent<Collider>();
+                dynamicCollider = player.GetComponent<DynamicCollider>();
+                transform = player.GetComponent<Transform>();
 
                 // Check if player is grounded
                 StateManager.IsGrounded = collider.HasCollidedBottom;
@@ -56,10 +56,14 @@ namespace Villeon.Systems
 
                 if (KeyHandler.IsPressed(Keys.E))
                 {
-                    Effect effect = entity.GetComponent<Effect>() !;
+                    Effect effect = player.GetComponent<Effect>() !;
                     if (!effect.Effects.ContainsKey("AttackCooldown"))
                     {
-                        EntitySpawner.SpawnTrigger(TriggerLayerType.ENEMY, transform);
+                        IEntity attackEntity;
+                        attackEntity = new Entity(transform, "AttackRight");
+                        attackEntity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(2f, 0f), 2f, 2f, 0.1f));
+                        attackEntity.AddComponent(new Damage(50));
+                        Manager.GetInstance().AddEntity(attackEntity);
                         effect.Effects.Add("AttackCooldown", 0.1f);
                     }
 
@@ -68,10 +72,14 @@ namespace Villeon.Systems
 
                 if (KeyHandler.IsPressed(Keys.Q))
                 {
-                    Effect effect = entity.GetComponent<Effect>() !;
+                    Effect effect = player.GetComponent<Effect>() !;
                     if (!effect.Effects.ContainsKey("AttackCooldown"))
                     {
-                        EntitySpawner.SpawnTrigger(TriggerLayerType.ENEMY, transform);
+                        IEntity attackEntity;
+                        attackEntity = new Entity(transform, "AttackLeft");
+                        attackEntity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(-3f, 0f), 2f, 2f, 0.1f));
+                        attackEntity.AddComponent(new Damage(50));
+                        Manager.GetInstance().AddEntity(attackEntity);
                         effect.Effects.Add("AttackCooldown", 0.1f);
                     }
 

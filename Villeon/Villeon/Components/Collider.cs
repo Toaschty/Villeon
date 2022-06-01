@@ -22,8 +22,6 @@ namespace Villeon.Components
         public Collider(Vector2 offset, Transform transform, float width, float height)
         {
             Position = transform.Position - offset;
-            Width = width * transform.Scale.X;
-            Height = height * transform.Scale.Y;
             _offset = offset;
 
             _vertex2 = new Vector2(_position.X + width, _position.Y);

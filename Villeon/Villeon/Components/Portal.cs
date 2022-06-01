@@ -9,10 +9,10 @@ namespace Villeon.Components
 {
     public class Portal : IComponent
     {
-        public Portal(string sceneToTeleportTo, Vector2 positionToTeleport)
+        public Portal(string sceneToTeleportTo, Vector2 currentSceneSpawnpoint)
         {
             SceneToLoad = sceneToTeleportTo;
-            PositionToTeleport = positionToTeleport;
+            PositionToTeleport = currentSceneSpawnpoint;
         }
 
         public string SceneToLoad { get; set; }

@@ -17,7 +17,7 @@ namespace Villeon.Systems.Update
         public MainMenuInputSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(MainMenu));
+            Signature.IncludeAND(typeof(MainMenu)).Complete();
         }
 
         public void Update(float time)

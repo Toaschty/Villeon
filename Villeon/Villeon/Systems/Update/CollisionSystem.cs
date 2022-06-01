@@ -11,15 +11,13 @@ namespace Villeon.Systems
 {
     public class CollisionSystem : System, IUpdateSystem
     {
-        public static int CollisionChecks = 0;
         private List<IEntity> _colliderEntities = new List<IEntity>();
         private List<IEntity> _dynamicColliderEntities = new List<IEntity>();
 
         public CollisionSystem(string name)
             : base(name)
         {
-            Signature.IncludeOR(typeof(Collider), typeof(DynamicCollider));
-
+            Signature.IncludeOR(typeof(Collider), typeof(DynamicCollider)).Complete();
         }
 
         private enum Direction

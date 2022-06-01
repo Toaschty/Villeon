@@ -17,7 +17,7 @@ namespace Villeon.Systems.Update
         {
             Signature.
                 IncludeAND(typeof(Trigger)).
-                ANDEither(typeof(Player), typeof(Portal));
+                ANDEither(typeof(Player), typeof(Portal)).Complete();
 
             for (int i = 0; i < _triggerLayers.Count(); i++)
             {
@@ -42,8 +42,6 @@ namespace Villeon.Systems.Update
                         _triggerLayers[i / 2].AddActingEntiy(entity);
                 }
             }
-
-            Console.WriteLine("Added: " + entity.Name);
         }
 
         // Remove Entity from TriggerLayer & Base
