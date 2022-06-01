@@ -11,25 +11,27 @@ namespace Villeon.Components
     {
         private static GUIHandler? _instance;
 
-        private DungeonMenu _dungeonMenu;
-        private EquipmentMenu _equipmentMenu;
-        private InventoryMenu _inventoryMenu;
+        private PauseMenu? _pauseMenu;
+        private DungeonMenu? _dungeonMenu;
+        private EquipmentMenu? _equipmentMenu;
+        private InventoryMenu? _inventoryMenu;
+        private MapMenu? _mapMenu;
 
         private IGUIMenu? _currentMenu;
 
         private GUIHandler()
         {
-            _dungeonMenu = new DungeonMenu();
-            _equipmentMenu = new EquipmentMenu();
-            _inventoryMenu = InventoryMenu.GetInstance();
-            _currentMenu = null;
         }
 
-        public DungeonMenu DungeonMenu => _dungeonMenu;
+        public PauseMenu PauseMenu => _pauseMenu!;
 
-        public EquipmentMenu EquipmentMenu => _equipmentMenu;
+        public DungeonMenu DungeonMenu => _dungeonMenu!;
 
-        public InventoryMenu InventoryMenu => _inventoryMenu;
+        public EquipmentMenu EquipmentMenu => _equipmentMenu!;
+
+        public InventoryMenu InventoryMenu => _inventoryMenu!;
+
+        public MapMenu MapMenu => _mapMenu!;
 
         public IGUIMenu? CurrentMenu
         {
@@ -45,6 +47,21 @@ namespace Villeon.Components
             }
 
             return _instance;
+        }
+
+        public void LoadGUI()
+        {
+            _pauseMenu = new PauseMenu();
+            _dungeonMenu = new DungeonMenu();
+            _equipmentMenu = new EquipmentMenu();
+            _inventoryMenu = InventoryMenu.GetInstance();
+            _mapMenu = new MapMenu();
+            _currentMenu = null;
+        }
+
+        public void ClearMenu()
+        {
+            _currentMenu = null;
         }
     }
 }

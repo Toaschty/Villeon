@@ -11,8 +11,8 @@ namespace Villeon.Systems
 {
     public class CollisionSystem : System, IUpdateSystem
     {
-        private List<IEntity> _colliderEntities = new List<IEntity>();
-        private List<IEntity> _dynamicColliderEntities = new List<IEntity>();
+        private List<Collider> _colliders = new List<Collider>();
+        private HashSet<Tuple<Collider, DynamicCollider, Transform>> _dynamicTuple = new HashSet<Tuple<Collider, DynamicCollider, Transform>>();
 
         public CollisionSystem(string name)
             : base(name)
@@ -33,49 +33,70 @@ namespace Villeon.Systems
         {
             base.AddEntity(entity);
 
-            if (entity.GetComponent<Collider>() is not null)
+            Collider collider = entity.GetComponent<Collider>();
+            DynamicCollider dynamicCollider = entity.GetComponent<DynamicCollider>();
+            if (dynamicCollider is not null)
             {
-                _colliderEntities.Add(entity);
+                Transform dynamicTransform = entity.GetComponent<Transform>();
+                dynamicCollider.Position = collider!.Position;
+                _dynamicTuple.Add(Tuple.Create(collider, dynamicCollider, dynamicTransform));
+            }
+            else if (collider is not null)
+            {
+                _colliders.Add(collider);
             }
 
-            if (entity.GetComponent<DynamicCollider>() is not null)
-            {
-                _dynamicColliderEntities.Add(entity);
-                Console.WriteLine("Added DynamicCollider: " + entity.Name);
-            }
+            collider!.ResetHasCollided();
+            collider!.Position = entity.GetComponent<Transform>().Position + collider.Offset;
         }
 
         public override void RemoveEntity(IEntity entity)
         {
+            Console.WriteLine("tuples:" + _dynamicTuple.Count);
             base.RemoveEntity(entity);
+
+            Collider collider = entity.GetComponent<Collider>();
+            DynamicCollider dynamicCollider = entity.GetComponent<DynamicCollider>();
+            if (dynamicCollider is not null)
+            {
+                Transform dynamicTransform = entity.GetComponent<Transform>();
+
+                // Remove tuple with the dynamicCollider
+                var tupleToRemove = Tuple.Create(collider, dynamicCollider, dynamicTransform);
+                _dynamicTuple.Remove(tupleToRemove);
+            }
+            else if (collider is not null)
+            {
+                _colliders.Remove(collider);
+            }
+
+            Console.WriteLine("tuples after removal:" + _dynamicTuple.Count);
         }
 
         // Collider, Transform, Physics
         public void Update(float time)
         {
-            List<Collider> entitiesCollider = new List<Collider>();
-            List<Collider> dynamicEntitiesCollider = new List<Collider>();
-            List<DynamicCollider> dynamicColliders = new List<DynamicCollider>();
-
-            FillEntityLists(entitiesCollider, dynamicEntitiesCollider, dynamicColliders);
-
-            CheckAndResolveCollisions(entitiesCollider, dynamicEntitiesCollider, dynamicColliders);
-
-            UpdatePositions();
+            UpdateColliderPosition();
+            CheckAndResolveCollisions();
+            UpdateTransformPositions();
         }
 
-        private void CheckAndResolveCollisions(List<Collider> entitiesCollider, List<Collider> dynamicEntitiesCollider, List<DynamicCollider> dynamicColliders)
+        private void CheckAndResolveCollisions()
         {
-            for (int i = 0; i < dynamicEntitiesCollider.Count(); i++)
+            foreach (var tuple in _dynamicTuple)
             {
-                Collider collider = dynamicEntitiesCollider[i];
+                Collider colliderFromDynamic = tuple.Item1;
+                DynamicCollider dynamicCollider = tuple.Item2;
 
-                foreach (Collider e2Collider in entitiesCollider)
+                foreach (Collider e2collider in _colliders)
                 {
-                    if (CollidesSAT(collider, dynamicColliders[i], e2Collider))
-                        HandleCleanCollision(CollidesDirectionAABB(collider, dynamicColliders[i], e2Collider), collider, dynamicColliders[i], e2Collider);
+                    if (CollidesSAT(colliderFromDynamic, dynamicCollider, e2collider))
+                    {
+                        Direction direction = CollidesDirectionAABB(colliderFromDynamic, dynamicCollider, e2collider);
+                        HandleCleanCollision(direction, colliderFromDynamic, dynamicCollider, e2collider);
+                    }
 
-                    if (collider.Position == dynamicColliders[i].LastPosition)
+                    if (colliderFromDynamic.Position == dynamicCollider.LastPosition)
                         break;
                 }
             }
@@ -105,17 +126,28 @@ namespace Villeon.Systems
             }
         }
 
-        private void UpdatePositions()
+        private void UpdateColliderPosition()
         {
-            foreach (IEntity entity in Entities)
+            foreach (var tuple in _dynamicTuple)
             {
-                DynamicCollider dynamicCollider = entity.GetComponent<DynamicCollider>();
-                if (dynamicCollider != null)
-                {
-                    Collider collider = entity.GetComponent<Collider>();
-                    entity.GetComponent<Transform>().Position = collider.Position - collider.Offset;
-                    dynamicCollider.LastPosition = collider.Position;
-                }
+                // Set Collider position
+                tuple.Item1.Position = tuple.Item3.Position + tuple.Item1.Offset;
+                tuple.Item2.Position = tuple.Item1.Position;
+
+                // Reset Collider bool
+                tuple.Item1.ResetHasCollided();
+            }
+        }
+
+        private void UpdateTransformPositions()
+        {
+            foreach (var tuple in _dynamicTuple)
+            {
+                // Set Dynamic Transform
+                tuple.Item3.Position = tuple.Item1.Position - tuple.Item1.Offset;
+
+                // Set Dynamic Collider Last position from Collider
+                tuple.Item2.LastPosition = tuple.Item1.Position;
             }
         }
 

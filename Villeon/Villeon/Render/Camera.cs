@@ -27,6 +27,8 @@ namespace Villeon.Render
             set { _inverseViewportMatrix = value; }
         }
 
+        public static Vector2 TrackerPosition => _trackingPosition;
+
         public static Matrix4 Translate(float x, float y) => Matrix4.CreateTranslation(x, y, 0.0f);
 
         public static Matrix4 Translate(Vector2 translation) => Matrix4.CreateTranslation(-translation.X, -translation.Y, 0.0f);

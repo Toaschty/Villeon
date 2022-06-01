@@ -31,7 +31,7 @@ namespace Villeon.Components
             Array.ForEach(_selectorText.GetEntities(), entity => Manager.GetInstance().AddEntityToScene(entity, "MainMenuScene"));
         }
 
-        public Text SelectionText
+        public Text SelectorText
         {
             get { return _selectorText; }
             set { _selectorText = value; }

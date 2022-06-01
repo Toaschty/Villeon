@@ -14,6 +14,8 @@
     <None Remove="Assets\Fonts\Alagard_Thin.json" />
     <None Remove="Assets\Fonts\VilleonFont.aseprite" />
     <None Remove="Assets\GUI\DungeonMenu.json" />
+    <None Remove="Assets\Jsons\Drops.json" />
+    <None Remove="Assets\Jsons\items.json" />
     <None Remove="Assets\Player.png" />
     <None Remove="Assets\shader.vert" />
     <None Remove="Assets\Shaders\waterfall.frag" />
@@ -21,6 +23,7 @@
     <None Remove="Assets\Shaders\waterfallClouds.jpg" />
     <None Remove="Assets\Slime.aseprite" />
     <None Remove="Assets\TileMap\Frame.aseprite" />
+    <None Remove="Assets\TileMap\obstacles.json" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DungeonGeneration\RoomGeneration.cs" />

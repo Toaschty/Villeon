@@ -47,7 +47,7 @@ namespace Villeon.GUI
             _entities = new List<Entity>();
 
             // Load cave data
-            _cavesJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("GUI.DungeonMenu.json")) !;
+            _cavesJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.DungeonMenu.json")) !;
             _elementCount = _cavesJson.caves.Count;
 
             // Load Sprites

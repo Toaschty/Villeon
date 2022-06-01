@@ -19,18 +19,6 @@ namespace Villeon.Systems
 
         public void Update(float time)
         {
-            if (StateManager.DEBUGPAUSEACTIVE)
-            {
-                if (StateManager.DEBUGNEXTFRAME && StateManager.DEBUGTHISFRAMEPHYSICS)
-                {
-                    time = Constants.DEBUGTIME;
-                }
-                else
-                {
-                    return;
-                }
-            }
-
             Physics physics;
             Transform transform;
             Collider collider;
