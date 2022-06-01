@@ -250,6 +250,7 @@ namespace Villeon
                 SetupGUIEntities();
                 CreatePlayerEntity();
                 DebuggingPlayground();
+                GUIHandler.GetInstance().LoadGUI();
 
                 // Switch scene if loading is done
                 SceneLoader.SetActiveScene("VillageScene");

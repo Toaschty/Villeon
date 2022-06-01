@@ -57,6 +57,13 @@ namespace Villeon.Systems.Update
             if (KeyHandler.WasReleased(Keys.Tab) || KeyHandler.WasReleased(Keys.I))
                 ChangeMenu(handler, handler.InventoryMenu);
 
+            // Map Menu
+            if (KeyHandler.WasReleased(Keys.M))
+            {
+                handler.MapMenu.MoveViewportToMarker();
+                ChangeMenu(handler, handler.MapMenu);
+            }
+
             // Pause Menu
             if (KeyHandler.WasReleased(Keys.Escape))
                 ChangeMenu(handler, handler.PauseMenu);
