@@ -133,5 +133,30 @@ namespace VilleonTests
 
             Assert.AreEqual(new Vector2(1, 0), player.GetComponent<Transform>().Position);
         }
+
+        [TestMethod]
+        public void CollisionCornerCorner()
+        {
+            TypeRegistry.SetupTypes();
+            CollisionSystem collisionSystem = new("collisionSystem");
+
+            Vector2 enemyStartPos = new Vector2(0, 0);
+            Vector2 playerStartPos = new Vector2(1, 1);
+
+            Entity enemy = new Entity(new Transform(enemyStartPos, 1.0f, 0.0f), "Enemy");
+            enemy.AddComponent(new Collider(Vector2.Zero, enemyStartPos, 1f, 1f));
+
+            Entity player = new Entity(new Transform(playerStartPos, 1.0f, 0.0f), "Player");
+            player.AddComponent(new Collider(Vector2.Zero, playerStartPos, 1f, 1f));
+            player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
+
+            collisionSystem.Entities.Add(enemy);
+            collisionSystem.Entities.Add(player);
+
+            player.GetComponent<Transform>().Position -= new Vector2(0.1f, 0.1f);
+            collisionSystem.Update(0);
+
+            Assert.AreEqual(new Vector2(0.9f, 1f), player.GetComponent<Transform>().Position);
+        }
     }
 }
