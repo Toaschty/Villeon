@@ -28,7 +28,7 @@ namespace Villeon.GUI
             _entities = new List<Entity>();
 
             // Load character data
-            _charakterJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Character.json")) !;
+            _charakterJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.Character.json")) !;
 
             // Load Sprites
             Sprite backgroundScrollSprite = Assets.GetSprite("GUI.Scroll_Equipment.png", Render.SpriteLayer.ScreenGuiBackground, false);

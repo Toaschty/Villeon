@@ -204,7 +204,7 @@ namespace Villeon
         {
             // Show background image
             Entity villageRenderEntity = new Entity(new Transform(new Vector2(0, 0), 0.3f, 0f), "VillageRender");
-            villageRenderEntity.AddComponent(new Sprite(Assets.GetTexture("VillageRender.png"), SpriteLayer.Background, false));
+            villageRenderEntity.AddComponent(new Sprite(Assets.GetTexture("Sprites.VillageRender.png"), SpriteLayer.Background, false));
             _mainMenuScene.AddEntity(villageRenderEntity);
 
             // Enable camera movement
