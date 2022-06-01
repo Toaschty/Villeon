@@ -28,8 +28,8 @@ namespace Villeon
     {
         private Scene _mainMenuScene = new ("MainMenuScene");
         private Scene _loadingScene = new ("LoadingScene");
-        private Scene _dungeonScene = new ("DungeonScene");
-        private Scene _villageScene = new ("VillageScene");
+        private Scene _dungeonScene;
+        private Scene _villageScene;
         private GameWindow _gameWindow;
         private Matrix4 _refCameraMatrix = Matrix4.Identity;
         private IEntity _player;
@@ -48,16 +48,11 @@ namespace Villeon
         {
             SceneLoader.AddScene(_mainMenuScene);
             SceneLoader.AddScene(_loadingScene);
-            SceneLoader.AddScene(_dungeonScene);
-            SceneLoader.AddScene(_villageScene);
             SceneLoader.SetActiveScene("MainMenuScene");
 
             // Setup scenes
             SetupMainMenuScene();
             SetupLoadingScene();
-
-            // Add testing entities before the window starts
-            DebuggingPlayground();
 
             // Init and Start the Window
             InitWindowActions(_gameWindow);
@@ -249,11 +244,12 @@ namespace Villeon
                 RenderFrame(new FrameEventArgs(0f));
 
                 // Handle the actual loading
-                AddDungeonSystems();
-                AddVillageSystems();
+                SetupDungeonScene();
+                SetupVillageScene();
                 AddPortalEntities();
-                AddGUIEntities();
+                SetupGUIEntities();
                 CreatePlayerEntity();
+                DebuggingPlayground();
 
                 // Switch scene if loading is done
                 SceneLoader.SetActiveScene("VillageScene");
@@ -261,8 +257,11 @@ namespace Villeon
             });
         }
 
-        private void AddVillageSystems()
+        private void SetupVillageScene()
         {
+            _villageScene = new Scene("VillageScene");
+            SceneLoader.AddScene(_villageScene);
+
             TileMapDictionary villageTileMap = new TileMapDictionary("Village.tmx");
             _villageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
             _villageScene.AddSystem(new CollisionSystem("Collision"));
@@ -277,8 +276,11 @@ namespace Villeon
             _villageScene.SetTileMap(villageTileMap, false);
         }
 
-        private void AddDungeonSystems()
+        private void SetupDungeonScene()
         {
+            _dungeonScene = new Scene("DungeonScene");
+            SceneLoader.AddScene(_dungeonScene);
+
             TileMapDictionary tileMap = new TileMapDictionary("DungeonTileMap.tmx");
             _dungeonScene.AddSystem(new EffectSystem("Effects"));
             _dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
@@ -297,7 +299,7 @@ namespace Villeon
             _dungeonScene.SetTileMap(tileMap, true);
         }
 
-        private void AddGUIEntities()
+        private void SetupGUIEntities()
         {
             // Menu Buttons - Village
             GUI.Image dungeon_button = new GUI.Image("Dungeon_Button.png", new Vector2(-9f, -5f), new Vector2(0.3f));

@@ -56,6 +56,10 @@ namespace Villeon.Systems.Update
             // Inventory Menu
             if (KeyHandler.WasReleased(Keys.Tab) || KeyHandler.WasReleased(Keys.I))
                 ChangeMenu(handler, handler.InventoryMenu);
+
+            // Pause Menu
+            if (KeyHandler.WasReleased(Keys.Escape))
+                ChangeMenu(handler, handler.PauseMenu);
         }
 
         private void ChangeMenu(GUIHandler handler, IGUIMenu menu)
@@ -63,7 +67,7 @@ namespace Villeon.Systems.Update
             // No menu currently loaded -> Load selected menu
             if (handler.CurrentMenu == null)
             {
-                handler.CurrentMenu = menu;
+                GUIHandler.GetInstance().CurrentMenu = menu;
                 LoadMenu(menu);
                 KeyHandler.ClearReleasedKeys();
                 StateManager.InMenu = true;
@@ -73,7 +77,7 @@ namespace Villeon.Systems.Update
             else if (handler.CurrentMenu == menu)
             {
                 UnloadMenu(menu);
-                handler.CurrentMenu = null;
+                GUIHandler.GetInstance().ClearMenu();
                 StateManager.InMenu = false;
             }
 
