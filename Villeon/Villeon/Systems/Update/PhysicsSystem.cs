@@ -14,23 +14,11 @@ namespace Villeon.Systems
         public PhysicsSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Physics), typeof(Collider));
+            Signature.IncludeAND(typeof(Physics), typeof(Collider)).Complete();
         }
 
         public void Update(float time)
         {
-            if (StateManager.DEBUGPAUSEACTIVE)
-            {
-                if (StateManager.DEBUGNEXTFRAME && StateManager.DEBUGTHISFRAMEPHYSICS)
-                {
-                    time = Constants.DEBUGTIME;
-                }
-                else
-                {
-                    return;
-                }
-            }
-
             Physics physics;
             Transform transform;
             Collider collider;

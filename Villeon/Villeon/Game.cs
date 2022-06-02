@@ -28,11 +28,10 @@ namespace Villeon
     {
         private Scene _mainMenuScene = new ("MainMenuScene");
         private Scene _loadingScene = new ("LoadingScene");
-        private Scene _dungeonScene = new ("DungeonScene");
-        private Scene _villageScene = new ("VillageScene");
+        private Scene _dungeonScene;
+        private Scene _villageScene;
         private GameWindow _gameWindow;
         private Matrix4 _refCameraMatrix = Matrix4.Identity;
-        private IEntity _player;
         private FPS _fps;
 
         public Game()
@@ -40,7 +39,6 @@ namespace Villeon
             _gameWindow = WindowCreator.CreateWindow();
             TypeRegistry.SetupTypes();
             Assets.LoadRessources();
-            _player = new Entity("Player not Set!");
             _fps = new FPS(_gameWindow);
         }
 
@@ -48,16 +46,11 @@ namespace Villeon
         {
             SceneLoader.AddScene(_mainMenuScene);
             SceneLoader.AddScene(_loadingScene);
-            SceneLoader.AddScene(_dungeonScene);
-            SceneLoader.AddScene(_villageScene);
             SceneLoader.SetActiveScene("MainMenuScene");
 
             // Setup scenes
             SetupMainMenuScene();
             SetupLoadingScene();
-
-            // Add testing entities before the window starts
-            DebuggingPlayground();
 
             // Init and Start the Window
             InitWindowActions(_gameWindow);
@@ -173,12 +166,12 @@ namespace Villeon
         {
             IEntity villageToDungeon = new Entity(new Transform(Constants.VILLAGE_SPAWN_POINT + new Vector2(5, 0), 1f, 0f), "villageToDungeonPortal");
             villageToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 2f));
-            villageToDungeon.AddComponent(new Portal("DungeonScene", Constants.DUNGEON_SPAWN_POINT));
+            villageToDungeon.AddComponent(new Portal("DungeonScene", Constants.VILLAGE_SPAWN_POINT));
+            _villageScene.AddEntity(villageToDungeon);
+
             IEntity dungeonToVillage = new Entity(new Transform(new Vector2(25f, 1), 1f, 0f), "dungeonToVillagePortal");
             dungeonToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 2f));
-            dungeonToVillage.AddComponent(new Portal("VillageScene", Constants.VILLAGE_SPAWN_POINT));
-
-            _villageScene.AddEntity(villageToDungeon);
+            dungeonToVillage.AddComponent(new Portal("VillageScene", Constants.DUNGEON_SPAWN_POINT));
             _dungeonScene.AddEntity(dungeonToVillage);
         }
 
@@ -188,18 +181,37 @@ namespace Villeon
             GL.Viewport(0, 0, args.Width, args.Height);
         }
 
-        private void CreatePlayerEntity()
+        private IEntity CreateDungeonPlayer()
         {
+            IEntity player;
+            Transform transform = new Transform(Constants.DUNGEON_SPAWN_POINT, 0.5f, 0f);
+            player = new Entity(transform, "DungeonMarin");
+            player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 1f, 1f));
+            player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
+            player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL, new Vector2(0f, 0f), 1f, 2f));
+            player.AddComponent(new Sprite(Assets.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
+            player.AddComponent(new Physics());
+            player.AddComponent(new Effect());
+            player.AddComponent(new Player());
+            player.AddComponent(new Health(Constants.PLAYER_MAX_HEALTH));
+
+            // Setup player animations
+            AnimationController animController = new AnimationController();
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_right.png", 0.08f));
+            player.AddComponent(animController);
+            return player;
+        }
+
+        private IEntity CreateVillagePlayer()
+        {
+            IEntity player;
             Transform transform = new Transform(Constants.VILLAGE_SPAWN_POINT, 0.25f, 0f);
-            _player = new Entity(transform, "Marin");
-            _player.AddComponent(new Physics());
-            _player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 1f, 1f));
-            _player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL, Vector2.Zero, 0.5f, 0.5f));
-            _player.AddComponent(new DynamicCollider(_player.GetComponent<Collider>()));
-            _player.AddComponent(new Player());
-            _player.AddComponent(new Effect());
-            _player.AddComponent(new Health(Constants.PLAYER_MAX_HEALTH));
-            _player.AddComponent(new Sprite(Assets.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
+            player = new Entity(transform, "VillageMarin");
+            player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 0.5f, 0.5f));
+            player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
+            player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL, new Vector2(0f, 0f), 0.5f, 0.5f));
+            player.AddComponent(new Sprite(Assets.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
+            player.AddComponent(new Player());
 
             // Setup player animations
             AnimationController animController = new AnimationController();
@@ -208,18 +220,15 @@ namespace Villeon
             animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_down.png", 0.08f));
             animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_left.png", 0.08f));
             animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_right.png", 0.08f));
-            _player.AddComponent(animController);
-
-            // Add player to scenes
-            _villageScene.AddEntity(_player);
-            _dungeonScene.AddEntity(_player);
+            player.AddComponent(animController);
+            return player;
         }
 
         private void SetupMainMenuScene()
         {
             // Show background image
             Entity villageRenderEntity = new Entity(new Transform(new Vector2(0, 0), 0.3f, 0f), "VillageRender");
-            villageRenderEntity.AddComponent(new Sprite(Assets.GetTexture("VillageRender.png"), SpriteLayer.Background, false));
+            villageRenderEntity.AddComponent(new Sprite(Assets.GetTexture("Sprites.VillageRender.png"), SpriteLayer.Background, false));
             _mainMenuScene.AddEntity(villageRenderEntity);
 
             // Enable camera movement
@@ -243,6 +252,12 @@ namespace Villeon
             _mainMenuScene.AddSystem(new MainMenuInputSystem("MainMenuInput"));
         }
 
+        private void CreatePlayers()
+        {
+            _villageScene.AddEntity(CreateVillagePlayer());
+            _dungeonScene.AddEntity(CreateDungeonPlayer());
+        }
+
         private void SetupLoadingScene()
         {
             // Setup GUI
@@ -259,11 +274,13 @@ namespace Villeon
                 RenderFrame(new FrameEventArgs(0f));
 
                 // Handle the actual loading
-                AddDungeonSystems();
-                AddVillageSystems();
+                SetupDungeonScene();
+                SetupVillageScene();
                 AddPortalEntities();
-                AddGUIEntities();
-                CreatePlayerEntity();
+                SetupGUIEntities();
+                CreatePlayers();
+                DebuggingPlayground();
+                GUIHandler.GetInstance().LoadGUI();
 
                 // Switch scene if loading is done
                 SceneLoader.SetActiveScene("VillageScene");
@@ -271,8 +288,11 @@ namespace Villeon
             });
         }
 
-        private void AddVillageSystems()
+        private void SetupVillageScene()
         {
+            _villageScene = new Scene("VillageScene");
+            SceneLoader.AddScene(_villageScene);
+
             TileMapDictionary villageTileMap = new TileMapDictionary("Village.tmx");
             _villageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
             _villageScene.AddSystem(new CollisionSystem("Collision"));
@@ -287,8 +307,11 @@ namespace Villeon
             _villageScene.SetTileMap(villageTileMap, false);
         }
 
-        private void AddDungeonSystems()
+        private void SetupDungeonScene()
         {
+            _dungeonScene = new Scene("DungeonScene");
+            SceneLoader.AddScene(_dungeonScene);
+
             TileMapDictionary tileMap = new TileMapDictionary("DungeonTileMap.tmx");
             _dungeonScene.AddSystem(new EffectSystem("Effects"));
             _dungeonScene.AddSystem(new PlayerMovementSystem("Move"));
@@ -307,7 +330,7 @@ namespace Villeon
             _dungeonScene.SetTileMap(tileMap, true);
         }
 
-        private void AddGUIEntities()
+        private void SetupGUIEntities()
         {
             // Menu Buttons - Village
             GUI.Image dungeon_button = new GUI.Image("Dungeon_Button.png", new Vector2(-9f, -5f), new Vector2(0.3f));

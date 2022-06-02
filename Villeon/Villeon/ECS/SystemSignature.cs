@@ -44,6 +44,12 @@ namespace Villeon.ECS
             return this;
         }
 
+        public void Complete()
+        {
+            if (_baseSignature != 0)
+                _signatures.Add(_baseSignature);
+        }
+
         public void RemoveFromSignature<T>()
             where T : class, IComponent
         {
@@ -55,17 +61,9 @@ namespace Villeon.ECS
 
         public bool Contains(ulong entitySignature)
         {
-            if (_signatures.Count > 0)
+            foreach (ulong systemSignature in _signatures)
             {
-                foreach (ulong systemSignature in _signatures)
-                {
-                    if ((entitySignature & systemSignature) == systemSignature)
-                        return true;
-                }
-            }
-            else
-            {
-                if ((entitySignature & _baseSignature) == _baseSignature)
+                if ((entitySignature & systemSignature) == systemSignature)
                     return true;
             }
 

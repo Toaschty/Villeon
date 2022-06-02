@@ -17,7 +17,7 @@ namespace Villeon.Systems.Update
         public MainMenuInputSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(MainMenu));
+            Signature.IncludeAND(typeof(MainMenu)).Complete();
         }
 
         public void Update(float time)
@@ -81,7 +81,7 @@ namespace Villeon.Systems.Update
         private void UnloadText(MainMenu menu)
         {
             // Remove all existing text entities from scene
-            Array.ForEach(menu.SelectionText.GetEntities(), entity =>
+            Array.ForEach(menu.SelectorText.GetEntities(), entity =>
             {
                 Manager.GetInstance().RemoveEntity(entity);
             });
@@ -91,10 +91,10 @@ namespace Villeon.Systems.Update
         {
             // Create new selector at correct position
             Vector2 newPos = new Vector2(menu.SelectionStart.X, menu.SelectionStart.Y - (menu.CurrentSelection * menu.SelectionStep.Y));
-            menu.SelectionText = new Text(">               <", newPos, "Alagard", 0f, 0.5f, menu.LetterScale);
+            menu.SelectorText = new Text(">               <", newPos, "Alagard", 0f, 0.5f, menu.LetterScale);
 
             // Add text entities to main menu scene
-            Array.ForEach(menu.SelectionText.GetEntities(), entity => Manager.GetInstance().AddEntityToScene(entity, "MainMenuScene"));
+            Array.ForEach(menu.SelectorText.GetEntities(), entity => Manager.GetInstance().AddEntityToScene(entity, "MainMenuScene"));
         }
     }
 }
