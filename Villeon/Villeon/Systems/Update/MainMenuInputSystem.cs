@@ -17,7 +17,7 @@ namespace Villeon.Systems.Update
         public MainMenuInputSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(MainMenu)).Complete();
+            Signature.IncludeAND(typeof(MainMenu));
         }
 
         public void Update(float time)
@@ -27,7 +27,7 @@ namespace Villeon.Systems.Update
                 MainMenu mainMenu = entity.GetComponent<MainMenu>();
 
                 // Check for key presses
-                Keys? currentKey = KeyHandler.GetLastReleasedKey();
+                Keys? currentKey = KeyHandler.GetLastPressedKey();
 
                 if (currentKey != null)
                 {
@@ -67,7 +67,7 @@ namespace Villeon.Systems.Update
             {
                 case 0: SceneLoader.SetActiveScene("LoadingScene"); break;
                 case 1: SceneLoader.SetActiveScene("LoadingScene"); break;
-                case 2: WindowCreator.CloseWindow(); break;
+                case 2: WindowHelper.CloseWindow(); break;
             }
         }
 

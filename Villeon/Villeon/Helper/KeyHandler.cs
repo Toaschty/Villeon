@@ -10,68 +10,64 @@ namespace Villeon.Helper
 {
     public static class KeyHandler
     {
-        private static List<Keys> _pressedKeys = new List<Keys>();
-        private static List<Keys> _releasedKeys = new List<Keys>();
+        private static List<Keys> _previousPressedKeys = new List<Keys>();
+        private static List<Keys> _currentPressedKeys = new List<Keys>();
 
         public static void KeyUp(KeyboardKeyEventArgs args)
         {
-            if (_pressedKeys.Count != 0)
-            {
-                _releasedKeys.Add(args.Key);
-                _pressedKeys.Remove(args.Key);
-            }
+            if (_currentPressedKeys.Count != 0)
+                _currentPressedKeys.Remove(args.Key);
         }
 
         public static void KeyDown(KeyboardKeyEventArgs args)
         {
-            if (!_pressedKeys.Contains(args.Key))
-                _pressedKeys.Add(args.Key);
+            if (!_currentPressedKeys.Contains(args.Key))
+                _currentPressedKeys.Add(args.Key);
         }
 
         public static bool IsPressed(Keys key)
         {
-            return _pressedKeys.Contains(key);
-        }
-
-        public static bool WasReleased(Keys key)
-        {
-            if (_releasedKeys.Contains(key))
-            {
-                _releasedKeys.Remove(key);
+            if (_currentPressedKeys.Contains(key) && !_previousPressedKeys.Contains(key))
                 return true;
-            }
 
             return false;
         }
 
-        public static void ClearReleasedKeys()
+        public static bool IsHeld(Keys key)
         {
-            _releasedKeys.Clear();
+            if (_currentPressedKeys.Contains(key))
+                return true;
+
+            return false;
         }
 
         public static void ClearKeys()
         {
-            _pressedKeys.Clear();
-            _releasedKeys.Clear();
+            _previousPressedKeys.Clear();
+            _currentPressedKeys.Clear();
         }
 
-        public static Keys? GetLastReleasedKey()
+        public static Keys? GetLastPressedKey()
         {
-            if (_releasedKeys.Count != 0)
+            foreach (Keys key in _currentPressedKeys)
             {
-                Keys key = _releasedKeys.Last();
-                _releasedKeys.Remove(key);
-
-                return key;
+                if (IsPressed(key))
+                    return key;
             }
 
             return null;
         }
 
-        public static void RemoveKeyHold(Keys key)
+        public static void UpdateKeys()
         {
-            if (_pressedKeys.Count != 0)
-                _pressedKeys.Remove(key);
+            // Clear Previous Keys
+            _previousPressedKeys.Clear();
+
+            // Add Current Keys
+            foreach (Keys key in _currentPressedKeys)
+            {
+                _previousPressedKeys.Add(key);
+            }
         }
     }
 }

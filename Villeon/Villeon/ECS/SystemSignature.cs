@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Villeon.Helper;
 
 namespace Villeon.ECS
 {
     public class SystemSignature
     {
-        private ulong _baseSignature = 0;
         private List<ulong> _signatures = new List<ulong>();
 
         public SystemSignature IncludeAND(params Type[] component)
         {
+            ulong baseSignature = 0;
             for (int i = 0; i < component.Length; i++)
             {
-                _baseSignature |= TypeRegistry.GetFlag(component[i]);
+                baseSignature |= TypeRegistry.GetFlag(component[i]);
             }
+
+            _signatures.Add(baseSignature);
 
             return this;
         }
@@ -32,22 +30,8 @@ namespace Villeon.ECS
             return this;
         }
 
-        public SystemSignature ANDEither(params Type[] component)
-        {
-            for (int i = 0; i < component.Length; i++)
-            {
-                ulong tmp = _baseSignature;
-                tmp |= TypeRegistry.GetFlag(component[i]);
-                _signatures.Add(tmp);
-            }
-
-            return this;
-        }
-
         public void Complete()
         {
-            if (_baseSignature != 0)
-                _signatures.Add(_baseSignature);
         }
 
         public void RemoveFromSignature<T>()

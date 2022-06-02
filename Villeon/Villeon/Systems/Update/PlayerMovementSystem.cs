@@ -16,7 +16,7 @@ namespace Villeon.Systems
         public PlayerMovementSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Physics), typeof(Collider), typeof(Player)).Complete();
+            Signature.IncludeAND(typeof(Physics), typeof(Collider), typeof(Player));
         }
 
         public void Update(float time)
@@ -35,17 +35,17 @@ namespace Villeon.Systems
                 // Check if player is grounded
                 StateManager.IsGrounded = collider.HasCollidedBottom;
 
-                if (KeyHandler.IsPressed(Keys.D))
+                if (KeyHandler.IsHeld(Keys.D))
                 {
                     physics.Acceleration += new Vector2(Constants.MOVEMENTSPEED, physics.Acceleration.Y);
                 }
 
-                if (KeyHandler.IsPressed(Keys.A))
+                if (KeyHandler.IsHeld(Keys.A))
                 {
                     physics.Acceleration -= new Vector2(Constants.MOVEMENTSPEED, physics.Acceleration.Y);
                 }
 
-                if (KeyHandler.IsPressed(Keys.Space))
+                if (KeyHandler.IsHeld(Keys.Space))
                 {
                     if (StateManager.IsGrounded)
                     {
@@ -67,7 +67,7 @@ namespace Villeon.Systems
                         effect.Effects.Add("AttackCooldown", 0.1f);
                     }
 
-                    KeyHandler.RemoveKeyHold(Keys.E);
+                    //KeyHandler.RemoveKeyHold(Keys.E);
                 }
 
                 if (KeyHandler.IsPressed(Keys.Q))
@@ -83,7 +83,7 @@ namespace Villeon.Systems
                         effect.Effects.Add("AttackCooldown", 0.1f);
                     }
 
-                    KeyHandler.RemoveKeyHold(Keys.Q);
+                    //KeyHandler.RemoveKeyHold(Keys.Q);
                 }
 
                 //Debug Reset Position
@@ -104,13 +104,13 @@ namespace Villeon.Systems
                 if (KeyHandler.IsPressed(Keys.H))
                 {
                     StateManager.DEBUGPAUSEACTIVE = !StateManager.DEBUGPAUSEACTIVE;
-                    KeyHandler.RemoveKeyHold(Keys.H);
+                    //KeyHandler.RemoveKeyHold(Keys.H);
                 }
 
                 if (KeyHandler.IsPressed(Keys.N))
                 {
                     StateManager.DEBUGNEXTFRAME = true;
-                    KeyHandler.RemoveKeyHold(Keys.N);
+                    //KeyHandler.RemoveKeyHold(Keys.N);
                 }
 
                 if (KeyHandler.IsPressed(Keys.M))
@@ -130,7 +130,7 @@ namespace Villeon.Systems
 
                     Constants.DEBUGTIME = float.Parse(newTime);
                     Console.WriteLine("New time: " + Constants.DEBUGTIME);
-                    KeyHandler.RemoveKeyHold(Keys.J);
+                    //KeyHandler.RemoveKeyHold(Keys.J);
                 }
             }
         }

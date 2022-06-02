@@ -36,7 +36,7 @@ namespace Villeon
 
         public Game()
         {
-            _gameWindow = WindowCreator.CreateWindow();
+            _gameWindow = WindowHelper.CreateWindow();
             TypeRegistry.SetupTypes();
             Assets.LoadRessources();
             _fps = new FPS(_gameWindow);
@@ -63,6 +63,12 @@ namespace Villeon
             IEntity floor = new Entity(new Transform(new Vector2(-20, -2), 1f, 0f), "Floor");
             floor.AddComponent(new Collider(new Vector2(0), new Transform(new Vector2(-20, -2), 1f, 0f), 100f, 1f));
             _dungeonScene.AddEntity(floor);
+
+            // Ladder
+            IEntity ladder = new Entity(new Transform(new Vector2(42, 0), 1f, 0), "Ladder");
+            ladder.AddComponent(new Trigger(TriggerLayerType.LADDER, 2f, 100f));
+            ladder.AddComponent(new Ladder(true));
+            _dungeonScene.AddEntity(ladder);
 
             // Spawn Dungeon
             LevelGeneration lvlGen = new LevelGeneration();
@@ -159,8 +165,8 @@ namespace Villeon
             villageToDungeon.AddComponent(new Portal("DungeonScene", Constants.VILLAGE_SPAWN_POINT));
             _villageScene.AddEntity(villageToDungeon);
 
-            IEntity dungeonToVillage = new Entity(new Transform(new Vector2(25f, 1), 1f, 0f), "dungeonToVillagePortal");
-            dungeonToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 2f));
+            IEntity dungeonToVillage = new Entity(new Transform(new Vector2(1f, 3f), 1f, 0f), "dungeonToVillagePortal");
+            dungeonToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 4f));
             dungeonToVillage.AddComponent(new Portal("VillageScene", Constants.DUNGEON_SPAWN_POINT));
             _dungeonScene.AddEntity(dungeonToVillage);
         }
@@ -178,7 +184,7 @@ namespace Villeon
             player = new Entity(transform, "DungeonMarin");
             player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 1f, 1f));
             player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
-            player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL, new Vector2(0f, 0f), 1f, 2f));
+            player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL | TriggerLayerType.LADDER, new Vector2(0f, 0f), 1f, 2f));
             player.AddComponent(new Sprite(Assets.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
             player.AddComponent(new Physics());
             player.AddComponent(new Effect());
@@ -273,7 +279,7 @@ namespace Villeon
                 GUIHandler.GetInstance().LoadGUI();
 
                 // Switch scene if loading is done
-                SceneLoader.SetActiveScene("VillageScene");
+                SceneLoader.SetActiveScene("DungeonScene");
                 return true;
             });
         }
@@ -316,6 +322,7 @@ namespace Villeon
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
             _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             _dungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            _dungeonScene.AddSystem(new LadderSystem("LadderSystem"));
             _dungeonScene.AddSystem(new HealthbarSystem("PlayerHealthbar", Constants.PLAYER_MAX_HEALTH));
             _dungeonScene.SetTileMap(tileMap, true);
         }
@@ -336,12 +343,16 @@ namespace Villeon
             _villageScene.AddEntity(guiHandlerEntity);
         }
 
+        private static int FrameCount = 0;
+
         private void UpdateFrame(FrameEventArgs args)
         {
             _fps!.SetFps((float)args.Time);
             Time.SetTime((float)args.Time);
             Manager.GetInstance().Update((float)args.Time);
             MouseHandler.ClickedMouseButtons.Clear();
+            WindowHelper.GameWindow!.ProcessEvents();
+            KeyHandler.UpdateKeys();
         }
 
         private void RenderFrame(FrameEventArgs args)

@@ -13,7 +13,10 @@ namespace Villeon.Systems.Update
         /// <summary>
         /// Gets the Collision pair of an actor and a receiver.
         /// </summary>
-        /// <value>Tuple wich contains in Item1: actor & Item2: receiver.</value>
+        /// <value>
+        /// Item1: actor
+        /// Item2: receiver.
+        /// </value>
         public List<Tuple<IEntity, IEntity>> Collisions
         {
             get

@@ -17,8 +17,8 @@ namespace Villeon.Systems
         public SimpleAISystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Physics), typeof(Collider), typeof(SimpleAI))
-                .IncludeOR(typeof(Player)).Complete();
+            Signature.IncludeAND(typeof(Physics), typeof(Collider), typeof(EnemyAI))
+                .IncludeOR(typeof(Player));
         }
 
         public override void AddEntity(IEntity entity)

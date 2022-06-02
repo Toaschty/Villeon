@@ -14,7 +14,7 @@ namespace Villeon.Systems
         public PhysicsSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Physics), typeof(Collider)).Complete();
+            Signature.IncludeAND(typeof(Physics), typeof(Collider));
         }
 
         public void Update(float time)

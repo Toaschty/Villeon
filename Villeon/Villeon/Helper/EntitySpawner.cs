@@ -38,7 +38,7 @@ namespace Villeon
             entity.AddComponent(new Health(200));
             entity.AddComponent(new Effect());
             entity.AddComponent(new Physics());
-            entity.AddComponent(new SimpleAI());
+            entity.AddComponent(new EnemyAI());
             entity.AddComponent(new Sprite(SpriteLayer.Foreground, true));
 
             // Setup player animations

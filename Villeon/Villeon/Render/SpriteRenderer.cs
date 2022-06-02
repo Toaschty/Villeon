@@ -20,7 +20,7 @@ namespace Villeon.Render
         public SpriteRenderer(string name, bool renderColliders)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Transform)).Complete();
+            Signature.IncludeAND(typeof(Transform));
 
             // Create World Layers
             for (int i = (int)SpriteLayer.Background; i <= (int)SpriteLayer.Collider; i++)
@@ -124,7 +124,7 @@ namespace Villeon.Render
         private void AddColliderSprite(Collider collider, ref RenderingData data)
         {
             Color4 color = new Color4(1f, 1f, 0f, 0.3f);
-            data.Sprite = new Sprite(SpriteLayer.Collider, collider.Width, collider.Height, true);
+            data.Sprite = new Sprite(SpriteLayer.Collider, collider.Width, collider.Height, false);
             data.Sprite.Color = color;
             data.Offset = -collider.Offset;
             _spriteLayers[(int)SpriteLayer.Collider].AddRenderingData(ref data);

@@ -17,7 +17,7 @@ namespace Villeon.Systems
         public CollisionSystem(string name)
             : base(name)
         {
-            Signature.IncludeOR(typeof(Collider), typeof(DynamicCollider)).Complete();
+            Signature.IncludeOR(typeof(Collider), typeof(DynamicCollider));
         }
 
         private enum Direction
@@ -37,7 +37,6 @@ namespace Villeon.Systems
             DynamicCollider dynamicCollider = entity.GetComponent<DynamicCollider>();
             if (dynamicCollider is not null)
             {
-                Console.WriteLine("Dynamic Added" + entity.Name);
                 Transform dynamicTransform = entity.GetComponent<Transform>();
                 dynamicCollider.Position = collider!.Position;
                 _dynamicTuple.Add(Tuple.Create(collider, dynamicCollider, dynamicTransform));
@@ -53,7 +52,6 @@ namespace Villeon.Systems
 
         public override void RemoveEntity(IEntity entity)
         {
-            Console.WriteLine("tuples:" + _dynamicTuple.Count);
             base.RemoveEntity(entity);
 
             Collider collider = entity.GetComponent<Collider>();
@@ -70,8 +68,6 @@ namespace Villeon.Systems
             {
                 _colliders.Remove(collider);
             }
-
-            Console.WriteLine("tuples after removal:" + _dynamicTuple.Count);
         }
 
         // Collider, Transform, Physics
@@ -82,6 +78,8 @@ namespace Villeon.Systems
             UpdateTransformPositions();
         }
 
+        public static int colliderChecks = 0;
+
         private void CheckAndResolveCollisions()
         {
             foreach (var tuple in _dynamicTuple)
@@ -91,6 +89,7 @@ namespace Villeon.Systems
 
                 foreach (Collider e2collider in _colliders)
                 {
+                    colliderChecks++;
                     if (CollidesSAT(colliderFromDynamic, dynamicCollider, e2collider))
                     {
                         Direction direction = CollidesDirectionAABB(colliderFromDynamic, dynamicCollider, e2collider);
@@ -100,30 +99,8 @@ namespace Villeon.Systems
                     if (colliderFromDynamic.Position == dynamicCollider.LastPosition)
                         break;
                 }
-            }
-        }
-
-        private void FillEntityLists(List<Collider> entitiesCollider, List<Collider> dynamicEntitiesCollider, List<DynamicCollider> dynamicColliders)
-        {
-            foreach (IEntity entity in Entities)
-            {
-                Collider collider = entity.GetComponent<Collider>();
-
-                collider.Position = entity.GetComponent<Transform>().Position + collider.Offset;
-
-                collider.ResetHasCollided();
-
-                DynamicCollider dynamicCollider = entity.GetComponent<DynamicCollider>();
-                if (dynamicCollider != null)
-                {
-                    dynamicCollider.Position = collider.Position;
-                    dynamicEntitiesCollider.Add(collider);
-                    dynamicColliders.Add(dynamicCollider);
-                }
-                else
-                {
-                    entitiesCollider.Add(collider);
-                }
+                Console.WriteLine(colliderChecks);
+                colliderChecks = 0;
             }
         }
 

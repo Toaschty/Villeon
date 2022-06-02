@@ -16,7 +16,7 @@ namespace Villeon.Systems.Update
         public GUIInputSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(GUIHandler)).Complete();
+            Signature.IncludeAND(typeof(GUIHandler));
         }
 
         public void Update(float time)
@@ -29,7 +29,7 @@ namespace Villeon.Systems.Update
 
                 if (StateManager.InMenu)
                 {
-                    Keys? currentkey = KeyHandler.GetLastReleasedKey();
+                    Keys? currentkey = KeyHandler.GetLastPressedKey();
                     if (currentkey != null)
                     {
                         bool updateMenu = handler.CurrentMenu!.OnKeyReleased((Keys)currentkey);
@@ -46,26 +46,26 @@ namespace Villeon.Systems.Update
         private void CheckKeyMenu(GUIHandler handler)
         {
             // Dungeon Menu
-            if (KeyHandler.WasReleased(Keys.L))
+            if (KeyHandler.IsPressed(Keys.L))
                 ChangeMenu(handler, handler.DungeonMenu);
 
             // Equipment Menu
-            if (KeyHandler.WasReleased(Keys.P))
+            if (KeyHandler.IsPressed(Keys.P))
                 ChangeMenu(handler, handler.EquipmentMenu);
 
             // Inventory Menu
-            if (KeyHandler.WasReleased(Keys.Tab) || KeyHandler.WasReleased(Keys.I))
+            if (KeyHandler.IsPressed(Keys.Tab) || KeyHandler.IsPressed(Keys.I))
                 ChangeMenu(handler, handler.InventoryMenu);
 
             // Map Menu
-            if (KeyHandler.WasReleased(Keys.M))
+            if (KeyHandler.IsPressed(Keys.M))
             {
                 handler.MapMenu.MoveViewportToMarker();
                 ChangeMenu(handler, handler.MapMenu);
             }
 
             // Pause Menu
-            if (KeyHandler.WasReleased(Keys.Escape))
+            if (KeyHandler.IsPressed(Keys.Escape))
                 ChangeMenu(handler, handler.PauseMenu);
         }
 
@@ -76,7 +76,6 @@ namespace Villeon.Systems.Update
             {
                 GUIHandler.GetInstance().CurrentMenu = menu;
                 LoadMenu(menu);
-                KeyHandler.ClearReleasedKeys();
                 StateManager.InMenu = true;
             }
 

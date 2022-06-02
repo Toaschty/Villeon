@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Villeon.Components
 {
-    public class SimpleAI : IComponent
+    public class Drops : IComponent
     {
+
     }
 }

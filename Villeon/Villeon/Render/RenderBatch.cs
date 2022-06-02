@@ -92,7 +92,6 @@ namespace Villeon.Render
             int tmpSpriteCount = _spriteCount;
             _spriteCount = 0;
             _textures.Clear();
-
             foreach (RenderingData data in _renderingData)
             {
                 AddSprite(data);

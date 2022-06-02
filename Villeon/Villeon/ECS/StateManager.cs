@@ -14,7 +14,7 @@ namespace Villeon.ECS
         public static bool InShop { get; set; } = false;
 
         // Player
-        public static bool IsDead { get; set; } = false;
+        public static bool IsPlayerDead { get; set; } = false;
 
         public static bool IsGrounded { get; set; } = false;
 

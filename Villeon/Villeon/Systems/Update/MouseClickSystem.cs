@@ -18,7 +18,7 @@ namespace Villeon.Systems
         public MouseClickSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Collider)).Complete();
+            Signature.IncludeAND(typeof(Collider));
         }
 
         public void Update(float time)

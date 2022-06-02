@@ -15,7 +15,7 @@ namespace Villeon.Systems
         public TriggerSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Trigger)).Complete();
+            Signature.IncludeAND(typeof(Trigger));
         }
 
         public void Update(float time)

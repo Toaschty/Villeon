@@ -109,7 +109,6 @@ namespace Villeon.ECS
 
         public HashSet<IEntity> GetEntities() => _entities;
 
-
         public void Update(float time)
         {
             foreach (IUpdateSystem system in _updateSystems)
