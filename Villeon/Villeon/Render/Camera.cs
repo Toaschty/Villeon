@@ -84,7 +84,7 @@ namespace Villeon.Render
             if (_cameraScale < 1f)
                 _cameraScale = 1f;
             //if (_cameraScale > 20f)
-            //    _cameraScale = 20f;
+             //   _cameraScale = 20f;
 
         }
 
