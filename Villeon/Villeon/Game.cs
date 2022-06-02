@@ -70,6 +70,11 @@ namespace Villeon
             ladder.AddComponent(new Ladder(true));
             _dungeonScene.AddEntity(ladder);
 
+            //SpawnDungeon();
+        }
+
+        private void SpawnDungeon()
+        {
             // Spawn Dungeon
             LevelGeneration lvlGen = new LevelGeneration();
             lvlGen.GenSolutionPath();
@@ -139,16 +144,20 @@ namespace Villeon
                             else if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "L")
                             {
                                 // Ladder
-                                //entity = new Entity(new Transform(new Vector2(y, x), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
-                                //entity.AddComponent(Assets.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(0, SpriteLayer.Background, false));
-                                //_dungeonScene.AddEntity(entity);
+                                entity = new Entity(new Transform(new Vector2(y, x), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
+                                entity.AddComponent(Assets.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(0, SpriteLayer.Background, false));
+                                entity.AddComponent(new Trigger(TriggerLayerType.LADDER, 1f, 1f));
+                                entity.AddComponent(new Ladder(true));
+                                _dungeonScene.AddEntity(entity);
                             }
                             else if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "P")
                             {
                                 // Ladder top
-                               // entity = new Entity(new Transform(new Vector2(y, x), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
-                                //entity.AddComponent(Assets.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(0, SpriteLayer.Background, false));
-                               // _dungeonScene.AddEntity(entity);
+                                entity = new Entity(new Transform(new Vector2(y, x), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
+                                entity.AddComponent(Assets.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(0, SpriteLayer.Background, false));
+                                entity.AddComponent(new Trigger(TriggerLayerType.LADDER, 1f, 1f));
+                                entity.AddComponent(new Ladder(true));
+                                _dungeonScene.AddEntity(entity);
                             }
                         }
                     }
@@ -289,7 +298,7 @@ namespace Villeon
                 GUIHandler.GetInstance().LoadGUI();
 
                 // Switch scene if loading is done
-                SceneLoader.SetActiveScene("DungeonScene");
+                SceneLoader.SetActiveScene("VillageScene");
                 return true;
             });
         }

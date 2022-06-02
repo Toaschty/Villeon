@@ -31,16 +31,10 @@ namespace Villeon.Systems
             foreach (Enum value in GetSetFlags(triggerLayerType))
             {
                 if (receiver is not null)
-                {
-                    Console.WriteLine("Added player to LadderSystem");
                     _triggerLayers[(TriggerLayerType)value].AddReceiverEntiy(entity);
-                }
 
                 if (actor is not null)
-                {
-                    Console.WriteLine("Added Ladder to LadderSystem");
                     _triggerLayers[(TriggerLayerType)value].AddActingEntiy(entity);
-                }
             }
         }
 

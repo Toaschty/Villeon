@@ -8,66 +8,37 @@ using Villeon.ECS;
 
 namespace Villeon.Systems.Update
 {
-    public class PortalSystem : System, IUpdateSystem
+    public class PortalSystem : TriggerActionSystem, IUpdateSystem
     {
-        private TriggerLayer[] _triggerLayers = new TriggerLayer[Enum.GetNames(typeof(TriggerLayerType)).Length];
-
         public PortalSystem(string name)
             : base(name)
         {
             Signature.
                 IncludeAND(typeof(Trigger), typeof(Player)).
                 IncludeAND(typeof(Trigger), typeof(Portal));
-
-            for (int i = 0; i < _triggerLayers.Count(); i++)
-            {
-                _triggerLayers[i] = new TriggerLayer();
-            }
         }
 
         // Add Entity to TriggerLayer & Base
         public override void AddEntity(IEntity entity)
         {
             base.AddEntity(entity);
-            TriggerLayerType triggerLayerType = entity.GetComponent<Trigger>().TriggerLayers;
 
-            for (int i = 1; i <= (int)TriggerLayerType.PORTAL; i *= 2)
-            {
-                if (triggerLayerType.HasFlag((TriggerLayerType)i))
-                {
-                    if (entity.GetComponent<Player>() is not null)
-                        _triggerLayers[i / 2].AddReceiverEntiy(entity);
-
-                    if (entity.GetComponent<Portal>() is not null)
-                        _triggerLayers[i / 2].AddActingEntiy(entity);
-                }
-            }
-        }
-
-        // Remove Entity from TriggerLayer & Base
-        public override void RemoveEntity(IEntity entity)
-        {
-            base.RemoveEntity(entity);
-
-            TriggerLayerType triggerLayerType = entity.GetComponent<Trigger>().TriggerLayers;
-            for (int i = 1; i <= (int)TriggerLayerType.PORTAL; i *= 2)
-            {
-                if (triggerLayerType.HasFlag((TriggerLayerType)i))
-                {
-                    _triggerLayers[i / 2].RemoveEntity(entity);
-                }
-            }
+            Player player = entity.GetComponent<Player>();
+            Portal portal = entity.GetComponent<Portal>();
+            AddEntityToLayer(player, portal, entity);
         }
 
         public void Update(float time)
         {
-            for (int i = 0; i < _triggerLayers.Count(); i++)
+            // Iterate through each Trigger Layer
+            foreach (TriggerLayerType layerKey in TriggerLayers.Keys)
             {
-                // Go to next Layer if its empty
-                if (_triggerLayers[i].Collisions is null)
+                // Continue if there is no collision on this layer
+                if (TriggerLayers[layerKey].Collisions is null)
                     continue;
 
-                foreach (var collisionPair in _triggerLayers[i].Collisions)
+                // Do action when collision happend
+                foreach (var collisionPair in TriggerLayers[layerKey].Collisions)
                 {
                     Portal portal = collisionPair.Item1.GetComponent<Portal>();
                     Transform playerTransform = collisionPair.Item2.GetComponent<Transform>();

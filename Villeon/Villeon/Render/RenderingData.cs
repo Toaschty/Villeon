@@ -8,11 +8,22 @@ using Villeon.Components;
 
 namespace Villeon.Render
 {
-    public struct RenderingData
+    public class RenderingData
     {
-        public Sprite? Sprite;
-        public Transform Transform;
-        public Vector2 Offset;
-        public Vector2 Scale;
+        public RenderingData(Sprite? sprite, Transform transform, Vector2 offset, Vector2 scale)
+        {
+            Sprite = sprite;
+            Transform = transform;
+            Offset = offset;
+            Scale = scale;
+        }
+
+        public Sprite? Sprite { get; set; }
+
+        public Transform Transform { get; set; }
+
+        public Vector2 Offset { get; set; }
+
+        public Vector2 Scale { get; set; }
     }
 }

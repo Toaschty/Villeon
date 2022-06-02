@@ -18,7 +18,7 @@ namespace Villeon.Render
             _usesCamera = usesCamera;
         }
 
-        public void AddRenderingData(ref RenderingData data)
+        public void AddRenderingData(RenderingData data)
         {
             bool added = false;
             if (data.Sprite is not null && data.Sprite.IsDynamic == true)

@@ -8,22 +8,14 @@ using Villeon.ECS;
 
 namespace Villeon.Systems.Update
 {
-    public class DamageSystem : System, IUpdateSystem
+    public class DamageSystem : TriggerActionSystem, IUpdateSystem
     {
-        private TriggerLayer[] _triggerLayers = new TriggerLayer[Enum.GetNames(typeof(TriggerLayerType)).Length];
-
         public DamageSystem(string name)
             : base(name)
         {
             Signature.
                 IncludeAND(typeof(Trigger), typeof(Health)).
-                IncludeAND(typeof(Trigger), typeof(Damage)).
-                Complete();
-
-            for (int i = 0; i < _triggerLayers.Count(); i++)
-            {
-                _triggerLayers[i] = new TriggerLayer();
-            }
+                IncludeAND(typeof(Trigger), typeof(Damage));
         }
 
         // Add Entity to TriggerLayer & Base
@@ -31,44 +23,22 @@ namespace Villeon.Systems.Update
         {
             base.AddEntity(entity);
             TriggerLayerType triggerLayerType = entity.GetComponent<Trigger>().TriggerLayers;
-
-            for (int i = 1; i <= (int)TriggerLayerType.PORTAL; i *= 2)
-            {
-                if (triggerLayerType.HasFlag((TriggerLayerType)i))
-                {
-                    if (entity.GetComponent<Health>() is not null)
-                        _triggerLayers[i / 2].AddReceiverEntiy(entity);
-
-                    if (entity.GetComponent<Damage>() is not null)
-                        _triggerLayers[i / 2].AddActingEntiy(entity);
-                }
-            }
-        }
-
-        // Remove Entity from TriggerLayer & Base
-        public override void RemoveEntity(IEntity entity)
-        {
-            base.RemoveEntity(entity);
-
-            TriggerLayerType triggerLayerType = entity.GetComponent<Trigger>().TriggerLayers;
-            for (int i = 1; i <= (int)TriggerLayerType.PORTAL; i *= 2)
-            {
-                if (triggerLayerType.HasFlag((TriggerLayerType)i))
-                {
-                    _triggerLayers[i / 2].RemoveEntity(entity);
-                }
-            }
+            Health health = entity.GetComponent<Health>();
+            Damage damage = entity.GetComponent<Damage>();
+            AddEntityToLayer(health, damage, entity);
         }
 
         public void Update(float time)
         {
-            for (int i = 0; i < _triggerLayers.Count(); i++)
+            // Iterate through each Trigger Layer
+            foreach (TriggerLayerType layerKey in TriggerLayers.Keys)
             {
-                // Go to next Layer if its empty
-                if (_triggerLayers[i].Collisions is null)
+                // Continue if there is no collision on this layer
+                if (TriggerLayers[layerKey].Collisions is null)
                     continue;
 
-                foreach (var collisionPair in _triggerLayers[i].Collisions)
+                // Do action when collision happend
+                foreach (var collisionPair in TriggerLayers[layerKey].Collisions)
                 {
                     Damage damage = collisionPair.Item1.GetComponent<Damage>();
                     Health health = collisionPair.Item2.GetComponent<Health>();

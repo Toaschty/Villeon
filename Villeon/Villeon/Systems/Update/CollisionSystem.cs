@@ -78,8 +78,6 @@ namespace Villeon.Systems
             UpdateTransformPositions();
         }
 
-        public static int colliderChecks = 0;
-
         private void CheckAndResolveCollisions()
         {
             foreach (var tuple in _dynamicTuple)
@@ -89,7 +87,6 @@ namespace Villeon.Systems
 
                 foreach (Collider e2collider in _colliders)
                 {
-                    colliderChecks++;
                     if (CollidesSAT(colliderFromDynamic, dynamicCollider, e2collider))
                     {
                         Direction direction = CollidesDirectionAABB(colliderFromDynamic, dynamicCollider, e2collider);
@@ -99,8 +96,6 @@ namespace Villeon.Systems
                     if (colliderFromDynamic.Position == dynamicCollider.LastPosition)
                         break;
                 }
-                Console.WriteLine(colliderChecks);
-                colliderChecks = 0;
             }
         }
 
