@@ -107,7 +107,6 @@ namespace Villeon.Render
             Camera.Update();
             _shader.UploadMat4("cameraMatrix", Camera.GetMatrix());
             _shader.UploadMat4("screenMatrix", Camera.GetScreenMatrix());
-            _shader.UploadFloat("uTime", Time.ElapsedTime);
 
             // Bind all textures that this batch contains
             int i = 0;
@@ -177,6 +176,7 @@ namespace Villeon.Render
             {
                 _renderingData.Remove(data);
                 _spriteCount--;
+                Console.Write("[RB]");
                 Rebuffer();
             }
         }
