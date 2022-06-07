@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -425,15 +426,14 @@ namespace Villeon
         }
 
         private static int FrameCount = 0;
+        private static Stopwatch stopwatch = new Stopwatch();
 
         private void UpdateFrame(FrameEventArgs args)
         {
-            Console.WriteLine(Camera.TrackerPosition);
             _fps!.SetFps((float)args.Time);
             Time.SetTime((float)args.Time);
             Manager.GetInstance().Update((float)args.Time);
             MouseHandler.ClickedMouseButtons.Clear();
-            WindowHelper.GameWindow!.ProcessEvents();
             KeyHandler.UpdateKeys();
         }
 
