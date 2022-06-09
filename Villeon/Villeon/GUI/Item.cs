@@ -38,6 +38,11 @@ namespace Villeon.GUI
             MATERIAL,
         }
 
+        public string Name
+        {
+            get { return _name; }
+        }
+
         public Sprite Sprite
         {
             get { return _sprite; }
