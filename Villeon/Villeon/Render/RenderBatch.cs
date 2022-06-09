@@ -139,7 +139,7 @@ namespace Villeon.Render
 
             // Unbind all textures that this batch contains
             GL.BindTexture(TextureTarget.Texture2D, 0);
-
+            GL.Finish();
             _shader.Detach();
         }
 
@@ -176,7 +176,6 @@ namespace Villeon.Render
             {
                 _renderingData.Remove(data);
                 _spriteCount--;
-                Console.Write("[RB]");
                 Rebuffer();
             }
         }

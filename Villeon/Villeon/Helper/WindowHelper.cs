@@ -16,7 +16,7 @@ namespace Villeon.Helper
         public static GameWindow CreateWindow()
         {
             NativeWindowSettings windowSettings = new NativeWindowSettings();
-            windowSettings.Profile = ContextProfile.Compatability;
+            windowSettings.Profile = ContextProfile.Core;
             GameWindow = new GameWindow(GameWindowSettings.Default, windowSettings);
 
             MonitorInfo monitorInfo = Monitors.GetMonitorFromWindow(GameWindow);

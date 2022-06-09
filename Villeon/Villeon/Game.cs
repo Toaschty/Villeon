@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -30,6 +31,8 @@ namespace Villeon
         private Scene _loadingScene = new ("LoadingScene");
         private Scene _dungeonScene;
         private Scene _villageScene;
+        private Scene _smithScene;
+        private Scene _shopScene;
         private GameWindow _gameWindow;
         private Matrix4 _refCameraMatrix = Matrix4.Identity;
         private FPS _fps;
@@ -188,6 +191,26 @@ namespace Villeon
             dungeonToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 4f));
             dungeonToVillage.AddComponent(new Portal("VillageScene", Constants.DUNGEON_SPAWN_POINT));
             _dungeonScene.AddEntity(dungeonToVillage);
+
+            IEntity villageToSmith = new Entity(new Transform(Constants.TO_SMITH_PORTAL_POINT, 1f, 0f), "VillageToSmithPortal");
+            villageToSmith.AddComponent(new Trigger(TriggerLayerType.PORTAL, 2f, 1f));
+            villageToSmith.AddComponent(new Portal("SmithScene", Constants.TO_SMITH_PORTAL_POINT + new Vector2(1f, -1f)));
+            _villageScene.AddEntity(villageToSmith);
+
+            IEntity smithToVillage = new Entity(new Transform(Constants.FROM_SMITH_PORTAL_POINT, 1f, 0f), "SmithToVillagePortal");
+            smithToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 2f, 1.5f));
+            smithToVillage.AddComponent(new Portal("VillageScene", Constants.FROM_SMITH_PORTAL_POINT + new Vector2(1f, 2f)));
+            _smithScene.AddEntity(smithToVillage);
+
+            IEntity villageToShop = new Entity(new Transform(Constants.TO_SHOP_PORTAL_POINT, 1f, 0f), "VillageToShopPortal");
+            villageToShop.AddComponent(new Trigger(TriggerLayerType.PORTAL, 2f, 1f));
+            villageToShop.AddComponent(new Portal("ShopScene", Constants.TO_SHOP_PORTAL_POINT + new Vector2(1f, -1f)));
+            _villageScene.AddEntity(villageToShop);
+
+            IEntity shopToVillage = new Entity(new Transform(Constants.FROM_SHOP_PORTAL_POINT, 1f, 0f), "ShopToVillagePortal");
+            shopToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 2f, 1.5f));
+            shopToVillage.AddComponent(new Portal("VillageScene", Constants.FROM_SHOP_PORTAL_POINT + new Vector2(1f, 2f)));
+            _shopScene.AddEntity(shopToVillage);
         }
 
         private void Resize(ResizeEventArgs args)
@@ -217,10 +240,10 @@ namespace Villeon
             return player;
         }
 
-        private IEntity CreateVillagePlayer()
+        private IEntity CreateVillagePlayer(Vector2 spawnPoint)
         {
             IEntity player;
-            Transform transform = new Transform(Constants.VILLAGE_SPAWN_POINT, 0.25f, 0f);
+            Transform transform = new Transform(spawnPoint, 0.25f, 0f);
             player = new Entity(transform, "VillageMarin");
             player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 0.5f, 0.5f));
             player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
@@ -269,8 +292,10 @@ namespace Villeon
 
         private void CreatePlayers()
         {
-            _villageScene.AddEntity(CreateVillagePlayer());
+            _villageScene.AddEntity(CreateVillagePlayer(Constants.VILLAGE_SPAWN_POINT));
             _dungeonScene.AddEntity(CreateDungeonPlayer());
+            _smithScene.AddEntity(CreateVillagePlayer(Constants.SMITH_SPAWN_POINT));
+            _shopScene.AddEntity(CreateVillagePlayer(Constants.SHOP_SPAWN_POINT));
         }
 
         private void SetupLoadingScene()
@@ -291,6 +316,8 @@ namespace Villeon
                 // Handle the actual loading
                 SetupDungeonScene();
                 SetupVillageScene();
+                SetupSmithScene();
+                SetupShopScene();
                 AddPortalEntities();
                 SetupGUIEntities();
                 CreatePlayers();
@@ -301,6 +328,42 @@ namespace Villeon
                 SceneLoader.SetActiveScene("VillageScene");
                 return true;
             });
+        }
+
+        private void SetupSmithScene()
+        {
+            _smithScene = new Scene("SmithScene");
+            SceneLoader.AddScene(_smithScene);
+
+            TileMapDictionary smithTileMap = new TileMapDictionary("VillageSmith.tmx");
+            _smithScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
+            _smithScene.AddSystem(new CollisionSystem("Collision"));
+            _smithScene.AddSystem(new TriggerSystem("Trigger"));
+            _smithScene.AddSystem(new PortalSystem("PortalSystem"));
+            _smithScene.AddSystem(new CameraSystem("CameraSystem"));
+            _smithScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            _smithScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
+            _smithScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            _smithScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
+            _smithScene.SetTileMap(smithTileMap, false);
+        }
+
+        private void SetupShopScene()
+        {
+            _shopScene = new Scene("ShopScene");
+            SceneLoader.AddScene(_shopScene);
+
+            TileMapDictionary shopTileMap = new TileMapDictionary("VillageShop.tmx");
+            _shopScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
+            _shopScene.AddSystem(new CollisionSystem("Collision"));
+            _shopScene.AddSystem(new TriggerSystem("Trigger"));
+            _shopScene.AddSystem(new PortalSystem("PortalSystem"));
+            _shopScene.AddSystem(new CameraSystem("CameraSystem"));
+            _shopScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            _shopScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
+            _shopScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            _shopScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
+            _shopScene.SetTileMap(shopTileMap, false);
         }
 
         private void SetupVillageScene()
@@ -363,6 +426,7 @@ namespace Villeon
         }
 
         private static int FrameCount = 0;
+        private static Stopwatch stopwatch = new Stopwatch();
 
         private void UpdateFrame(FrameEventArgs args)
         {
@@ -370,7 +434,6 @@ namespace Villeon
             Time.SetTime((float)args.Time);
             Manager.GetInstance().Update((float)args.Time);
             MouseHandler.ClickedMouseButtons.Clear();
-            WindowHelper.GameWindow!.ProcessEvents();
             KeyHandler.UpdateKeys();
         }
 
