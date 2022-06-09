@@ -13,7 +13,7 @@ namespace Villeon.GUI
         private string _name;
         private Sprite _sprite;
         private int _prize;
-        private Type _itemType;
+        private ITEM_TYPE _itemType;
 
         public Item()
         {
@@ -23,7 +23,7 @@ namespace Villeon.GUI
             _itemType = 0;
         }
 
-        public Item(string name, Sprite sprite, int prize, Type type)
+        public Item(string name, Sprite sprite, int prize, ITEM_TYPE type)
         {
             _name = name;
             _sprite = sprite;
@@ -31,11 +31,16 @@ namespace Villeon.GUI
             _itemType = type;
         }
 
-        public enum Type
+        public enum ITEM_TYPE
         {
             WEAPON,
             POTION,
             MATERIAL,
+        }
+
+        public ITEM_TYPE ItemType
+        {
+            get { return _itemType; }
         }
 
         public string Name
