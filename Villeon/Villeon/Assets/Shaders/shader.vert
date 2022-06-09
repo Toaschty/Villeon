@@ -19,13 +19,13 @@ void main()
 	fTexCoords = texCoords;
 	fTexID = texID;
 
-	if (usesCamera)
+	if (position.z < -2)
 	{
 		gl_Position = position * cameraMatrix;
 	}
-	else
+
+	if (position.z >= -2 )
 	{
 		gl_Position = position * screenMatrix;
 	}
-
 }

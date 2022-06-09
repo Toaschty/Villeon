@@ -25,5 +25,7 @@ namespace Villeon.Render
         public Vector2 Offset { get; set; }
 
         public Vector2 Scale { get; set; }
+
+        public int SpriteNumber { get; set; }
     }
 }

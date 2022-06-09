@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Villeon.Helper;
 using Zenseless.OpenTK;
 
 namespace Villeon.Render
@@ -11,12 +12,6 @@ namespace Villeon.Render
     {
         private List<RenderBatch> _dynamicBatches = new List<RenderBatch>();
         private List<RenderBatch> _staticBatches = new List<RenderBatch>();
-        private bool _usesCamera = true;
-
-        public Layer(bool usesCamera)
-        {
-            _usesCamera = usesCamera;
-        }
 
         public void AddRenderingData(RenderingData data)
         {
@@ -121,7 +116,7 @@ namespace Villeon.Render
 
         private RenderBatch CreateRenderBatch()
         {
-            RenderBatch newBatch = new RenderBatch(_usesCamera);
+            RenderBatch newBatch = new RenderBatch(Assets.GetShader("Shaders.shader"));
             return newBatch;
         }
     }

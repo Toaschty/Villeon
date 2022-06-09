@@ -24,7 +24,6 @@ namespace Villeon.Render
         private int[] _texSlots = { 0, 1, 2, 3, 4, 5, 6, 7 };
         private int _spriteCount;
         private bool _isFull;
-        private bool _usesCamera = true;
 
         // Holds all Sprite Data (Position, Color, TextureCoods, TextureID)
         private float[] _vertices;
@@ -36,9 +35,9 @@ namespace Villeon.Render
 
         private Shader _shader;
 
-        public RenderBatch(bool usesCamera)
+        public RenderBatch(Shader shader)
         {
-            _shader = Assets.GetShader("Shaders.shader");
+            _shader = shader;
             _renderingData = new HashSet<RenderingData>(Constants.MAX_BATCH_SIZE);
             _textures = new List<Texture2D>();
 
@@ -46,7 +45,6 @@ namespace Villeon.Render
             _vertices = new float[Constants.MAX_BATCH_SIZE * Size.QUAD * Size.VERTEX];
             _spriteCount = 0;
             _isFull = false;
-            _usesCamera = usesCamera;
 
             // Create the vao and BIND IT so everything afterwards gets bound to it!
             _vao = new VAO();
@@ -75,9 +73,9 @@ namespace Villeon.Render
             _vao.Bind();
             _vbo.Bind();
             _vbo.SetData(_vertices, _vertices.Length * sizeof(float));
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
             GL.Enable(EnableCap.DepthTest);
             GL.DepthFunc(DepthFunction.Lequal);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
             GL.Enable(EnableCap.Blend);
             _vao.Unbind();
             _vbo.Unbind();
@@ -114,7 +112,6 @@ namespace Villeon.Render
             }
 
             _shader.UploadIntArray("textures", _texSlots);
-            _shader.UploadBool("usesCamera", _usesCamera);
 
             // Bind VAO & Enable all the attributes
             _vao.Bind();
@@ -138,6 +135,7 @@ namespace Villeon.Render
         {
             // Save Current index & Store Sprite
             int index = _spriteCount;
+            data.SpriteNumber = index;
             _spriteCount++;
 
             // If the sprite has a texture, add it to _textures
@@ -156,14 +154,27 @@ namespace Villeon.Render
                 _isFull = true;
         }
 
-        public void RemoveEntity(RenderingData data)
+        public bool RemoveEntity(RenderingData removableData)
         {
-            if (_renderingData.Contains(data))
+            if (_renderingData.Contains(removableData))
             {
-                _renderingData.Remove(data);
+                // Move the last verticies to the deleted verticies
+                RenderingData backData = _renderingData.Last();
+
+                // Clear the last vertices
+                ClearVertices(backData.SpriteNumber);
+
+                // Store sprite number
+                //backData.SpriteNumber = removableData.SpriteNumber;
+
+                // Overwrite the Removed black
+                //FillVertexAttributes(backData, removableData.SpriteNumber);
+                _renderingData.Remove(removableData);
                 _spriteCount--;
-                Rebuffer();
+                return true;
             }
+
+            return false;
         }
 
         public bool Full()
@@ -209,6 +220,19 @@ namespace Villeon.Render
             elements[offsetArrayIndex + 3] = offset + 2; // Top Left
             elements[offsetArrayIndex + 4] = offset + 1; // Bottom Left
             elements[offsetArrayIndex + 5] = offset + 3; // Bottom Right
+        }
+
+        private void ClearVertices(int index)
+        {
+            // Offset in the vertex Array for the given sprite
+            int start = index * Size.QUAD * Size.VERTEX;
+            int end = start + (Size.QUAD * Size.VERTEX);
+
+            // Clear the vertices
+            for (int i = start; i < end; i++)
+            {
+                _vertices[i] = 0;
+            }
         }
 
         private void FillVertexAttributes(RenderingData data, int index)
@@ -276,14 +300,6 @@ namespace Villeon.Render
 
                 offset += Size.VERTEX;
             }
-        }
-
-        private struct Vertex
-        {
-            public Vector2 Position;
-            public Color4 Color;
-            public Vector2 TextureCoords;
-            public float TextureSlot;
         }
 
         // Attribute Sizes

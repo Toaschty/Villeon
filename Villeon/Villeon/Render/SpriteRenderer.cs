@@ -22,16 +22,10 @@ namespace Villeon.Render
         {
             Signature.IncludeAND(typeof(Sprite));
 
-            // Create World Layers
-            for (int i = (int)SpriteLayer.Background; i <= (int)SpriteLayer.Collider; i++)
+            // Create Layers
+            for (int i = (int)SpriteLayer.ScreenGuiForeground; i <= (int)SpriteLayer.Background; i++)
             {
-                _spriteLayers[i] = new Layer(true);
-            }
-
-            // Create Screen Layers
-            for (int i = (int)SpriteLayer.ScreenGuiBackground; i <= (int)SpriteLayer.ScreenGuiForeground; i++)
-            {
-                _spriteLayers[i] = new Layer(false);
+                _spriteLayers[i] = new Layer();
             }
 
             _entityRenderData = new Dictionary<IEntity, List<RenderingData>>();
@@ -86,7 +80,7 @@ namespace Villeon.Render
 
         public void Render()
         {
-            for (int i = 0; i < _numSpriteLayers; i++)
+            for (int i = _numSpriteLayers - 1; i >= 0; i--)
             {
                 _spriteLayers[i].Render();
             }
