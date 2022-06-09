@@ -101,54 +101,64 @@ namespace Villeon.GUI
             _allEntities.Remove(_inventorySlots[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
             Manager.GetInstance().RemoveEntity(_inventorySlots[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
 
-            if (key == Keys.W)
+            switch (key)
             {
-                if (_playerInventoryPosition.Y > 0)
-                {
-                    _playerInventoryPosition.Y -= 1;
-                }
-                else
-                {
-                    // Reset the inventory slot background and add the navigation background
-                    Manager.GetInstance().RemoveEntity(_inventorySlots[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
-                    _onSlots = false;
-                    return;
-                }
-            }
-            else if (key == Keys.S)
-            {
-                if (_playerInventoryPosition.Y < _inventorySlotsY - 1)
-                    _playerInventoryPosition.Y += 1;
-                else
-                    _playerInventoryPosition.Y = 0;
-            }
-            else if (key == Keys.A)
-            {
-                if (_playerInventoryPosition.X > 0)
-                    _playerInventoryPosition.X -= 1;
-                else
-                    _playerInventoryPosition.X = _inventorySlotsX - 1;
-            }
-            else if (key == Keys.D)
-            {
-                if (_playerInventoryPosition.X < _inventorySlotsX - 1)
-                    _playerInventoryPosition.X += 1;
-                else
-                    _playerInventoryPosition.X = 0;
-            }
-            else if (key == Keys.Space)
-            {
-                // Swapping Items
-                if (_firstMovingPoint == null)
-                {
-                    // First point not set
-                    _firstMovingPoint = new Vector2i(_playerInventoryPosition.X, _playerInventoryPosition.Y);
-                }
-                else
-                {
-                    Vector2i secondPoint = new Vector2i(_playerInventoryPosition.X, _playerInventoryPosition.Y);
-                    SwapItems((Vector2i)_firstMovingPoint, secondPoint);
-                }
+                // Moving Up
+                case Keys.W:
+                    if (_playerInventoryPosition.Y > 0)
+                    {
+                        _playerInventoryPosition.Y -= 1;
+                    }
+                    else
+                    {
+                        // Reset the inventory slot background and add the navigation background
+                        Manager.GetInstance().RemoveEntity(_inventorySlots[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
+                        _onSlots = false;
+                        return;
+                    }
+
+                    break;
+
+                // Moving Down
+                case Keys.S:
+                    if (_playerInventoryPosition.Y < _inventorySlotsY - 1)
+                        _playerInventoryPosition.Y += 1;
+                    else
+                        _playerInventoryPosition.Y = 0;
+
+                    break;
+
+                // Moving Left
+                case Keys.A:
+                    if (_playerInventoryPosition.X > 0)
+                        _playerInventoryPosition.X -= 1;
+                    else
+                        _playerInventoryPosition.X = _inventorySlotsX - 1;
+
+                    break;
+
+                // Moving Right
+                case Keys.D:
+                    if (_playerInventoryPosition.X < _inventorySlotsX - 1)
+                        _playerInventoryPosition.X += 1;
+                    else
+                        _playerInventoryPosition.X = 0;
+
+                    break;
+                case Keys.Space:
+                    // Swapping Items
+                    if (_firstMovingPoint == null)
+                    {
+                        // First point not set
+                        _firstMovingPoint = new Vector2i(_playerInventoryPosition.X, _playerInventoryPosition.Y);
+                    }
+                    else
+                    {
+                        Vector2i secondPoint = new Vector2i(_playerInventoryPosition.X, _playerInventoryPosition.Y);
+                        SwapItems((Vector2i)_firstMovingPoint, secondPoint);
+                    }
+
+                    break;
             }
 
             // Add the new selection frame
@@ -160,45 +170,55 @@ namespace Villeon.GUI
             _allEntities.Remove(_tabBar[_playerTabbarPosition.Y, _playerTabbarPosition.X]);
             Manager.GetInstance().RemoveEntity(_tabBar[_playerTabbarPosition.Y, _playerTabbarPosition.X]);
 
-            if (key == Keys.W)
+            switch (key)
             {
-                if (_playerTabbarPosition.Y < 1)
-                    _playerTabbarPosition.Y += 1;
-            }
-            else if (key == Keys.S)
-            {
-                if (_playerTabbarPosition.Y > 0)
-                {
-                    _playerTabbarPosition.Y -= 1;
-                }
-                else
-                {
-                    // Set the active tabbar and add inventory slot background
+                // Moving Up
+                case Keys.W:
+                    if (_playerTabbarPosition.Y < 1)
+                        _playerTabbarPosition.Y += 1;
+
+                    break;
+
+                // Moving Down
+                case Keys.S:
+                    if (_playerTabbarPosition.Y > 0)
+                    {
+                        _playerTabbarPosition.Y -= 1;
+                    }
+                    else
+                    {
+                        // Set the active tabbar and add inventory slot background
+                        _allEntities.Add(_inventorySlots[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
+                        _playerTabbarPosition = new Vector2i(_activeTabbar.X, _activeTabbar.Y); // reset the position to the active tabbar position
+                        _onSlots = true;
+                    }
+
+                    break;
+
+                // Moving Left
+                case Keys.A:
+                    if (_playerTabbarPosition.X > 0)
+                        _playerTabbarPosition.X -= 1;
+                    else
+                        _playerTabbarPosition.X = 1;
+
+                    break;
+
+                // Moving Right
+                case Keys.D:
+                    if (_playerTabbarPosition.X < 1)
+                        _playerTabbarPosition.X += 1;
+                    else
+                        _playerTabbarPosition.X = 0;
+                    break;
+
+                case Keys.Space:
+                    // Player is changing the tab
+                    _activeTabbar = new Vector2i(_playerTabbarPosition.Y, _playerTabbarPosition.X);
                     _allEntities.Add(_inventorySlots[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
-                    _playerTabbarPosition = new Vector2i(_activeTabbar.X, _activeTabbar.Y); // reset the position to the active tabbar position
                     _onSlots = true;
-                }
-            }
-            else if (key == Keys.A)
-            {
-                if (_playerTabbarPosition.X > 0)
-                    _playerTabbarPosition.X -= 1;
-                else
-                    _playerTabbarPosition.X = 1;
-            }
-            else if (key == Keys.D)
-            {
-                if (_playerTabbarPosition.X < 1)
-                    _playerTabbarPosition.X += 1;
-                else
-                    _playerTabbarPosition.X = 0;
-            }
-            else if (key == Keys.Space)
-            {
-                // Player is changing the tab
-                _activeTabbar = new Vector2i(_playerTabbarPosition.Y, _playerTabbarPosition.X);
-                _allEntities.Add(_inventorySlots[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
-                _onSlots = true;
+
+                    break;
             }
 
             _allEntities.Add(_tabBar[_playerTabbarPosition.Y, _playerTabbarPosition.X]);
@@ -209,7 +229,7 @@ namespace Villeon.GUI
             Item? firstItem = _inventorySlots[firstPoint.Y, firstPoint.X].Item;
             Item? secondItem = _inventorySlots[secondPoint.Y, secondPoint.X].Item;
 
-            if (firstItem == null && secondItem == null)
+            if ((firstItem == null && secondItem == null) || firstPoint.Equals(secondPoint))
             {
                 _firstMovingPoint = null; // Reset the first selected point
                 return;
@@ -296,7 +316,7 @@ namespace Villeon.GUI
             float horizontalLineScale = 0.3f;
 
             // Make HirzontalLines
-            IEntity firstHorizontalLine = new Entity(new Transform(new Vector2(_startPos.X, horizontalLineY), horizontalLineScale, 0f), "InventoryHorizontalLine");
+            IEntity firstHorizontalLine = new Entity(new Transform(new Vector2(_startPos.X + 0.2f, horizontalLineY), horizontalLineScale, 0f), "InventoryHorizontalLine");
             Sprite firstHorizontalSprite = Assets.GetSprite("GUI.Scroll_Horizontal_Line_1.png", SpriteLayer.ScreenGuiForeground, false);
             firstHorizontalLine.AddComponent(firstHorizontalSprite);
             tabBarEntities.Add(firstHorizontalLine);
@@ -335,11 +355,11 @@ namespace Villeon.GUI
 
         private void InitializeTabbar()
         {
-            float scale = 0.3f;
-            float positionX = _startPos.X + 0.5f;
-            float positionY = _startPos.Y + 1.8f;
-            float offsetX = 5.5f;
-            float offsetY = 1.2f;
+            float scale = 0.4f;
+            float positionX = _startPos.X -0.3f;
+            float positionY = _startPos.Y + 1.6f;
+            float offsetX = 5.8f;
+            float offsetY = 1.3f;
 
             _tabBar[0, 0] = new Entity(new Transform(new Vector2(positionX, positionY), scale, 0f), "Weapons");
             _tabBar[0, 1] = new Entity(new Transform(new Vector2(positionX + offsetX, positionY), scale, 0f), "Materials");
