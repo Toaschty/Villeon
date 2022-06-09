@@ -122,7 +122,6 @@ namespace Villeon.Render
         private RenderBatch CreateRenderBatch()
         {
             RenderBatch newBatch = new RenderBatch(_usesCamera);
-            newBatch.Start();
             return newBatch;
         }
     }

@@ -43,7 +43,7 @@ namespace Villeon.Render
             _screenHeight = height;
 
             float aspectRatioY = width / (float)height;
-            _aspectRatioMatrixY = Matrix4.CreateScale(1.0f, aspectRatioY, 1.0f);
+            _aspectRatioMatrixY = Matrix4.CreateScale(1.0f, aspectRatioY, 0f);
 
             // Window to World conversions matrix
             Matrix4 translate = Translate(-1f, 1f); // Top left <- ^
@@ -51,16 +51,17 @@ namespace Villeon.Render
             _inverseViewportMatrix = scale * translate;
         }
 
-        public static Matrix4 Scale(float scale) => Matrix4.CreateScale(scale);
+        public static Matrix4 Scale(float scale) => Matrix4.CreateScale(scale, scale, 0f);
 
-        public static Matrix4 Scale(float x, float y) => Matrix4.CreateScale(x, y, 1f);
+        public static Matrix4 Scale(float x, float y) => Matrix4.CreateScale(x, y, 0f);
 
         public static Matrix4 GetMatrix()
         {
             Matrix4 translation = Translate(-_cameraCenter);
             Matrix4 rotation = RotateDegrees(-_cameraRotation);
             Matrix4 scale = Scale(1 / _cameraScale);
-            Matrix4 cameraMatrix = translation * rotation * scale * _aspectRatioMatrixY;
+            Matrix4 ortho = Matrix4.CreateOrthographic(2f, 2f, 0, 100);
+            Matrix4 cameraMatrix = translation * rotation * scale * _aspectRatioMatrixY * ortho;
             return cameraMatrix;
         }
 
@@ -97,14 +98,15 @@ namespace Villeon.Render
             Matrix4 scaleMatrix = Scale(1 / scaling);
             if (aspect <= screenAspect)
             {
-                screenMatrix = Matrix4.CreateScale(aspect / screenAspect, aspect, 1f);
+                screenMatrix = Matrix4.CreateScale(aspect / screenAspect, aspect, 0f);
             }
             else
             {
-                screenMatrix = Matrix4.CreateScale(1f, (screenAspect / aspect) * aspect, 1f);
+                screenMatrix = Matrix4.CreateScale(1f, (screenAspect / aspect) * aspect, 0f);
             }
 
-            return scaleMatrix * screenMatrix;
+            Matrix4 ortho = Matrix4.CreateOrthographic(2f, 2f, 0, 100);
+            return scaleMatrix * screenMatrix * ortho;
         }
     }
 }

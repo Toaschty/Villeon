@@ -53,6 +53,11 @@ namespace Villeon.Render
             GL.UseProgram(0);
         }
 
+        public void Delete()
+        {
+            GL.DeleteProgram(_shaderProgramID);
+        }
+
         public void UploadMat4(in string uniformName, Matrix4 mat4)
         {
             GL.UniformMatrix4(GetLocation(uniformName), true, ref mat4);

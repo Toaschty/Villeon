@@ -439,7 +439,7 @@ namespace Villeon
 
         private void RenderFrame(FrameEventArgs args)
         {
-            GL.Clear(ClearBufferMask.ColorBufferBit);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             Manager.GetInstance().Render();
             _gameWindow.SwapBuffers();
         }

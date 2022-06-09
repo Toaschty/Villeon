@@ -27,11 +27,13 @@ namespace Villeon.Render
         private bool _usesCamera = true;
 
         // Holds all Sprite Data (Position, Color, TextureCoods, TextureID)
-        private Vertex[] _vertices;
+        private float[] _vertices;
 
         // Vertex Buffer Object, VertexArrayObject, ElementBufferObject
-        private int _vboID = 0;
-        private int _vaoID = 0;
+        private VAO _vao;
+        private VBO _vbo;
+        private EBO _ebo;
+
         private Shader _shader;
 
         public RenderBatch(bool usesCamera)
@@ -40,51 +42,45 @@ namespace Villeon.Render
             _renderingData = new HashSet<RenderingData>(Constants.MAX_BATCH_SIZE);
             _textures = new List<Texture2D>();
 
-            // Quad has 4 Vertices
-            _vertices = new Vertex[Constants.MAX_BATCH_SIZE * Size.QUAD];
+            // Quad has 4 Vertices, each vertex is 9 long
+            _vertices = new float[Constants.MAX_BATCH_SIZE * Size.QUAD * Size.VERTEX];
             _spriteCount = 0;
             _isFull = false;
             _usesCamera = usesCamera;
-        }
 
-        public void Start()
-        {
-            // Generate Vertex Array Object & Select it
-            _vaoID = GL.GenVertexArray();
-            GL.BindVertexArray(_vaoID);
+            // Create the vao and BIND IT so everything afterwards gets bound to it!
+            _vao = new VAO();
+            _vao.Bind();
 
-            // Allocate needed space for the vertices
-            _vboID = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vboID);
-            GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * Size.VERTEX_BYTES, (IntPtr)null, BufferUsageHint.DynamicDraw);
+            //  Create Vertex Buffer with the given vertices
+            _vbo = new VBO(_vertices.Length * sizeof(float));
 
-            // Generate index buffer
-            int eboID = GL.GenBuffer();
+            // Create the Element buffer
             int[] indices = GenerateIndices();
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, eboID);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(float), indices, BufferUsageHint.StaticDraw);
+            _ebo = new EBO(indices, indices.Length * sizeof(float));
 
-            // 0: position attribute, 2: xy,
-            // 1: color attribute, 4: rgba,
-            // 2: Texture attribute, 2: uv,
-            // 3: Texture ID, 1: ID,
-            GL.VertexAttribPointer(0, Size.POSITION, VertexAttribPointerType.Float, false, Size.VERTEX_BYTES, (IntPtr)Offset.POSITION);
-            GL.VertexAttribPointer(1, Size.COLOR, VertexAttribPointerType.Float, false, Size.VERTEX_BYTES, (IntPtr)Offset.COLOR);
-            GL.VertexAttribPointer(2, Size.TEX_COORDS, VertexAttribPointerType.Float, false, Size.VERTEX_BYTES, (IntPtr)Offset.TEX_COORDS);
-            GL.VertexAttribPointer(3, Size.TEX_ID, VertexAttribPointerType.Float, false, Size.VERTEX_BYTES, (IntPtr)Offset.TEX_ID);
-            GL.EnableVertexAttribArray(0);
-            GL.EnableVertexAttribArray(1);
-            GL.EnableVertexAttribArray(2);
-            GL.EnableVertexAttribArray(3);
-            _shader.Use();
+            // Link the Attributes to the Vertexbuffer
+            _vao.LinkAttribute(ref _vbo, 0, Size.POSITION, VertexAttribPointerType.Float, Size.VERTEX_BYTES, Offset.POSITION);
+            _vao.LinkAttribute(ref _vbo, 1, Size.COLOR, VertexAttribPointerType.Float, Size.VERTEX_BYTES, Offset.COLOR);
+            _vao.LinkAttribute(ref _vbo, 2, Size.TEX_COORDS, VertexAttribPointerType.Float, Size.VERTEX_BYTES, Offset.TEX_COORDS);
+            _vao.LinkAttribute(ref _vbo, 3, Size.TEX_ID, VertexAttribPointerType.Float, Size.VERTEX_BYTES, Offset.TEX_ID);
+
+            _vao.Unbind();
+            _vbo.Unbind();
+            _ebo.Unbind();
         }
 
         public void LoadBuffer()
         {
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vboID);
-            GL.BufferSubData(BufferTarget.ArrayBuffer, (IntPtr)0, _vertices.Length * Size.VERTEX_BYTES, _vertices);
+            _vao.Bind();
+            _vbo.Bind();
+            _vbo.SetData(_vertices, _vertices.Length * sizeof(float));
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            GL.Enable(EnableCap.DepthTest);
+            GL.DepthFunc(DepthFunction.Lequal);
             GL.Enable(EnableCap.Blend);
+            _vao.Unbind();
+            _vbo.Unbind();
         }
 
         public void Rebuffer()
@@ -121,25 +117,15 @@ namespace Villeon.Render
             _shader.UploadBool("usesCamera", _usesCamera);
 
             // Bind VAO & Enable all the attributes
-            GL.BindVertexArray(_vaoID);
-            GL.EnableVertexAttribArray(0);
-            GL.EnableVertexAttribArray(1);
-            GL.EnableVertexAttribArray(2);
-            GL.EnableVertexAttribArray(3);
+            _vao.Bind();
 
             // Draw indices
             GL.DrawElements(PrimitiveType.Triangles, _spriteCount * 6, DrawElementsType.UnsignedInt, 0);
 
             // Unbind Array, Attributes & Shader
-            GL.DisableVertexAttribArray(3);
-            GL.DisableVertexAttribArray(2);
-            GL.DisableVertexAttribArray(1);
-            GL.DisableVertexAttribArray(0);
-            GL.BindVertexArray(0);
+            _vao.Unbind();
 
             // Unbind all textures that this batch contains
-            GL.BindTexture(TextureTarget.Texture2D, 0);
-            GL.Finish();
             _shader.Detach();
         }
 
@@ -227,7 +213,6 @@ namespace Villeon.Render
 
         private void FillVertexAttributes(RenderingData data, int index)
         {
-            int offset = index * Size.QUAD;
             Sprite sprite = data.Sprite !;
             Transform transform = data.Transform !;
             Vector2[] texCoords = sprite.TexCoords !;
@@ -246,41 +231,50 @@ namespace Villeon.Render
                 }
             }
 
-            // Line Fix
-            _vertices[offset + 0].TextureCoords = new Vector2(0.0001f, 0.0001f);
-            _vertices[offset + 1].TextureCoords = new Vector2(-0.0001f, 0.0001f);
-            _vertices[offset + 2].TextureCoords = new Vector2(0.0001f, -0.0001f);
-            _vertices[offset + 3].TextureCoords = new Vector2(-0.0001f, -0.0001f);
+            // Offset in the vertex Array for the given sprite
+            int offset = index * Size.QUAD * Size.VERTEX;
 
             // Fill vertex with attribute
             Vector2 add = new Vector2(0f, 0f);
+            Vector2 line = new Vector2(0.0001f, 0.0001f);
             for (int i = 0; i < Size.QUAD; i++)
             {
                 // Set dimensions
-                if (i == 1)
+                switch (i)
                 {
-                    add = new Vector2(sprite.Width, 0f);
-                }
-                else if (i == 2)
-                {
-                    add = new Vector2(0f, sprite.Height);
-                }
-                else if (i == 3)
-                {
-                    add = new Vector2(sprite.Width, sprite.Height);
+                    case 1:
+                        add = new Vector2(sprite.Width, 0f);
+                        line = new Vector2(-0.0001f, 0.0001f);
+                        break;
+                    case 2:
+                        add = new Vector2(0f, sprite.Height);
+                        line = new Vector2(0.0001f, -0.0001f);
+                        break;
+                    case 3:
+                        add = new Vector2(sprite.Width, sprite.Height);
+                        line = new Vector2(-0.0001f, -0.0001f);
+                        break;
                 }
 
                 // Position
-                _vertices[offset + i].Position = transform.Position + data.Offset + (add * data.Scale);
+                _vertices[offset + 0] = transform.Position.X + data.Offset.X + (add.X * data.Scale.X);
+                _vertices[offset + 1] = transform.Position.Y + data.Offset.Y + (add.Y * data.Scale.Y);
+                _vertices[offset + 2] = -(int)sprite.RenderLayer;
 
                 // Color
-                _vertices[offset + i].Color = sprite.Color;
+                _vertices[offset + 3] = sprite.Color.R;
+                _vertices[offset + 4] = sprite.Color.G;
+                _vertices[offset + 5] = sprite.Color.B;
+                _vertices[offset + 6] = sprite.Color.A;
 
-                // Texture Coords
-                _vertices[offset + i].TextureCoords += texCoords[i];
+                // Texture Coord
+                _vertices[offset + 7] = texCoords[i].X + line.X;
+                _vertices[offset + 8] = texCoords[i].Y + line.Y;
 
                 // Texture ID
-                _vertices[offset + i].TextureSlot = slot;
+                _vertices[offset + 9] = (float)slot;
+
+                offset += Size.VERTEX;
             }
         }
 
@@ -297,7 +291,7 @@ namespace Villeon.Render
         {
             public const int QUAD = 4;
             public const int TEX_SLOTS = 8;
-            public const int POSITION = 2;
+            public const int POSITION = 3;
             public const int COLOR = 4;
             public const int TEX_COORDS = 2;
             public const int TEX_ID = 1;
