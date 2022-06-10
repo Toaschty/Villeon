@@ -34,7 +34,7 @@ namespace Villeon
             IEntity entity = new Entity(new Transform(position, 1.0f, 0f), "Peter");
             entity.AddComponent(new Collider(new Vector2(0f, 0f), position, 1.5f, 1f));
             entity.AddComponent(new DynamicCollider(entity.GetComponent<Collider>()));
-            entity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(0), 2f, 2f));
+            entity.AddComponent(new Trigger(TriggerLayerType.ENEMY | TriggerLayerType.LADDER, new Vector2(0), 2f, 2f));
             entity.AddComponent(new Health(200));
             entity.AddComponent(new Effect());
             entity.AddComponent(new Physics());

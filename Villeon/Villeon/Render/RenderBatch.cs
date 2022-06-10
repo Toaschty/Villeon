@@ -72,7 +72,7 @@ namespace Villeon.Render
         {
             _vao.Bind();
             _vbo.Bind();
-            _vbo.SetData(_vertices, _vertices.Length * sizeof(float));
+            _vbo.SetData(_vertices, _spriteCount * Size.VERTEX_BYTES * Size.QUAD);
             GL.Enable(EnableCap.DepthTest);
             GL.DepthFunc(DepthFunction.Lequal);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);

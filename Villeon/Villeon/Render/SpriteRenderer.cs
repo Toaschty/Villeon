@@ -20,7 +20,7 @@ namespace Villeon.Render
         public SpriteRenderer(string name, bool renderColliders)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Sprite));
+            Signature.IncludeAND(typeof(Transform));
 
             // Create Layers
             for (int i = (int)SpriteLayer.ScreenGuiForeground; i <= (int)SpriteLayer.Background; i++)

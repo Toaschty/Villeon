@@ -49,5 +49,11 @@ namespace Villeon.ECS
         {
             return _components.GetInstance<T>() !;
         }
+
+        public bool HasComponent<T>()
+            where T : class, IComponent
+        {
+            return _components.Contains<T>();
+        }
     }
 }

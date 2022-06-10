@@ -17,7 +17,7 @@ namespace Villeon.Systems.Update
             : base(name)
         {
             Signature.
-                IncludeAND(typeof(Trigger), typeof(Player), typeof(Physics)).
+                IncludeAND(typeof(Trigger), typeof(Physics)).
                 IncludeAND(typeof(Trigger), typeof(Ladder));
         }
 
@@ -25,7 +25,7 @@ namespace Villeon.Systems.Update
         public override void AddEntity(IEntity entity)
         {
             base.AddEntity(entity);
-            Player player = entity.GetComponent<Player>();
+            Physics player = entity.GetComponent<Physics>();
             Ladder ladder = entity.GetComponent<Ladder>();
             AddEntityToLayer(player, ladder, entity);
         }
@@ -51,6 +51,7 @@ namespace Villeon.Systems.Update
                         playerPhysics.Velocity = new Vector2(playerPhysics.Velocity.X, 5f);
                     }
                 }
+
             }
         }
     }

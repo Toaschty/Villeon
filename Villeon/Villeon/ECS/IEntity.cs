@@ -19,5 +19,8 @@ namespace Villeon.ECS
 
         public T GetComponent<T>()
             where T : class, IComponent;
+
+        public bool HasComponent<T>()
+            where T : class, IComponent;
     }
 }

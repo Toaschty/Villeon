@@ -60,7 +60,7 @@ namespace Villeon.Render
             Matrix4 translation = Translate(-_cameraCenter);
             Matrix4 rotation = RotateDegrees(-_cameraRotation);
             Matrix4 scale = Scale(1 / _cameraScale);
-            Matrix4 ortho = Matrix4.CreateOrthographic(2f, 2f, 1, 10);
+            Matrix4 ortho = Matrix4.CreateOrthographic(2f, 2f, 0, 100);
             Matrix4 cameraMatrix = translation * rotation * scale * _aspectRatioMatrixY * ortho;
             return cameraMatrix;
         }
@@ -105,7 +105,7 @@ namespace Villeon.Render
                 screenMatrix = Scale(1f, (screenAspect / aspect) * aspect);
             }
 
-            Matrix4 ortho = Matrix4.CreateOrthographic(2f, 2f, 0, 10);
+            Matrix4 ortho = Matrix4.CreateOrthographic(2f, 2f, 0, 100);
             return scaleMatrix * screenMatrix * ortho;
         }
     }
