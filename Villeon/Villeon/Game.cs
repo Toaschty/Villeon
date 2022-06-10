@@ -341,7 +341,7 @@ namespace Villeon
             _smithScene.AddSystem(new TriggerSystem("Trigger"));
             _smithScene.AddSystem(new PortalSystem("PortalSystem"));
             _smithScene.AddSystem(new CameraSystem("CameraSystem"));
-            _smithScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            _smithScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             _smithScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             _smithScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _smithScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
@@ -359,7 +359,7 @@ namespace Villeon
             _shopScene.AddSystem(new TriggerSystem("Trigger"));
             _shopScene.AddSystem(new PortalSystem("PortalSystem"));
             _shopScene.AddSystem(new CameraSystem("CameraSystem"));
-            _shopScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            _shopScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             _shopScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             _shopScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _shopScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
@@ -378,7 +378,7 @@ namespace Villeon
             _villageScene.AddSystem(new TriggerSystem("Trigger"));
             _villageScene.AddSystem(new PortalSystem("PortalSystem"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
-            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             _villageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _villageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
@@ -402,7 +402,7 @@ namespace Villeon
             _dungeonScene.AddSystem(new CollisionSystem("Collision"));
             _dungeonScene.AddSystem(new HealthSystem("Health"));
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
-            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             _dungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _dungeonScene.AddSystem(new LadderSystem("LadderSystem"));
             _dungeonScene.AddSystem(new HealthbarSystem("PlayerHealthbar", Constants.PLAYER_MAX_HEALTH));

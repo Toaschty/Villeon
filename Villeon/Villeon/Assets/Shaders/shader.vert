@@ -7,17 +7,18 @@ layout(location = 3) in float texID;
 
 uniform mat4 cameraMatrix;
 uniform mat4 screenMatrix;
-uniform bool usesCamera;
 
 out vec4 fColor;
 out vec2 fTexCoords;
 out float fTexID;
+out vec3 fQuadPosition;
 
 void main()
 {
 	fColor = color;
 	fTexCoords = texCoords;
 	fTexID = texID;
+	fQuadPosition = position.xyz;
 
 	if (position.z < -2)
 	{

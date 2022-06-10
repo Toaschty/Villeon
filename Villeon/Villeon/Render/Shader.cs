@@ -19,6 +19,16 @@ namespace Villeon.Render
         private string _filePath = string.Empty;
         private Dictionary<string, int> _uniformLocations = new Dictionary<string, int>();
 
+        public Shader()
+        {
+
+        }
+
+        public Shader(string shaderPath)
+        {
+            Load(shaderPath);
+        }
+
         public void Load(string shaderPath)
         {
             _filePath = shaderPath;
@@ -63,12 +73,32 @@ namespace Villeon.Render
             GL.UniformMatrix4(GetLocation(uniformName), true, ref mat4);
         }
 
+        public void UploadVec3(in string uniformName, Vector3 vec3)
+        {
+            GL.Uniform3(GetLocation(uniformName), vec3);
+        }
+
+        public void UploadVec4(in string uniformName, Vector4 vec4)
+        {
+            GL.Uniform4(GetLocation(uniformName), vec4);
+        }
+
+        public void UploadVec4(in string uniformName, Color4 color)
+        {
+            GL.Uniform4(GetLocation(uniformName), color);
+        }
+
         public void UploadTexture(in string uniformName, int textureSlot)
         {
             GL.Uniform1(GetLocation(uniformName), textureSlot);
         }
 
         public void UploadIntArray(in string uniformName, int[] array)
+        {
+            GL.Uniform1(GetLocation(uniformName), array.Length, array);
+        }
+
+        public void UploadFloatArray(in string uniformName, float[] array)
         {
             GL.Uniform1(GetLocation(uniformName), array.Length, array);
         }
