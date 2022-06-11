@@ -24,7 +24,8 @@ void main(void)
 	if (fTexID > 0)
 	{
 		int id = int(fTexID);
-		vec4 texColor = texture(textures[id], fTexCoords) * lightColor * (diffuse + ambientLight);
+		vec4 texColor = texture(textures[id], fTexCoords);
+		texColor = vec4(texColor.rgb * lightColor.rgb * (diffuse + ambientLight), texColor.a);
 		color = texColor;
 	}
 	else

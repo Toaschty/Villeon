@@ -70,7 +70,7 @@ namespace Villeon
             // Ladder
             IEntity ladder = new Entity(new Transform(new Vector2(42, 0), 1f, 0), "Ladder");
             ladder.AddComponent(new Trigger(TriggerLayerType.LADDER, 2f, 100f));
-            ladder.AddComponent(new Ladder(true));
+            ladder.AddComponent(new Ladder());
             _dungeonScene.AddEntity(ladder);
 
             //SpawnDungeon();
@@ -150,7 +150,7 @@ namespace Villeon
                                 entity = new Entity(new Transform(new Vector2(y, x), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
                                 entity.AddComponent(Assets.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(0, SpriteLayer.Background, false));
                                 entity.AddComponent(new Trigger(TriggerLayerType.LADDER, 1f, 1f));
-                                entity.AddComponent(new Ladder(true));
+                                entity.AddComponent(new Ladder());
                                 _dungeonScene.AddEntity(entity);
                             }
                             else if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "P")
@@ -159,7 +159,7 @@ namespace Villeon
                                 entity = new Entity(new Transform(new Vector2(y, x), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
                                 entity.AddComponent(Assets.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(0, SpriteLayer.Background, false));
                                 entity.AddComponent(new Trigger(TriggerLayerType.LADDER, 1f, 1f));
-                                entity.AddComponent(new Ladder(true));
+                                entity.AddComponent(new Ladder());
                                 _dungeonScene.AddEntity(entity);
                             }
                         }
@@ -424,9 +424,6 @@ namespace Villeon
             guiHandlerEntity.AddComponent(GUIHandler.GetInstance());
             _villageScene.AddEntity(guiHandlerEntity);
         }
-
-        private static int FrameCount = 0;
-        private static Stopwatch stopwatch = new Stopwatch();
 
         private void UpdateFrame(FrameEventArgs args)
         {

@@ -34,12 +34,12 @@ namespace Villeon.Render
         private EBO _ebo;
 
         // Light Buffer Object, VertexArrayObject, ElementBufferObjects
-        private VAO _lightVAO;
-        private VBO _lightVBO;
-        private EBO _lightEBO;
+        //private VAO _lightVAO;
+        //private VBO _lightVBO;
+        //private EBO _lightEBO;
 
         private Shader _shader;
-        private Shader _lightShader = Assets.GetShader("Shaders.light");
+        //private Shader _lightShader = Assets.GetShader("Shaders.light");
 
         public RenderBatch(Shader shader)
         {
@@ -73,43 +73,43 @@ namespace Villeon.Render
             _vbo.Unbind();
             _ebo.Unbind();
 
-            // Lighting
-            float[] positions = new float[12]
-            {// X,  Y,  Z
-                0f, 0f, 0f,    // Bottom Left
-                1f, 0f, 0f,    // Bottom Right
-                0f, 1f, 0f,    // Top Left
-                1f, 1f, 0f,    // Top Right
-            };
+            //// Lighting
+            //float[] positions = new float[12]
+            //{// X,  Y,  Z
+            //    0f, 0f, 0f,    // Bottom Left
+            //    1f, 0f, 0f,    // Bottom Right
+            //    0f, 1f, 0f,    // Top Left
+            //    1f, 1f, 0f,    // Top Right
+            //};
 
-            int[] lightIndices = new int[6];
-            LoadElementIndices(lightIndices, 0);
+            //int[] lightIndices = new int[6];
+            //LoadElementIndices(lightIndices, 0);
 
-            // Light Quad shader
+            //// Light Quad shader
 
-            // Generate Vertex Array Object & Select it
-            _lightVAO = new VAO();
-            _lightVAO.Bind();
+            //// Generate Vertex Array Object & Select it
+            ////_lightVAO = new VAO();
+            ////_lightVAO.Bind();
 
-            // Generate Light VBO & Set vertices
-            _lightVBO = new VBO(positions.Length * sizeof(float));
-            _lightVBO.SetData(positions, positions.Length * sizeof(float));
+            ////// Generate Light VBO & Set vertices
+            ////_lightVBO = new VBO(positions.Length * sizeof(float));
+            ////_lightVBO.SetData(positions, positions.Length * sizeof(float));
 
-            // Generate Light EBO and Set indices into it
-            _lightEBO = new EBO(lightIndices, lightIndices.Length * sizeof(float));
+            ////// Generate Light EBO and Set indices into it
+            ////_lightEBO = new EBO(lightIndices, lightIndices.Length * sizeof(float));
 
-            // Link the Positions to the VAO
-            _lightVAO.LinkAttribute(ref _lightVBO, 0, 3, VertexAttribPointerType.Float, 3 * sizeof(float), 0);
+            ////// Link the Positions to the VAO
+            ////_lightVAO.LinkAttribute(ref _lightVBO, 0, 3, VertexAttribPointerType.Float, 3 * sizeof(float), 0);
 
-            GL.Enable(EnableCap.DepthTest);
-            GL.DepthFunc(DepthFunction.Lequal);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-            GL.Enable(EnableCap.Blend);
+            ////GL.Enable(EnableCap.DepthTest);
+            ////GL.DepthFunc(DepthFunction.Lequal);
+            ////GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            ////GL.Enable(EnableCap.Blend);
 
-            // Unbind all light, to prefent modifying them
-            _lightVAO.Unbind();
-            _lightVBO.Unbind();
-            _lightEBO.Unbind();
+            ////// Unbind all light, to prefent modifying them
+            ////_lightVAO.Unbind();
+            ////_lightVBO.Unbind();
+            ////_lightEBO.Unbind();
         }
 
         public void LoadBuffer()
@@ -165,12 +165,12 @@ namespace Villeon.Render
             _vao.Bind();
             GL.DrawElements(PrimitiveType.Triangles, _spriteCount * 6, DrawElementsType.UnsignedInt, 0);
 
-            // Activate the lightshader & upload uniforms
-            _lightShader.Use();
-            _lightShader.UploadMat4("cameraMatrix", Camera.GetMatrix());
-            _lightShader.UploadVec4("lightColor", Color4.Blue);
-            _lightVAO.Bind();
-            GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, 0);
+            //// Activate the lightshader & upload uniforms
+            //_lightShader.Use();
+            //_lightShader.UploadMat4("cameraMatrix", Camera.GetMatrix());
+            //_lightShader.UploadVec4("lightColor", Color4.Blue);
+            //_lightVAO.Bind();
+            //GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
 
         public void AddRenderingData(RenderingData data)

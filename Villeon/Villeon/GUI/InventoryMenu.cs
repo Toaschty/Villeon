@@ -17,7 +17,7 @@ namespace Villeon.GUI
         private static InventoryMenu? _inventory;
 
         private List<IEntity> _allEntities = new List<IEntity>();
-        
+
         private IEntity[,] _tabBar = new IEntity[2, 2];
 
         // Inventory
@@ -48,7 +48,13 @@ namespace Villeon.GUI
 
         private InventoryMenu()
         {
-            InitializeInventories();
+            _activeInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
+            _allInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
+            _weaponInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
+            _potionInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
+            _materialInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
+
+            SetSlotPositions();
             InitializeTabbar();
             AddEntitiesToList();
         }
@@ -107,19 +113,12 @@ namespace Villeon.GUI
             return true;
         }
 
-        private void InitializeInventories()
+        private void SetSlotPositions()
         {
-            _activeInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
-            _allInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
-            _weaponInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
-            _potionInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
-            _materialInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
-
             SetInventorySlotPositions(_allInventory);
             SetInventorySlotPositions(_weaponInventory);
             SetInventorySlotPositions(_potionInventory);
             SetInventorySlotPositions(_materialInventory);
-
             _activeInventory = _allInventory;
         }
 
