@@ -15,6 +15,7 @@ namespace Villeon.Components
         ENEMY = 2,
         PORTAL = 4,
         LADDER = 8,
+        MOBDROP = 16,
     }
 
     public class Trigger : IComponent

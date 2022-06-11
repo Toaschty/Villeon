@@ -231,7 +231,7 @@ namespace Villeon
             player = new Entity(transform, "DungeonMarin");
             player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 1f, 1f));
             player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
-            player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL | TriggerLayerType.LADDER, new Vector2(0f, 0f), 1f, 2f));
+            player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL | TriggerLayerType.LADDER | TriggerLayerType.MOBDROP, new Vector2(0f, 0f), 1f, 2f));
             player.AddComponent(new Sprite(Assets.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
             player.AddComponent(new Physics());
             player.AddComponent(new Effect());
@@ -406,11 +406,13 @@ namespace Villeon
             _dungeonScene.AddSystem(new PortalSystem("PortalSystem"));
             _dungeonScene.AddSystem(new DamageSystem("DamageSystem"));
             _dungeonScene.AddSystem(new CollisionSystem("Collision"));
-            _dungeonScene.AddSystem(new HealthSystem("Health"));
+            _dungeonScene.AddSystem(new PlayerDeathSystem("Health"));
             _dungeonScene.AddSystem(new CameraSystem("CameraSystem"));
             _dungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             _dungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _dungeonScene.AddSystem(new LadderSystem("LadderSystem"));
+            _dungeonScene.AddSystem(new MobDropSystem("MobdropSystem"));
+            _dungeonScene.AddSystem(new MobDropCollectionSystem("MobdropCollectionSystem"));
             _dungeonScene.AddSystem(new HealthbarSystem("PlayerHealthbar", Constants.PLAYER_MAX_HEALTH));
             _dungeonScene.SetTileMap(tileMap, true);
         }

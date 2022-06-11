@@ -34,7 +34,7 @@
     <EmbeddedResource Include="Systems\System.cs" />
     <EmbeddedResource Include="Systems\Update\CameraSystem.cs" />
     <EmbeddedResource Include="Systems\Update\CollisionSystem.cs" />
-    <EmbeddedResource Include="Systems\Update\HealthSystem.cs" />
+    <EmbeddedResource Include="Systems\Update\PlayerDeathSystem.cs" />
     <EmbeddedResource Include="Systems\Update\MouseClickSystem.cs" />
     <EmbeddedResource Include="Systems\Update\PhysicsSystem.cs" />
     <EmbeddedResource Include="Systems\Update\PlayerMovementSystem.cs" />
