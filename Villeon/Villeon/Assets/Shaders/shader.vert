@@ -11,14 +11,12 @@ uniform mat4 screenMatrix;
 out vec4 fColor;
 out vec2 fTexCoords;
 out float fTexID;
-out vec3 fQuadPosition;
 
 void main()
 {
 	fColor = color;
 	fTexCoords = texCoords;
 	fTexID = texID;
-	fQuadPosition = position.xyz;
 
 	if (position.z < -2)
 	{
