@@ -73,6 +73,11 @@ namespace Villeon
             ladder.AddComponent(new Ladder());
             _dungeonScene.AddEntity(ladder);
 
+            IEntity testNPC = new Entity(new Transform(Constants.VILLAGE_SPAWN_POINT - new Vector2(10, 0), 1f, 0f), "NPC");
+            testNPC.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-2f), 4f, 4f));
+            testNPC.AddComponent(new Interactable());
+            _villageScene.AddEntity(testNPC);
+
             //SpawnDungeon();
         }
 
@@ -378,7 +383,8 @@ namespace Villeon
             _villageScene.AddSystem(new TriggerSystem("Trigger"));
             _villageScene.AddSystem(new PortalSystem("PortalSystem"));
             _villageScene.AddSystem(new CameraSystem("CameraSystem"));
-            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            _villageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            _villageScene.AddSystem(new InteractionSystem("InteractionSystem"));
             _villageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             _villageScene.AddSystem(new AnimationSystem("AnimationSystem"));
             _villageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
