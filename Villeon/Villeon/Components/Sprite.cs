@@ -17,6 +17,7 @@ namespace Villeon.Components
         private Texture2D? _texture2D;
         private SpriteLayer _layer;
         private Vector2[] _texCoords;
+        private Vector2 _offset = Vector2.Zero;
         private bool _isDynamic = false;
         private float _width = 1f;
         private float _height = 1f;
@@ -164,10 +165,11 @@ namespace Villeon.Components
             set => _height = value;
         }
 
-        public bool UsesCamera
+        public Vector2 Offset
         {
-            get => _usesCamera;
-            set => _usesCamera = value;
+            get => _offset;
+            set => _offset = value;
         }
+
     }
 }

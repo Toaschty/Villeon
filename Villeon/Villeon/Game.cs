@@ -179,39 +179,6 @@ namespace Villeon
             gameWindow.Resize += Resize;
         }
 
-        private void AddPortalEntities()
-        {
-            IEntity villageToDungeon = new Entity(new Transform(Constants.VILLAGE_SPAWN_POINT + new Vector2(5, 0), 1f, 0f), "villageToDungeonPortal");
-            villageToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 2f));
-            villageToDungeon.AddComponent(new Portal("DungeonScene", Constants.VILLAGE_SPAWN_POINT));
-            Scenes.VillageScene.AddEntity(villageToDungeon);
-
-            IEntity dungeonToVillage = new Entity(new Transform(new Vector2(1f, 3f), 1f, 0f), "dungeonToVillagePortal");
-            dungeonToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 4f));
-            dungeonToVillage.AddComponent(new Portal("VillageScene", Constants.DUNGEON_SPAWN_POINT));
-            Scenes.DungeonScene.AddEntity(dungeonToVillage);
-
-            IEntity villageToSmith = new Entity(new Transform(Constants.TO_SMITH_PORTAL_POINT, 1f, 0f), "VillageToSmithPortal");
-            villageToSmith.AddComponent(new Trigger(TriggerLayerType.PORTAL, 2f, 1f));
-            villageToSmith.AddComponent(new Portal("SmithScene", Constants.TO_SMITH_PORTAL_POINT + new Vector2(1f, -1f)));
-            Scenes.VillageScene.AddEntity(villageToSmith);
-
-            IEntity smithToVillage = new Entity(new Transform(Constants.FROM_SMITH_PORTAL_POINT, 1f, 0f), "SmithToVillagePortal");
-            smithToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 2f, 1.5f));
-            smithToVillage.AddComponent(new Portal("VillageScene", Constants.FROM_SMITH_PORTAL_POINT + new Vector2(1f, 2f)));
-            Scenes.SmithScene.AddEntity(smithToVillage);
-
-            IEntity villageToShop = new Entity(new Transform(Constants.TO_SHOP_PORTAL_POINT, 1f, 0f), "VillageToShopPortal");
-            villageToShop.AddComponent(new Trigger(TriggerLayerType.PORTAL, 2f, 1f));
-            villageToShop.AddComponent(new Portal("ShopScene", Constants.TO_SHOP_PORTAL_POINT + new Vector2(1f, -1f)));
-            Scenes.VillageScene.AddEntity(villageToShop);
-
-            IEntity shopToVillage = new Entity(new Transform(Constants.FROM_SHOP_PORTAL_POINT, 1f, 0f), "ShopToVillagePortal");
-            shopToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 2f, 1.5f));
-            shopToVillage.AddComponent(new Portal("VillageScene", Constants.FROM_SHOP_PORTAL_POINT + new Vector2(1f, 2f)));
-            Scenes.ShopScene.AddEntity(shopToVillage);
-        }
-
         private void Resize(ResizeEventArgs args)
         {
             Camera.Resize(args.Width, args.Height);
@@ -281,7 +248,7 @@ namespace Villeon
                 Scenes.SetupVillageScene();
                 Scenes.SetupSmithScene();
                 Scenes.SetupShopScene();
-                AddPortalEntities();
+                Scenes.SetupPortalEntities();
                 SetupGUIEntities();
                 CreatePlayers();
                 DebuggingPlayground();

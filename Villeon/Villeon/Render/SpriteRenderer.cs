@@ -95,7 +95,7 @@ namespace Villeon.Render
         {
             Sprite? sprite = entity.GetComponent<Sprite>();
             Transform transform = entity.GetComponent<Transform>()!;
-            RenderingData data = new RenderingData(sprite, transform, Vector2.Zero, transform.Scale);
+            RenderingData data = new RenderingData(sprite, transform, sprite.Offset, transform.Scale);
 
             SpriteLayer spriteLayer = data.Sprite!.RenderLayer;
             _spriteLayers[(int)spriteLayer].AddRenderingData(data);

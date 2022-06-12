@@ -76,12 +76,16 @@ namespace Villeon.Helper
             Assets.AddSpriteSheet("Fonts.VilleonFontThin.png", new SpriteSheet(Color4.White, Assets.GetTexture("Fonts.VilleonFontThin.png"), 7, 12, 95));
             Assets.AddSpriteSheet("Fonts.HenksFont.png", new SpriteSheet(Color4.White, Assets.GetTexture("Fonts.HenksFont.png"), 5, 8, 95));
 
-            // Animations
+            // Player Animations
             Assets.AddSpriteSheet("Animations.player_idle.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_idle.png"), 16, 34, 5, 0, SpriteLayer.Foreground));
             Assets.AddSpriteSheet("Animations.player_walk_up.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_walk_up.png"), 16, 34, 6, 0, SpriteLayer.Foreground));
             Assets.AddSpriteSheet("Animations.player_walk_down.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_walk_down.png"), 16, 34, 6, 0, SpriteLayer.Foreground));
             Assets.AddSpriteSheet("Animations.player_walk_left.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_walk_left.png"), 16, 34, 6, 0, SpriteLayer.Foreground));
             Assets.AddSpriteSheet("Animations.player_walk_right.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.player_walk_right.png"), 16, 34, 6, 0, SpriteLayer.Foreground));
+            Assets.AddSpriteSheet("Animations.slash_attack_left.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.slash_attack_left.png"), 32, 32, 4, 0, SpriteLayer.Foreground));
+            Assets.AddSpriteSheet("Animations.slash_attack_right.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.slash_attack_right.png"), 32, 32, 4, 0, SpriteLayer.Foreground));
+
+            // Enemy Animations
             Assets.AddSpriteSheet("Animations.slime_jumping.png", new SpriteSheet(Color4.White, Assets.GetTexture("Animations.slime_jumping.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
 
             // TileMap

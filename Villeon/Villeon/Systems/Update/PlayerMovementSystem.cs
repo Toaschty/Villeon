@@ -8,6 +8,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
 using Villeon.ECS;
 using Villeon.Helper;
+using Villeon.Utils;
 
 namespace Villeon.Systems
 {
@@ -61,13 +62,19 @@ namespace Villeon.Systems
                     {
                         IEntity attackEntity;
                         attackEntity = new Entity(transform, "AttackRight");
-                        attackEntity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(2f, 0f), 2f, 2f, 0.1f));
+                        attackEntity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(2f, 0f), 2f, 2f, 0.2f));
+                        Sprite sprite = Assets.GetSprite("Sprites.Empty.png", Render.SpriteLayer.GUIForeground, true);
+                        sprite.Offset = new Vector2(1, 0);
+
+                        // Setup player animations
+                        AnimationController animController = new AnimationController();
+                        animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.slash_attack_right.png", 0.05f));
+                        attackEntity.AddComponent(animController);
+                        attackEntity.AddComponent(sprite);
                         attackEntity.AddComponent(new Damage(50));
                         Manager.GetInstance().AddEntity(attackEntity);
                         effect.Effects.Add("AttackCooldown", 0.1f);
                     }
-
-                    //KeyHandler.RemoveKeyHold(Keys.E);
                 }
 
                 if (KeyHandler.IsPressed(Keys.Q))
@@ -77,7 +84,15 @@ namespace Villeon.Systems
                     {
                         IEntity attackEntity;
                         attackEntity = new Entity(transform, "AttackLeft");
-                        attackEntity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(-3f, 0f), 2f, 2f, 0.1f));
+                        attackEntity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(-3f, 0f), 2f, 2f, 0.2f));
+                        Sprite sprite = Assets.GetSprite("Sprites.Empty.png", Render.SpriteLayer.GUIForeground, true);
+                        sprite.Offset = new Vector2(-2, 0);
+
+                        // Setup player animations
+                        AnimationController animController = new AnimationController();
+                        animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.slash_attack_left.png", 0.05f));
+                        attackEntity.AddComponent(animController);
+                        attackEntity.AddComponent(sprite);
                         attackEntity.AddComponent(new Damage(50));
                         Manager.GetInstance().AddEntity(attackEntity);
                         effect.Effects.Add("AttackCooldown", 0.1f);
