@@ -72,24 +72,18 @@ namespace Villeon.GUI
             switch (newItem.ItemType)
             {
                 case Item.ITEM_TYPE.MATERIAL:
-                    if (_activeInventory != _materialInventory)
-                        AddItemsToInventory(_materialInventory, newItem);
-
-                    return;
+                    AddItemsToInventory(_materialInventory, newItem);
+                    break;
                 case Item.ITEM_TYPE.POTION:
-                    if (_activeInventory != _potionInventory)
-                        AddItemsToInventory(_potionInventory, newItem);
-
-                    return;
+                    AddItemsToInventory(_potionInventory, newItem);
+                    break;
                 case Item.ITEM_TYPE.WEAPON:
-                    if (_activeInventory != _weaponInventory)
-                        AddItemsToInventory(_weaponInventory, newItem);
-
-                    return;
+                    AddItemsToInventory(_weaponInventory, newItem);
+                    break;
             }
 
-            if (_activeInventory != _allInventory)
-                AddItemsToInventory(_activeInventory, newItem);
+            if (_activeInventory == _allInventory)
+                SetupAllInventory();
         }
 
         public IEntity[] GetEntities()
@@ -142,7 +136,6 @@ namespace Villeon.GUI
                 {
                     if (_weaponInventory[y, x].HasItem())
                         allItems.Add(_weaponInventory[y, x].Item!);
-
                 }
             }
 
@@ -261,7 +254,7 @@ namespace Villeon.GUI
             _allEntities.Add(_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
 
             if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].HasItem())
-                Console.WriteLine("Item: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item.Name);
+                Console.WriteLine("Item: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item!.Name);
             else
                 Console.WriteLine("Item: Null");
         }
@@ -288,9 +281,14 @@ namespace Villeon.GUI
                     }
                     else
                     {
-                        // Set the active tabbar and add inventory slot background
+                        // Remove the old tabbar Background
+                        if (!_playerTabbarPosition.Equals(_activeTabbar))
+                            Manager.GetInstance().RemoveEntity(_tabBar[_playerTabbarPosition.Y, _playerTabbarPosition.X]);
+
+                        Console.WriteLine("ActiveTabbar: " + _activeTabbar + " || Player: " + _playerTabbarPosition);
+                        // Add the slot background
                         _allEntities.Add(_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
-                        _playerTabbarPosition = new Vector2i(_activeTabbar.X, _activeTabbar.Y); // reset the position to the active tabbar position
+                        _playerTabbarPosition = new Vector2i(_activeTabbar.X, _activeTabbar.Y); // set the tabbar position to the active tabbar position
                         _onSlots = true;
                     }
 
@@ -315,7 +313,7 @@ namespace Villeon.GUI
 
                 case Keys.Space:
                     // Player is changing the tab
-                    _activeTabbar = new Vector2i(_playerTabbarPosition.Y, _playerTabbarPosition.X);
+                    _activeTabbar = new Vector2i(_playerTabbarPosition.X, _playerTabbarPosition.Y);
                     _allEntities.Add(_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
                     ChangeInventory(_activeTabbar);
                     _onSlots = true;
@@ -354,7 +352,6 @@ namespace Villeon.GUI
             }
 
             AddInventoryEntities();
-
         }
 
         private void RemoveInventoryEntities()
@@ -371,6 +368,10 @@ namespace Villeon.GUI
 
         private void SwapItems(Vector2i firstPoint, Vector2i secondPoint)
         {
+            // Switching Items in the All Inventory is unnessary
+            if (_activeInventory == _allInventory)
+                return;
+
             Item? firstItem = _activeInventory[firstPoint.Y, firstPoint.X].Item;
             Item? secondItem = _activeInventory[secondPoint.Y, secondPoint.X].Item;
 
@@ -444,7 +445,7 @@ namespace Villeon.GUI
             {
                 for (int x = 0; x < _inventorySlotsX; x++)
                 {
-                    if(_activeInventory[y, x].HasItem())
+                    if (_activeInventory[y, x].HasItem())
                         allItemEntities.Add(_activeInventory[y, x].ItemEntity);
                 }
             }
@@ -496,7 +497,7 @@ namespace Villeon.GUI
         }
 
         // Calculate the position for every slot
-        private void SetInventorySlotPositions(InventorySlot[,] _inventorySlots)
+        private void SetInventorySlotPositions(InventorySlot[,] inventorySlots)
         {
             Vector2 position = _startPos;
 
@@ -504,7 +505,7 @@ namespace Villeon.GUI
             {
                 for (int x = 0; x < _inventorySlotsX; x++)
                 {
-                    _inventorySlots[y, x] = new InventorySlot(new Transform(position, _slotScalingFactor, 0));
+                    inventorySlots[y, x] = new InventorySlot(new Transform(position, _slotScalingFactor, 0));
 
                     // calculate the next position
                     position += new Vector2(_offset + (_slotSize * _slotScalingFactor), 0);

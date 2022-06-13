@@ -22,7 +22,6 @@ namespace Villeon.GUI
         private float _height;
         private float _scale = 0.5f; // Should be 0.5 * transformscale
 
-        private float _oldHealth;
         private float _maxHealth;
 
         private Transform _trackingTransform;
