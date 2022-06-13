@@ -21,7 +21,6 @@ namespace Villeon.Render
 
         public Shader()
         {
-
         }
 
         public Shader(string shaderPath)

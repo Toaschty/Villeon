@@ -286,6 +286,7 @@ namespace Villeon.GUI
                             Manager.GetInstance().RemoveEntity(_tabBar[_playerTabbarPosition.Y, _playerTabbarPosition.X]);
 
                         Console.WriteLine("ActiveTabbar: " + _activeTabbar + " || Player: " + _playerTabbarPosition);
+
                         // Add the slot background
                         _allEntities.Add(_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
                         _playerTabbarPosition = new Vector2i(_activeTabbar.X, _activeTabbar.Y); // set the tabbar position to the active tabbar position

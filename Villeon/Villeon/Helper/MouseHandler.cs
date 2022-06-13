@@ -19,7 +19,7 @@ namespace Villeon.Helper
 
         public static List<ClickedMouseButton> ClickedRightMouseButtons { get; private set; } = new List<ClickedMouseButton>();
 
-        public static int ClickedMouseButtonCount = 0;
+        public static int ClickedMouseButtonCount { get; private set; } = 0;
 
         private static int WheelValue { get; set; }
 

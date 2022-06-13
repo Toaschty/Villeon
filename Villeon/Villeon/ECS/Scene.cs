@@ -14,7 +14,7 @@ namespace Villeon.ECS
         private HashSet<IEntity> _entities = new ();
         private HashSet<IUpdateSystem> _updateSystems = new ();
         private HashSet<IRenderSystem> _renderSystems = new ();
-        private Func<bool> _startUp;
+        private Func<bool>? _startUp;
 
         public Scene(string name)
         {

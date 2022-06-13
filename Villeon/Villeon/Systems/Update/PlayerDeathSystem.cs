@@ -29,20 +29,11 @@ namespace Villeon.Systems
                 if (health.CurrentHealth <= 0)
                 {
                     StateManager.IsPlayerDead = true;
-                    // Spawn menu
-                    // HOch runter
-                    // Continue -> Respawn irgendwo
-                    // Quit -> Quit
                     health.Heal(200);
                     healthEntity.GetComponent<Transform>().Position = new Vector2(5f, 5f);
                     healthEntity.GetComponent<DynamicCollider>().LastPosition = new Vector2(5f, 5f);
                     healthEntity.GetComponent<Physics>().Velocity = Vector2.Zero;
                     healthEntity.GetComponent<Physics>().Acceleration = Vector2.Zero;
-
-                    // You died
-                    // Continue
-                    // Quit
-
                     StateManager.IsPlayerDead = false;
                 }
             }

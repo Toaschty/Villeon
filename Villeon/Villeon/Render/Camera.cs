@@ -79,14 +79,13 @@ namespace Villeon.Render
             _cameraCenter = -_trackingPosition;
 
             // Mouse Wheel Camera Scaling
-
             if (StateManager.IsPlaying)
                 _cameraScale += -MouseHandler.WheelChanged();
             if (_cameraScale < 1f)
                 _cameraScale = 1f;
-            //if (_cameraScale > 20f)
-             //   _cameraScale = 20f;
 
+            // if (_cameraScale > 20f)
+            //   _cameraScale = 20f;
         }
 
         public static Matrix4 GetScreenMatrix()

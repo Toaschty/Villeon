@@ -8,6 +8,5 @@ namespace Villeon.Components
 {
     public class Interactable : IComponent
     {
-
     }
 }

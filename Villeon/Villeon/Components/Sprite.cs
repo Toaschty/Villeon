@@ -170,6 +170,5 @@ namespace Villeon.Components
             get => _offset;
             set => _offset = value;
         }
-
     }
 }

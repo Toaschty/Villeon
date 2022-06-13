@@ -23,7 +23,7 @@ namespace Villeon.Systems
             }
         }
 
-        public Dictionary<TriggerLayerType, TriggerLayer> TriggerLayers { get { return _triggerLayers; } }
+        public Dictionary<TriggerLayerType, TriggerLayer> TriggerLayers { get => _triggerLayers; }
 
         public void AddEntityToLayer(IComponent receiver, IComponent actor, IEntity entity)
         {

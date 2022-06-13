@@ -94,7 +94,7 @@ namespace Villeon.Render
         private RenderingData AddSprite(IEntity entity)
         {
             Sprite? sprite = entity.GetComponent<Sprite>();
-            Transform transform = entity.GetComponent<Transform>()!;
+            Transform transform = entity.GetComponent<Transform>() !;
             RenderingData data = new RenderingData(sprite, transform, sprite.Offset, transform.Scale);
 
             SpriteLayer spriteLayer = data.Sprite!.RenderLayer;
@@ -104,7 +104,7 @@ namespace Villeon.Render
 
         private RenderingData AddTriggerSprite(IEntity entity)
         {
-            Transform transform = entity.GetComponent<Transform>()!;
+            Transform transform = entity.GetComponent<Transform>() !;
             Trigger? trigger = entity.GetComponent<Trigger>();
 
             Color4 color = new Color4(1f, 0f, 1f, 0.3f);
@@ -118,7 +118,7 @@ namespace Villeon.Render
 
         private RenderingData AddColliderSprite(IEntity entity)
         {
-            Transform transform = entity.GetComponent<Transform>()!;
+            Transform transform = entity.GetComponent<Transform>() !;
             Collider? collider = entity.GetComponent<Collider>();
 
             Color4 color = new Color4(1f, 1f, 0f, 0.3f);

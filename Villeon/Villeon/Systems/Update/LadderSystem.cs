@@ -51,7 +51,6 @@ namespace Villeon.Systems.Update
                         playerPhysics.Velocity = new Vector2(playerPhysics.Velocity.X, 5f);
                     }
                 }
-
             }
         }
     }

@@ -1,6 +1,5 @@
-﻿
+﻿using System;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using System;
 using Villeon.Components;
 using Villeon.ECS;
 using Villeon.Helper;

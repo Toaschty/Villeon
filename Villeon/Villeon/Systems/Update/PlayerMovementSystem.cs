@@ -97,8 +97,6 @@ namespace Villeon.Systems
                         Manager.GetInstance().AddEntity(attackEntity);
                         effect.Effects.Add("AttackCooldown", 0.1f);
                     }
-
-                    //KeyHandler.RemoveKeyHold(Keys.Q);
                 }
 
                 //Debug Reset Position
@@ -119,13 +117,11 @@ namespace Villeon.Systems
                 if (KeyHandler.IsPressed(Keys.H))
                 {
                     StateManager.DEBUGPAUSEACTIVE = !StateManager.DEBUGPAUSEACTIVE;
-                    //KeyHandler.RemoveKeyHold(Keys.H);
                 }
 
                 if (KeyHandler.IsPressed(Keys.N))
                 {
                     StateManager.DEBUGNEXTFRAME = true;
-                    //KeyHandler.RemoveKeyHold(Keys.N);
                 }
 
                 if (KeyHandler.IsPressed(Keys.M))
@@ -145,7 +141,6 @@ namespace Villeon.Systems
 
                     Constants.DEBUGTIME = float.Parse(newTime);
                     Console.WriteLine("New time: " + Constants.DEBUGTIME);
-                    //KeyHandler.RemoveKeyHold(Keys.J);
                 }
             }
         }

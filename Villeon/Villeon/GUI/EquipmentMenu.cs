@@ -49,7 +49,7 @@ namespace Villeon.GUI
 
             // Idle player animation
             Entity image = new Entity(new Transform(new Vector2(-4.2f, -1.6f), 0.7f, 0f), "Profil");
-        
+
             // Load animation from file
             Animation idleAnimation = AnimationLoader.CreateAnimationFromFile("Animations.player_idle.png", 0.3f);
 

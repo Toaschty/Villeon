@@ -35,8 +35,7 @@ namespace Villeon.Render
 
         private Shader _shader;
 
-        private int l = 0;
-
+        private int _l = 0;
 
         public RenderBatch(Shader shader)
         {
@@ -126,11 +125,12 @@ namespace Villeon.Render
             Random random = new Random();
             foreach (MouseHandler.ClickedMouseButton c in MouseHandler.ClickedRightMouseButtons)
             {
-                _shader.UploadVec3("pointLights[" + l + "].position", new Vector3(c.MousePosition.X, c.MousePosition.Y, 0));
-                _shader.UploadVec3("pointLights[" + l + "].ambient", new Vector3(1, 0, 0.5f));
-                _shader.UploadVec3("pointLights[" + l + "].diffuse", new Vector3(1f));
-                l++;
+                _shader.UploadVec3("pointLights[" + _l + "].position", new Vector3(c.MousePosition.X, c.MousePosition.Y, 0));
+                _shader.UploadVec3("pointLights[" + _l + "].ambient", new Vector3(1, 0, 0.5f));
+                _shader.UploadVec3("pointLights[" + _l + "].diffuse", new Vector3(1f));
+                _l++;
             }
+
             MouseHandler.ClickedRightMouseButtons.Clear();
 
             // Bind VAO & Enable all the attributes & Draw

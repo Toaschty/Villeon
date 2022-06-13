@@ -17,7 +17,6 @@ namespace Villeon
         public static void SpawnTrigger(TriggerID id, Vector2 poition, float width, float height)
         {
             IEntity damageEntity = new Entity(new Transform(poition, width, height), "Attack");
-            //damageEntity.AddComponent(TriggerBuilder.Build(id));
             Manager.GetInstance().AddEntity(damageEntity);
         }
 

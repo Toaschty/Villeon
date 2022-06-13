@@ -8,6 +8,5 @@ namespace Villeon.Components
 {
     public class Drops : IComponent
     {
-
     }
 }
