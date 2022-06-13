@@ -120,15 +120,15 @@ namespace Villeon.Render
 
             // Directional Lighting
             _shader.UploadVec3("dirLight.direction", new Vector3(0, 0, -1));
-            _shader.UploadVec3("dirLight.ambient", new Vector3(0.5f));
-            _shader.UploadVec3("dirLight.diffuse", new Vector3(0.5f));
+            _shader.UploadVec3("dirLight.ambient", new Vector3(0.8f));
+            _shader.UploadVec3("dirLight.diffuse", new Vector3(0.8f));
 
             Random random = new Random();
             foreach (MouseHandler.ClickedMouseButton c in MouseHandler.ClickedRightMouseButtons)
             {
                 _shader.UploadVec3("pointLights[" + l + "].position", new Vector3(c.MousePosition.X, c.MousePosition.Y, 0));
-                _shader.UploadVec3("pointLights[" + l + "].ambient", new Vector3(random.Next(0, 5), random.Next(0, 5), random.Next(0, 5)));
-                _shader.UploadVec3("pointLights[" + l + "].diffuse", new Vector3(0));
+                _shader.UploadVec3("pointLights[" + l + "].ambient", new Vector3(1, 0, 0.5f));
+                _shader.UploadVec3("pointLights[" + l + "].diffuse", new Vector3(1f));
                 l++;
             }
             MouseHandler.ClickedRightMouseButtons.Clear();

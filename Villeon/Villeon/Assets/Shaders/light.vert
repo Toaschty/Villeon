@@ -36,8 +36,8 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 pos)
 
     // attenuation
     float constant = 1.0f;
-    float linear = 0.09f;
-    float quadratic = 0.032f;
+    float linear = 2f;
+    float quadratic = 10f;
 
     float distance = length(light.position - pos);
     float attenuation = 1.0 / (constant + linear * distance + quadratic * (distance * distance));  
@@ -85,9 +85,10 @@ void main()
         vec3 resultColor = CalcDirLight(dirLight, normal);
         for (int i = 0; i < lights; i++)
         {
-            resultColor += CalcPointLight(pointLights[i], normal, position.xyz);
+            resultColor += CalcPointLight(pointLights[i], normal, position.xyz) * 500;
         }
-	    fColor = vec4(resultColor * 2, 1f);
+
+	    fColor = vec4(resultColor, 1f);
     }
 
 	fTexCoords = texCoords;
