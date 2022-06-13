@@ -326,7 +326,7 @@ namespace Villeon.GUI
 
         private void ChangeInventory(Vector2i tabbarPosition)
         {
-            IEntity currentTab = _tabBar[tabbarPosition.X, tabbarPosition.Y];
+            IEntity currentTab = _tabBar[tabbarPosition.Y, tabbarPosition.X];
 
             RemoveInventoryEntities();
 
