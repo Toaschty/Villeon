@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Villeon.Helper;
 using Zenseless.OpenTK;
 
 namespace Villeon.Render
@@ -11,14 +12,8 @@ namespace Villeon.Render
     {
         private List<RenderBatch> _dynamicBatches = new List<RenderBatch>();
         private List<RenderBatch> _staticBatches = new List<RenderBatch>();
-        private bool _usesCamera = true;
 
-        public Layer(bool usesCamera)
-        {
-            _usesCamera = usesCamera;
-        }
-
-        public void AddRenderingData(ref RenderingData data)
+        public void AddRenderingData(RenderingData data)
         {
             bool added = false;
             if (data.Sprite is not null && data.Sprite.IsDynamic == true)
@@ -72,7 +67,7 @@ namespace Villeon.Render
 
             foreach (RenderBatch renderBatch in _dynamicBatches)
             {
-                renderBatch.RebufferAll();
+                renderBatch.Rebuffer();
                 renderBatch.Render();
             }
         }
@@ -121,8 +116,7 @@ namespace Villeon.Render
 
         private RenderBatch CreateRenderBatch()
         {
-            RenderBatch newBatch = new RenderBatch(_usesCamera);
-            newBatch.Start();
+            RenderBatch newBatch = new RenderBatch(Assets.GetShader("Shaders.light"));
             return newBatch;
         }
     }

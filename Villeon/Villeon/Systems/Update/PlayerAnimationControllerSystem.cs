@@ -15,16 +15,14 @@ namespace Villeon.Systems.Update
         public PlayerAnimationControllerSystem(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(AnimationController));
-            Signature = Signature.AddToSignature(typeof(Sprite));
-            Signature = Signature.AddToSignature(typeof(Player));
+            Signature.IncludeAND(typeof(AnimationController), typeof(Sprite), typeof(Player));
         }
 
         public void Update(float time)
         {
             // Get current walking direction
-            float leftRightAxis = KeyHandler.IsPressed(Keys.A) ? -1 : KeyHandler.IsPressed(Keys.D) ? 1 : 0;
-            float topDownAxis = KeyHandler.IsPressed(Keys.S) ? -1 : KeyHandler.IsPressed(Keys.W) ? 1 : 0;
+            float leftRightAxis = KeyHandler.IsHeld(Keys.A) ? -1 : KeyHandler.IsHeld(Keys.D) ? 1 : 0;
+            float topDownAxis = KeyHandler.IsHeld(Keys.S) ? -1 : KeyHandler.IsHeld(Keys.W) ? 1 : 0;
 
             foreach (IEntity entity in Entities)
             {

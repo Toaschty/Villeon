@@ -14,8 +14,25 @@ namespace Villeon.Systems.Update
         public AnimationSystem(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(AnimationController));
-            Signature = Signature.AddToSignature(typeof(Sprite));
+            Signature.IncludeAND(typeof(AnimationController), typeof(Sprite));
+        }
+
+        public override void AddEntity(IEntity entity)
+        {
+            base.AddEntity(entity);
+
+            // Set the first Sprite to the first sprite of the animation
+            AnimationController animation = entity.GetComponent<AnimationController>();
+            Sprite sprite = entity.GetComponent<Sprite>();
+
+            // Increase elapsed time in current animation
+            Animation currentAnim = animation.GetSelectedAnimation();
+
+            // Set Texture and Texture Coordinates to new frame
+            sprite.Texture = currentAnim.AnimationSprite[currentAnim.CurrentFrame].Texture;
+            sprite.TexCoords = currentAnim.AnimationSprite[currentAnim.CurrentFrame].TexCoords;
+            sprite.Width = currentAnim.AnimationSprite[currentAnim.CurrentFrame].Width;
+            sprite.Height = currentAnim.AnimationSprite[currentAnim.CurrentFrame].Height;
         }
 
         public void Update(float time)
@@ -42,6 +59,8 @@ namespace Villeon.Systems.Update
                     // Set Texture and Texture Coordinates to new frame
                     sprite.Texture = currentAnim.AnimationSprite[currentAnim.CurrentFrame].Texture;
                     sprite.TexCoords = currentAnim.AnimationSprite[currentAnim.CurrentFrame].TexCoords;
+                    sprite.Width = currentAnim.AnimationSprite[currentAnim.CurrentFrame].Width;
+                    sprite.Height = currentAnim.AnimationSprite[currentAnim.CurrentFrame].Height;
                 }
             }
         }

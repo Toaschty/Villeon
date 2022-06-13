@@ -1,0 +1,20 @@
+﻿{
+  "caves": [
+    {
+      "name": "Crumbly Cave",
+      "description": "This cave is located in the nearby\nwoods. The entrance is often buried\nunder a pile of rocks. The villagers\nthemselves even don't know where\nthis is coming from. Due to the lack\nof fitting name ideas - It is now\ncalled 'The Crumbly Cave'."
+    },
+    {
+      "name": "Darkend Lair",
+      "description": "This lair is found in the ruins of an\nold castle. It once served as an hiding\nspace for many bandits and culpits.\nThe hiding spot was raided rather\nquickly as the kingdom grew bigger\nand, with it, the number of guards\nin the country. Apart from the few\ntravelers who seek shelter for the\nnight, the place is abandoned. Maybe\nyou will stumble over a few zombies."
+    },
+    {
+      "name": "Swampy Grotts",
+      "description": "These grotts are located in the\nwestern regions of the kingdom's\ncapital, just a few miles south of the\nvillage. Once, they were as dry as the\ndesert. But after the 'Great rain' two\ndecades ago, the cave system was\noverflowing with water. Even now,\nmost of the intertwining shafts\nare left under water."
+    },
+    {
+      "name": "Hellish Hole",
+      "description": "This dangerous cave is located a\ncouple of miles north of the village\nat the kingdom's outer border. The\nentrace can be found high up in the\nmountains, where the sharp mountain\ntips are reaching the clouds. The cave\nitself is just a long passage that spirals\ndown endlessly. Legends say that this\nis the entrace to hell itself."
+    }
+  ]
+}

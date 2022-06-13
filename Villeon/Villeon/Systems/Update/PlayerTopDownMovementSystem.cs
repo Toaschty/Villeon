@@ -16,14 +16,16 @@ namespace Villeon.Systems
         public PlayerTopDownMovementSystem(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(Collider));
-            Signature = Signature.AddToSignature(typeof(Player));
+            Signature.IncludeAND(typeof(Collider), typeof(Player));
         }
 
         public void Update(float time)
         {
-            float leftRightAxis = KeyHandler.IsPressed(Keys.A) ? -1 : KeyHandler.IsPressed(Keys.D) ? 1 : 0;
-            float topDownAxis = KeyHandler.IsPressed(Keys.S) ? -1 : KeyHandler.IsPressed(Keys.W) ? 1 : 0;
+            if (StateManager.InMenu)
+                return;
+
+            float leftRightAxis = KeyHandler.IsHeld(Keys.A) ? -1 : KeyHandler.IsHeld(Keys.D) ? 1 : 0;
+            float topDownAxis = KeyHandler.IsHeld(Keys.S) ? -1 : KeyHandler.IsHeld(Keys.W) ? 1 : 0;
 
             foreach (IEntity entity in Entities)
             {

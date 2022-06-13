@@ -14,11 +14,15 @@ namespace Villeon.ECS
     {
         private Texture2D _sheetTexture;
         private List<Sprite> _sprites;
+        private float _spriteWidth;
+        private float _spriteHeight;
 
         public SpriteSheet(Color4 color, Texture2D texture, int spriteWidth, int spriteHeight, int numSprites, int spacing = 0, SpriteLayer layer = SpriteLayer.Background)
         {
             _sprites = new List<Sprite>();
             _sheetTexture = texture;
+            _spriteWidth = spriteWidth / 8f;
+            _spriteHeight = spriteHeight / 8f;
             int currentX = 0;
             int currentY = texture.Height - spriteHeight;
 
@@ -51,6 +55,10 @@ namespace Villeon.ECS
         }
 
         public List<Sprite> Sprites { get => _sprites; }
+
+        public float SpriteWidth { get => _spriteWidth; }
+
+        public float SpriteHeight { get => _spriteHeight; }
 
         public Sprite GetSprite(int index)
         {

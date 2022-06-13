@@ -17,27 +17,28 @@ namespace Villeon
         public static void SpawnTrigger(TriggerID id, Vector2 poition, float width, float height)
         {
             IEntity damageEntity = new Entity(new Transform(poition, width, height), "Attack");
-            damageEntity.AddComponent(TriggerBuilder.Build(id));
             Manager.GetInstance().AddEntity(damageEntity);
         }
 
-        public static void SpawnTrigger(TriggerID id, Transform transform)
+        public static void SpawnTrigger(TriggerLayerType triggerLayerType, Transform transform)
         {
             IEntity damageEntity = new Entity(transform, "Attack");
-            damageEntity.AddComponent(TriggerBuilder.Build(id));
+            damageEntity.AddComponent(new Trigger(triggerLayerType, new Vector2(2f, 0f), 1f, 1f, 0.1f));
+            damageEntity.AddComponent(new Damage(50));
             Manager.GetInstance().AddEntity(damageEntity);
         }
 
         public void Spawn(Vector2 position)
         {
-            IEntity entity = new Entity(new Transform(position, 1.0f, 0f), "Peter");
-            entity.AddComponent(new Collider(new Vector2(0f, 0f), position, 1.5f, 1f));
-            entity.AddComponent(TriggerBuilder.Build(TriggerID.ENEMY));
-            entity.AddComponent(new Health(200));
+            IEntity entity = new Entity(new Transform(position, 0.5f, 0f), "Peter");
+            entity.AddComponent(new Collider(new Vector2(0f, 0f), position, 2f, 2f));
+            entity.AddComponent(new DynamicCollider(entity.GetComponent<Collider>()));
+            entity.AddComponent(new Trigger(TriggerLayerType.ENEMY | TriggerLayerType.LADDER, new Vector2(0), 2f, 2f));
+            entity.AddComponent(new Health(500));
             entity.AddComponent(new Effect());
             entity.AddComponent(new Physics());
-            entity.AddComponent(new SimpleAI());
-            entity.AddComponent(new Sprite(Assets.GetTexture("Player.png"), SpriteLayer.Foreground, true));
+            entity.AddComponent(new EnemyAI());
+            entity.AddComponent(new Sprite(SpriteLayer.Foreground, true));
 
             // Setup player animations
             AnimationController animController = new AnimationController();

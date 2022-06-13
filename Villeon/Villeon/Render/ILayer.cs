@@ -8,7 +8,7 @@ namespace Villeon.Render
 {
     public interface ILayer
     {
-        public void AddRenderingData(ref RenderingData data);
+        public void AddRenderingData(RenderingData data);
 
         public void Remove(RenderingData data);
 

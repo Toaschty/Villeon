@@ -14,6 +14,10 @@ namespace Villeon.Systems
 
         HashSet<IEntity> Entities { get; }
 
-        ulong Signature { get; }
+        public SystemSignature Signature { get; }
+
+        public void AddEntity(IEntity entity);
+
+        public void RemoveEntity(IEntity entity);
     }
 }

@@ -20,58 +20,45 @@ namespace Villeon.Render
         public SpriteRenderer(string name, bool renderColliders)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(Transform));
+            Signature.IncludeAND(typeof(Transform));
 
-            // Create World Layers
-            for (int i = (int)SpriteLayer.Background; i <= (int)SpriteLayer.Collider; i++)
+            // Create Layers
+            for (int i = (int)SpriteLayer.ScreenGuiForeground; i <= (int)SpriteLayer.Background; i++)
             {
-                _spriteLayers[i] = new Layer(true);
-            }
-
-            // Create Screen Layers
-            for (int i = (int)SpriteLayer.ScreenGuiBackground; i <= (int)SpriteLayer.ScreenGuiForeground; i++)
-            {
-                _spriteLayers[i] = new Layer(false);
+                _spriteLayers[i] = new Layer();
             }
 
             _entityRenderData = new Dictionary<IEntity, List<RenderingData>>();
             _renderColliders = renderColliders;
         }
 
-        public void Add(IEntity entity)
+        public override void AddEntity(IEntity entity)
         {
             // Create new renderingDataList
             List<RenderingData> renderingDataList = new List<RenderingData>();
 
-            Sprite? sprite = entity.GetComponent<Sprite>();
-            Transform transform = entity.GetComponent<Transform>() !;
-            Collider? collider = entity.GetComponent<Collider>();
-            Trigger? trigger = entity.GetComponent<Trigger>();
-            RenderingData data = default(RenderingData);
-            data.Transform = transform;
-            data.Scale = transform.Scale;
-            data.Offset = new Vector2(0, 0);
-
             // Add sprite to the appropriate Sprite Layer
+            Sprite? sprite = entity.GetComponent<Sprite>();
             if (sprite is not null)
             {
-                AddSprite(sprite, ref data);
+                RenderingData data = AddSprite(entity);
                 renderingDataList.Add(data);
             }
 
             // Get Collider add it to collider layer
             if (_renderColliders)
             {
+                Trigger? trigger = entity.GetComponent<Trigger>();
                 if (trigger is not null)
                 {
-                    AddTriggerSprite(trigger, ref data);
+                    RenderingData data = AddTriggerSprite(entity);
                     renderingDataList.Add(data);
                 }
 
+                Collider? collider = entity.GetComponent<Collider>();
                 if (collider is not null)
                 {
-                    data.Offset = collider.Offset;
-                    AddColliderSprite(collider, ref data);
+                    RenderingData data = AddColliderSprite(entity);
                     renderingDataList.Add(data);
                 }
             }
@@ -80,7 +67,7 @@ namespace Villeon.Render
                 _entityRenderData.Add(entity, renderingDataList);
         }
 
-        public void Remove(IEntity entity)
+        public override void RemoveEntity(IEntity entity)
         {
             for (int i = 0; i < _numSpriteLayers; i++)
             {
@@ -93,7 +80,7 @@ namespace Villeon.Render
 
         public void Render()
         {
-            for (int i = 0; i < _numSpriteLayers; i++)
+            for (int i = _numSpriteLayers - 1; i >= 0; i--)
             {
                 _spriteLayers[i].Render();
             }
@@ -104,30 +91,42 @@ namespace Villeon.Render
             return _entityRenderData.ContainsKey(entity);
         }
 
-        private void AddSprite(Sprite sprite, ref RenderingData data)
+        private RenderingData AddSprite(IEntity entity)
         {
-            data.Sprite = sprite;
-            SpriteLayer spriteLayer = sprite.RenderLayer;
-            _spriteLayers[(int)spriteLayer].AddRenderingData(ref data);
+            Sprite? sprite = entity.GetComponent<Sprite>();
+            Transform transform = entity.GetComponent<Transform>() !;
+            RenderingData data = new RenderingData(sprite, transform, sprite.Offset, transform.Scale);
+
+            SpriteLayer spriteLayer = data.Sprite!.RenderLayer;
+            _spriteLayers[(int)spriteLayer].AddRenderingData(data);
+            return data;
         }
 
-        private void AddTriggerSprite(Trigger trigger, ref RenderingData data)
+        private RenderingData AddTriggerSprite(IEntity entity)
         {
+            Transform transform = entity.GetComponent<Transform>() !;
+            Trigger? trigger = entity.GetComponent<Trigger>();
+
             Color4 color = new Color4(1f, 0f, 1f, 0.3f);
-            data.Sprite = new Sprite(SpriteLayer.Collider, trigger.Width, trigger.Height, true);
-            data.Sprite.Color = color;
-            data.Offset = trigger.Offset;
-            data.Scale = new Vector2(1f, 1f);
-            _spriteLayers[(int)SpriteLayer.Collider].AddRenderingData(ref data);
+            Sprite sprite = new Sprite(SpriteLayer.Collider, trigger.Width, trigger.Height, true);
+            sprite.Color = color;
+
+            RenderingData data = new RenderingData(sprite, transform, trigger.Offset, Vector2.One);
+            _spriteLayers[(int)SpriteLayer.Collider].AddRenderingData(data);
+            return data;
         }
 
-        private void AddColliderSprite(Collider collider, ref RenderingData data)
+        private RenderingData AddColliderSprite(IEntity entity)
         {
+            Transform transform = entity.GetComponent<Transform>() !;
+            Collider? collider = entity.GetComponent<Collider>();
+
             Color4 color = new Color4(1f, 1f, 0f, 0.3f);
-            data.Sprite = new Sprite(SpriteLayer.Collider, collider.Width, collider.Height, true);
-            data.Sprite.Color = color;
-            data.Offset = -collider.Offset;
-            _spriteLayers[(int)SpriteLayer.Collider].AddRenderingData(ref data);
+            Sprite sprite = new Sprite(SpriteLayer.Collider, collider.Width, collider.Height, true);
+            sprite.Color = color;
+            RenderingData data = new RenderingData(sprite, transform, collider.Offset, Vector2.One);
+            _spriteLayers[(int)SpriteLayer.Collider].AddRenderingData(data);
+            return data;
         }
     }
 }

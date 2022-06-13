@@ -11,9 +11,15 @@ namespace Villeon.Helper
 {
     public static class MouseHandler
     {
-        public static Vector2 MousePosition { get; private set; }
+        public static Vector2 ScreenMousePosition { get; private set; }
+
+        public static Vector2 WorldMousePosition { get; private set; }
 
         public static List<ClickedMouseButton> ClickedMouseButtons { get; private set; } = new List<ClickedMouseButton>();
+
+        public static List<ClickedMouseButton> ClickedRightMouseButtons { get; private set; } = new List<ClickedMouseButton>();
+
+        public static int ClickedMouseButtonCount { get; private set; } = 0;
 
         private static int WheelValue { get; set; }
 
@@ -42,17 +48,23 @@ namespace Villeon.Helper
 
         public static void MouseDown(MouseButtonEventArgs args)
         {
-            // Store standard Mouse info
+            ClickedMouseButtons.Add(new ClickedMouseButton { Button = args.Button, MousePosition = WorldMousePosition });
 
-            // Convert the Pixel Mouse Position to World Coordinates
-            Matrix4 fromViewportToWorldCoords = Camera.InverseViewportMatrix * Camera.GetInverseMatrix();
-            Vector2 worldPosition = MousePosition.Transform(fromViewportToWorldCoords);
-            ClickedMouseButtons.Add(new ClickedMouseButton { Button = args.Button, MousePosition = worldPosition });
+            if (args.Button == MouseButton.Right)
+            {
+                ClickedRightMouseButtons.Add(new ClickedMouseButton { Button = args.Button, MousePosition = WorldMousePosition });
+                ClickedMouseButtonCount++;
+            }
         }
 
         public static void MouseMove(MouseMoveEventArgs args)
         {
-            MousePosition = args.Position;
+            // Store Screen coordinaes
+            ScreenMousePosition = args.Position;
+
+            // Convert Screen to Worldcoordinates and store it
+            Matrix4 fromViewportToWorldCoords = Camera.InverseViewportMatrix * Camera.GetInverseMatrix();
+            WorldMousePosition = ScreenMousePosition.Transform(fromViewportToWorldCoords);
         }
 
         public struct ClickedMouseButton

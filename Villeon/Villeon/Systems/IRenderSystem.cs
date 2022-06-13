@@ -9,10 +9,6 @@ namespace Villeon.Systems
 {
     public interface IRenderSystem : IRender, ISystem
     {
-        void Remove(IEntity entity);
-
-        void Add(IEntity entity);
-
         bool Contains(IEntity entity);
     }
 }

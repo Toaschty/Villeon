@@ -10,23 +10,31 @@
 	<EmbeddedResource Include="Assets\**\*.*" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\Fonts\Alagard.json" />
+    <None Remove="Assets\Fonts\Alagard_Thin.json" />
+    <None Remove="Assets\Fonts\VilleonFont.aseprite" />
+    <None Remove="Assets\GUI\DungeonMenu.json" />
+    <None Remove="Assets\Jsons\Drops.json" />
+    <None Remove="Assets\Jsons\items.json" />
     <None Remove="Assets\Player.png" />
     <None Remove="Assets\shader.vert" />
+    <None Remove="Assets\Shaders\light.frag" />
+    <None Remove="Assets\Shaders\light.vert" />
     <None Remove="Assets\Slime.aseprite" />
     <None Remove="Assets\TileMap\Frame.aseprite" />
+    <None Remove="Assets\TileMap\obstacles.json" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DungeonGeneration\RoomGeneration.cs" />
     <EmbeddedResource Include="Systems\IRender.cs" />
     <EmbeddedResource Include="Systems\IRenderSystem.cs" />
     <EmbeddedResource Include="Systems\ISystem.cs" />
     <EmbeddedResource Include="Systems\IUpdate.cs" />
     <EmbeddedResource Include="Systems\IUpdateSystem.cs" />
-    <EmbeddedResource Include="Systems\Render\ColliderRenderSystem.cs" />
-    <EmbeddedResource Include="Systems\Render\SpriteRenderSystem.cs" />
     <EmbeddedResource Include="Systems\System.cs" />
     <EmbeddedResource Include="Systems\Update\CameraSystem.cs" />
     <EmbeddedResource Include="Systems\Update\CollisionSystem.cs" />
-    <EmbeddedResource Include="Systems\Update\HealthSystem.cs" />
+    <EmbeddedResource Include="Systems\Update\PlayerDeathSystem.cs" />
     <EmbeddedResource Include="Systems\Update\MouseClickSystem.cs" />
     <EmbeddedResource Include="Systems\Update\PhysicsSystem.cs" />
     <EmbeddedResource Include="Systems\Update\PlayerMovementSystem.cs" />
@@ -51,5 +59,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -8,6 +8,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
 using Villeon.ECS;
 using Villeon.Helper;
+using Villeon.Utils;
 
 namespace Villeon.Systems
 {
@@ -16,36 +17,36 @@ namespace Villeon.Systems
         public PlayerMovementSystem(string name)
             : base(name)
         {
-            Signature = Signature.AddToSignature(typeof(Physics));
-            Signature = Signature.AddToSignature(typeof(Collider));
-            Signature = Signature.AddToSignature(typeof(Player));
+            Signature.IncludeAND(typeof(Physics), typeof(Collider), typeof(Player));
         }
 
         public void Update(float time)
         {
             Physics physics;
             Collider collider;
+            DynamicCollider dynamicCollider;
             Transform transform;
-            foreach (IEntity entity in Entities)
+            foreach (IEntity player in Entities)
             {
-                physics = entity.GetComponent<Physics>();
-                collider = entity.GetComponent<Collider>();
-                transform = entity.GetComponent<Transform>();
+                physics = player.GetComponent<Physics>();
+                collider = player.GetComponent<Collider>();
+                dynamicCollider = player.GetComponent<DynamicCollider>();
+                transform = player.GetComponent<Transform>();
 
                 // Check if player is grounded
                 StateManager.IsGrounded = collider.HasCollidedBottom;
 
-                if (KeyHandler.IsPressed(Keys.D))
+                if (KeyHandler.IsHeld(Keys.D))
                 {
                     physics.Acceleration += new Vector2(Constants.MOVEMENTSPEED, physics.Acceleration.Y);
                 }
 
-                if (KeyHandler.IsPressed(Keys.A))
+                if (KeyHandler.IsHeld(Keys.A))
                 {
                     physics.Acceleration -= new Vector2(Constants.MOVEMENTSPEED, physics.Acceleration.Y);
                 }
 
-                if (KeyHandler.IsPressed(Keys.Space))
+                if (KeyHandler.IsHeld(Keys.Space))
                 {
                     if (StateManager.IsGrounded)
                     {
@@ -56,33 +57,53 @@ namespace Villeon.Systems
 
                 if (KeyHandler.IsPressed(Keys.E))
                 {
-                    Effect effect = entity.GetComponent<Effect>() !;
+                    Effect effect = player.GetComponent<Effect>() !;
                     if (!effect.Effects.ContainsKey("AttackCooldown"))
                     {
-                        EntitySpawner.SpawnTrigger(TriggerID.ATTACKRIGHT, transform);
-                        effect.Effects.Add("AttackCooldown", 1);
-                    }
+                        IEntity attackEntity;
+                        attackEntity = new Entity(transform, "AttackRight");
+                        attackEntity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(2f, 0f), 2f, 2f, 0.2f));
+                        Sprite sprite = Assets.GetSprite("Sprites.Empty.png", Render.SpriteLayer.GUIForeground, true);
+                        sprite.Offset = new Vector2(1, 0);
 
-                    KeyHandler.RemoveKeyHold(Keys.E);
+                        // Setup player animations
+                        AnimationController animController = new AnimationController();
+                        animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.slash_attack_right.png", 0.05f));
+                        attackEntity.AddComponent(animController);
+                        attackEntity.AddComponent(sprite);
+                        attackEntity.AddComponent(new Damage(50));
+                        Manager.GetInstance().AddEntity(attackEntity);
+                        effect.Effects.Add("AttackCooldown", 0.1f);
+                    }
                 }
 
                 if (KeyHandler.IsPressed(Keys.Q))
                 {
-                    Effect effect = entity.GetComponent<Effect>() !;
+                    Effect effect = player.GetComponent<Effect>() !;
                     if (!effect.Effects.ContainsKey("AttackCooldown"))
                     {
-                        EntitySpawner.SpawnTrigger(TriggerID.ATTACKLEFT, transform);
-                        effect.Effects.Add("AttackCooldown", 1);
-                    }
+                        IEntity attackEntity;
+                        attackEntity = new Entity(transform, "AttackLeft");
+                        attackEntity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(-3f, 0f), 2f, 2f, 0.2f));
+                        Sprite sprite = Assets.GetSprite("Sprites.Empty.png", Render.SpriteLayer.GUIForeground, true);
+                        sprite.Offset = new Vector2(-2, 0);
 
-                    KeyHandler.RemoveKeyHold(Keys.Q);
+                        // Setup player animations
+                        AnimationController animController = new AnimationController();
+                        animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.slash_attack_left.png", 0.05f));
+                        attackEntity.AddComponent(animController);
+                        attackEntity.AddComponent(sprite);
+                        attackEntity.AddComponent(new Damage(50));
+                        Manager.GetInstance().AddEntity(attackEntity);
+                        effect.Effects.Add("AttackCooldown", 0.1f);
+                    }
                 }
 
                 //Debug Reset Position
                 if (KeyHandler.IsPressed(Keys.R))
                 {
                     transform.Position = new Vector2(5f, 5f);
-                    collider.LastPosition = new Vector2(5f, 5f);
+                    dynamicCollider.LastPosition = new Vector2(5f, 5f);
                     physics.Velocity = Vector2.Zero;
                 }
 
@@ -96,13 +117,11 @@ namespace Villeon.Systems
                 if (KeyHandler.IsPressed(Keys.H))
                 {
                     StateManager.DEBUGPAUSEACTIVE = !StateManager.DEBUGPAUSEACTIVE;
-                    KeyHandler.RemoveKeyHold(Keys.H);
                 }
 
                 if (KeyHandler.IsPressed(Keys.N))
                 {
                     StateManager.DEBUGNEXTFRAME = true;
-                    KeyHandler.RemoveKeyHold(Keys.N);
                 }
 
                 if (KeyHandler.IsPressed(Keys.M))
@@ -122,7 +141,6 @@ namespace Villeon.Systems
 
                     Constants.DEBUGTIME = float.Parse(newTime);
                     Console.WriteLine("New time: " + Constants.DEBUGTIME);
-                    KeyHandler.RemoveKeyHold(Keys.J);
                 }
             }
         }

@@ -27,6 +27,13 @@ namespace Villeon.Components
             Degrees = degrees;
         }
 
+        public Transform(Transform copyTransform)
+        {
+            _position = copyTransform.Position;
+            _scale = copyTransform.Scale;
+            Degrees = copyTransform.Degrees;
+        }
+
         public Vector2 Position
         {
             get { return _position; }

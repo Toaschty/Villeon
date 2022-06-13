@@ -19,6 +19,15 @@ namespace Villeon.Render
         private string _filePath = string.Empty;
         private Dictionary<string, int> _uniformLocations = new Dictionary<string, int>();
 
+        public Shader()
+        {
+        }
+
+        public Shader(string shaderPath)
+        {
+            Load(shaderPath);
+        }
+
         public void Load(string shaderPath)
         {
             _filePath = shaderPath;
@@ -53,14 +62,34 @@ namespace Villeon.Render
             GL.UseProgram(0);
         }
 
+        public void Delete()
+        {
+            GL.DeleteProgram(_shaderProgramID);
+        }
+
         public void UploadMat4(in string uniformName, Matrix4 mat4)
         {
             GL.UniformMatrix4(GetLocation(uniformName), true, ref mat4);
         }
 
-        public void UploadTexture(in string uniformName, int textureSlot)
+        public void UploadVec3(in string uniformName, Vector3 vec3)
         {
-            GL.Uniform1(GetLocation(uniformName), textureSlot);
+            GL.Uniform3(GetLocation(uniformName), vec3);
+        }
+
+        public void UploadVec4(in string uniformName, Vector4 vec4)
+        {
+            GL.Uniform4(GetLocation(uniformName), vec4);
+        }
+
+        public void UploadVec4(in string uniformName, Color4 color)
+        {
+            GL.Uniform4(GetLocation(uniformName), color);
+        }
+
+        public void UploadInt(in string uniformName, int val)
+        {
+            GL.Uniform1(GetLocation(uniformName), val);
         }
 
         public void UploadIntArray(in string uniformName, int[] array)
@@ -68,9 +97,19 @@ namespace Villeon.Render
             GL.Uniform1(GetLocation(uniformName), array.Length, array);
         }
 
+        public void UploadFloatArray(in string uniformName, float[] array)
+        {
+            GL.Uniform1(GetLocation(uniformName), array.Length, array);
+        }
+
         public void UploadBool(in string uniformName, bool value)
         {
             GL.Uniform1(GetLocation(uniformName), value ? 1 : 0);
+        }
+
+        internal void UploadFloat(string uniformName, float val)
+        {
+            GL.Uniform1(GetLocation(uniformName), val);
         }
 
         private int GetLocation(string uniformName)

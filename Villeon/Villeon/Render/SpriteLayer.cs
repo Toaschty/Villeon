@@ -8,15 +8,15 @@ namespace Villeon.Render
 {
     public enum SpriteLayer : int
     {
-        Background,
-        Middleground,
-        Foreground,
-        GUIBackground,
-        GUIMiddleground,
-        GUIForeground,
-        Collider,
-        ScreenGuiBackground,
-        ScreenGuiMiddleground,
         ScreenGuiForeground,
+        ScreenGuiMiddleground,
+        ScreenGuiBackground,
+        Collider,
+        GUIForeground,
+        GUIMiddleground,
+        GUIBackground,
+        Foreground,
+        Middleground,
+        Background,
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Villeon.Helper;
 using Villeon.Render;
 using Villeon.Utils;
 using Zenseless.OpenTK;
@@ -16,11 +17,28 @@ namespace Villeon.Components
         private Texture2D? _texture2D;
         private SpriteLayer _layer;
         private Vector2[] _texCoords;
+        private Vector2 _offset = Vector2.Zero;
         private bool _isDynamic = false;
         private float _width = 1f;
         private float _height = 1f;
         private float _tilePixels = 8;
         private bool _usesCamera = true;
+
+        public Sprite(SpriteLayer renderLayer, bool isDynamic)
+        {
+            _texture2D = Assets.GetTexture("Sprites.Empty.png");
+            _layer = renderLayer;
+            _texCoords = _texCoords = new Vector2[4]
+            {
+                new Vector2(0f, 0f),    // UV: Bottom left
+                new Vector2(1f, 0f),    // UV: Bottom right
+                new Vector2(0f, 1f),    // UV: Top left
+                new Vector2(1f, 1f),    // UV: Top right
+            };
+            _isDynamic = isDynamic;
+            _width = _texture2D.Width / _tilePixels;
+            _height = _texture2D.Height / _tilePixels;
+        }
 
         // Create a sprite from a Spritesheet
         public Sprite(Texture2D texture, SpriteLayer renderLayer, Vector2[] texCoords, float spriteWidth, float spriteHeight, bool isDynamic = false)
@@ -85,6 +103,26 @@ namespace Villeon.Components
             _height = 1f;
         }
 
+        // Copy constructor
+        public Sprite(Sprite copySprite)
+        {
+            _color = copySprite.Color;
+            _texture2D = copySprite._texture2D;
+            _layer = copySprite._layer;
+            _texCoords = new Vector2[4]
+            {
+                new Vector2(copySprite._texCoords[0].X, copySprite._texCoords[0].Y),
+                new Vector2(copySprite._texCoords[1].X, copySprite._texCoords[1].Y),
+                new Vector2(copySprite._texCoords[2].X, copySprite._texCoords[2].Y),
+                new Vector2(copySprite._texCoords[3].X, copySprite._texCoords[3].Y),
+            };
+            _isDynamic = copySprite._isDynamic;
+            _width = copySprite._width;
+            _height = copySprite._height;
+            _tilePixels = copySprite._tilePixels;
+            _usesCamera = copySprite._usesCamera;
+        }
+
         public Vector2[] TexCoords
         {
             get { return _texCoords; }
@@ -127,10 +165,10 @@ namespace Villeon.Components
             set => _height = value;
         }
 
-        public bool UsesCamera
+        public Vector2 Offset
         {
-            get => _usesCamera;
-            set => _usesCamera = value;
+            get => _offset;
+            set => _offset = value;
         }
     }
 }
