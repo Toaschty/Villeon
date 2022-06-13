@@ -277,11 +277,13 @@ namespace Villeon
             GUI.Image inventar_button = new GUI.Image("Inventar_Button.png", new Vector2(-4.5f, -5f), new Vector2(0.3f));
 
             Scenes.VillageScene.AddEntities(dungeon_button.Entity, map_button.Entity, equipment_button.Entity, inventar_button.Entity);
+            Scenes.DungeonScene.AddEntities(dungeon_button.Entity, map_button.Entity, equipment_button.Entity, inventar_button.Entity);
 
             // Menu View - Village
             Entity guiHandlerEntity = new Entity("GuiHandler");
             guiHandlerEntity.AddComponent(GUIHandler.GetInstance());
             Scenes.VillageScene.AddEntity(guiHandlerEntity);
+            Scenes.DungeonScene.AddEntity(guiHandlerEntity);
         }
 
         private void UpdateFrame(FrameEventArgs args)

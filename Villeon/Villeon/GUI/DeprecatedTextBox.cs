@@ -11,6 +11,7 @@ using Villeon.Render;
 
 namespace Villeon.GUI
 {
+    [Obsolete]
     public class DeprecatedTextBox
     {
         private List<IEntity> _letters;

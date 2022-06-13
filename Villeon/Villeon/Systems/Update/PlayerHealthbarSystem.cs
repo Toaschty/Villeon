@@ -5,13 +5,13 @@ using Villeon.GUI;
 
 namespace Villeon.Systems.Update
 {
-    public class HealthbarSystem : System, IUpdateSystem
+    public class PlayerHealthbarSystem : System, IUpdateSystem
     {
         private PlayerHealthBar _healthBar;
         private Health _playerHealth;
         private float _currentHealth;
 
-        public HealthbarSystem(string name, int maxPlayerHealth)
+        public PlayerHealthbarSystem(string name, int maxPlayerHealth)
             : base(name)
         {
             Signature.IncludeAND(typeof(Health), typeof(Player));

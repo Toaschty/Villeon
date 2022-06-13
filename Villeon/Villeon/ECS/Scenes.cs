@@ -16,9 +16,9 @@ namespace Villeon.ECS
 {
     public static class Scenes
     {
-        public static Scene MainMenuScene { get; } = new ("MainMenuScene");
+        public static Scene MainMenuScene { get; } = new Scene("MainMenuScene");
 
-        public static Scene LoadingScene { get; } = new ("LoadingScene");
+        public static Scene LoadingScene { get; } = new Scene("LoadingScene");
 
         public static Scene DungeonScene { get; } = new Scene("DungeonScene");
 
@@ -101,7 +101,7 @@ namespace Villeon.ECS
             VillageScene.AddSystem(new TriggerSystem("Trigger"));
             VillageScene.AddSystem(new PortalSystem("PortalSystem"));
             VillageScene.AddSystem(new CameraSystem("CameraSystem"));
-            VillageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            VillageScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             VillageScene.AddSystem(new InteractionSystem("InteractionSystem"));
             VillageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             VillageScene.AddSystem(new AnimationSystem("AnimationSystem"));
@@ -126,11 +126,13 @@ namespace Villeon.ECS
             DungeonScene.AddSystem(new PlayerDeathSystem("Health"));
             DungeonScene.AddSystem(new CameraSystem("CameraSystem"));
             DungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            DungeonScene.AddSystem(new EnemyHealthbarSystem("EnemyHealthbarSystem"));
             DungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
             DungeonScene.AddSystem(new LadderSystem("LadderSystem"));
             DungeonScene.AddSystem(new MobDropSystem("MobdropSystem"));
             DungeonScene.AddSystem(new MobDropCollectionSystem("MobdropCollectionSystem"));
-            DungeonScene.AddSystem(new HealthbarSystem("PlayerHealthbar", Constants.PLAYER_MAX_HEALTH));
+            DungeonScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
+            DungeonScene.AddSystem(new PlayerHealthbarSystem("PlayerHealthbar", Constants.PLAYER_MAX_HEALTH));
             DungeonScene.SetTileMap(tileMap, true);
         }
 

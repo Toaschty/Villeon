@@ -8,7 +8,7 @@ using Villeon.ECS;
 
 namespace Villeon.Systems.Update
 {
-    internal class MobDropCollectionSystem : TriggerActionSystem, IUpdateSystem
+    public class MobDropCollectionSystem : TriggerActionSystem, IUpdateSystem
     {
         public MobDropCollectionSystem(string name)
             : base(name)
@@ -44,12 +44,10 @@ namespace Villeon.Systems.Update
                     IEntity receiver = collisionPair.Item2;
 
                     Sprite actorSpriteCopy = new Sprite(actor.GetComponent<Sprite>());
-                    actorSpriteCopy.IsDynamic = false;
+                    actorSpriteCopy.RenderLayer = Render.SpriteLayer.ScreenGuiForeground;
+                    actorSpriteCopy.IsDynamic = true;
 
                     GUIHandler.GetInstance().InventoryMenu.AddItem(new GUI.Item("EnemyPotion", actorSpriteCopy, 10, GUI.Item.ITEM_TYPE.POTION));
-
-                    // Move all items from DROP
-                    // into the inventory of PLAYER
 
                     RemoveEntity(actor);
                 }

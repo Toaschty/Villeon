@@ -88,9 +88,9 @@ namespace Villeon.Render
             GL.Uniform4(GetLocation(uniformName), color);
         }
 
-        public void UploadTexture(in string uniformName, int textureSlot)
+        public void UploadInt(in string uniformName, int val)
         {
-            GL.Uniform1(GetLocation(uniformName), textureSlot);
+            GL.Uniform1(GetLocation(uniformName), val);
         }
 
         public void UploadIntArray(in string uniformName, int[] array)

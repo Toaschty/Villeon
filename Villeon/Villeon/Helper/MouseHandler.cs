@@ -17,6 +17,10 @@ namespace Villeon.Helper
 
         public static List<ClickedMouseButton> ClickedMouseButtons { get; private set; } = new List<ClickedMouseButton>();
 
+        public static List<ClickedMouseButton> ClickedRightMouseButtons { get; private set; } = new List<ClickedMouseButton>();
+
+        public static int ClickedMouseButtonCount = 0;
+
         private static int WheelValue { get; set; }
 
         public static void MouseWheel(MouseWheelEventArgs args)
@@ -45,6 +49,12 @@ namespace Villeon.Helper
         public static void MouseDown(MouseButtonEventArgs args)
         {
             ClickedMouseButtons.Add(new ClickedMouseButton { Button = args.Button, MousePosition = WorldMousePosition });
+
+            if (args.Button == MouseButton.Right)
+            {
+                ClickedRightMouseButtons.Add(new ClickedMouseButton { Button = args.Button, MousePosition = WorldMousePosition });
+                ClickedMouseButtonCount++;
+            }
         }
 
         public static void MouseMove(MouseMoveEventArgs args)
