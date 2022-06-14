@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenTK.Mathematics;
-using Villeon.Helper;
-using Villeon.Render;
-using Villeon.Utils;
+﻿using OpenTK.Mathematics;
 using Zenseless.OpenTK;
 
 namespace Villeon.Components
@@ -23,22 +15,6 @@ namespace Villeon.Components
         private float _height = 1f;
         private float _tilePixels = 8;
         private bool _usesCamera = true;
-
-        public Sprite(SpriteLayer renderLayer, bool isDynamic)
-        {
-            _texture2D = Assets.GetTexture("Sprites.Empty.png");
-            _layer = renderLayer;
-            _texCoords = _texCoords = new Vector2[4]
-            {
-                new Vector2(0f, 0f),    // UV: Bottom left
-                new Vector2(1f, 0f),    // UV: Bottom right
-                new Vector2(0f, 1f),    // UV: Top left
-                new Vector2(1f, 1f),    // UV: Top right
-            };
-            _isDynamic = isDynamic;
-            _width = _texture2D.Width / _tilePixels;
-            _height = _texture2D.Height / _tilePixels;
-        }
 
         // Create a sprite from a Spritesheet
         public Sprite(Texture2D texture, SpriteLayer renderLayer, Vector2[] texCoords, float spriteWidth, float spriteHeight, bool isDynamic = false)
@@ -96,7 +72,7 @@ namespace Villeon.Components
                 new Vector2(tileTexCoords.Max.X, tileTexCoords.Max.Y),
             };
             _texture2D = tile.TileSet.Texture2D;
-            _layer = Render.SpriteLayer.Background;
+            _layer = SpriteLayer.Background;
             _texCoords = texCoords;
             _isDynamic = false;
             _width = 1f;

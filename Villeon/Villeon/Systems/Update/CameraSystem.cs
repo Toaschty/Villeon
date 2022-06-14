@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
+using Villeon.Helper;
 using Villeon.Render;
 
-namespace Villeon.Systems
+namespace Villeon.Systems.Update
 {
     public class CameraSystem : System, IUpdateSystem
     {

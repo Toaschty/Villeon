@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.Helper;
-using Villeon.Render;
+using Villeon.Utils;
 
 namespace Villeon.GUI
 {
@@ -95,7 +96,7 @@ namespace Villeon.GUI
         {
             if (key == Keys.H)
             {
-                AddItem(new Item("HealthPotion", Assets.GetSprite("GUI.Potion_Item.png", Render.SpriteLayer.ScreenGuiForeground, false), 12, Item.ITEM_TYPE.POTION));
+                AddItem(new Item("HealthPotion", Asset.GetSprite("GUI.Potion_Item.png", SpriteLayer.ScreenGuiForeground, false), 12, Item.ITEM_TYPE.POTION));
                 Console.WriteLine("Spawning Health potion!");
             }
 
@@ -482,12 +483,12 @@ namespace Villeon.GUI
 
             // Make HirzontalLines
             IEntity firstHorizontalLine = new Entity(new Transform(new Vector2(_startPos.X + 0.2f, horizontalLineY), horizontalLineScale, 0f), "InventoryHorizontalLine");
-            Sprite firstHorizontalSprite = Assets.GetSprite("GUI.Scroll_Horizontal_Line_1.png", SpriteLayer.ScreenGuiForeground, false);
+            Sprite firstHorizontalSprite = Asset.GetSprite("GUI.Scroll_Horizontal_Line_1.png", SpriteLayer.ScreenGuiForeground, false);
             firstHorizontalLine.AddComponent(firstHorizontalSprite);
             tabBarEntities.Add(firstHorizontalLine);
 
             IEntity secondHorizontalLine = new Entity(new Transform(new Vector2(_startPos.X + 6f, horizontalLineY), horizontalLineScale, 0f), "InventoryHorizontalLine");
-            Sprite secondHorizontalSprite = Assets.GetSprite("GUI.Scroll_Horizontal_Line_2.png", SpriteLayer.ScreenGuiForeground, false);
+            Sprite secondHorizontalSprite = Asset.GetSprite("GUI.Scroll_Horizontal_Line_2.png", SpriteLayer.ScreenGuiForeground, false);
             secondHorizontalLine.AddComponent(secondHorizontalSprite);
             tabBarEntities.Add(secondHorizontalLine);
 
@@ -531,7 +532,7 @@ namespace Villeon.GUI
             _tabBar[1, 0] = new Entity(new Transform(new Vector2(positionX, positionY + offsetY), scale, 0f), "All");
             _tabBar[1, 1] = new Entity(new Transform(new Vector2(positionX + offsetX, positionY + offsetY), scale, 0f), "Potions");
 
-            Sprite selectionBackground = Assets.GetSprite("GUI.Scroll_Selection.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite selectionBackground = Asset.GetSprite("GUI.Scroll_Selection.png", SpriteLayer.ScreenGuiMiddleground, false);
 
             for (int i = 0; i < 2; i++)
             {
@@ -544,7 +545,7 @@ namespace Villeon.GUI
 
         private IEntity CreateInventoryBackground()
         {
-            Sprite scrollImage = Assets.GetSprite("GUI.Scroll.png", SpriteLayer.ScreenGuiBackground, false);
+            Sprite scrollImage = Asset.GetSprite("GUI.Scroll.png", SpriteLayer.ScreenGuiBackground, false);
             Vector2 middle = new Vector2(scrollImage.Width / 2f, scrollImage.Height / 2f);
             middle *= _scrollScale;
 

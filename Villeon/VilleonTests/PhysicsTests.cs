@@ -6,10 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Mathematics;
-using Villeon;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
+using Villeon.Helper;
 using Villeon.Systems;
+using Villeon.Systems.Update;
+using Villeon.Utils;
 
 namespace VilleonTests
 {

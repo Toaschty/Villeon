@@ -1,0 +1,56 @@
+﻿using System.Collections.Generic;
+using Villeon.Components;
+using Villeon.Helper;
+using Villeon.Systems;
+
+namespace Villeon.EntityManagement
+{
+    public class SceneLoader
+    {
+        private static List<Scene> _scenes = new List<Scene>();
+
+        public static Scene CurrentScene { get; private set; } = new Scene("NO_SCENE");
+
+        public static void SetActiveScene(string sceneName)
+        {
+            foreach (Scene scene in _scenes)
+            {
+                if (scene.Name == sceneName)
+                {
+                    // Clear all pressed and released keys before loading new scene
+                    KeyHandler.ClearKeys();
+
+                    // GUI - Clean up
+                    StateManager.InMenu = false;
+
+                    // GUIHandler.GetInstance().CurrentMenu = null;
+                    CurrentScene = scene;
+                    scene.StartUp();
+                    break;
+                }
+            }
+        }
+
+        public static void AddToScene(IEntity entity, string sceneName)
+        {
+            foreach (Scene scene in _scenes)
+            {
+                if (scene.Name == sceneName)
+                {
+                    scene.AddEntity(entity);
+                    break;
+                }
+            }
+        }
+
+        public static void AddScene(Scene scene)
+        {
+            _scenes.Add(scene);
+        }
+
+        public static List<Scene> GetScenes()
+        {
+            return _scenes;
+        }
+    }
+}

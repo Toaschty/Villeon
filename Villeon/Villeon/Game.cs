@@ -11,13 +11,16 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.DungeonGeneration;
-using Villeon.ECS;
+using Villeon.EntityManagement;
+using Villeon.Generation;
+using Villeon.Generation.DungeonGeneration;
 using Villeon.GUI;
 using Villeon.Helper;
 using Villeon.Render;
 using Villeon.Systems;
+using Villeon.Systems.RenderSystems;
 using Villeon.Systems.Update;
 using Villeon.Utils;
 using Zenseless.OpenTK;
@@ -35,7 +38,7 @@ namespace Villeon
         {
             _gameWindow = WindowHelper.CreateWindow();
             TypeRegistry.SetupTypes();
-            Assets.LoadRessources();
+            Asset.LoadRessources();
             _fps = new FPS(_gameWindow);
         }
 
@@ -124,7 +127,7 @@ namespace Villeon
                             if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "1")
                             {
                                 entity = new Entity(new Transform(new Vector2(y, x), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
-                                entity.AddComponent(Assets.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(63, SpriteLayer.Background, false));
+                                entity.AddComponent(Asset.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(63, SpriteLayer.Background, false));
                                 entity.AddComponent(new Collider(new Vector2(0, 0), entity.GetComponent<Transform>(), 1f, 1f));
                                 Scenes.DungeonScene.AddEntity(entity);
                             }
@@ -132,7 +135,7 @@ namespace Villeon
                             {
                                 // different block
                                 entity = new Entity(new Transform(new Vector2(y, x), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
-                                entity.AddComponent(Assets.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(20, SpriteLayer.Background, false));
+                                entity.AddComponent(Asset.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(20, SpriteLayer.Background, false));
                                 entity.AddComponent(new Collider(new Vector2(0, 0), entity.GetComponent<Transform>(), 1f, 1f));
                                 Scenes.DungeonScene.AddEntity(entity);
                             }
@@ -140,14 +143,14 @@ namespace Villeon
                             {
                                 // air
                                 entity = new Entity(new Transform(new Vector2(y, x), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
-                                entity.AddComponent(Assets.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(0, SpriteLayer.Background, false));
+                                entity.AddComponent(Asset.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(0, SpriteLayer.Background, false));
                                 Scenes.DungeonScene.AddEntity(entity);
                             }
                             else if (roomGen.RoomModels[i, j].RoomLayout[k, l] == "L")
                             {
                                 // Ladder
                                 entity = new Entity(new Transform(new Vector2(y, x), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
-                                entity.AddComponent(Assets.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(0, SpriteLayer.Background, false));
+                                entity.AddComponent(Asset.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(0, SpriteLayer.Background, false));
                                 entity.AddComponent(new Trigger(TriggerLayerType.LADDER, 1f, 1f));
                                 entity.AddComponent(new Ladder());
                                 Scenes.DungeonScene.AddEntity(entity);
@@ -156,7 +159,7 @@ namespace Villeon
                             {
                                 // Ladder top
                                 entity = new Entity(new Transform(new Vector2(y, x), new Vector2(1f, 1f), 0f), i + " " + k + " " + j + " " + l);
-                                entity.AddComponent(Assets.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(0, SpriteLayer.Background, false));
+                                entity.AddComponent(Asset.GetSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png").GetSprite(0, SpriteLayer.Background, false));
                                 entity.AddComponent(new Trigger(TriggerLayerType.LADDER, 1f, 1f));
                                 entity.AddComponent(new Ladder());
                                 Scenes.DungeonScene.AddEntity(entity);
@@ -171,7 +174,7 @@ namespace Villeon
         {
             gameWindow.KeyDown += KeyHandler.KeyDown;
             gameWindow.KeyUp += KeyHandler.KeyUp;
-            gameWindow.MouseWheel += MouseHandler.MouseWheel;
+            gameWindow.MouseWheel += MouseWheelHandler.MouseWheel;
             gameWindow.MouseDown += MouseHandler.MouseDown;
             gameWindow.MouseMove += MouseHandler.MouseMove;
             gameWindow.UpdateFrame += UpdateFrame;
@@ -193,7 +196,7 @@ namespace Villeon
             player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 1f, 1.5f));
             player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
             player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL | TriggerLayerType.LADDER | TriggerLayerType.MOBDROP, new Vector2(0f, 0f), 1f, 2f));
-            player.AddComponent(new Sprite(Assets.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
+            player.AddComponent(new Sprite(Asset.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
             player.AddComponent(new Physics());
             player.AddComponent(new Effect());
             player.AddComponent(new Player());
@@ -214,7 +217,7 @@ namespace Villeon
             player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 0.5f, 0.5f));
             player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
             player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL, new Vector2(0f, 0f), 0.5f, 0.5f));
-            player.AddComponent(new Sprite(Assets.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
+            player.AddComponent(new Sprite(Asset.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
             player.AddComponent(new Player());
 
             // Setup player animations

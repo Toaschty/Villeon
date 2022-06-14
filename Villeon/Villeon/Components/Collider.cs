@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
-using Villeon.ECS;
 
 namespace Villeon.Components
 {

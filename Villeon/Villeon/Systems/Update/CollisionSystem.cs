@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 
-namespace Villeon.Systems
+namespace Villeon.Systems.Update
 {
     public class CollisionSystem : System, IUpdateSystem
     {

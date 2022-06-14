@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using Villeon.ECS;
 using Villeon.Render;
 using Villeon.Systems;
 
@@ -20,31 +19,6 @@ namespace Villeon.Helper
         public static List<ClickedMouseButton> ClickedRightMouseButtons { get; private set; } = new List<ClickedMouseButton>();
 
         public static int ClickedMouseButtonCount { get; private set; } = 0;
-
-        private static int WheelValue { get; set; }
-
-        public static void MouseWheel(MouseWheelEventArgs args)
-        {
-            WheelValue = (int)args.OffsetY;
-        }
-
-        public static int WheelChanged()
-        {
-            if (WheelValue == 1)
-            {
-                WheelValue = 0;
-                return 1;
-            }
-
-            if (WheelValue == -1)
-            {
-                WheelValue = 0;
-                return -1;
-            }
-
-            WheelValue = 0;
-            return 0;
-        }
 
         public static void MouseDown(MouseButtonEventArgs args)
         {

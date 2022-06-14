@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.GUI;
 
 namespace Villeon.Systems.Update
@@ -24,7 +24,7 @@ namespace Villeon.Systems.Update
             base.AddEntity(entity);
             Health health = entity.GetComponent<Health>();
             Transform transform = entity.GetComponent<Transform>();
-            _healthBars.Add(entity, new HealthBar(health.CurrentHealth, new OpenTK.Mathematics.Vector2(0f, 2f), ref transform));
+            _healthBars.Add(entity, new HealthBar(health.CurrentHealth, new OpenTK.Mathematics.Vector2(-0.5f, 3f), ref transform));
         }
 
         public override void RemoveEntity(IEntity entity)

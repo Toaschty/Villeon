@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.Helper;
-using Villeon.Render;
+using Villeon.Utils;
 
 namespace Villeon.GUI
 {
@@ -104,7 +105,7 @@ namespace Villeon.GUI
             List<IEntity> letters = new List<IEntity>();
 
             // Fill in new Letters
-            SpriteSheet fontSheet = Assets.GetSpriteSheet("Fonts.VilleonFont.png") !;
+            SpriteSheet fontSheet = Asset.GetSpriteSheet("Fonts.VilleonFont.png") !;
             float spriteWidth = fontSheet.SpriteWidth * _letterScale;
             float spriteHeight = fontSheet.SpriteHeight * _letterScale;
             Sprite letterSprite;
@@ -142,7 +143,7 @@ namespace Villeon.GUI
             position -= new Vector2(0.5f, 0.5f);
             float boxWidth = _text.Length * 1.1f;
             IEntity frame = new Entity(new Transform(position, 1f, 0f), "Frame");
-            Sprite sprite = Assets.GetSprite("GUI.Frame.png", SpriteLayer.GUIForeground, true);
+            Sprite sprite = Asset.GetSprite("GUI.Frame.png", SpriteLayer.GUIForeground, true);
             frame.AddComponent(sprite);
             return frame;
         }

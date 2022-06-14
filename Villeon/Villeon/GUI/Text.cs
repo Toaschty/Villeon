@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.Helper;
-using Villeon.Render;
+using Villeon.Utils;
 
 namespace Villeon.GUI
 {
@@ -42,7 +43,7 @@ namespace Villeon.GUI
 
         private void CreateLetters(string fontName)
         {
-            Font font = new Font(Color4.White, Assets.GetTexture("Fonts." + fontName + ".png"), "Fonts." + fontName + ".json");
+            Font font = new Font(Color4.White, Asset.GetTexture("Fonts." + fontName + ".png"), "Fonts." + fontName + ".json");
 
             Vector2 letterPosition = _position;
             float spriteHeight = font.FontHeight * _letterScale;

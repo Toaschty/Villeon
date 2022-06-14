@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Villeon
+namespace Villeon.Helper
 {
     public class DebugPrinter
     {

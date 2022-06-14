@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.Helper;
+using Villeon.Utils;
 
 namespace Villeon.GUI
 {
@@ -23,7 +25,7 @@ namespace Villeon.GUI
             _entities = new List<Entity>();
 
             // Load Sprites
-            Sprite villeonLogo = Assets.GetSprite("GUI.Scroll_Logo.png", Render.SpriteLayer.ScreenGuiBackground, false);
+            Sprite villeonLogo = Asset.GetSprite("GUI.Scroll_Logo.png", SpriteLayer.ScreenGuiBackground, false);
 
             // Load logo background
             Vector2 scrollMiddle = new Vector2(villeonLogo.Width / 2, villeonLogo.Height / 2);

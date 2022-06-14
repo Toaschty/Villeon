@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Villeon.Assets;
 using Villeon.Components;
 using Villeon.Helper;
+using Villeon.Utils;
 
 namespace Villeon.GUI
 {
@@ -18,7 +20,7 @@ namespace Villeon.GUI
         public Item()
         {
             _name = "Empty";
-            _sprite = Assets.GetSprite("GUI.Inventory.InventoryEmptySlot.png", Render.SpriteLayer.GUIForeground, false);
+            _sprite = Asset.GetSprite("GUI.Inventory.InventoryEmptySlot.png", SpriteLayer.GUIForeground, false);
             _prize = -1;
             _itemType = 0;
         }

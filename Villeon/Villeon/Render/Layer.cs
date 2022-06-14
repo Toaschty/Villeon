@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Villeon.Assets;
 using Villeon.Helper;
+using Villeon.Utils;
 using Zenseless.OpenTK;
 
 namespace Villeon.Render
@@ -116,7 +118,7 @@ namespace Villeon.Render
 
         private RenderBatch CreateRenderBatch()
         {
-            RenderBatch newBatch = new RenderBatch(Assets.GetShader("Shaders.light"));
+            RenderBatch newBatch = new RenderBatch(Asset.GetShader("Shaders.light"));
             return newBatch;
         }
     }

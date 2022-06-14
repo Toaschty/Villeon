@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Mathematics;
-using Villeon;
 using Villeon.Components;
-using Villeon.ECS;
-using Villeon.Systems;
+using Villeon.EntityManagement;
+using Villeon.Systems.Update;
+using Villeon.Utils;
 
 namespace VilleonTests
 {

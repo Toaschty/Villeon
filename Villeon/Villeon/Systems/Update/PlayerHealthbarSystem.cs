@@ -1,6 +1,6 @@
 ﻿using OpenTK.Mathematics;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.GUI;
 
 namespace Villeon.Systems.Update

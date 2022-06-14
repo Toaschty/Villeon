@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.Helper;
+using Villeon.Utils;
 
 namespace Villeon.GUI
 {
@@ -31,7 +33,7 @@ namespace Villeon.GUI
             _entities = new List<Entity>();
 
             // Load Sprites
-            Sprite backgroundScrollSprite = Assets.GetSprite("GUI.Scroll_Pausemenu.png", Render.SpriteLayer.ScreenGuiBackground, false);
+            Sprite backgroundScrollSprite = Asset.GetSprite("GUI.Scroll_Pausemenu.png", SpriteLayer.ScreenGuiBackground, false);
 
             // Background
             Vector2 scrollMiddle = new Vector2(backgroundScrollSprite.Width / 2f, (backgroundScrollSprite.Height / 2f) - 1f);
@@ -98,7 +100,8 @@ namespace Villeon.GUI
                 case 0:
                     // Remove menu from scene
                     Manager.GetInstance().RemoveEntities(GetEntities());
-                    GUIHandler.GetInstance().ClearMenu();
+
+                    // GUIHandler.GetInstance().ClearMenu();
                     StateManager.InMenu = false;
                     break;
 

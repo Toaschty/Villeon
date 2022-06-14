@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Villeon.Components;
-using Villeon.ECS;
-using Villeon.Utils;
+using Villeon.EntityManagement;
 
 namespace Villeon.Systems.Update
 {

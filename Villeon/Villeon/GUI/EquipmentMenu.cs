@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.Helper;
-using Villeon.Render;
 using Villeon.Utils;
 
 namespace Villeon.GUI
@@ -31,10 +31,10 @@ namespace Villeon.GUI
             _charakterJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.Character.json")) !;
 
             // Load Sprites
-            Sprite backgroundScrollSprite = Assets.GetSprite("GUI.Scroll_Equipment.png", Render.SpriteLayer.ScreenGuiBackground, false);
-            Sprite swordSlotSprite = Assets.GetSprite("GUI.Inventory.InventorySlot_Sword.png", SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite shieldSlotSprite = Assets.GetSprite("GUI.Inventory.InventorySlot_Shield.png", SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite slotSprite = Assets.GetSprite("GUI.Inventory.InventorySlot.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite backgroundScrollSprite = Asset.GetSprite("GUI.Scroll_Equipment.png", SpriteLayer.ScreenGuiBackground, false);
+            Sprite swordSlotSprite = Asset.GetSprite("GUI.Inventory.InventorySlot_Sword.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite shieldSlotSprite = Asset.GetSprite("GUI.Inventory.InventorySlot_Shield.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite slotSprite = Asset.GetSprite("GUI.Inventory.InventorySlot.png", SpriteLayer.ScreenGuiMiddleground, false);
 
             // Background
             Vector2 scrollMiddle = new Vector2(backgroundScrollSprite.Width / 2f, backgroundScrollSprite.Height / 2f);

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 
-namespace Villeon
+namespace Villeon.Helper
 {
     public static class Constants
     {

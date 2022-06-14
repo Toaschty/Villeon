@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
+using Villeon.Helper;
 using Villeon.Render;
 
 namespace Villeon.Systems.Update

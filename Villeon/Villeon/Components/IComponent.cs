@@ -1,6 +1,4 @@
-﻿using Villeon.ECS;
-
-namespace Villeon
+﻿namespace Villeon.Components
 {
     public interface IComponent
     {

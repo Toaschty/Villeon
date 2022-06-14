@@ -25,12 +25,12 @@
     <None Remove="Assets\TileMap\obstacles.json" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DungeonGeneration\RoomGeneration.cs" />
-    <EmbeddedResource Include="Systems\IRender.cs" />
-    <EmbeddedResource Include="Systems\IRenderSystem.cs" />
-    <EmbeddedResource Include="Systems\ISystem.cs" />
-    <EmbeddedResource Include="Systems\IUpdate.cs" />
-    <EmbeddedResource Include="Systems\IUpdateSystem.cs" />
+    <EmbeddedResource Include="Generation\DungeonGeneration\RoomGeneration.cs" />
+    <EmbeddedResource Include="EntityManagement\IRender.cs" />
+    <EmbeddedResource Include="EntityManagement\IRenderSystem.cs" />
+    <EmbeddedResource Include="EntityManagement\ISystem.cs" />
+    <EmbeddedResource Include="EntityManagement\IUpdate.cs" />
+    <EmbeddedResource Include="EntityManagement\IUpdateSystem.cs" />
     <EmbeddedResource Include="Systems\System.cs" />
     <EmbeddedResource Include="Systems\Update\CameraSystem.cs" />
     <EmbeddedResource Include="Systems\Update\CollisionSystem.cs" />

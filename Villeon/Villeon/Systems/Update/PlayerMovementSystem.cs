@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.Helper;
 using Villeon.Utils;
 
-namespace Villeon.Systems
+namespace Villeon.Systems.Update
 {
     public class PlayerMovementSystem : System, IUpdateSystem
     {
@@ -63,7 +64,7 @@ namespace Villeon.Systems
                         IEntity attackEntity;
                         attackEntity = new Entity(transform, "AttackRight");
                         attackEntity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(2f, 0f), 2f, 2f, 0.2f));
-                        Sprite sprite = Assets.GetSprite("Sprites.Empty.png", Render.SpriteLayer.GUIForeground, true);
+                        Sprite sprite = Asset.GetSprite("Sprites.Empty.png", SpriteLayer.GUIForeground, true);
                         sprite.Offset = new Vector2(1, 0);
 
                         // Setup player animations
@@ -85,7 +86,7 @@ namespace Villeon.Systems
                         IEntity attackEntity;
                         attackEntity = new Entity(transform, "AttackLeft");
                         attackEntity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(-3f, 0f), 2f, 2f, 0.2f));
-                        Sprite sprite = Assets.GetSprite("Sprites.Empty.png", Render.SpriteLayer.GUIForeground, true);
+                        Sprite sprite = Asset.GetSprite("Sprites.Empty.png", SpriteLayer.GUIForeground, true);
                         sprite.Offset = new Vector2(-2, 0);
 
                         // Setup player animations

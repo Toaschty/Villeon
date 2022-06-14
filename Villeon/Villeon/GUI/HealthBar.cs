@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.Helper;
-using Villeon.Render;
+using Villeon.Utils;
 
 namespace Villeon.GUI
 {
@@ -29,7 +30,7 @@ namespace Villeon.GUI
 
         public HealthBar(int maxHealth, Vector2 offset, ref Transform transform)
         {
-            Sprite sprite = Assets.GetSprite("GUI.Frame.png", SpriteLayer.GUIForeground, true);
+            Sprite sprite = Asset.GetSprite("GUI.Frame.png", SpriteLayer.GUIForeground, true);
             _width = _maxWidth = sprite.Width;
             _height = sprite.Height;
             _maxHealth = maxHealth;
@@ -74,7 +75,7 @@ namespace Villeon.GUI
         private void CreateFrame(Vector2 position)
         {
             _frame = new Entity(new Transform(position, _scale, 0f), "Enemy Health Frame");
-            Sprite frame = Assets.GetSprite("GUI.Frame.png", SpriteLayer.GUIForeground, true);
+            Sprite frame = Asset.GetSprite("GUI.Frame.png", SpriteLayer.GUIForeground, true);
             _frame.AddComponent(frame);
         }
 

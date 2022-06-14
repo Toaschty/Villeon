@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.Helper;
+using Villeon.Utils;
 
 namespace Villeon.GUI
 {
@@ -51,12 +53,12 @@ namespace Villeon.GUI
             _elementCount = _cavesJson.caves.Count;
 
             // Load Sprites
-            Sprite backgroundScrollSprite = Assets.GetSprite("GUI.Scroll_Dungeonmenu.png", Render.SpriteLayer.ScreenGuiBackground, false);
-            Sprite horizontalLine1Sprite = Assets.GetSprite("GUI.Scroll_Horizontal_Line_1.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite horizontalLine2Sprite = Assets.GetSprite("GUI.Scroll_Horizontal_Line_2.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite horizontalLine3Sprite = Assets.GetSprite("GUI.Scroll_Horizontal_Line_3.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite verticalLineSprite = Assets.GetSprite("GUI.Scroll_Vertical_Line_1.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite selectionSprite = Assets.GetSprite("GUI.Scroll_Selection.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite backgroundScrollSprite = Asset.GetSprite("GUI.Scroll_Dungeonmenu.png", SpriteLayer.ScreenGuiBackground, false);
+            Sprite horizontalLine1Sprite = Asset.GetSprite("GUI.Scroll_Horizontal_Line_1.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite horizontalLine2Sprite = Asset.GetSprite("GUI.Scroll_Horizontal_Line_2.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite horizontalLine3Sprite = Asset.GetSprite("GUI.Scroll_Horizontal_Line_3.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite verticalLineSprite = Asset.GetSprite("GUI.Scroll_Vertical_Line_1.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite selectionSprite = Asset.GetSprite("GUI.Scroll_Selection.png", SpriteLayer.ScreenGuiMiddleground, false);
 
             // Background
             Vector2 scrollMiddle = new Vector2(backgroundScrollSprite.Width / 2f, backgroundScrollSprite.Height / 2f);

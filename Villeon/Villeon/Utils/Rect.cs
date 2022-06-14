@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 
-namespace Villeon
+namespace Villeon.Utils
 {
     /// <summary>
     /// Rectangle Min is the Bottom left corner, while Max is top right, relative to Min.

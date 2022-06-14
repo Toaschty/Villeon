@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
+using Villeon.Helper;
 
-namespace Villeon.Systems
+namespace Villeon.Systems.Update
 {
     public class PhysicsSystem : System, IUpdateSystem
     {

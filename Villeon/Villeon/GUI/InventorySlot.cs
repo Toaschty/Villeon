@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.GUI;
 using Villeon.Helper;
-using Villeon.Render;
+using Villeon.Utils;
 
 namespace Villeon.GUI
 {
     public class InventorySlot
     {
-        private static float _slotSize = Assets.GetSprite("GUI.Inventory.InventorySlot.png", SpriteLayer.ScreenGuiMiddleground, false).Width;
+        private static float _slotSize = Asset.GetSprite("GUI.Inventory.InventorySlot.png", SpriteLayer.ScreenGuiMiddleground, false).Width;
         private Item? _item;
         private IEntity _slotBackground;
         private IEntity _slotSelection;
@@ -87,7 +88,7 @@ namespace Villeon.GUI
         private IEntity CreateBackground()
         {
             IEntity background = new Entity(_transform, "SlotBackground");
-            Sprite slotSprite = Assets.GetSprite("GUI.Inventory.InventorySlot.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite slotSprite = Asset.GetSprite("GUI.Inventory.InventorySlot.png", SpriteLayer.ScreenGuiMiddleground, false);
 
             background.AddComponent(slotSprite);
 
@@ -101,7 +102,7 @@ namespace Villeon.GUI
 
             Transform newTransform = new Transform(newPos, newScale, _transform.Degrees);
             IEntity selection = new Entity(newTransform, "SlotSelection");
-            Sprite slotSprite = Assets.GetSprite("GUI.Inventory.InventorySlotSelection.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite slotSprite = Asset.GetSprite("GUI.Inventory.InventorySlotSelection.png", SpriteLayer.ScreenGuiMiddleground, false);
 
             selection.AddComponent(slotSprite);
 
