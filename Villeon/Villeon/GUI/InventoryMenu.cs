@@ -96,7 +96,7 @@ namespace Villeon.GUI
         {
             if (key == Keys.H)
             {
-                AddItem(new Item("HealthPotion", Asset.GetSprite("GUI.Potion_Item.png", SpriteLayer.ScreenGuiForeground, false), 12, Item.ITEM_TYPE.POTION));
+                AddItem(ItemLoader.GetItem(0));
                 Console.WriteLine("Spawning Health potion!");
             }
 

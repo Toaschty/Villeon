@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Villeon.Assets;
 using Villeon.Components;
 using Villeon.Helper;
@@ -19,16 +20,16 @@ namespace Villeon.GUI
 
         public Item()
         {
-            _name = "Empty";
-            _sprite = Asset.GetSprite("GUI.Inventory.InventoryEmptySlot.png", SpriteLayer.GUIForeground, false);
+            _name = "Null";
+            _sprite = Asset.GetSprite("GUI.", SpriteLayer.ScreenGuiMiddleground, false);
             _prize = -1;
-            _itemType = 0;
+            _itemType = ITEM_TYPE.POTION;
         }
 
-        public Item(string name, Sprite sprite, int prize, ITEM_TYPE type)
+        public Item(string name, string sprite, int prize, ITEM_TYPE type)
         {
             _name = name;
-            _sprite = sprite;
+            _sprite = Asset.GetSprite("GUI." + sprite, SpriteLayer.ScreenGuiMiddleground, false);
             _prize = prize;
             _itemType = type;
         }

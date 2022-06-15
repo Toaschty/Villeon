@@ -48,7 +48,7 @@ namespace Villeon.Systems.TriggerSystems
                     actorSpriteCopy.RenderLayer = SpriteLayer.ScreenGuiForeground;
                     actorSpriteCopy.IsDynamic = true;
 
-                    GUIHandler.GetInstance().InventoryMenu.AddItem(new Item("EnemyPotion", actorSpriteCopy, 10, Item.ITEM_TYPE.POTION));
+                    GUIHandler.GetInstance().InventoryMenu.AddItem(ItemLoader.GetItem(0));
 
                     RemoveEntity(actor);
                 }

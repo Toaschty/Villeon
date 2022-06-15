@@ -1,12 +1,11 @@
 ﻿{
   "items": [
     {
-      "id": 0,
-      "name": "Gold"
-    },
-    {
-      "id": 1,
-      "name": "Healpotion"
+      "name": "HealthPotion",
+      "prize": "5",
+      "itemType": "Potion",
+      "StackSize": 20,
+      "sprite": "Potion_Item.png"
     }
   ]
 }

@@ -17,6 +17,7 @@ namespace Villeon.GUI
     {
         private static float _slotSize = Asset.GetSprite("GUI.Inventory.InventorySlot.png", SpriteLayer.ScreenGuiMiddleground, false).Width;
         private Item? _item;
+        private int _itemCount;
         private IEntity _slotBackground;
         private IEntity _slotSelection;
         private IEntity _itemEntity;
