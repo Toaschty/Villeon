@@ -13,7 +13,6 @@ namespace Villeon.GUI
         {
             _itemJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.Items.json")) !;
             _itemsCount = _itemJson.items.Count;
-            Console.WriteLine("Length: " + _itemJson.items.Count);
         }
 
         public static Item GetItem(int index)
@@ -34,25 +33,25 @@ namespace Villeon.GUI
         public static Item GetItem(string itemName)
         {
             dynamic? itemJson = null;
-
+            string? name = null;
             for (int i = 0; i < _itemsCount; i++)
             {
-                if (_itemJson[i].name.ToString().equals(itemName))
+                name = _itemJson.items[i].name;
+                if (name.Equals(itemName))
                 {
-                    itemJson = _itemJson[i];
+                    itemJson = _itemJson.items[i];
                     break;
                 }
             }
 
-            if (itemJson == null)
+            if (itemJson == null || name == null)
                 return new Item();
 
-            string name = itemJson.name.ToString();
-            string sprite = itemJson.sprite.ToString();
+            string sprite = itemJson!.sprite;
             int prize = itemJson.prize;
             Item.ITEM_TYPE type = itemJson.itemType;
 
-            return new Item(name, sprite, prize, type);
+            return new Item(name!, sprite, prize, type);
         }
     }
 }
