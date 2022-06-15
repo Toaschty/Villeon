@@ -21,7 +21,7 @@ namespace Villeon.GUI
         public Item()
         {
             _name = "Null";
-            _sprite = Asset.GetSprite("GUI.", SpriteLayer.ScreenGuiMiddleground, false);
+            _sprite = Asset.GetSprite("GUI.Items.", SpriteLayer.ScreenGuiMiddleground, false);
             _prize = -1;
             _itemType = ITEM_TYPE.POTION;
         }
@@ -29,7 +29,7 @@ namespace Villeon.GUI
         public Item(string name, string sprite, int prize, ITEM_TYPE type)
         {
             _name = name;
-            _sprite = Asset.GetSprite("GUI." + sprite, SpriteLayer.ScreenGuiMiddleground, false);
+            _sprite = Asset.GetSprite("GUI.Items." + sprite, SpriteLayer.ScreenGuiMiddleground, false);
             _prize = prize;
             _itemType = type;
         }
