@@ -6,6 +6,13 @@
       "itemType": "Potion",
       "StackSize": 20,
       "sprite": "Potion_Item.png"
+    },
+    {
+      "name": "Sword",
+      "prize": "20",
+      "itemType": "Weapon",
+      "StackSize": 1,
+      "sprite": "Potion_Pink.png"
     }
   ]
 }

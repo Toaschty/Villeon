@@ -96,6 +96,11 @@ namespace Villeon.GUI
         {
             if (key == Keys.H)
             {
+                AddItem(ItemLoader.GetItem("Sword"));
+                Console.WriteLine("Spawning Health potion!");
+            }
+            else if (key == Keys.G)
+            {
                 AddItem(ItemLoader.GetItem("HealthPotion"));
                 Console.WriteLine("Spawning Health potion!");
             }
