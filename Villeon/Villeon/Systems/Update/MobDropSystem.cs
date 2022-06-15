@@ -36,7 +36,7 @@ namespace Villeon.Systems.Update
                     mobDrop.AddComponent(new Collider(new Vector2(0), transformCopy, 1f, 1f));
                     mobDrop.AddComponent(new DynamicCollider(mobDrop.GetComponent<Collider>()));
                     mobDrop.AddComponent(new Trigger(TriggerLayerType.MOBDROP, 1f, 1f));
-                    mobDrop.AddComponent(Asset.GetSprite("GUI.Potion_Item.png", SpriteLayer.GUIBackground, true));
+                    mobDrop.AddComponent(Asset.GetSprite("GUI.Items.Potion_Item.png", SpriteLayer.GUIBackground, true));
                     Physics physics = new Physics();
                     Random random = new Random();
                     physics.Velocity = new Vector2(random.Next(-20, 20), 5);

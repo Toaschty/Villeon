@@ -36,6 +36,11 @@ namespace Villeon.Render
         private Shader _shader;
 
         private int _l = 0;
+        private float _lightHeight = -8;
+        private float _lightAmbientIntensity = 0.8f;
+        private float _constant = 1.0f;
+        private float _linear = 0.07f;
+        private float _expo = 0.02f;
 
         public RenderBatch(Shader shader)
         {
@@ -114,24 +119,79 @@ namespace Villeon.Render
             }
 
             _shader.UploadIntArray("textures", _texSlots);
-
-            _shader.UploadInt("lightCount", MouseHandler.ClickedMouseButtonCount);
-
-            // Directional Lighting
-            _shader.UploadVec3("dirLight.direction", new Vector3(0, 0, -1));
-            _shader.UploadVec3("dirLight.ambient", new Vector3(0.8f));
-            _shader.UploadVec3("dirLight.diffuse", new Vector3(0.8f));
-
-            Random random = new Random();
-            foreach (MouseHandler.ClickedMouseButton c in MouseHandler.ClickedRightMouseButtons)
+            if (KeyHandler.IsPressed(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad0))
             {
-                _shader.UploadVec3("pointLights[" + _l + "].position", new Vector3(c.MousePosition.X, c.MousePosition.Y, 0));
-                _shader.UploadVec3("pointLights[" + _l + "].ambient", new Vector3(1, 0, 0.5f));
-                _shader.UploadVec3("pointLights[" + _l + "].diffuse", new Vector3(1f));
-                _l++;
+                Console.WriteLine("LightHeight: " + _lightHeight);
+                Console.WriteLine("LightAmbientIntensity: " + _lightAmbientIntensity);
+                Console.WriteLine("LightConstant: " + _constant);
+                Console.WriteLine("LightLinear: " + _linear);
+                Console.WriteLine("LightExpo: " + _expo);
+                Console.WriteLine();
             }
 
-            MouseHandler.ClickedRightMouseButtons.Clear();
+            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPadAdd))
+            {
+                _lightHeight += 0.1f;
+            }
+
+            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPadSubtract))
+            {
+                _lightHeight -= 0.1f;
+            }
+
+            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad7))
+            {
+                _lightAmbientIntensity -= 0.1f;
+            }
+
+            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad8))
+            {
+                _lightAmbientIntensity += 0.1f;
+            }
+
+            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad1))
+            {
+                _constant -= 0.1f;
+            }
+
+            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad2))
+            {
+                _linear -= 0.1f;
+            }
+
+            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad3))
+            {
+                _expo -= 0.1f;
+            }
+
+            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad4))
+            {
+                _constant += 0.1f;
+            }
+
+            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad5))
+            {
+                _linear += 0.1f;
+            }
+
+            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad6))
+            {
+                _expo += 0.1f;
+            }
+
+            //// Directional Lighting
+            _shader.UploadVec3("directionalLight.baseLight.color", new Vector3(1.0f));
+            _shader.UploadFloat("directionalLight.baseLight.ambientIntensity", 0.2f);
+            _shader.UploadVec3("directionalLight.direction", new Vector3(0.0f, 0.0f, -1.0f));
+
+            _l = 0;
+            _shader.UploadInt("lightCount", 1);
+            _shader.UploadVec3("pointLights[" + _l + "].baseLight.color", new Vector3(1f));
+            _shader.UploadFloat("pointLights[" + _l + "].baseLight.ambientIntensity", _lightAmbientIntensity);
+            _shader.UploadFloat("pointLights[" + _l + "].attenuation.constant", _constant);
+            _shader.UploadFloat("pointLights[" + _l + "].attenuation.linear", _linear);
+            _shader.UploadFloat("pointLights[" + _l + "].attenuation.expo", _expo);
+            _shader.UploadVec3("pointLights[" + _l + "].position", new Vector3(Camera.TrackerPosition.X, Camera.TrackerPosition.Y, _lightHeight));
 
             // Bind VAO & Enable all the attributes & Draw
             _vao.Bind();

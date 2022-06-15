@@ -18,8 +18,6 @@ namespace Villeon.Helper
 
         public static List<ClickedMouseButton> ClickedRightMouseButtons { get; private set; } = new List<ClickedMouseButton>();
 
-        public static int ClickedMouseButtonCount { get; private set; } = 0;
-
         public static void MouseDown(MouseButtonEventArgs args)
         {
             ClickedMouseButtons.Add(new ClickedMouseButton { Button = args.Button, MousePosition = WorldMousePosition });
@@ -27,7 +25,6 @@ namespace Villeon.Helper
             if (args.Button == MouseButton.Right)
             {
                 ClickedRightMouseButtons.Add(new ClickedMouseButton { Button = args.Button, MousePosition = WorldMousePosition });
-                ClickedMouseButtonCount++;
             }
         }
 
