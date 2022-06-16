@@ -20,7 +20,8 @@ namespace Villeon.Systems.RenderSystems
         public SpriteRenderer(string name, bool renderColliders)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Transform));
+            Signature.IncludeAND(typeof(Sprite));
+            Signature.IncludeAND(typeof(Sprite), typeof(Light));
 
             // Create Layers
             for (int i = (int)SpriteLayer.ScreenGuiForeground; i <= (int)SpriteLayer.Background; i++)
@@ -36,6 +37,16 @@ namespace Villeon.Systems.RenderSystems
         {
             // Create new renderingDataList
             List<RenderingData> renderingDataList = new List<RenderingData>();
+
+            Light? light = entity.GetComponent<Light>();
+            if (light is not null)
+            {
+                Transform transform = entity.GetComponent<Transform>();
+                RenderingData data = new RenderingData(new Sprite(SpriteLayer.Foreground, 0f, 0f, true), transform, new Vector2(0.5f), Vector2.One);
+                data.Light = light;
+                _spriteLayers[(int)SpriteLayer.Foreground].AddRenderingData(data);
+                renderingDataList.Add(data);
+            }
 
             // Add sprite to the appropriate Sprite Layer
             Sprite? sprite = entity.GetComponent<Sprite>();

@@ -22,6 +22,9 @@ namespace Villeon.EntityManagement
             entity.AddComponent(new Physics());
             entity.AddComponent(new EnemyAI());
             entity.AddComponent(new Sprite(Assets.Asset.GetTexture("Sprites.Empty.png"), SpriteLayer.Foreground, true));
+            Random random = new Random();
+            Color4 color = new Color4(1.0f, 0.5f, 0.2f, 1.0f);
+            entity.AddComponent(new Light(color, -6f, 1f));
 
             // Setup player animations
             AnimationController animController = new AnimationController();

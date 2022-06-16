@@ -20,6 +20,7 @@ namespace Villeon.Render
     {
         // Sprites Stored
         private HashSet<RenderingData> _renderingData;
+        private HashSet<RenderingData> _lights;
         private List<Texture2D> _textures;
         private int[] _texSlots = { 0, 1, 2, 3, 4, 5, 6, 7 };
         private int _spriteCount;
@@ -46,6 +47,7 @@ namespace Villeon.Render
         {
             _shader = shader;
             _renderingData = new HashSet<RenderingData>(Constants.MAX_BATCH_SIZE);
+            _lights = new HashSet<RenderingData>();
             _textures = new List<Texture2D>();
 
             // Quad has 4 Vertices, each vertex is 9 long
@@ -118,80 +120,34 @@ namespace Villeon.Render
                 i++;
             }
 
+            // Upload the Texture slots
             _shader.UploadIntArray("textures", _texSlots);
-            if (KeyHandler.IsPressed(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad0))
-            {
-                Console.WriteLine("LightHeight: " + _lightHeight);
-                Console.WriteLine("LightAmbientIntensity: " + _lightAmbientIntensity);
-                Console.WriteLine("LightConstant: " + _constant);
-                Console.WriteLine("LightLinear: " + _linear);
-                Console.WriteLine("LightExpo: " + _expo);
-                Console.WriteLine();
-            }
-
-            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPadAdd))
-            {
-                _lightHeight += 0.1f;
-            }
-
-            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPadSubtract))
-            {
-                _lightHeight -= 0.1f;
-            }
-
-            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad7))
-            {
-                _lightAmbientIntensity -= 0.1f;
-            }
-
-            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad8))
-            {
-                _lightAmbientIntensity += 0.1f;
-            }
-
-            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad1))
-            {
-                _constant -= 0.1f;
-            }
-
-            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad2))
-            {
-                _linear -= 0.1f;
-            }
-
-            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad3))
-            {
-                _expo -= 0.1f;
-            }
-
-            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad4))
-            {
-                _constant += 0.1f;
-            }
-
-            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad5))
-            {
-                _linear += 0.1f;
-            }
-
-            if (KeyHandler.IsHeld(OpenTK.Windowing.GraphicsLibraryFramework.Keys.KeyPad6))
-            {
-                _expo += 0.1f;
-            }
 
             //// Directional Lighting
-            _shader.UploadVec3("directionalLight.baseLight.color", new Vector3(1.0f));
-            _shader.UploadFloat("directionalLight.baseLight.ambientIntensity", 0.2f);
-            _shader.UploadVec3("directionalLight.direction", new Vector3(0.0f, 0.0f, -1.0f));
+            _shader.UploadVec3("directionalLight.baseLight.color", DirectionalSceneLight.GetAmbientColor());
+            _shader.UploadFloat("directionalLight.baseLight.intensity", 0.8f);
 
+            // Upload Pointlights!
             _l = 0;
-            _shader.UploadInt("lightCount", 1);
-            _shader.UploadVec3("pointLights[" + _l + "].baseLight.color", new Vector3(1f));
-            _shader.UploadFloat("pointLights[" + _l + "].baseLight.ambientIntensity", _lightAmbientIntensity);
-            _shader.UploadFloat("pointLights[" + _l + "].attenuation.constant", _constant);
-            _shader.UploadFloat("pointLights[" + _l + "].attenuation.linear", _linear);
-            _shader.UploadFloat("pointLights[" + _l + "].attenuation.expo", _expo);
-            _shader.UploadVec3("pointLights[" + _l + "].position", new Vector3(Camera.TrackerPosition.X, Camera.TrackerPosition.Y, _lightHeight));
+            foreach (RenderingData light in _lights)
+            {
+                // Skip if there is no light (shouldn't happen normally)
+                if (light.Light is null)
+                    continue;
+
+                // Don't upload more than the maxlightcount
+                if (_l >= Size.MAX_LIGHT_COUNT)
+                    break;
+
+                _shader.UploadInt("lightCount", _lights.Count);
+                _shader.UploadVec3("pointLights[" + _l + "].baseLight.color", light.Light.Color);
+                _shader.UploadFloat("pointLights[" + _l + "].baseLight.intensity", light.Light.LightAmbientIntensity);
+                _shader.UploadFloat("pointLights[" + _l + "].attenuation.constant", light.Light.Constant);
+                _shader.UploadFloat("pointLights[" + _l + "].attenuation.linear", light.Light.Linear);
+                _shader.UploadFloat("pointLights[" + _l + "].attenuation.expo", light.Light.Expo);
+                _shader.UploadVec3("pointLights[" + _l + "].position", new Vector3(light.Transform.Position.X + light.Offset.X, light.Transform.Position.Y + light.Offset.Y, light.Light.LightHeight));
+                _l++;
+            }
 
             // Bind VAO & Enable all the attributes & Draw
             _vao.Bind();
@@ -219,6 +175,15 @@ namespace Villeon.Render
                 }
             }
 
+            if (data.Light is not null)
+            {
+                // Are there lightSlots free?
+                if (_lights.Count < Size.MAX_LIGHT_COUNT)
+                {
+                    _lights.Add(data);
+                }
+            }
+
             // Fill the Attributes für this sprite
             FillVertexAttributes(data, index);
 
@@ -226,7 +191,7 @@ namespace Villeon.Render
                 _isFull = true;
         }
 
-        public bool RemoveEntity(RenderingData removableData)
+        public void RemoveEntity(RenderingData removableData)
         {
             if (_renderingData.Contains(removableData))
             {
@@ -243,10 +208,12 @@ namespace Villeon.Render
                 //FillVertexAttributes(backData, removableData.SpriteNumber);
                 _renderingData.Remove(removableData);
                 _spriteCount--;
-                return true;
             }
 
-            return false;
+            if (_lights.Contains(removableData))
+            {
+                _lights.Remove(removableData);
+            }
         }
 
         public bool Full()
@@ -379,6 +346,7 @@ namespace Villeon.Render
         {
             public const int QUAD = 4;
             public const int TEX_SLOTS = 8;
+            public const int MAX_LIGHT_COUNT = 64;
             public const int POSITION = 3;
             public const int COLOR = 4;
             public const int TEX_COORDS = 2;

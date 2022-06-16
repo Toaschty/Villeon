@@ -17,8 +17,6 @@ void main()
 {
     fColor = color;
 	fPosition = position.xyz;
-
-
 	fTexCoords = texCoords;
 	fTexID = texID;
 

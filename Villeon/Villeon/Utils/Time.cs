@@ -10,19 +10,21 @@ namespace Villeon.Utils
     {
         private static float _elapsedTime = 0f;
 
-        private static float _timeOfDay = 0f;
+        private static float _currentDayTime = 0f;
 
-        public static float ElapsedTime { get => _elapsedTime; set => _elapsedTime = value; }
+        public static float ElapsedTime { get => _elapsedTime; }
 
-        public static float TimeOfDay
-        {
-            get => MathF.Abs(MathF.Sin(_elapsedTime));
-            set => _elapsedTime = value;
-        }
+        public static float CurrentDayTime { get => _currentDayTime; }
 
         public static void SetTime(float time)
         {
             _elapsedTime += time;
+            _currentDayTime += time;
+
+            if (_currentDayTime >= 24.00f)
+            {
+                _currentDayTime = 0f;
+            }
         }
     }
 }

@@ -200,6 +200,7 @@ namespace Villeon
             player.AddComponent(new Physics());
             player.AddComponent(new Effect());
             player.AddComponent(new Player());
+            player.AddComponent(new Light(Color4.White));
             player.AddComponent(new Health(Constants.PLAYER_MAX_HEALTH));
 
             // Setup player animations
@@ -218,6 +219,7 @@ namespace Villeon
             player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
             player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL, new Vector2(0f, 0f), 0.5f, 0.5f));
             player.AddComponent(new Sprite(Asset.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
+            player.AddComponent(new Light(Color4.White));
             player.AddComponent(new Player());
 
             // Setup player animations
