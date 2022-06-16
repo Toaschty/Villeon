@@ -19,7 +19,7 @@ namespace Villeon.Utils
         public static void SetTime(float time)
         {
             _elapsedTime += time;
-            _currentDayTime += time;
+            _currentDayTime += time / 6f;
 
             if (_currentDayTime >= 24.00f)
             {
