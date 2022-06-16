@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Villeon.EntityManagement;
 using Villeon.Utils;
 
 namespace Villeon.Helper
@@ -40,6 +41,12 @@ namespace Villeon.Helper
 
         public static Vector3 GetAmbientColor()
         {
+            if (SceneLoader.CurrentScene.Name == "DungeonScene")
+            {
+                // Dungeon is completely dark
+                return new Vector3(0.05f);
+            }
+
             // In wich scene?
             // Dungeon -> Black
             int hourOfDay = (int)Time.CurrentDayTime;
