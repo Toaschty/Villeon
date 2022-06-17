@@ -126,13 +126,16 @@ namespace Villeon.GUI
 
         public void RemoveItemAtCurrentPosition()
         {
-            if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item is not null)
+            Item? item = GetActiveItem();
+            IEntity itemEntity = GetActiveItemEntity();
+
+            if (item is not null)
             {
                 // Remove the old item entity
-                _allEntities.Remove(_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].ItemEntity);
+                _allEntities.Remove(itemEntity);
 
                 // Remove the old item sprite from the inventory
-                Manager.GetInstance().RemoveEntity(_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].ItemEntity);
+                Manager.GetInstance().RemoveEntity(itemEntity);
 
                 _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item = null;
 
@@ -141,6 +144,16 @@ namespace Villeon.GUI
                 else
                     Console.WriteLine("Item: Null " + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
             }
+        }
+
+        private Item? GetActiveItem()
+        {
+            return _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item;
+        }
+
+        private IEntity GetActiveItemEntity()
+        {
+            return _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].ItemEntity;
         }
 
         private void SetSlotPositions()
@@ -301,16 +314,6 @@ namespace Villeon.GUI
                 Console.WriteLine("Item: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item!.Name + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
             else
                 Console.WriteLine("Item: Null " + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
-        }
-
-        private void UseItem(Item item)
-        {
-            switch (item.ItemType)
-            {
-                case Item.ITEM_TYPE.POTION:
-
-                    break;
-            }
         }
 
         private void HandleTabNavigation(Keys key)

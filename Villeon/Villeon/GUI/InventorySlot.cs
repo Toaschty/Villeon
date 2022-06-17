@@ -54,7 +54,6 @@ namespace Villeon.GUI
         {
             get
             {
-                _itemEntity.AddComponent(_item!.Sprite);
                 return _itemEntity;
             }
         }
@@ -79,6 +78,7 @@ namespace Villeon.GUI
                 }
                 else
                 {
+                    _itemEntity.AddComponent(_item!.Sprite);
                     _itemStackSize = _item!.StackSize;
                     _itemCount = 1;
                 }
@@ -106,6 +106,9 @@ namespace Villeon.GUI
 
         public void IncreaseStack()
         {
+            if (_itemCount < _itemStackSize)
+                _itemCount++;
+
             if (_itemCountText != null)
             {
                 Console.WriteLine("Writing Text! " + _itemCountText.GetEntities().Length);
@@ -113,11 +116,8 @@ namespace Villeon.GUI
             }
 
             Console.WriteLine("Increasing Stack: " + _itemCount + " | StackSize: " + _itemStackSize);
-            _itemCountText = new Text(_itemCount.ToString(), _transform.Position, "Alagard");
+            _itemCountText = new Text(_itemCount.ToString(), _transform.Position, "Alagard_Thin");
             Manager.GetInstance().AddEntities(_itemCountText.GetEntities());
-
-            if (_itemCount < _itemStackSize)
-                _itemCount++;
         }
 
         private IEntity CreateBackground()
