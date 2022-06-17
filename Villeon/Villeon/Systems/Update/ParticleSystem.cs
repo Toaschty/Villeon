@@ -26,11 +26,11 @@ namespace Villeon.Systems.Update
                 particle.TTL -= time;
 
                 Transform transform = particleEntity.GetComponent<Transform>();
-                transform.Scale = new Vector2(0.1f * (particle.TTL / particle.MaxTTL));
+                //transform.Scale = new Vector2(particle.TTL / particle.MaxTTL);
 
                 Sprite sprite = particleEntity.GetComponent<Sprite>();
                 Color4 color = sprite.Color;
-                color.A = 0.5f;
+                color.A = particle.TTL / particle.MaxTTL;
                 sprite.Color = color;
 
                 if (particle.TTL <= 0.0f)

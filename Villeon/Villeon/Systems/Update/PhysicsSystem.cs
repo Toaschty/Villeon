@@ -43,14 +43,14 @@ namespace Villeon.Systems.Update
                 }
 
                 // Add Gravity
-                physics.Acceleration += new Vector2(0.0f, -Constants.GRAVITY);
+                physics.Acceleration += new Vector2(0.0f, -Constants.GRAVITY * physics.Weight);
 
                 // Peak Super downward mega speed speed lets go
                 if (physics.Velocity.Y <= 0)
-                    physics.Acceleration += new Vector2(0.0f, 2.0f * -Constants.GRAVITY);
+                    physics.Acceleration += new Vector2(0.0f, 2.0f * -Constants.GRAVITY * physics.Weight);
 
                 // Friction
-                physics.Acceleration += new Vector2(-Constants.FRICTION * physics.Velocity.X, 0);
+                physics.Acceleration += new Vector2(-Constants.FRICTION * physics.Velocity.X * physics.Friction, 0);
 
                 // Physics calculation
                 Vector2 oldVelocity = physics.Velocity;
