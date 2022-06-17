@@ -109,7 +109,7 @@ namespace Villeon.Generation
         {
             SceneLoader.AddScene(DungeonScene);
 
-            TileMapDictionary tileMap = new TileMapDictionary("DungeonTileMap.tmx");
+            TileMapDictionary tileMap = new TileMapDictionary("Dungeon.tmx");
             DungeonScene.AddSystem(new EffectSystem("Effects"));
             DungeonScene.AddSystem(new PlayerMovementSystem("Move"));
             DungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
