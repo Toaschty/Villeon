@@ -24,10 +24,11 @@ namespace Villeon.GUI
 
             string name = itemJson.name.ToString();
             string sprite = itemJson.sprite.ToString();
-            int prize = itemJson.prize;
+            int price = itemJson.price;
+            int stackSize = itemJson.StackSize;
             Item.ITEM_TYPE type = itemJson.itemType;
 
-            return new Item(name, sprite, prize, type);
+            return new Item(name, sprite, stackSize, price, type);
         }
 
         public static Item GetItem(string itemName)
@@ -48,10 +49,11 @@ namespace Villeon.GUI
                 return new Item();
 
             string sprite = itemJson!.sprite;
-            int prize = itemJson.prize;
+            int price = itemJson.price;
+            int stackSize = itemJson.StackSize;
             Item.ITEM_TYPE type = itemJson.itemType;
 
-            return new Item(name!, sprite, prize, type);
+            return new Item(name!, sprite, stackSize, price, type);
         }
     }
 }

@@ -75,7 +75,7 @@ namespace Villeon
             testNPC.AddComponent(new Interactable());
             Scenes.VillageScene.AddEntity(testNPC);
 
-            //SpawnDungeon();
+            SpawnDungeon();
         }
 
         private void SpawnDungeon()

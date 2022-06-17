@@ -2,17 +2,17 @@
   "items": [
     {
       "name": "HealthPotion",
-      "prize": "5",
+      "price": "5",
       "itemType": "Potion",
       "StackSize": 20,
       "sprite": "Potion_Item.png"
     },
     {
       "name": "Sword",
-      "prize": "20",
+      "price": "20",
       "itemType": "Weapon",
       "StackSize": 1,
-      "sprite": "Potion_Pink.png"
+      "sprite": "Sword_1.png"
     }
   ]
 }
