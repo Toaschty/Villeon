@@ -39,7 +39,6 @@ namespace Villeon.Systems.Update
                     particle.AddComponent(sprite);
 
                     particle.AddComponent(new Particle(0.3f));
-                    particle.AddComponent(new Collider(Vector2.Zero, particleTranform, 0f, 0f));
                     Manager.GetInstance().AddEntity(particle);
                 }
             }
