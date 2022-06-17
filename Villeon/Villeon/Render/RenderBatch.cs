@@ -36,13 +36,6 @@ namespace Villeon.Render
 
         private Shader _shader;
 
-        private int _l = 0;
-        private float _lightHeight = -8;
-        private float _lightAmbientIntensity = 0.8f;
-        private float _constant = 1.0f;
-        private float _linear = 0.07f;
-        private float _expo = 0.02f;
-
         public RenderBatch(Shader shader)
         {
             _shader = shader;
@@ -106,11 +99,25 @@ namespace Villeon.Render
         {
             _shader.Use();
 
+            UploadMatricies();
+            UploadTextures();
+            UploadLights();
+
+            // Bind VAO & Enable all the attributes then Draw!
+            _vao.Bind();
+            GL.DrawElements(PrimitiveType.Triangles, _spriteCount * 6, DrawElementsType.UnsignedInt, 0);
+        }
+
+        public void UploadMatricies()
+        {
             // Update Camera, Set Transform in VertexShader
             Camera.Update();
             _shader.UploadMat4("cameraMatrix", Camera.GetMatrix());
             _shader.UploadMat4("screenMatrix", Camera.GetScreenMatrix());
+        }
 
+        public void UploadTextures()
+        {
             // Bind all textures that this batch contains
             int i = 0;
             foreach (Texture2D texture in _textures)
@@ -122,13 +129,16 @@ namespace Villeon.Render
 
             // Upload the Texture slots
             _shader.UploadIntArray("textures", _texSlots);
+        }
 
-            //// Directional Lighting
+        public void UploadLights()
+        {
+            // Directional Lighting
             _shader.UploadVec3("directionalLight.baseLight.color", DirectionalSceneLight.GetAmbientColor());
             _shader.UploadFloat("directionalLight.baseLight.intensity", 0.8f);
 
             // Upload Pointlights!
-            _l = 0;
+            int lightNumber = 0;
             foreach (RenderingData light in _lights)
             {
                 // Skip if there is no light (shouldn't happen normally)
@@ -136,22 +146,18 @@ namespace Villeon.Render
                     continue;
 
                 // Don't upload more than the maxlightcount
-                if (_l >= Size.MAX_LIGHT_COUNT)
+                if (lightNumber >= Size.MAX_LIGHT_COUNT)
                     break;
 
                 _shader.UploadInt("lightCount", _lights.Count);
-                _shader.UploadVec3("pointLights[" + _l + "].baseLight.color", light.Light.Color);
-                _shader.UploadFloat("pointLights[" + _l + "].baseLight.intensity", light.Light.LightAmbientIntensity);
-                _shader.UploadFloat("pointLights[" + _l + "].attenuation.constant", light.Light.Constant);
-                _shader.UploadFloat("pointLights[" + _l + "].attenuation.linear", light.Light.Linear);
-                _shader.UploadFloat("pointLights[" + _l + "].attenuation.expo", light.Light.Expo);
-                _shader.UploadVec3("pointLights[" + _l + "].position", new Vector3(light.Transform.Position.X + light.Offset.X, light.Transform.Position.Y + light.Offset.Y, light.Light.LightHeight));
-                _l++;
+                _shader.UploadVec3("pointLights[" + lightNumber + "].baseLight.color", light.Light.Color);
+                _shader.UploadFloat("pointLights[" + lightNumber + "].baseLight.intensity", light.Light.LightAmbientIntensity);
+                _shader.UploadFloat("pointLights[" + lightNumber + "].attenuation.constant", light.Light.Constant);
+                _shader.UploadFloat("pointLights[" + lightNumber + "].attenuation.linear", light.Light.Linear);
+                _shader.UploadFloat("pointLights[" + lightNumber + "].attenuation.expo", light.Light.Expo);
+                _shader.UploadVec3("pointLights[" + lightNumber + "].position", new Vector3(light.Transform.Position.X + light.Offset.X, light.Transform.Position.Y + light.Offset.Y, light.Light.LightHeight));
+                lightNumber++;
             }
-
-            // Bind VAO & Enable all the attributes & Draw
-            _vao.Bind();
-            GL.DrawElements(PrimitiveType.Triangles, _spriteCount * 6, DrawElementsType.UnsignedInt, 0);
         }
 
         public void AddRenderingData(RenderingData data)
@@ -201,15 +207,11 @@ namespace Villeon.Render
                 // Clear the last vertices
                 ClearVertices(backData.SpriteNumber);
 
-                // Store sprite number
-                //backData.SpriteNumber = removableData.SpriteNumber;
-
-                // Overwrite the Removed black
-                //FillVertexAttributes(backData, removableData.SpriteNumber);
                 _renderingData.Remove(removableData);
                 _spriteCount--;
             }
 
+            // Remove any existing light
             if (_lights.Contains(removableData))
             {
                 _lights.Remove(removableData);

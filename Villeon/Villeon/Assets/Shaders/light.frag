@@ -48,7 +48,7 @@ vec3 CalcLightInternal(BaseLight light)
 vec3 CalcPointLight(int index)
 {
 
-	vec3 pixelPosition = vec3(round(fPosition.xy * 3) / 3, fPosition.z);
+	vec3 pixelPosition = vec3(round(fPosition.xy * 8) / 8, fPosition.z);
 	float distanceToLight = length(pixelPosition - pointLights[index].position);
 
 	vec3 color = CalcLightInternal(pointLights[index].baseLight);
