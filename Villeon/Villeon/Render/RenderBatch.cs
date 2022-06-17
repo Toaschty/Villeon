@@ -322,8 +322,8 @@ namespace Villeon.Render
                 }
 
                 // Position
-                _vertices[offset + 0] = transform.Position.X + data.Offset.X + (add.X * data.Scale.X);
-                _vertices[offset + 1] = transform.Position.Y + data.Offset.Y + (add.Y * data.Scale.Y);
+                _vertices[offset + 0] = transform.Position.X + data.Offset.X + (add.X * transform.Scale.X);
+                _vertices[offset + 1] = transform.Position.Y + data.Offset.Y + (add.Y * transform.Scale.Y);
                 _vertices[offset + 2] = -(int)sprite.RenderLayer;
 
                 // Color

@@ -124,11 +124,14 @@ namespace Villeon.Generation
             DungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             DungeonScene.AddSystem(new EnemyHealthbarSystem("EnemyHealthbarSystem"));
             DungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            DungeonScene.AddSystem(new ParticleSystem("ParticleSystem"));
+            DungeonScene.AddSystem(new PlayerParticleSystem("PlayerParticleSystem"));
             DungeonScene.AddSystem(new LadderSystem("LadderSystem"));
             DungeonScene.AddSystem(new MobDropSystem("MobdropSystem"));
             DungeonScene.AddSystem(new MobDropCollectionSystem("MobdropCollectionSystem"));
             DungeonScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
             DungeonScene.AddSystem(new PlayerHealthbarSystem("PlayerHealthbar", Constants.PLAYER_MAX_HEALTH));
+            DungeonScene.AddSystem(new ItemUseSystem("ItemUseSystem"));
             DungeonScene.SetTileMap(tileMap, true);
         }
 

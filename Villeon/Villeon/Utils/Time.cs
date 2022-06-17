@@ -10,7 +10,7 @@ namespace Villeon.Utils
     {
         private static float _elapsedTime = 0f;
 
-        private static float _currentDayTime = 0f;
+        private static float _currentDayTime = 12f;
 
         public static float ElapsedTime { get => _elapsedTime; }
 
