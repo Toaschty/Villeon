@@ -33,23 +33,25 @@ namespace Villeon.Systems.Update
                 {
                     if (Math.Abs(physics.Velocity.X) > 0.2 && StateManager.IsGrounded)
                     {
-                        Transform particleTranform = new Transform(transform.Position, 0.1f, 0.0f);
+                        Random random = new Random();
+                        Transform particleTranform = new Transform(transform.Position, (float)random.NextDouble() / 2f, 0.0f);
                         Entity particle = new Entity(particleTranform, "Particle");
 
                         Physics particlePhysics = new Physics();
-                        int direction = physics.Velocity.X > 0.0f ? 1 : -1;
-                        Random random = new Random();
-                        particlePhysics.Velocity = new Vector2(4 * direction * (float)((random.NextDouble() * 0.8) + 0.6), 3 * (float)((random.NextDouble() * 0.8) + 0.6));
-                        //particle.AddComponent(particlePhysics);
+                        particlePhysics.Weight = 0.0f;
+                        particlePhysics.Friction = 0.0f;
+                        int direction = physics.Velocity.X < 0.0f ? 1 : -1;
+                        particlePhysics.Velocity = new Vector2(1 * direction * (float)((random.NextDouble() * 0.8) + 0.6), 1 * (float)((random.NextDouble() * 0.8) - 0.4));
+                        particle.AddComponent(particlePhysics);
 
-                        Sprite sprite = Asset.GetSprite("GUI.Items.Potion_Pink.png", SpriteLayer.Foreground, true);
+                        Sprite sprite = Asset.GetSprite("Sprites.Dust.png", SpriteLayer.Foreground, true);
                         particle.AddComponent(sprite);
 
-                        particle.AddComponent(new Particle(0.3f));
+                        particle.AddComponent(new Particle(0.5f));
                         Manager.GetInstance().AddEntity(particle);
                     }
 
-                    _particleSpawnDelay = 0.1f;
+                    _particleSpawnDelay = 0.05f;
                 }
             }
         }
