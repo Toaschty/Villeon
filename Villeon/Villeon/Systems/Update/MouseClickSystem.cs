@@ -13,7 +13,7 @@ namespace Villeon.Systems.Update
 {
     public class MouseClickSystem : System, IUpdateSystem
     {
-        private EntitySpawner _entitySpawner = new EntitySpawner();
+        private EnemyBuilder _entitySpawner = new EnemyBuilder();
 
         public MouseClickSystem(string name)
             : base(name)

@@ -15,6 +15,7 @@ namespace Villeon.Components
         private float _linear = 0.22f;
         private float _expo = 0.20f;
         private Vector3 _color = new Vector3(1f, 1f, 1f);
+        private Vector2 _offset = Vector2.Zero;
 
         public Light(Color4 color)
         {
@@ -23,13 +24,14 @@ namespace Villeon.Components
             _color.Z = color.B;
         }
 
-        public Light(Color4 color, float lightHeight, float lightAmbientIntensity)
+        public Light(Color4 color, float lightHeight, float lightAmbientIntensity, Vector2 offset)
         {
             _color.X = color.R;
             _color.Y = color.G;
             _color.Z = color.B;
             _lightHeight = lightHeight;
             _lightAmbientIntensity = lightAmbientIntensity;
+            _offset = offset;
         }
 
         public Light(Color4 color, float lightHeight, float lightAmbientIntensity, float constant, float linear, float expo)
@@ -55,5 +57,7 @@ namespace Villeon.Components
         public float Expo { get => _expo; set => _expo = value; }
 
         public Vector3 Color { get => _color; set => _color = value; }
+
+        public Vector2 Offset { get => _offset; set => _offset = value; }
     }
 }

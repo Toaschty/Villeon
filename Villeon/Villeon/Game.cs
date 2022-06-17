@@ -68,7 +68,6 @@ namespace Villeon
             testNPC.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-2f), 4f, 4f));
             testNPC.AddComponent(new Interactable());
             Scenes.VillageScene.AddEntity(testNPC);
-
         }
 
         private void SpawnDungeon()

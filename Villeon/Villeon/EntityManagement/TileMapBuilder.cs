@@ -7,6 +7,7 @@ using OpenTK.Mathematics;
 using TiledLib;
 using TiledLib.Layer;
 using Villeon.Components;
+using Villeon.Utils;
 
 namespace Villeon.EntityManagement
 {
@@ -21,6 +22,9 @@ namespace Villeon.EntityManagement
         // Holds the height / width of current tilemap
         private static int _width;
         private static int _height;
+
+        // EntitySpawner
+        private static EnemyBuilder _spawner = new EnemyBuilder();
 
         // Generate entities depending on the tilemap
         public static List<IEntity> GenerateEntitiesFromTileMap(TileMapDictionary tileMap, bool collisionOptimization)
@@ -56,6 +60,17 @@ namespace Villeon.EntityManagement
                             ladder.AddComponent(new Trigger(TriggerLayerType.LADDER, 1, 1f));
                             ladder.AddComponent(new Ladder());
                             _entities.Add(ladder);
+                        }
+
+                        // If current tile is enemy spawn -> Spawn enemy
+                        if (gid == 8)
+                        {
+                            _entities.Add(_spawner.SlimeEntity(new Vector2(x, layer.Height - 1 - y)));
+                        }
+
+                        if (gid == 32)
+                        {
+                            _entities.Add(_spawner.BossSlimeEntity(new Vector2(x, layer.Height - 1 - y)));
                         }
 
                         // Get tile from dicitionary with gid

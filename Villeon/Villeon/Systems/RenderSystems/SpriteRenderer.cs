@@ -42,7 +42,7 @@ namespace Villeon.Systems.RenderSystems
             if (light is not null)
             {
                 Transform transform = entity.GetComponent<Transform>();
-                RenderingData data = new RenderingData(new Sprite(SpriteLayer.Foreground, 0f, 0f, true), transform, new Vector2(0.5f), Vector2.One);
+                RenderingData data = new RenderingData(new Sprite(SpriteLayer.Foreground, 0f, 0f, true), transform, light.Offset, Vector2.One);
                 data.Light = light;
                 _spriteLayers[(int)SpriteLayer.Foreground].AddRenderingData(data);
                 renderingDataList.Add(data);
