@@ -15,7 +15,7 @@ namespace Villeon.Systems.Update
         public PhysicsSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Physics), typeof(Collider));
+            Signature.IncludeAND(typeof(Physics));
         }
 
         public void Update(float time)
@@ -30,14 +30,17 @@ namespace Villeon.Systems.Update
                 transform = entity.GetComponent<Transform>();
                 collider = entity.GetComponent<Collider>();
 
-                // If Collided, stop player in that axis
-                if ((collider.HasCollidedBottom && physics.Velocity.Y < 0.0f) ||
-                    (collider.HasCollidedTop && physics.Velocity.Y > 0.0f))
-                    physics.Velocity = new Vector2(physics.Velocity.X, 0.0f);
+                if (collider != null)
+                {
+                    // If Collided, stop player in that axis
+                    if ((collider.HasCollidedBottom && physics.Velocity.Y < 0.0f) ||
+                        (collider.HasCollidedTop && physics.Velocity.Y > 0.0f))
+                        physics.Velocity = new Vector2(physics.Velocity.X, 0.0f);
 
-                if ((collider.HasCollidedLeft && physics.Velocity.X < 0.0f) ||
-                   (collider.HasCollidedRight && physics.Velocity.X > 0.0f))
-                    physics.Velocity = new Vector2(0.0f, physics.Velocity.Y);
+                    if ((collider.HasCollidedLeft && physics.Velocity.X < 0.0f) ||
+                       (collider.HasCollidedRight && physics.Velocity.X > 0.0f))
+                        physics.Velocity = new Vector2(0.0f, physics.Velocity.Y);
+                }
 
                 // Add Gravity
                 physics.Acceleration += new Vector2(0.0f, -Constants.GRAVITY);
