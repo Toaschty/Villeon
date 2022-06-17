@@ -15,22 +15,24 @@ namespace Villeon.GUI
     {
         private string _name;
         private Sprite _sprite;
-        private int _prize;
+        private int _price;
+        private int _itemStackSize;
         private ITEM_TYPE _itemType;
 
         public Item()
         {
             _name = "Null";
-            _sprite = Asset.GetSprite("GUI.Items.", SpriteLayer.ScreenGuiMiddleground, false);
-            _prize = -1;
+            _sprite = Asset.GetSprite("GUI.Items.EmptyItem.png", SpriteLayer.ScreenGuiMiddleground, false);
+            _price = -1;
             _itemType = ITEM_TYPE.POTION;
         }
 
-        public Item(string name, string sprite, int prize, ITEM_TYPE type)
+        public Item(string name, string sprite, int itemMaxStack, int price, ITEM_TYPE type)
         {
             _name = name;
             _sprite = Asset.GetSprite("GUI.Items." + sprite, SpriteLayer.ScreenGuiMiddleground, false);
-            _prize = prize;
+            _price = price;
+            _itemStackSize = itemMaxStack;
             _itemType = type;
         }
 
@@ -54,6 +56,11 @@ namespace Villeon.GUI
         public Sprite Sprite
         {
             get { return _sprite; }
+        }
+
+        public int StackSize
+        {
+            get { return _itemStackSize; }
         }
     }
 }

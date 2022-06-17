@@ -97,7 +97,7 @@ namespace Villeon.GUI
             if (key == Keys.H)
             {
                 AddItem(ItemLoader.GetItem("Sword"));
-                Console.WriteLine("Spawning Health potion!");
+                Console.WriteLine("Spawning Sword!");
             }
             else if (key == Keys.G)
             {
@@ -178,7 +178,8 @@ namespace Villeon.GUI
             {
                 for (int x = 0; x < _inventorySlotsX; x++)
                 {
-                    if (inventory[y, x].HasItem() == false)
+                    Console.WriteLine(!inventory[y, x].HasItem() + " | " + !inventory[y, x].IsStackFull());
+                    if (!inventory[y, x].HasItem())
                     {
                         inventory[y, x].Item = newItem; // Adding new Item
 
@@ -186,8 +187,16 @@ namespace Villeon.GUI
                             _allEntities.Add(inventory[y, x].ItemEntity);
                         return;
                     }
+                    else if (!inventory[y, x].IsStackFull())
+                    {
+                        inventory[y, x].IncreaseStack();
+                        return;
+                    }
+
                 }
             }
+            
+            Console.WriteLine("Inventory Full!");
         }
 
         private void HandleInventorySlot(Keys key)
@@ -260,9 +269,9 @@ namespace Villeon.GUI
             _allEntities.Add(_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
 
             if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].HasItem())
-                Console.WriteLine("Item: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item!.Name);
+                Console.WriteLine("Item: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item!.Name + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
             else
-                Console.WriteLine("Item: Null");
+                Console.WriteLine("Item: Null " + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
         }
 
         public Item? GetCurrentlySelectedItem()
