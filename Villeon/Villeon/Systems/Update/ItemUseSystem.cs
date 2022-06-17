@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenTK.Windowing.GraphicsLibraryFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,13 +23,19 @@ namespace Villeon.Systems.Update
         {
             foreach (IEntity player in Entities)
             {
-                if (KeyHandler.IsPressed(OpenTK.Windowing.GraphicsLibraryFramework.Keys.U))
+                if (KeyHandler.IsPressed(Keys.U))
                 {
-                    Item selectedItem = GUIHandler.GetInstance().InventoryMenu.GetCurrentlySelectedItem();
+                    Item? selectedItem = InventoryMenu.GetInstance().GetCurrentlySelectedItem();
+
+                    if (selectedItem == null)
+                        return;
+
                     if (selectedItem.ItemType == Item.ITEM_TYPE.POTION)
                     {
+                        Console.WriteLine("Using Potion!");
                         Health playerHealth = player.GetComponent<Health>();
                         playerHealth.Heal(50);
+                        InventoryMenu.GetInstance().RemoveItemAtCurrentPosition();
                     }
                 }
             }

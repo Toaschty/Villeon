@@ -113,6 +113,36 @@ namespace Villeon.GUI
             return true;
         }
 
+        public Item? GetCurrentlySelectedItem()
+        {
+            if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item is not null)
+            {
+                Item? item = _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item;
+                return item;
+            }
+
+            return null;
+        }
+
+        public void RemoveItemAtCurrentPosition()
+        {
+            if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item is not null)
+            {
+                // Remove the old item entity
+                _allEntities.Remove(_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].ItemEntity);
+
+                // Remove the old item sprite from the inventory
+                Manager.GetInstance().RemoveEntity(_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].ItemEntity);
+
+                _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item = null;
+
+                if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].HasItem())
+                    Console.WriteLine("Item: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item!.Name + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
+                else
+                    Console.WriteLine("Item: Null " + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
+            }
+        }
+
         private void SetSlotPositions()
         {
             SetInventorySlotPositions(_allInventory);
@@ -192,10 +222,9 @@ namespace Villeon.GUI
                         inventory[y, x].IncreaseStack();
                         return;
                     }
-
                 }
             }
-            
+
             Console.WriteLine("Inventory Full!");
         }
 
@@ -272,17 +301,6 @@ namespace Villeon.GUI
                 Console.WriteLine("Item: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item!.Name + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
             else
                 Console.WriteLine("Item: Null " + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
-        }
-
-        public Item? GetCurrentlySelectedItem()
-        {
-            if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item is not null)
-            {
-                Item? item = _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item;
-                return item;
-            }
-
-            return null;
         }
 
         private void UseItem(Item item)
