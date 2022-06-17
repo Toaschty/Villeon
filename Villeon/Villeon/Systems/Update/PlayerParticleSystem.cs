@@ -13,6 +13,8 @@ namespace Villeon.Systems.Update
 {
     public class PlayerParticleSystem : System, IUpdateSystem
     {
+        private float _particleSpawnDelay = 0.1f;
+
         public PlayerParticleSystem(string name)
             : base(name)
         {
@@ -21,25 +23,33 @@ namespace Villeon.Systems.Update
 
         public void Update(float time)
         {
+            _particleSpawnDelay -= time;
+
             foreach (IEntity entity in Entities)
             {
                 Physics physics = entity.GetComponent<Physics>();
                 Transform transform = entity.GetComponent<Transform>();
-                if (Math.Abs(physics.Velocity.X) > 0.1 && StateManager.IsGrounded)
+                if (_particleSpawnDelay <= 0f)
                 {
-                    Transform particleTranform = new Transform(transform.Position, 0.1f, 0.0f);
-                    Entity particle = new Entity(particleTranform, "Particle");
+                    if (Math.Abs(physics.Velocity.X) > 0.2 && StateManager.IsGrounded)
+                    {
+                        Transform particleTranform = new Transform(transform.Position, 0.1f, 0.0f);
+                        Entity particle = new Entity(particleTranform, "Particle");
 
-                    Physics particlePhysics = new Physics();
-                    int direction = physics.Velocity.X > 0.0f ? 1 : -1;
-                    particlePhysics.Velocity = new Vector2(7 * direction, 7);
-                    particle.AddComponent(particlePhysics);
+                        Physics particlePhysics = new Physics();
+                        int direction = physics.Velocity.X > 0.0f ? 1 : -1;
+                        Random random = new Random();
+                        particlePhysics.Velocity = new Vector2(4 * direction * (float)((random.NextDouble() * 0.8) + 0.6), 3 * (float)((random.NextDouble() * 0.8) + 0.6));
+                        //particle.AddComponent(particlePhysics);
 
-                    Sprite sprite = Asset.GetSprite("GUI.Items.Potion_Pink.png", SpriteLayer.Foreground, true);
-                    particle.AddComponent(sprite);
+                        Sprite sprite = Asset.GetSprite("GUI.Items.Potion_Pink.png", SpriteLayer.Foreground, true);
+                        particle.AddComponent(sprite);
 
-                    particle.AddComponent(new Particle(0.3f));
-                    Manager.GetInstance().AddEntity(particle);
+                        particle.AddComponent(new Particle(0.3f));
+                        Manager.GetInstance().AddEntity(particle);
+                    }
+
+                    _particleSpawnDelay = 0.1f;
                 }
             }
         }
