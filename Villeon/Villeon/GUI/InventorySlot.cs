@@ -18,9 +18,11 @@ namespace Villeon.GUI
         private static float _slotSize = Asset.GetSprite("GUI.Inventory.InventorySlot.png", SpriteLayer.ScreenGuiMiddleground, false).Width;
         private Item? _item;
         private int _itemCount;
+        private int _itemStackSize;
         private IEntity _slotBackground;
         private IEntity _slotSelection;
         private IEntity _itemEntity;
+        private Text? _itemCountText;
         private Transform _transform;
 
         public InventorySlot(Transform transform)
@@ -30,6 +32,7 @@ namespace Villeon.GUI
             _slotBackground = CreateBackground();
             _slotSelection = CreateSlotSelection();
             _itemEntity = new Entity(transform, "ItemEntity");
+            _itemCountText = null;
         }
 
         public static float SlotSize
@@ -47,22 +50,6 @@ namespace Villeon.GUI
             get { return _slotSelection; }
         }
 
-        public Sprite SlotSelectionSprite
-        {
-            set
-            {
-                Sprite s = _slotSelection.GetComponent<Sprite>();
-                s = value;
-            }
-        }
-
-        public Vector2 SlotPosition
-        {
-            get { return _transform.Position; }
-
-            set { _slotBackground.GetComponent<Transform>().Position = value; }
-        }
-
         public IEntity ItemEntity
         {
             get
@@ -72,10 +59,30 @@ namespace Villeon.GUI
             }
         }
 
+        public int Count => _itemCount;
+
         public Item? Item
         {
-            get { return _item; }
-            set { _item = value; }
+            get
+            {
+                return _item;
+            }
+
+            set
+            {
+                _item = value;
+
+                if (value == null)
+                {
+                    _itemStackSize = 0;
+                    _itemCount = 0;
+                }
+                else
+                {
+                    _itemStackSize = _item!.StackSize;
+                    _itemCount = 1;
+                }
+            }
         }
 
         public bool HasItem()
@@ -84,6 +91,33 @@ namespace Villeon.GUI
                 return false;
             else
                 return true;
+        }
+
+        public bool IsStackFull()
+        {
+            if (_itemStackSize == 0)
+                return false;
+
+            if (_itemCount < _itemStackSize)
+                return false;
+            else
+                return true;
+        }
+
+        public void IncreaseStack()
+        {
+            if (_itemCountText != null)
+            {
+                Console.WriteLine("Writing Text! " + _itemCountText.GetEntities().Length);
+                Manager.GetInstance().RemoveEntities(_itemCountText.GetEntities());
+            }
+
+            Console.WriteLine("Increasing Stack: " + _itemCount + " | StackSize: " + _itemStackSize);
+            _itemCountText = new Text(_itemCount.ToString(), _transform.Position, "Alagard");
+            Manager.GetInstance().AddEntities(_itemCountText.GetEntities());
+
+            if (_itemCount < _itemStackSize)
+                _itemCount++;
         }
 
         private IEntity CreateBackground()
