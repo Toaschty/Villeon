@@ -66,7 +66,8 @@ namespace Villeon
 
             IEntity testNPC = new Entity(new Transform(Constants.VILLAGE_SPAWN_POINT - new Vector2(10, 0), 1f, 0f), "NPC");
             testNPC.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-2f), 4f, 4f));
-            testNPC.AddComponent(new Interactable());
+            Option talk = new Option("Talk to me [T]", Keys.T);
+            testNPC.AddComponent(new Interactable(talk));
             Scenes.VillageScene.AddEntity(testNPC);
         }
 

@@ -41,6 +41,14 @@ namespace Villeon.EntityManagement
             }
         }
 
+        public void AddEntities(List<Entity> entities)
+        {
+            foreach (IEntity entity in entities)
+            {
+                SceneLoader.CurrentScene.AddEntity(entity);
+            }
+        }
+
         public void RegisterSystem(ISystem system)
         {
             SceneLoader.CurrentScene.AddSystem(system);
