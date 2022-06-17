@@ -40,9 +40,8 @@ namespace Villeon.Systems.Update
                         int direction = physics.Velocity.X > 0.0f ? 1 : -1;
                         Random random = new Random();
                         particlePhysics.Velocity = new Vector2(4 * direction * (float)((random.NextDouble() * 0.8) + 0.6), 3 * (float)((random.NextDouble() * 0.8) + 0.6));
-                        //particle.AddComponent(particlePhysics);
 
-                        Sprite sprite = Asset.GetSprite("GUI.Items.Potion_Pink.png", SpriteLayer.Foreground, true);
+                        Sprite sprite = Asset.GetSprite("Sprites.Dust.png", SpriteLayer.Foreground, true);
                         particle.AddComponent(sprite);
 
                         particle.AddComponent(new Particle(0.3f));
