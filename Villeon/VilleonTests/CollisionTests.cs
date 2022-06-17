@@ -56,8 +56,7 @@ namespace VilleonTests
             player.GetComponent<Transform>().Position -= new Vector2(0, 2);
             collisionSystem.Update(0);
 
-            //Assert.AreEqual(new Vector2(0, 1), player.GetComponent<Collider>().Position);
-            Assert.AreEqual(player.GetComponent<Collider>().Position, player.GetComponent<Transform>().Position);
+            Assert.AreEqual(new Vector2(0, 1), player.GetComponent<Collider>().Position);
         }
 
         [TestMethod]
