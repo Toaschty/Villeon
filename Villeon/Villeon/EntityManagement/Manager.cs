@@ -101,6 +101,14 @@ namespace Villeon.EntityManagement
             }
         }
 
+        public void RemoveEntities(List<IEntity> entities)
+        {
+            foreach (IEntity entity in entities)
+            {
+                SceneLoader.CurrentScene.RemoveEntity(entity);
+            }
+        }
+
         public bool UnregisterSystem(ISystem system)
         {
             return SceneLoader.CurrentScene.RemoveSystem(system);

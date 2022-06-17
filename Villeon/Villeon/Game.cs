@@ -68,6 +68,17 @@ namespace Villeon
             testNPC.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-2f), 4f, 4f));
             Option talk = new Option("Talk to me [T]", Keys.T);
             testNPC.AddComponent(new Interactable(talk));
+            testNPC.AddComponent(new Dialog("Was geht das ist ne menge text die ich irgendwie in ein so nen ding schreib lel das ist asd asd asdasdasdasd olis ist ein boi" +
+                "mit dicken kok ehehehhe" +
+                " boobaaa" +
+                " uffffffffffffffffffffffff" +
+                " sadt" +
+                " asdasdadasdsadas" +
+                " dasdasdsadsa" +
+                " dasdasdadasd" +
+                " aaaaaah " +
+                "Was geht das ist ne menge text die ich irgendwie in ein so nen ding schreib lel das ist asd asd asdasdasdasd olis ist ein boi " +
+                "Ende"));
             Scenes.VillageScene.AddEntity(testNPC);
         }
 

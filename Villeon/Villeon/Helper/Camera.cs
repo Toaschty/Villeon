@@ -65,6 +65,8 @@ namespace Villeon.Helper
 
         public static Matrix4 GetInverseMatrix() => GetMatrix().Inverted();
 
+        public static Matrix4 GetInverseScreenMatrix() => GetScreenMatrix().Inverted();
+
         public static Vector2 Transform(this Vector2 input, Matrix4 transformation) => Vector4.TransformRow(new Vector4(input.X, input.Y, 0f, 1f), transformation).Xy;
 
         public static void SetRotation(float rotation) => _cameraRotation = rotation;

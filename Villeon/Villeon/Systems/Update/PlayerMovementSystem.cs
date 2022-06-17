@@ -23,6 +23,10 @@ namespace Villeon.Systems.Update
 
         public void Update(float time)
         {
+            // Cant move when In Menu or Dialog
+            if (StateManager.InMenu || StateManager.InDialog)
+                return;
+
             Physics physics;
             Collider collider;
             DynamicCollider dynamicCollider;

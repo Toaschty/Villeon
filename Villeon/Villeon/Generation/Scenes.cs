@@ -102,6 +102,7 @@ namespace Villeon.Generation
             VillageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             VillageScene.AddSystem(new AnimationSystem("AnimationSystem"));
             VillageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
+            VillageScene.AddSystem(new DialogSystem("DialogSystem"));
             VillageScene.SetTileMap(villageTileMap, false);
         }
 

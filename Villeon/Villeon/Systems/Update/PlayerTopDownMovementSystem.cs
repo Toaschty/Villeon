@@ -21,7 +21,8 @@ namespace Villeon.Systems.Update
 
         public void Update(float time)
         {
-            if (StateManager.InMenu)
+            // Cant move when In Menu or Dialog
+            if (StateManager.InMenu || StateManager.InDialog)
                 return;
 
             float leftRightAxis = KeyHandler.IsHeld(Keys.A) ? -1 : KeyHandler.IsHeld(Keys.D) ? 1 : 0;
