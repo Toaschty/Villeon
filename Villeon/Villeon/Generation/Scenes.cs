@@ -109,7 +109,7 @@ namespace Villeon.Generation
         {
             SceneLoader.AddScene(DungeonScene);
 
-            TileMapDictionary tileMap = new TileMapDictionary("DungeonTileMap.tmx");
+            TileMapDictionary tileMap = new TileMapDictionary("Dungeon.tmx");
             DungeonScene.AddSystem(new EffectSystem("Effects"));
             DungeonScene.AddSystem(new PlayerMovementSystem("Move"));
             DungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
@@ -121,7 +121,7 @@ namespace Villeon.Generation
             DungeonScene.AddSystem(new CollisionSystem("Collision"));
             DungeonScene.AddSystem(new PlayerDeathSystem("Health"));
             DungeonScene.AddSystem(new CameraSystem("CameraSystem"));
-            DungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            DungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             DungeonScene.AddSystem(new EnemyHealthbarSystem("EnemyHealthbarSystem"));
             DungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
             DungeonScene.AddSystem(new ParticleSystem("ParticleSystem"));

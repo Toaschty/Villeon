@@ -64,18 +64,11 @@ namespace Villeon
             floor.AddComponent(new Collider(new Vector2(0), new Transform(new Vector2(-20, -2), 1f, 0f), 100f, 1f));
             Scenes.DungeonScene.AddEntity(floor);
 
-            // Ladder
-            IEntity ladder = new Entity(new Transform(new Vector2(42, 0), 1f, 0), "Ladder");
-            ladder.AddComponent(new Trigger(TriggerLayerType.LADDER, 2f, 100f));
-            ladder.AddComponent(new Ladder());
-            Scenes.DungeonScene.AddEntity(ladder);
-
             IEntity testNPC = new Entity(new Transform(Constants.VILLAGE_SPAWN_POINT - new Vector2(10, 0), 1f, 0f), "NPC");
             testNPC.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-2f), 4f, 4f));
             testNPC.AddComponent(new Interactable());
             Scenes.VillageScene.AddEntity(testNPC);
 
-            SpawnDungeon();
         }
 
         private void SpawnDungeon()
