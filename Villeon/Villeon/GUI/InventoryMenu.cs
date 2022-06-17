@@ -265,6 +265,27 @@ namespace Villeon.GUI
                 Console.WriteLine("Item: Null");
         }
 
+        public Item? GetCurrentlySelectedItem()
+        {
+            if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item is not null)
+            {
+                Item? item = _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item;
+                return item;
+            }
+
+            return null;
+        }
+
+        private void UseItem(Item item)
+        {
+            switch (item.ItemType)
+            {
+                case Item.ITEM_TYPE.POTION:
+
+                    break;
+            }
+        }
+
         private void HandleTabNavigation(Keys key)
         {
             _allEntities.Remove(_tabBar[_playerTabbarPosition.Y, _playerTabbarPosition.X]);
