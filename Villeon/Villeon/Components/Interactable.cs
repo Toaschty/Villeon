@@ -21,6 +21,8 @@ namespace Villeon.Components
             }
         }
 
+        public bool CanInteract { get; set; }
+
         public List<Option> Options
         {
             get => _options;

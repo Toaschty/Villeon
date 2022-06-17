@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
@@ -34,6 +35,7 @@ namespace Villeon.Systems.TriggerSystems
         {
             if (_interactionPopup is not null)
             {
+                _interactionPopup.Interactable.CanInteract = false;
                 _interactionPopup.Delete();
                 _interactionPopup = null;
             }
@@ -55,6 +57,9 @@ namespace Villeon.Systems.TriggerSystems
                     {
                         Transform receiverTransform = collisionPair.Item2.GetComponent<Transform>();
                         Interactable actorInteractable = collisionPair.Item1.GetComponent<Interactable>();
+
+                        // Other Systems with this Entity can now do its Interaction (Dialog, Shop, ..)
+                        actorInteractable.CanInteract = true;
 
                         // Create Interaction Popup
                         _interactionPopup = new InteractionPopup(receiverTransform.Position, actorInteractable, SpriteLayer.GUIBackground, SpriteLayer.GUIMiddleground);

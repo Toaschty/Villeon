@@ -14,15 +14,17 @@ namespace Villeon.GUI
         private List<IEntity> _frames = new List<IEntity>();
         private List<Entity> _text = new List<Entity>();
         private List<Option> _options;
+        private Interactable _interactable;
 
         public InteractionPopup(Vector2 position, Interactable interactable, SpriteLayer frameLayer, SpriteLayer textLayer)
         {
+            _interactable = interactable;
             _options = interactable.Options;
 
             // Figure out startingposition of the boxes
             float popupFrameScale = 0.5f;
             Sprite popupSprite = Assets.Asset.GetSprite("GUI.Popup.png", frameLayer, true);
-            Vector2 popupFramePos = new Vector2(position.X + 2f, position.Y + ((interactable.Options.Count * popupSprite.Height * popupFrameScale) / 2f));
+            Vector2 popupFramePos = new Vector2(position.X + 2f, position.Y + ((_interactable.Options.Count * popupSprite.Height * popupFrameScale) / 2f));
             foreach (Option option in _options)
             {
                 // Create the popup frame
@@ -43,6 +45,8 @@ namespace Villeon.GUI
         }
 
         public List<Option> Options { get => _options; }
+
+        public Interactable Interactable { get => _interactable; }
 
         public void Spawn()
         {
