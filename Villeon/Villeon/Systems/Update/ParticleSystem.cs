@@ -20,16 +20,21 @@ namespace Villeon.Systems.Update
         public void Update(float time)
         {
             List<IEntity> particlesToBeRemoved = new List<IEntity>();
-            foreach (IEntity entity in Entities)
+            foreach (IEntity particleEntity in Entities)
             {
-                Particle particle = entity.GetComponent<Particle>() !;
+                Particle particle = particleEntity.GetComponent<Particle>() !;
                 particle.TTL -= time;
 
-                Transform transform = entity.GetComponent<Transform>();
+                Transform transform = particleEntity.GetComponent<Transform>();
                 transform.Scale = new Vector2(0.1f * (particle.TTL / particle.MaxTTL));
 
+                Sprite sprite = particleEntity.GetComponent<Sprite>();
+                Color4 color = sprite.Color;
+                color.A = 0.5f;
+                sprite.Color = color;
+
                 if (particle.TTL <= 0.0f)
-                    particlesToBeRemoved.Add(entity);
+                    particlesToBeRemoved.Add(particleEntity);
             }
 
             for (int i = 0; i < particlesToBeRemoved.Count; i++)
