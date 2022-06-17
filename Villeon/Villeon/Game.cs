@@ -68,17 +68,12 @@ namespace Villeon
             testNPC.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-2f), 4f, 4f));
             Option talk = new Option("Talk to me [T]", Keys.T);
             testNPC.AddComponent(new Interactable(talk));
-            testNPC.AddComponent(new Dialog("Was geht das ist ne menge text die ich irgendwie in ein so nen ding schreib lel das ist asd asd asdasdasdasd olis ist ein boi" +
-                "mit dicken kok ehehehhe" +
-                " boobaaa" +
-                " uffffffffffffffffffffffff" +
-                " sadt" +
-                " asdasdadasdsadas" +
-                " dasdasdsadsa" +
-                " dasdasdadasd" +
-                " aaaaaah " +
-                "Was geht das ist ne menge text die ich irgendwie in ein so nen ding schreib lel das ist asd asd asdasdasdasd olis ist ein boi " +
-                "Ende"));
+            testNPC.AddComponent(new Dialog(
+                "This is the first line of the Dialog, you can write alot of stuff here.. pretty much like ... eh much",
+                "This is the second line And is on the next page of the page.... ",
+                "If something doesn't fit on the page it will be put on the next page",
+                "This is a testing test that will test if something will be put on the next page and not break the flow of the pages ... This is a testing test that will test if something will be put on the next page and not break the flow of the pages .. OK this should be somewhat close to the end so please put me on the next page thanks!",
+                "The end?!"));
             Scenes.VillageScene.AddEntity(testNPC);
         }
 

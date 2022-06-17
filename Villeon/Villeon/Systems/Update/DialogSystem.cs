@@ -37,7 +37,7 @@ namespace Villeon.Systems.Update
                     GUIHandler.GetInstance().ClearMenu();
                     StateManager.InDialog = true;
                     Dialog dialog = entity.GetComponent<Dialog>();
-                    _dialogBox = new DialogBox(dialog.DialogString);
+                    _dialogBox = new DialogBox(dialog.DialogLines);
                 }
 
                 // Go to the next page in the current dialog box
