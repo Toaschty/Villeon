@@ -21,11 +21,11 @@ namespace Villeon.GUI
             _entities = new List<IEntity>();
 
             // Load Sprites
-            Sprite dungeonButton = Asset.GetSprite("GUI.Dungeon_Button.png", SpriteLayer.ScreenGuiForeground, false);
-            Sprite mapButton = Asset.GetSprite("GUI.Map_Button.png", SpriteLayer.ScreenGuiForeground, false);
-            Sprite equipmentButton = Asset.GetSprite("GUI.Equipment_Button.png", SpriteLayer.ScreenGuiForeground, false);
-            Sprite inventoryButton = Asset.GetSprite("GUI.Inventar_Button.png", SpriteLayer.ScreenGuiForeground, false);
-            Sprite hotbarIcon = Asset.GetSprite("GUI.Inventory.InventorySlot.png", SpriteLayer.ScreenGuiForeground, false);
+            Sprite dungeonButton = Asset.GetSprite("GUI.Dungeon_Button.png", SpriteLayer.ScreenGuiBackground, false);
+            Sprite mapButton = Asset.GetSprite("GUI.Map_Button.png", SpriteLayer.ScreenGuiBackground, false);
+            Sprite equipmentButton = Asset.GetSprite("GUI.Equipment_Button.png", SpriteLayer.ScreenGuiBackground, false);
+            Sprite inventoryButton = Asset.GetSprite("GUI.Inventar_Button.png", SpriteLayer.ScreenGuiBackground, false);
+            Sprite hotbarIcon = Asset.GetSprite("GUI.Slot.png", SpriteLayer.ScreenGuiBackground, false);
 
             // Menu Button Entities
             IEntity dungeonButtonEntity = new Entity(new Transform(new Vector2(-9f, -5f), 0.3f, 0f), "Dungeon Button");
