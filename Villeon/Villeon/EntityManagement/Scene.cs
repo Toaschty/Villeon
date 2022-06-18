@@ -25,10 +25,24 @@ namespace Villeon.EntityManagement
 
         public void AddSystem(ISystem system)
         {
-            if (system is IUpdateSystem && !_updateSystems.Contains((IUpdateSystem)system))
+            foreach (IUpdateSystem updateSystem in _updateSystems)
+            {
+                // Dont add the system if the system already exists
+                if (updateSystem.GetType() == system.GetType())
+                    return;
+            }
+
+            foreach (IRenderSystem renderSystem in _renderSystems)
+            {
+                // Dont add the system if the system already exists
+                if (renderSystem.GetType() == system.GetType())
+                    return;
+            }
+
+            if (system is IUpdateSystem)
                 _updateSystems.Add((IUpdateSystem)system);
 
-            if (system is IRenderSystem && !_renderSystems.Contains((IRenderSystem)system))
+            if (system is IRenderSystem)
                 _renderSystems.Add((IRenderSystem)system);
 
             // Make sure, every system has its assigned Entities
@@ -95,6 +109,14 @@ namespace Villeon.EntityManagement
             removed = _entities.Remove(entity);
             RemoveFromSystems(entity);
             return removed;
+        }
+
+        public void RemoveAllEntities()
+        {
+            foreach (IEntity entity in _entities)
+            {
+                RemoveEntity(entity);
+            }
         }
 
         public void SetTileMap(TileMapDictionary map, bool optimizedCollider)

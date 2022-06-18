@@ -10,6 +10,7 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using Villeon.Assets;
 using Villeon.Components;
+using Villeon.EntityManagement;
 using Villeon.Helper;
 using Villeon.Utils;
 using Zenseless.OpenTK;
@@ -281,12 +282,12 @@ namespace Villeon.Render
             Sprite sprite = data.Sprite !;
             Transform transform = data.Transform !;
             Vector2[] texCoords = sprite.TexCoords !;
-
+            Vector2 scale = Vector2.One;
             // [0, tex1, tex2, tex3, ..]
             int slot = 0;
             if (sprite.Texture != null)
             {
-               for (int i = 0; i < _textures.Count; i++)
+                for (int i = 0; i < _textures.Count; i++)
                 {
                     if (_textures[i] == sprite.Texture)
                     {
@@ -294,6 +295,17 @@ namespace Villeon.Render
                         break;
                     }
                 }
+
+                // Use the scale of the transform
+                scale = transform.Scale;
+            }
+            else
+            {
+                // Sprite has no texture
+                slot = 0;
+
+                // Use the Scale of the Light, Collider or Trigger
+                scale = data.Scale;
             }
 
             // Offset in the vertex Array for the given sprite
@@ -322,8 +334,8 @@ namespace Villeon.Render
                 }
 
                 // Position
-                _vertices[offset + 0] = transform.Position.X + data.Offset.X + (add.X * transform.Scale.X);
-                _vertices[offset + 1] = transform.Position.Y + data.Offset.Y + (add.Y * transform.Scale.Y);
+                _vertices[offset + 0] = transform.Position.X + data.Offset.X + (add.X * scale.X);
+                _vertices[offset + 1] = transform.Position.Y + data.Offset.Y + (add.Y * scale.Y);
                 _vertices[offset + 2] = -(int)sprite.RenderLayer;
 
                 // Color

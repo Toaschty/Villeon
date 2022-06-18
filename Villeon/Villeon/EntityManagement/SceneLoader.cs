@@ -7,50 +7,32 @@ namespace Villeon.EntityManagement
 {
     public class SceneLoader
     {
-        private static List<Scene> _scenes = new List<Scene>();
+        private static Dictionary<string, Scene> _scenesDictionary = new Dictionary<string, Scene>();
 
         public static Scene CurrentScene { get; private set; } = new Scene("NO_SCENE");
 
         public static void SetActiveScene(string sceneName)
         {
-            foreach (Scene scene in _scenes)
-            {
-                if (scene.Name == sceneName)
-                {
-                    // Clear all pressed and released keys before loading new scene
-                    KeyHandler.ClearKeys();
-
-                    // GUI - Clean up
-                    StateManager.InMenu = false;
-
-                    // GUIHandler.GetInstance().CurrentMenu = null;
-                    CurrentScene = scene;
-                    scene.StartUp();
-                    break;
-                }
-            }
+            Scene scene = _scenesDictionary[sceneName];
+            KeyHandler.ClearKeys();
+            StateManager.InMenu = false;
+            CurrentScene = scene;
+            CurrentScene.StartUp();
         }
 
         public static void AddToScene(IEntity entity, string sceneName)
         {
-            foreach (Scene scene in _scenes)
-            {
-                if (scene.Name == sceneName)
-                {
-                    scene.AddEntity(entity);
-                    break;
-                }
-            }
+            _scenesDictionary[sceneName].AddEntity(entity);
         }
 
         public static void AddScene(Scene scene)
         {
-            _scenes.Add(scene);
+            _scenesDictionary[scene.Name] = scene;
         }
 
-        public static List<Scene> GetScenes()
+        public static Scene GetScene(string sceneName)
         {
-            return _scenes;
+            return _scenesDictionary[sceneName];
         }
     }
 }

@@ -1,21 +1,62 @@
 ﻿{
-  "village": [
+  "VillageScene": [
     {
-      "name": "Joe",
-      "x": 10,
-      "y": 20,
+      "name": "Shopkeeper",
+      "x": 50,
+      "y": 50,
+      "options": [
+        {
+          "option": "Talk",
+          "key": "T"
+        },
+        {
+          "option": "Buy",
+          "key": "B"
+        },
+        {
+          "option": "Sell",
+          "key": "S"
+        }
+      ],
       "dialog": [
-        "Page1",
-        "Page2"
+        "You wanna buy some stuff, then press the correct button you imbicle",
+        "Why are you still here?"
       ]
     },
     {
-      "name": "Oli",
-      "x": 20,
-      "y": 230,
+      "name": "Otto",
+      "x": 55,
+      "y": 50,
+      "options": [
+        {
+          "option": "Talk",
+          "key": "T"
+        }
+      ],
       "dialog": [
-        "Page1 ist saftig",
-        "Page2 ist UUAH"
+        "You see that shopkeeper over there, you might want to talk to him"
+      ]
+    }
+  ],
+  "DungeonScene": [
+    {
+      "name": "DungeonJoe",
+      "x": 5,
+      "y": 5,
+      "options": [
+        {
+          "option": "Talk",
+          "key": "T"
+        },
+        {
+          "option": "Rescue",
+          "key": "R"
+        }
+      ],
+      "dialog": [
+        "I dont even know why im here... like why comon, I have kids at home",
+        "Wanna save me?",
+        "Please."
       ]
     }
   ]

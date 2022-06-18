@@ -64,22 +64,8 @@ namespace Villeon
             floor.AddComponent(new Collider(new Vector2(0), new Transform(new Vector2(-20, -2), 1f, 0f), 100f, 1f));
             Scenes.DungeonScene.AddEntity(floor);
 
-            IEntity testNPC = new Entity(new Transform(Constants.VILLAGE_SPAWN_POINT - new Vector2(10, 0), 1f, 0f), "NPC");
-            testNPC.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-2f), 4f, 4f));
-            Option talk = new Option("Talk to me [T]", Keys.T);
-            testNPC.AddComponent(new Interactable(talk));
-            testNPC.AddComponent(new Dialog(
-                "This is the first line of the Dialog, you can write alot of stuff here.. pretty much like ... eh much",
-                "This is the second line And is on the next page of the page.... ",
-                "If something doesn't fit on the page it will be put on the next page",
-                "This is a testing test that will test if something will be put on the next page and not break the flow of the pages ... This is a testing test that will test if something will be put on the next page and not break the flow of the pages .. OK this should be somewhat close to the end so please put me on the next page thanks!",
-                "The end?!"));
-            Scenes.VillageScene.AddEntity(testNPC);
-
-            dynamic npcs = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.NPCs.json")) !;
-            Console.WriteLine(npcs.village[1].name);
-            Console.WriteLine(npcs.village[1].dialog[0]);
-            Console.WriteLine(npcs.village[1].dialog[1]);
+            NPCLoader.LoadNpcs("VillageScene");
+            NPCLoader.LoadNpcs("DungeonScene");
         }
 
         private void SpawnDungeon()
@@ -307,6 +293,17 @@ namespace Villeon
             _fps!.SetFps((float)args.Time);
             Time.SetTime((float)args.Time);
             Manager.GetInstance().Update((float)args.Time);
+            if (KeyHandler.IsPressed(Keys.O))
+            {
+                Manager.GetInstance().RemoveAllEntitiesFromScene("VillageScene");
+            }
+
+            if (KeyHandler.IsPressed(Keys.L))
+            {
+                Scenes.SetupVillageScene();
+                Scenes.VillageScene.AddEntity(CreateVillagePlayer(Constants.VILLAGE_SPAWN_POINT));
+            }
+
             MouseHandler.ClickedMouseButtons.Clear();
             KeyHandler.UpdateKeys();
         }

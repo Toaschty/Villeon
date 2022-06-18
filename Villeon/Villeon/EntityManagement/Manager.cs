@@ -109,6 +109,11 @@ namespace Villeon.EntityManagement
             }
         }
 
+        public void RemoveAllEntitiesFromScene(string sceneName)
+        {
+            SceneLoader.GetScene(sceneName).RemoveAllEntities();
+        }
+
         public bool UnregisterSystem(ISystem system)
         {
             return SceneLoader.CurrentScene.RemoveSystem(system);
