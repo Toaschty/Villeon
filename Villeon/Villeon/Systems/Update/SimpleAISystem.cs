@@ -54,14 +54,13 @@ namespace Villeon.Systems.Update
                 Transform transform = enemyEntity.GetComponent<Transform>();
                 Vector2 playerDirection = transform.Position - playerTransform.Position;
 
-                float side = -(playerDirection.X / MathF.Abs(playerDirection.X));
+                // Make sure it doesn't reach 0 -> Can crash
+                float side = -(playerDirection.X / (MathF.Abs(playerDirection.X) + 0.000001f));
                 if (playerDirection.Length < 10 && playerDirection.Length > 2.2f)
                 {
                     Physics physics = enemyEntity.GetComponent<Physics>();
                     Collider collider = enemyEntity.GetComponent<Collider>();
-
                     physics.Acceleration += new Vector2(Constants.MOVEMENTSPEED * side * 0.4f, physics.Acceleration.Y);
-
                     if (side < 0 && collider.HasCollidedLeft && collider.HasCollidedBottom)
                         physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
                     else if (side > 0 && collider.HasCollidedRight && collider.HasCollidedBottom)
@@ -97,15 +96,5 @@ namespace Villeon.Systems.Update
                 }
             }
         }
-
-        //HashSet<IEntity> allEntities = Manager.GetInstance().GetEntities();
-        //IEntity? player = null;
-        //foreach (IEntity entity in allEntities)
-        //{
-        //    if (entity.GetComponent<Player>() != null)
-        //    {
-        //        player = entity;
-        //    }
-        //}
     }
 }
