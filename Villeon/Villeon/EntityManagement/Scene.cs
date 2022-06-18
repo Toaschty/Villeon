@@ -97,6 +97,14 @@ namespace Villeon.EntityManagement
             return removed;
         }
 
+        public void RemoveAllEntities()
+        {
+            foreach (IEntity entity in _entities)
+            {
+                RemoveEntity(entity);
+            }
+        }
+
         public void SetTileMap(TileMapDictionary map, bool optimizedCollider)
         {
             foreach (IEntity entity in TileMapBuilder.GenerateEntitiesFromTileMap(map, optimizedCollider))
