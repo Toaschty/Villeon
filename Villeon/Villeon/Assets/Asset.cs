@@ -79,6 +79,16 @@ namespace Villeon.Assets
             AddSpriteSheet("Animations.slash_attack_left.png", new SpriteSheet(Color4.White, GetTexture("Animations.slash_attack_left.png"), 32, 32, 4, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Animations.slash_attack_right.png", new SpriteSheet(Color4.White, GetTexture("Animations.slash_attack_right.png"), 32, 32, 4, 0, SpriteLayer.Foreground));
 
+            // Dungeon Player Animations
+            AddSpriteSheet("Animations.d_player_idle.png", new SpriteSheet(Color4.White, GetTexture("Animations.d_player_idle.png"), 16, 32, 5, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Animations.d_player_walk_left.png", new SpriteSheet(Color4.White, GetTexture("Animations.d_player_walk_left.png"), 16, 32, 6, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Animations.d_player_walk_right.png", new SpriteSheet(Color4.White, GetTexture("Animations.d_player_walk_right.png"), 16, 32, 6, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Animations.d_player_jump_left.png", new SpriteSheet(Color4.White, GetTexture("Animations.d_player_jump_left.png"), 16, 32, 2, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Animations.d_player_jump_right.png", new SpriteSheet(Color4.White, GetTexture("Animations.d_player_jump_right.png"), 16, 32, 2, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Animations.d_player_fall_left.png", new SpriteSheet(Color4.White, GetTexture("Animations.d_player_fall_left.png"), 16, 32, 5, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Animations.d_player_fall_right.png", new SpriteSheet(Color4.White, GetTexture("Animations.d_player_fall_right.png"), 16, 32, 5, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Animations.d_player_climb.png", new SpriteSheet(Color4.White, GetTexture("Animations.d_player_climb.png"), 16, 32, 6, 0, SpriteLayer.Foreground));
+
             // Enemy Animations
             AddSpriteSheet("Animations.slime_jumping.png", new SpriteSheet(Color4.White, GetTexture("Animations.slime_jumping.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
 

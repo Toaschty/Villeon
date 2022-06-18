@@ -195,7 +195,14 @@ namespace Villeon
 
             // Setup player animations
             AnimationController animController = new AnimationController();
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_right.png", 0.08f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.d_player_idle.png", 0.5f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.d_player_walk_left.png", 0.08f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.d_player_walk_right.png", 0.08f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.d_player_jump_left.png", 0.2f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.d_player_jump_right.png", 0.2f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.d_player_fall_left.png", 0.1f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.d_player_fall_right.png", 0.1f));
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.d_player_climb.png", 0.08f));
             player.AddComponent(animController);
             return player;
         }

@@ -18,6 +18,8 @@ namespace Villeon.Helper
 
         public static bool IsGrounded { get; set; } = false;
 
+        public static bool IsClimbing { get; set; } = false;
+
         public static bool InMenu { get; set; } = false;
 
         public static bool InDialog { get; set; } = false;
