@@ -286,18 +286,18 @@ namespace Villeon
 
         private void SetupGUIEntities()
         {
-            // Menu Buttons - Village
-            GUI.Image dungeon_button = new GUI.Image("Dungeon_Button.png", new Vector2(-9f, -5f), new Vector2(0.3f));
-            GUI.Image map_button = new GUI.Image("Map_Button.png", new Vector2(-7.5f, -5f), new Vector2(0.3f));
-            GUI.Image equipment_button = new GUI.Image("Equipment_Button.png", new Vector2(-6f, -5f), new Vector2(0.3f));
-            GUI.Image inventar_button = new GUI.Image("Inventar_Button.png", new Vector2(-4.5f, -5f), new Vector2(0.3f));
+            // Overlay - Village
+            VillageOverlay villageOverlay = new VillageOverlay();
+            Scenes.VillageScene.AddEntities(villageOverlay.GetEntities());
 
-            Scenes.VillageScene.AddEntities(dungeon_button.Entity, map_button.Entity, equipment_button.Entity, inventar_button.Entity);
-            Scenes.DungeonScene.AddEntities(dungeon_button.Entity, map_button.Entity, equipment_button.Entity, inventar_button.Entity);
+            // Overlay - Dungeon
+            DungeonOverlay dungeonOverlay = new DungeonOverlay();
+            Scenes.DungeonScene.AddEntities(dungeonOverlay.GetEntities());
 
             // Menu View - Village
             Entity guiHandlerEntity = new Entity("GuiHandler");
             guiHandlerEntity.AddComponent(GUIHandler.GetInstance());
+
             Scenes.VillageScene.AddEntity(guiHandlerEntity);
             Scenes.DungeonScene.AddEntity(guiHandlerEntity);
         }
