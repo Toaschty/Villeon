@@ -171,7 +171,6 @@ namespace Villeon.Systems.Update
                         Convert.ToInt32(mulitplierLeft == 0);
             if (zeros > 1)
             {
-                Console.WriteLine(zeros);
                 return Direction.UP;
             }
 
