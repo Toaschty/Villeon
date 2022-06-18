@@ -133,6 +133,7 @@ namespace Villeon.Generation
             DungeonScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
             DungeonScene.AddSystem(new PlayerHealthbarSystem("PlayerHealthbar", Constants.PLAYER_MAX_HEALTH));
             DungeonScene.AddSystem(new ItemUseSystem("ItemUseSystem"));
+            DungeonScene.AddSystem(new DungeonPlayerAnimationControllerSystem("AnimationControllerSystem"));
             DungeonScene.SetTileMap(tileMap, true);
         }
 

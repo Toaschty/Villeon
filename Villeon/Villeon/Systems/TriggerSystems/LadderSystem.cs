@@ -17,7 +17,7 @@ namespace Villeon.Systems.TriggerSystems
             : base(name)
         {
             Signature.
-                IncludeAND(typeof(Trigger), typeof(Physics)).
+                IncludeAND(typeof(Trigger), typeof(Physics), typeof(Player)).
                 IncludeAND(typeof(Trigger), typeof(Ladder));
         }
 
@@ -32,6 +32,9 @@ namespace Villeon.Systems.TriggerSystems
 
         public void Update(float time)
         {
+            // Reset climbing state
+            StateManager.IsClimbing = false;
+
             // Iterate through each Trigger Layer
             foreach (TriggerLayerType layerKey in TriggerLayers.Keys)
             {
@@ -42,13 +45,12 @@ namespace Villeon.Systems.TriggerSystems
                 // Do action when collision happend
                 foreach (var collisionPair in TriggerLayers[layerKey].Collisions)
                 {
-                    // Player is not Ladder
-                    // Player gets the option to be able to press up
-                    // player goes up
                     if (KeyHandler.IsHeld(Keys.W))
                     {
                         Physics playerPhysics = collisionPair.Item2.GetComponent<Physics>();
                         playerPhysics.Velocity = new Vector2(playerPhysics.Velocity.X, 5f);
+
+                        StateManager.IsClimbing = true;
                     }
                 }
             }
