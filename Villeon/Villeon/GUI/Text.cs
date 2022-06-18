@@ -14,7 +14,7 @@ namespace Villeon.GUI
 {
     public class Text
     {
-        private List<Entity> _letters;
+        private List<IEntity> _letters;
 
         // Text settings
         private string _text;
@@ -25,7 +25,7 @@ namespace Villeon.GUI
 
         public Text(string text, Vector2 position, string font, float letterSpacing = 1.1f, float lineSpacing = 1.1f, float letterScale = 1f)
         {
-            _letters = new List<Entity>();
+            _letters = new List<IEntity>();
 
             _text = text;
             _position = position;
@@ -38,7 +38,7 @@ namespace Villeon.GUI
 
         public Text(string text, Vector2 position, string font, SpriteLayer layer, float letterSpacing = 1.1f, float lineSpacing = 1.1f, float letterScale = 1f)
         {
-            _letters = new List<Entity>();
+            _letters = new List<IEntity>();
 
             _text = text;
             _position = position;
@@ -49,9 +49,9 @@ namespace Villeon.GUI
             CreateLetters(font, layer);
         }
 
-        public List<Entity> Letters { get => _letters; set => _letters = value; }
+        public List<IEntity> Letters { get => _letters; set => _letters = value; }
 
-        public Entity[] GetEntities()
+        public IEntity[] GetEntities()
         {
             return _letters.ToArray();
         }

@@ -16,7 +16,7 @@ namespace Villeon.GUI
 {
     public class EquipmentMenu : IGUIMenu
     {
-        private List<Entity> _entities;
+        private List<IEntity> _entities;
 
         private float _letterScale = 0.35f;
 
@@ -25,7 +25,7 @@ namespace Villeon.GUI
         public EquipmentMenu()
         {
             // Create Menu layout
-            _entities = new List<Entity>();
+            _entities = new List<IEntity>();
 
             // Load character data
             _charakterJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.Character.json")) !;
@@ -38,14 +38,14 @@ namespace Villeon.GUI
 
             // Background
             Vector2 scrollMiddle = new Vector2(backgroundScrollSprite.Width / 2f, backgroundScrollSprite.Height / 2f);
-            Entity backgroundImage = new Entity(new Transform(Vector2.Zero - (scrollMiddle * 0.5f), 0.5f, 0f), "BackgroundImage");
+            IEntity backgroundImage = new Entity(new Transform(Vector2.Zero - (scrollMiddle * 0.5f), 0.5f, 0f), "BackgroundImage");
             backgroundImage.AddComponent(backgroundScrollSprite);
             _entities.Add(backgroundImage);
 
             // Character name
             string charakterName = _charakterJson.name.ToString();
             Text name = new Text(charakterName, new Vector2(-5.9f, 3.2f), "Alagard", 0f, 0.5f, _letterScale);
-            Array.ForEach(name.GetEntities(), entity => _entities.Add(entity));
+            _entities.AddRange(name.GetEntities());
 
             // Idle player animation
             Entity image = new Entity(new Transform(new Vector2(-4.2f, -1.6f), 0.7f, 0f), "Profil");
@@ -82,10 +82,10 @@ namespace Villeon.GUI
             Array.ForEach(hotbar.GetEntities(), entity => _entities.Add(entity));
 
             // Hotbar Slots
-            Entity slot1 = new Entity(new Transform(new Vector2(0.6f, -3.2f), 0.3f, 0f), "Slot1");
-            Entity slot2 = new Entity(new Transform(new Vector2(2.1f, -3.2f), 0.3f, 0f), "Slot2");
-            Entity slot3 = new Entity(new Transform(new Vector2(3.6f, -3.2f), 0.3f, 0f), "Slot3");
-            Entity slot4 = new Entity(new Transform(new Vector2(5.1f, -3.2f), 0.3f, 0f), "Slot4");
+            IEntity slot1 = new Entity(new Transform(new Vector2(0.6f, -3.2f), 0.3f, 0f), "Slot1");
+            IEntity slot2 = new Entity(new Transform(new Vector2(2.1f, -3.2f), 0.3f, 0f), "Slot2");
+            IEntity slot3 = new Entity(new Transform(new Vector2(3.6f, -3.2f), 0.3f, 0f), "Slot3");
+            IEntity slot4 = new Entity(new Transform(new Vector2(5.1f, -3.2f), 0.3f, 0f), "Slot4");
             slot1.AddComponent(slotSprite);
             slot2.AddComponent(slotSprite);
             slot3.AddComponent(slotSprite);

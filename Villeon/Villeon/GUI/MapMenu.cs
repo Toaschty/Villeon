@@ -15,7 +15,7 @@ namespace Villeon.GUI
 {
     public class MapMenu : IGUIMenu
     {
-        private List<Entity> _entities;
+        private List<IEntity> _entities;
 
         private float _letterScale = 0.2f;
 
@@ -39,7 +39,7 @@ namespace Villeon.GUI
         public MapMenu()
         {
             // Create Map layout
-            _entities = new List<Entity>();
+            _entities = new List<IEntity>();
 
             // Load sprites
             Sprite backgroundScrollSprite = Asset.GetSprite("GUI.Scroll.png", SpriteLayer.ScreenGuiBackground, false);
@@ -48,7 +48,7 @@ namespace Villeon.GUI
 
             // Background
             Vector2 scrollMiddle = new Vector2(backgroundScrollSprite.Width / 2f, backgroundScrollSprite.Height / 2f);
-            Entity backgroundImage = new Entity(new Transform(Vector2.Zero - (scrollMiddle * 0.5f), 0.5f, 0f), "BackgroundImage");
+            IEntity backgroundImage = new Entity(new Transform(Vector2.Zero - (scrollMiddle * 0.5f), 0.5f, 0f), "BackgroundImage");
             backgroundImage.AddComponent(backgroundScrollSprite);
             _entities.Add(backgroundImage);
 
@@ -67,7 +67,7 @@ namespace Villeon.GUI
 
             // Control Text
             Text controlText = new Text("Move [W A S D] Zoom [R F]", new Vector2(-6f, -4.5f), "Alagard", 0f, 3f, _letterScale);
-            Array.ForEach(controlText.GetEntities(), entity => _entities.Add(entity));
+            _entities.AddRange(controlText.GetEntities());
         }
 
         public IEntity[] GetEntities()

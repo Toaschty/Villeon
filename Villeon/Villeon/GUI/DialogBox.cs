@@ -104,7 +104,7 @@ namespace Villeon.GUI
             // Spawn the Text for the current page
             Text text = new Text(textForThisPage, new Vector2(-5.65f, -1.40f), "Alagard_Thin", 0.1f, 0f, 0.3f);
             _currentPageText.AddRange(text.Letters);
-            Manager.GetInstance().AddEntities(text.Letters);
+            Manager.GetInstance().AddEntities(text.GetEntities());
 
             return pageLinesFit;
         }

@@ -12,7 +12,7 @@ namespace Villeon.GUI
     public class InteractionPopup
     {
         private List<IEntity> _frames = new List<IEntity>();
-        private List<Entity> _text = new List<Entity>();
+        private List<IEntity> _text = new List<IEntity>();
         private List<Option> _options;
         private Interactable _interactable;
 
@@ -33,7 +33,7 @@ namespace Villeon.GUI
                 popupFrame.AddComponent(popupSprite);
 
                 Text optionText = new Text(option.OptionString, popupFramePos + new Vector2(0.4f, 0.2f), "Alagard", textLayer, 0f, 0f, 0.3f);
-                List<Entity> textEntities = optionText.Letters;
+                List<IEntity> textEntities = optionText.Letters;
 
                 // Add locally
                 _frames.Add(popupFrame);

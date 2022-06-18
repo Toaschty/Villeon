@@ -17,7 +17,7 @@ namespace Villeon.GUI
 {
     public class DungeonMenu : IGUIMenu
     {
-        private List<Entity> _entities;
+        private List<IEntity> _entities;
 
         private Entity _menuSelection;
 
@@ -46,7 +46,7 @@ namespace Villeon.GUI
         public DungeonMenu()
         {
             // Create Menu layout
-            _entities = new List<Entity>();
+            _entities = new List<IEntity>();
 
             // Load cave data
             _cavesJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.DungeonMenu.json")) !;
@@ -62,7 +62,7 @@ namespace Villeon.GUI
 
             // Background
             Vector2 scrollMiddle = new Vector2(backgroundScrollSprite.Width / 2f, backgroundScrollSprite.Height / 2f);
-            Entity backgroundImage = new Entity(new Transform(Vector2.Zero - (scrollMiddle * 0.5f), 0.5f, 0f), "BackgroundImage");
+            IEntity backgroundImage = new Entity(new Transform(Vector2.Zero - (scrollMiddle * 0.5f), 0.5f, 0f), "BackgroundImage");
             backgroundImage.AddComponent(backgroundScrollSprite);
             _entities.Add(backgroundImage);
 

@@ -15,14 +15,14 @@ namespace Villeon.GUI
 {
     public class MainMenuSetup
     {
-        private List<Entity> _entities;
+        private List<IEntity> _entities;
 
         private float _logoTextSize = 1.5f;
         private float _letterScale = 0.35f;
 
         public MainMenuSetup()
         {
-            _entities = new List<Entity>();
+            _entities = new List<IEntity>();
 
             // Load Sprites
             Sprite villeonLogo = Asset.GetSprite("GUI.Scroll_Logo.png", SpriteLayer.ScreenGuiBackground, false);
@@ -35,7 +35,7 @@ namespace Villeon.GUI
 
             // Load logo text
             Text logoText = new Text("Villeon", new Vector2(-5.5f, 1f), "Alagard", 0f, 0.5f, _logoTextSize);
-            Array.ForEach(logoText.GetEntities(), entity => _entities.Add(entity));
+            _entities.AddRange(logoText.GetEntities());
 
             // Load menu text
             Text newGameText = new Text("New Game", new Vector2(-1.9f, -0.2f), "Alagard", 0f, 0.5f, _letterScale);
