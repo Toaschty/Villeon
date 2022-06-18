@@ -11,30 +11,27 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
+using Zenseless.OpenTK;
 
 namespace Villeon.Generation
 {
-    public class NPCLoader
+    public static class NPCLoader
     {
-        // Take the npc json
-        // place all the npcs
-        // shove dialog into em
-        public NPCLoader()
-        {
-
-        }
-
         public static void LoadNpcs(string sceneName)
         {
+            // Load the JSON
             JObject npcs = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.NPCs.json")) !;
-            dynamic scene = npcs.SelectToken(sceneName) !;
-            int npcCount = scene.Count;
 
-            // Add the NPCS
+            // Choose the current scene
+            dynamic scene = npcs.SelectToken(sceneName) !;
+
+            // Add all the NPCs to the Scene
+            int npcCount = scene.Count;
             for (int i = 0; i < npcCount; i++)
             {
                 // Get NPC Name, X Position, Y Position
                 string npcName = scene[i].name;
+                string texturePath = scene[i].texturePath;
                 float x = scene[i].x;
                 float y = scene[i].y;
 
@@ -55,18 +52,20 @@ namespace Villeon.Generation
                     optionIndex++;
                 }
 
-                SpawnNPC(sceneName, npcName, x, y, optionArray, dialog);
+                SpawnNPC(sceneName, npcName, texturePath, x, y, optionArray, dialog);
             }
         }
 
-        private static void SpawnNPC(string sceneName, string npcName, float x, float y, Option[] options, string[] dialogPages)
+        private static void SpawnNPC(string sceneName, string npcName, string texturepath, float x, float y, Option[] options, string[] dialogPages)
         {
+            // Create the Entity
             IEntity entity = new Entity(new Transform(new Vector2(x, y), 1.0f, 0.0f), npcName);
             entity.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-1, -1), 2f, 2f));
             entity.AddComponent(new Interactable(options));
             entity.AddComponent(new Dialog(dialogPages));
-            entity.AddComponent(Assets.Asset.GetSprite("Sprites.Player.png", SpriteLayer.Foreground, true));
+            entity.AddComponent(Assets.Asset.GetSprite(texturepath, SpriteLayer.Foreground, true));
 
+            // Spawn it via the manager
             Manager.GetInstance().AddEntityToScene(entity, sceneName);
         }
     }

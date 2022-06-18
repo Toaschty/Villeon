@@ -29,6 +29,10 @@ namespace Villeon.Systems.Update
                 // Enemy is dead
                 if (health.CurrentHealth <= 0)
                 {
+                    // What mob has died?
+                    // find out what it drops
+                    // drop the stuff
+
                     Transform transformCopy = new Transform(entity.GetComponent<Transform>());
                     transformCopy.Position += new Vector2(0, 1f);
                     transformCopy.Scale = new Vector2(0.25f);
@@ -42,6 +46,8 @@ namespace Villeon.Systems.Update
                     physics.Velocity = new Vector2(random.Next(-20, 20), 5);
                     mobDrop.AddComponent(physics);
                     mobDrop.AddComponent(new Drops());
+
+
                     Manager.GetInstance().AddEntity(mobDrop);
 
                     // Remove the dead entity

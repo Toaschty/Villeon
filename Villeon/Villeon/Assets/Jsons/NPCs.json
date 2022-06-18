@@ -2,6 +2,7 @@
   "VillageScene": [
     {
       "name": "Shopkeeper",
+      "texturePath": "Sprites.Player.png",
       "x": 50,
       "y": 50,
       "options": [
@@ -27,6 +28,7 @@
       "name": "Otto",
       "x": 55,
       "y": 50,
+      "texturePath": "Sprites.Player.png",
       "options": [
         {
           "option": "Talk",
@@ -43,6 +45,7 @@
       "name": "DungeonJoe",
       "x": 5,
       "y": 5,
+      "texturePath": "Sprites.Player.png",
       "options": [
         {
           "option": "Talk",

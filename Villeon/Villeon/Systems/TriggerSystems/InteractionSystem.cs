@@ -33,6 +33,15 @@ namespace Villeon.Systems.TriggerSystems
 
         public void Update(float time)
         {
+            // Hide the InteractionPopup when the player is unable to do much - Dialog, Menu, etc.
+            if (!StateManager.IsPlaying)
+            {
+                if (_interactionPopup is not null)
+                    _interactionPopup.Delete();
+                return;
+            }
+
+            // If Not in range delete the popup and disable interactions
             if (_interactionPopup is not null)
             {
                 _interactionPopup.Interactable.CanInteract = false;
@@ -45,9 +54,7 @@ namespace Villeon.Systems.TriggerSystems
             {
                 // Continue if there is no collision on this layer
                 if (TriggerLayers[layerKey].Collisions is null)
-                {
                     continue;
-                }
 
                 // Do action when collision happend
                 foreach (var collisionPair in TriggerLayers[layerKey].Collisions)
@@ -64,18 +71,6 @@ namespace Villeon.Systems.TriggerSystems
                         // Create Interaction Popup
                         _interactionPopup = new InteractionPopup(receiverTransform.Position, actorInteractable, SpriteLayer.GUIBackground, SpriteLayer.GUIMiddleground);
                         _interactionPopup.Spawn();
-                    }
-
-                    // With a popup present -> check all the keys inside the options of the popup
-                    if (_interactionPopup is not null)
-                    {
-                        foreach (Option option in _interactionPopup.Options)
-                        {
-                            if (KeyHandler.IsPressed(option.Key))
-                            {
-                                Console.WriteLine("User presed: " + option.Key);
-                            }
-                        }
                     }
                 }
             }

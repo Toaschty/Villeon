@@ -4,7 +4,7 @@ namespace Villeon.Helper
 {
     public static class StateManager
     {
-        public static bool IsPlaying => !(InPause || InOptions || InShop || InMenu);
+        public static bool IsPlaying => !(InPause || InOptions || InShop || InMenu || InDialog);
 
         // Menu
         public static bool InPause { get; set; } = false;
