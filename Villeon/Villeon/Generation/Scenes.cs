@@ -116,6 +116,8 @@ namespace Villeon.Generation
             DungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             DungeonScene.AddSystem(new SimpleAISystem("SimpleAISystem"));
             DungeonScene.AddSystem(new PhysicsSystem("Physics"));
+            DungeonScene.AddSystem(new PhysicsSystem("Physics"));
+            DungeonScene.AddSystem(new PhysicsSystem("Physics"));
             DungeonScene.AddSystem(new TriggerSystem("Trigger"));
             DungeonScene.AddSystem(new PortalSystem("PortalSystem"));
             DungeonScene.AddSystem(new DamageSystem("DamageSystem"));

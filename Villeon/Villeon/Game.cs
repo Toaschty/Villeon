@@ -293,6 +293,17 @@ namespace Villeon
             _fps!.SetFps((float)args.Time);
             Time.SetTime((float)args.Time);
             Manager.GetInstance().Update((float)args.Time);
+            if (KeyHandler.IsPressed(Keys.O))
+            {
+                Manager.GetInstance().RemoveAllEntitiesFromScene("VillageScene");
+            }
+
+            if (KeyHandler.IsPressed(Keys.L))
+            {
+                Scenes.SetupVillageScene();
+                Scenes.VillageScene.AddEntity(CreateVillagePlayer(Constants.VILLAGE_SPAWN_POINT));
+            }
+
             MouseHandler.ClickedMouseButtons.Clear();
             KeyHandler.UpdateKeys();
         }
