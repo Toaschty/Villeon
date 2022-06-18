@@ -38,6 +38,7 @@ namespace Villeon
         {
             _gameWindow = WindowHelper.CreateWindow();
             TypeRegistry.SetupTypes();
+            ItemDrops.SetupDrops();
             Asset.LoadRessources();
             _fps = new FPS(_gameWindow);
         }

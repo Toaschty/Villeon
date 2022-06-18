@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace Villeon.Components
 {
-    public class EnemyAI : IComponent
+    public class Enemy : IComponent
     {
-
-        public EnemyAI(int damage)
+        public Enemy(string nameInJson)
         {
-            Damage = damage;
+            Name = nameInJson;
         }
 
-        public int Damage { get; set; }
+        public string Name { get; set; }
     }
 }

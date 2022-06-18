@@ -17,7 +17,7 @@ namespace Villeon.Systems.Update
         public MobDropSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Health), typeof(EnemyAI), typeof(Trigger));
+            Signature.IncludeAND(typeof(Health), typeof(Enemy), typeof(EnemyAI), typeof(Trigger));
         }
 
         public void Update(float time)
@@ -29,6 +29,11 @@ namespace Villeon.Systems.Update
                 // Enemy is dead
                 if (health.CurrentHealth <= 0)
                 {
+                    Enemy enemy = entity.GetComponent<Enemy>();
+                    string enemyName = enemy.Name;
+
+
+
                     // What mob has died?
                     // find out what it drops
                     // drop the stuff

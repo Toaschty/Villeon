@@ -1,18 +1,18 @@
-﻿{
-  "items": [
-    {
-      "name": "HealthPotion",
-      "price": "5",
-      "itemType": "Potion",
-      "StackSize": 20,
-      "sprite": "Potion_Item.png"
-    },
-    {
-      "name": "Sword",
-      "price": "20",
-      "itemType": "Weapon",
-      "StackSize": 1,
-      "sprite": "Sword_1.png"
-    }
-  ]
-}
+﻿[
+  {
+    "name": "HealthPotion",
+    "index": 0,
+    "price": "5",
+    "itemType": "Potion",
+    "stackSize": 20,
+    "sprite": "Potion_Item.png"
+  },
+  {
+    "name": "Sword",
+    "index": 1,
+    "price": "20",
+    "itemType": "Weapon",
+    "stackSize": 1,
+    "sprite": "Sword_1.png"
+  }
+ ]

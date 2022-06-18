@@ -36,6 +36,15 @@ namespace Villeon.GUI
             _itemType = type;
         }
 
+        public Item(string name, string sprite, int itemMaxStack, int price, ITEM_TYPE type, SpriteLayer layer)
+        {
+            _name = name;
+            _sprite = Asset.GetSprite("GUI.Items." + sprite, layer, true);
+            _price = price;
+            _itemStackSize = itemMaxStack;
+            _itemType = type;
+        }
+
         public enum ITEM_TYPE
         {
             WEAPON,
