@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
-using Villeon.EntityManagement;
 using Villeon.Utils;
 
-namespace Villeon.Helper
+namespace Villeon.EntityManagement
 {
     public class DirectionalSceneLight
     {

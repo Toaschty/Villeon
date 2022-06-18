@@ -34,7 +34,7 @@ namespace Villeon.Generation
             SmithScene.AddSystem(new TriggerSystem("Trigger"));
             SmithScene.AddSystem(new PortalSystem("PortalSystem"));
             SmithScene.AddSystem(new CameraSystem("CameraSystem"));
-            SmithScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            SmithScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             SmithScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             SmithScene.AddSystem(new AnimationSystem("AnimationSystem"));
             SmithScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
@@ -64,7 +64,7 @@ namespace Villeon.Generation
 
             // Add required systems
             MainMenuScene.AddSystem(new CameraSystem("CameraSystem"));
-            MainMenuScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            MainMenuScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             MainMenuScene.AddSystem(new AutoCameraMovementSystem("MovingCamera"));
             MainMenuScene.AddSystem(new MainMenuInputSystem("MainMenuInput"));
         }
@@ -79,7 +79,7 @@ namespace Villeon.Generation
             ShopScene.AddSystem(new TriggerSystem("Trigger"));
             ShopScene.AddSystem(new PortalSystem("PortalSystem"));
             ShopScene.AddSystem(new CameraSystem("CameraSystem"));
-            ShopScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            ShopScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             ShopScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             ShopScene.AddSystem(new AnimationSystem("AnimationSystem"));
             ShopScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
@@ -97,7 +97,7 @@ namespace Villeon.Generation
             VillageScene.AddSystem(new TriggerSystem("Trigger"));
             VillageScene.AddSystem(new PortalSystem("PortalSystem"));
             VillageScene.AddSystem(new CameraSystem("CameraSystem"));
-            VillageScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            VillageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             VillageScene.AddSystem(new InteractionSystem("InteractionSystem"));
             VillageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             VillageScene.AddSystem(new AnimationSystem("AnimationSystem"));
