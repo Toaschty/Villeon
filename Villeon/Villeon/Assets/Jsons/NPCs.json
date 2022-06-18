@@ -1,0 +1,22 @@
+﻿{
+  "village": [
+    {
+      "name": "Joe",
+      "x": 10,
+      "y": 20,
+      "dialog": [
+        "Page1",
+        "Page2"
+      ]
+    },
+    {
+      "name": "Oli",
+      "x": 20,
+      "y": 230,
+      "dialog": [
+        "Page1 ist saftig",
+        "Page2 ist UUAH"
+      ]
+    }
+  ]
+}

@@ -33,7 +33,6 @@ namespace Villeon.Helper
             // Store Screen coordinaes
             ScreenMousePosition = args.Position;
             Matrix4 fromViewportToScreenCoords = Camera.InverseViewportMatrix * Camera.GetInverseScreenMatrix();
-            Console.WriteLine(ScreenMousePosition.Transform(fromViewportToScreenCoords));
 
             // Convert Screen to Worldcoordinates and store it
             Matrix4 fromViewportToWorldCoords = Camera.InverseViewportMatrix * Camera.GetInverseMatrix();
