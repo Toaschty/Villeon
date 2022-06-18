@@ -75,6 +75,11 @@ namespace Villeon
                 "This is a testing test that will test if something will be put on the next page and not break the flow of the pages ... This is a testing test that will test if something will be put on the next page and not break the flow of the pages .. OK this should be somewhat close to the end so please put me on the next page thanks!",
                 "The end?!"));
             Scenes.VillageScene.AddEntity(testNPC);
+
+            dynamic npcs = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.NPCs.json")) !;
+            Console.WriteLine(npcs.village[1].name);
+            Console.WriteLine(npcs.village[1].dialog[0]);
+            Console.WriteLine(npcs.village[1].dialog[1]);
         }
 
         private void SpawnDungeon()

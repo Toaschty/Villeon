@@ -16,6 +16,7 @@
     <None Remove="Assets\GUI\DungeonMenu.json" />
     <None Remove="Assets\Jsons\Drops.json" />
     <None Remove="Assets\Jsons\items.json" />
+    <None Remove="Assets\Jsons\NPCs.json" />
     <None Remove="Assets\Player.png" />
     <None Remove="Assets\shader.vert" />
     <None Remove="Assets\Shaders\light.frag" />
