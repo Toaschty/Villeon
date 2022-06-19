@@ -60,20 +60,20 @@ namespace Villeon.Components
 
         public Sprite GetSprite(int index)
         {
-            return Sprites[index];
+            return new Sprite(Sprites[index]);
         }
 
         public Sprite GetSprite(int index, SpriteLayer layer)
         {
             Sprites[index].RenderLayer = layer;
-            return Sprites[index];
+            return new Sprite(Sprites[index]);
         }
 
         public Sprite GetSprite(int index, SpriteLayer layer, bool isDynamic)
         {
             Sprites[index].RenderLayer = layer;
             Sprites[index].IsDynamic = isDynamic;
-            return Sprites[index];
+            return new Sprite(Sprites[index]);
         }
     }
 }
