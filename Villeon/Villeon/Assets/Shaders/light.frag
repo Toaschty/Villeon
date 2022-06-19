@@ -61,30 +61,31 @@ vec3 CalcPointLight(int index)
 
 void main(void)
 {
+
+	vec3 completeLightColor = vec3(1, 1, 1);
+
+	// Only calculate light for non screen layers
+	if (fPosition.z < -7)
+	{
+		int lights = lightCount;
+		completeLightColor = CalcLightInternal(directionalLight.baseLight);
+		for (int i = 0; i < lights; i++)
+		{
+			completeLightColor += CalcPointLight(i);
+		}
+	}
+
+	// Cap the light 
+	completeLightColor = min(completeLightColor, vec3(1.0, 1.0, 1.0));
+
 	if (fTexID > 0)
 	{
-		vec3 completeLightColor = vec3(1, 1, 1);
-
-		// Only calculate light for non screen layers
-		if (fPosition.z < -7)
-		{
-			int lights = lightCount;
-			completeLightColor = CalcLightInternal(directionalLight.baseLight);
-			for (int i = 0; i < lights; i++)
-			{
-				completeLightColor += CalcPointLight(i);
-			}
-		}
-
-		// Cap the light 
-		completeLightColor = min(completeLightColor, vec3(1.2, 1.2, 1.2));
-
 		// Get the textureColor
 		int id = int(fTexID);
         color = texture(textures[id], fTexCoords) * vec4(completeLightColor, fColor.a);
 	}
 	else
 	{
-		color = fColor;
+		color = fColor * vec4(completeLightColor, fColor.a);
 	}
 }

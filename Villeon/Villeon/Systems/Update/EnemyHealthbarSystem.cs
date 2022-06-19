@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenTK.Mathematics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace Villeon.Systems.Update
         public EnemyHealthbarSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Health), typeof(EnemyAI));
+            Signature.IncludeAND(typeof(Health), typeof(EnemyAI), typeof(Sprite));
         }
 
         public override void AddEntity(IEntity entity)
@@ -24,7 +25,8 @@ namespace Villeon.Systems.Update
             base.AddEntity(entity);
             Health health = entity.GetComponent<Health>();
             Transform transform = entity.GetComponent<Transform>();
-            _healthBars.Add(entity, new HealthBar(health.CurrentHealth, new OpenTK.Mathematics.Vector2(-0.5f, 3f), ref transform));
+            Sprite sprite = entity.GetComponent<Sprite>();
+            _healthBars.Add(entity, new HealthBar(health.CurrentHealth, ref transform, sprite.Width, sprite.Height));
         }
 
         public override void RemoveEntity(IEntity entity)

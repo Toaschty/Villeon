@@ -21,22 +21,22 @@ namespace Villeon.GUI
         private float _width;
         private float _maxWidth;
         private float _height;
-        private float _scale = 0.5f; // Should be 0.5 * transformscale
+        private float _scale = 0.3f; // Should be 0.5 * transformscale
 
         private float _maxHealth;
 
         private Transform _trackingTransform;
         private Vector2 _offset;
 
-        public HealthBar(int maxHealth, Vector2 offset, ref Transform transform)
+        public HealthBar(int maxHealth, ref Transform transform, float spriteWidth, float spriteHeight)
         {
-            Sprite sprite = Asset.GetSprite("GUI.Frame.png", SpriteLayer.GUIForeground, true);
-            _width = _maxWidth = sprite.Width;
-            _height = sprite.Height;
+            Sprite healthbarSprite = Asset.GetSprite("GUI.Frame.png", SpriteLayer.GUIForeground, true);
+            _width = _maxWidth = healthbarSprite.Width;
+            _height = healthbarSprite.Height;
             _maxHealth = maxHealth;
             _scale *= transform.Scale.X;
             _trackingTransform = transform;
-            _offset = offset;
+            _offset = new Vector2((spriteWidth / 2f * transform.Scale.X) - (healthbarSprite.Width / 2f * _scale), spriteHeight * transform.Scale.Y);
 
             CreateFrame(_trackingTransform.Position);
             CreateBackground(_trackingTransform.Position, _width, _height);
