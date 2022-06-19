@@ -14,6 +14,5 @@ namespace Villeon.Components
         }
 
         public Item Item { get; }
-
     }
 }

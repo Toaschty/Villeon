@@ -48,7 +48,7 @@ namespace Villeon.Systems.TriggerSystems
 
                     // Create a copy and add it to the Inventory
                     Item itemCopy = new Item(drop.Item);
-                    itemCopy.Sprite.RenderLayer = SpriteLayer.Background;
+                    itemCopy.Sprite.RenderLayer = SpriteLayer.ScreenGuiForeground;
                     GUIHandler.GetInstance().InventoryMenu.AddItem(itemCopy);
 
                     RemoveEntity(actor);

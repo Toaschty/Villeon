@@ -48,7 +48,7 @@ namespace Villeon.Components
         public Item(Item copy)
         {
             _name = copy.Name;
-            _sprite = copy.Sprite;
+            _sprite = new Sprite(copy.Sprite);
             _price = copy.Price;
             _itemStackSize = copy.StackSize;
             _itemType = copy.ItemType;

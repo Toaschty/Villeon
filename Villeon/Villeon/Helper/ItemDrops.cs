@@ -16,12 +16,12 @@ namespace Villeon.Helper
 
         public static Item GetItem(string itemName)
         {
-            return _items[itemName];
+            return new Item(_items[itemName]);
         }
 
         public static void SetupDrops()
         {
-            dynamic items = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.Items.json"))!;
+            dynamic items = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.Items.json")) !;
 
             // Get ITEM inventory data
             for (int i = 0; i < items.Count; i++)
