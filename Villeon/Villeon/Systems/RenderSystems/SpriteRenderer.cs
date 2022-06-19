@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
 using Villeon.EntityManagement;
@@ -20,8 +17,8 @@ namespace Villeon.Systems.RenderSystems
         public SpriteRenderer(string name, bool renderColliders)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Sprite));
-            Signature.IncludeAND(typeof(Sprite), typeof(Light));
+            Signature.IncludeAND(typeof(Transform));
+            Signature.IncludeAND(typeof(Transform), typeof(Light));
 
             // Create Layers
             for (int i = (int)SpriteLayer.ScreenGuiOnTopOfForeground; i <= (int)SpriteLayer.Background; i++)

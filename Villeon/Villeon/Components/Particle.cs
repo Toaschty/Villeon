@@ -17,5 +17,8 @@ namespace Villeon.Components
         public float TTL { get; set; }
 
         public float MaxTTL { get; private set; }
+
+        public bool IsFading { get; set; }
+
     }
 }

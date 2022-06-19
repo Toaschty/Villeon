@@ -27,6 +27,7 @@ namespace Villeon.Systems.Update
             if (StateManager.InMenu || StateManager.InDialog)
                 return;
 
+            Effect effect;
             Physics physics;
             Collider collider;
             DynamicCollider dynamicCollider;
@@ -39,6 +40,7 @@ namespace Villeon.Systems.Update
                 dynamicCollider = player.GetComponent<DynamicCollider>();
                 transform = player.GetComponent<Transform>();
                 playerComponent = player.GetComponent<Player>();
+                effect = player.GetComponent<Effect>();
 
                 // Player is not moving
                 playerComponent.MovingLeft = false;
@@ -67,6 +69,17 @@ namespace Villeon.Systems.Update
                     physics.Acceleration -= new Vector2(Constants.MOVEMENTSPEED, physics.Acceleration.Y);
                 }
 
+                if (!effect.Effects.ContainsKey("DashCooldown"))
+                {
+                    // Dash Right
+                    if (KeyHandler.IsPressed(Keys.LeftShift))
+                    {
+                        effect.Effects.Add("DashCooldown", 1f);
+                        int direction = playerComponent.WasLookingLeft ? -1 : 1;
+                        physics.Velocity = new Vector2(75f * direction, physics.Velocity.Y);
+                    }
+                }
+
                 // Jump
                 if (KeyHandler.IsHeld(Keys.W))
                 {
@@ -75,15 +88,6 @@ namespace Villeon.Systems.Update
                         StateManager.IsGrounded = false;
                         physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
                     }
-                }
-
-                // Dash Right
-                if (KeyHandler.IsPressed(Keys.LeftShift))
-                {
-                    effect.Effects.Add("AttackCooldown", 0.1f);
-                    int direction = playerComponent.WasLookingLeft ? -1 : 1;
-
-                    physics.Velocity = new Vector2(75f * direction, physics.Velocity.Y);
                 }
 
                 //Debug Reset Position

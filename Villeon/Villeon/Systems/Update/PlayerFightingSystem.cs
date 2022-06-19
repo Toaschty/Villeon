@@ -1,15 +1,9 @@
 ﻿using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
+using Villeon.Generation;
 using Villeon.Helper;
-using Villeon.Utils;
 
 namespace Villeon.Systems.Update
 {
@@ -52,37 +46,31 @@ namespace Villeon.Systems.Update
                 // Spawn attack to left side of player
                 if (playerComponent.WasLookingLeft)
                 {
+                    // Spawn Attack Trigger
                     IEntity attackEntity;
-                    attackEntity = new Entity(transform, "AttackLeft");
+                    attackEntity = new Entity(transform, "TriggerAttackLeft");
                     attackEntity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(-3f, 0f), 3f, 2f, 0.2f));
-                    Sprite sprite = Asset.GetSprite("Sprites.Empty.png", SpriteLayer.GUIForeground, true);
-                    sprite.Offset = new Vector2(-2, 0);
-
-                    // Setup attack animation
-                    AnimationController animController = new AnimationController();
-                    animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.slash_attack_left.png", 0.05f));
-                    attackEntity.AddComponent(animController);
-                    attackEntity.AddComponent(sprite);
                     attackEntity.AddComponent(new Damage(damage));
                     Manager.GetInstance().AddEntity(attackEntity);
+
+                    // Spawn Attack Animation
+                    IEntity attackAnimationEntity = ParticleBuilder.StationaryParticle(transform.Position - new Vector2(2f, 0f), 0.2f, 0.5f, false, "Animations.slash_attack_left.png", 0.05f);
+                    Manager.GetInstance().AddEntity(attackAnimationEntity);
                 }
 
                 // Spawn attack to right side of player
                 if (playerComponent.WasLookingRight)
                 {
+                    // Spawn Attack Trigger
                     IEntity attackEntity;
-                    attackEntity = new Entity(transform, "AttackRight");
+                    attackEntity = new Entity(transform, "TriggerAttackRight");
                     attackEntity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(1f, 0f), 3f, 2f, 0.2f));
-                    Sprite sprite = Asset.GetSprite("Sprites.Empty.png", SpriteLayer.GUIForeground, true);
-                    sprite.Offset = new Vector2(1, 0);
-
-                    // Setup attack animation
-                    AnimationController animController = new AnimationController();
-                    animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.slash_attack_right.png", 0.05f));
-                    attackEntity.AddComponent(animController);
-                    attackEntity.AddComponent(sprite);
                     attackEntity.AddComponent(new Damage(damage));
                     Manager.GetInstance().AddEntity(attackEntity);
+
+                    // Spawn Attack Animation
+                    IEntity attackAnimationEntity = ParticleBuilder.StationaryParticle(transform.Position + new Vector2(1f, 0f), 0.2f, 0.5f, false, "Animations.slash_attack_right.png", 0.05f);
+                    Manager.GetInstance().AddEntity(attackAnimationEntity);
                 }
 
                 // Add the attack Cooldown

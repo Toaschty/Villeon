@@ -7,6 +7,7 @@ using OpenTK.Mathematics;
 using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
+using Villeon.Generation;
 using Villeon.Helper;
 
 namespace Villeon.Systems.Update
@@ -31,24 +32,14 @@ namespace Villeon.Systems.Update
                 Transform transform = entity.GetComponent<Transform>();
                 if (_particleSpawnDelay <= 0f)
                 {
-                    if (Math.Abs(physics.Velocity.X) > 0.2 && StateManager.IsGrounded)
+                    Player player = entity.GetComponent<Player>();
+
+                    if ((player.MovingLeft || player.MovingRight) && StateManager.IsGrounded)
                     {
-                        Random random = new Random();
-                        Transform particleTranform = new Transform(transform.Position, (float)random.NextDouble() / 2f, 0.0f);
-                        Entity particle = new Entity(particleTranform, "Particle");
-
-                        Physics particlePhysics = new Physics();
-                        particlePhysics.Weight = 0.0f;
-                        particlePhysics.Friction = 0.0f;
-                        int direction = physics.Velocity.X < 0.0f ? 1 : -1;
-                        particlePhysics.Velocity = new Vector2(1 * direction * (float)((random.NextDouble() * 0.8) + 0.6), 1 * (float)((random.NextDouble() * 0.8) - 0.4));
-                        particle.AddComponent(particlePhysics);
-
-                        Sprite sprite = Asset.GetSprite("Sprites.Dust.png", SpriteLayer.Foreground, true);
-                        particle.AddComponent(sprite);
-
-                        particle.AddComponent(new Particle(0.5f));
-                        Manager.GetInstance().AddEntity(particle);
+                        Vector2 direction = Vector2.Zero;
+                        direction.X = physics.Velocity.X < 0.0f ? 1 : -1;
+                        IEntity particleEntity = ParticleBuilder.RandomParticle(transform.Position, 1f, 0.75f, direction, 0.0f, 0.0f, true, "Sprites.Dust.png");
+                        Manager.GetInstance().AddEntity(particleEntity);
                     }
 
                     _particleSpawnDelay = 0.05f;
