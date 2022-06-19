@@ -45,7 +45,11 @@ namespace Villeon.Systems.TriggerSystems
                     IEntity receiver = collisionPair.Item2;
 
                     Drop drop = actor.GetComponent<Drop>();
-                    GUIHandler.GetInstance().InventoryMenu.AddItem(drop.Item);
+
+                    // Create a copy and add it to the Inventory
+                    Item itemCopy = new Item(drop.Item);
+                    itemCopy.Sprite.RenderLayer = SpriteLayer.Background;
+                    GUIHandler.GetInstance().InventoryMenu.AddItem(itemCopy);
 
                     RemoveEntity(actor);
                 }

@@ -119,14 +119,6 @@ namespace Villeon.EntityManagement
             }
         }
 
-        public void SetTileMap(TileMapDictionary map, bool optimizedCollider)
-        {
-            foreach (IEntity entity in TileMapBuilder.GenerateEntitiesFromTileMap(map, optimizedCollider))
-            {
-                AddEntity(entity);
-            }
-        }
-
         public HashSet<IUpdateSystem> GetUpdateSystems() => _updateSystems;
 
         public HashSet<IRenderSystem> GetRenderSystems() => _renderSystems;

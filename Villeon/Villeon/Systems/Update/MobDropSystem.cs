@@ -4,10 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
-using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
-using Villeon.GUI;
 using Villeon.Helper;
 using Villeon.Utils;
 
@@ -75,6 +73,8 @@ namespace Villeon.Systems.Update
             drop.AddComponent(new Collider(new Vector2(0), transformCopy, 1f, 1f));
             drop.AddComponent(new DynamicCollider(drop.GetComponent<Collider>()));
             drop.AddComponent(new Trigger(TriggerLayerType.MOBDROP, 1f, 1f));
+
+            // Add the itemSprite
             drop.AddComponent(item.Sprite);
 
             // Add fancy physics

@@ -2,13 +2,13 @@
 using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
+using Villeon.Generation;
 using Villeon.GUI;
 using Villeon.Helper;
 using Villeon.Systems.RenderSystems;
 using Villeon.Systems.TriggerSystems;
-using Villeon.Systems.Update;
 
-namespace Villeon.Generation
+namespace Villeon.Systems.Update
 {
     public static class Scenes
     {
@@ -24,6 +24,14 @@ namespace Villeon.Generation
 
         public static Scene ShopScene { get; } = new Scene("ShopScene");
 
+        public static void SetTileMap(Scene scene, TileMapDictionary map, bool optimizedCollider)
+        {
+            foreach (IEntity entity in TileMapBuilder.GenerateEntitiesFromTileMap(map, optimizedCollider))
+            {
+                scene.AddEntity(entity);
+            }
+        }
+
         public static void SetupSmithScene()
         {
             SceneLoader.AddScene(SmithScene);
@@ -38,7 +46,7 @@ namespace Villeon.Generation
             SmithScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             SmithScene.AddSystem(new AnimationSystem("AnimationSystem"));
             SmithScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
-            SmithScene.SetTileMap(smithTileMap, false);
+            SetTileMap(SmithScene, smithTileMap, false);
         }
 
         public static void SetupMainMenuScene()
@@ -83,7 +91,7 @@ namespace Villeon.Generation
             ShopScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
             ShopScene.AddSystem(new AnimationSystem("AnimationSystem"));
             ShopScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
-            ShopScene.SetTileMap(shopTileMap, false);
+            SetTileMap(ShopScene, shopTileMap, false);
         }
 
         public static void SetupVillageScene()
@@ -103,7 +111,7 @@ namespace Villeon.Generation
             VillageScene.AddSystem(new AnimationSystem("AnimationSystem"));
             VillageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
             VillageScene.AddSystem(new DialogSystem("DialogSystem"));
-            VillageScene.SetTileMap(villageTileMap, false);
+            SetTileMap(VillageScene, villageTileMap, false);
         }
 
         public static void SetupDungeonScene()
@@ -136,7 +144,7 @@ namespace Villeon.Generation
             DungeonScene.AddSystem(new PlayerHealthbarSystem("PlayerHealthbar", Constants.PLAYER_MAX_HEALTH));
             DungeonScene.AddSystem(new ItemUseSystem("ItemUseSystem"));
             DungeonScene.AddSystem(new DungeonPlayerAnimationControllerSystem("AnimationControllerSystem"));
-            DungeonScene.SetTileMap(tileMap, true);
+            SetTileMap(DungeonScene, tileMap, true);
         }
 
         public static void SetupPortalEntities()

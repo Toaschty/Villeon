@@ -7,7 +7,6 @@ using OpenTK.Mathematics;
 using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
-using Villeon.GUI;
 using Villeon.Helper;
 using Villeon.Utils;
 

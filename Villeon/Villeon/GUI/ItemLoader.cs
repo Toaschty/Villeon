@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Villeon.Assets;
+using Villeon.Components;
 
 namespace Villeon.GUI
 {
@@ -23,7 +24,8 @@ namespace Villeon.GUI
             dynamic itemJson = _itemJson[index];
 
             string name = itemJson.name.ToString();
-            string sprite = itemJson.sprite.ToString();
+            string spriteName = itemJson.sprite.ToString();
+            Sprite sprite = Asset.GetSprite("GUI.Items." + spriteName, SpriteLayer.ScreenGuiForeground, true);
             int price = itemJson.price;
             int stackSize = itemJson.stackSize;
             Item.ITEM_TYPE type = itemJson.itemType;
@@ -48,7 +50,8 @@ namespace Villeon.GUI
             if (itemJson == null || name == null)
                 return new Item();
 
-            string sprite = itemJson!.sprite;
+            string spriteName = itemJson!.sprite;
+            Sprite sprite = Asset.GetSprite("GUI.Items." + spriteName, SpriteLayer.ScreenGuiForeground, true);
             int price = itemJson.price;
             int stackSize = itemJson.stackSize;
             Item.ITEM_TYPE type = itemJson.itemType;

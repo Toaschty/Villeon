@@ -27,12 +27,14 @@
     <None Remove="Assets\TileMap\obstacles.json" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Components\SpriteSheet.cs" />
     <EmbeddedResource Include="Generation\DungeonGeneration\RoomGeneration.cs" />
     <EmbeddedResource Include="EntityManagement\IRender.cs" />
     <EmbeddedResource Include="EntityManagement\IRenderSystem.cs" />
     <EmbeddedResource Include="EntityManagement\ISystem.cs" />
     <EmbeddedResource Include="EntityManagement\IUpdate.cs" />
     <EmbeddedResource Include="EntityManagement\IUpdateSystem.cs" />
+    <EmbeddedResource Include="Helper\ItemDrops.cs" />
     <EmbeddedResource Include="Systems\System.cs" />
     <EmbeddedResource Include="Systems\Update\CameraSystem.cs" />
     <EmbeddedResource Include="Systems\Update\CollisionSystem.cs" />
