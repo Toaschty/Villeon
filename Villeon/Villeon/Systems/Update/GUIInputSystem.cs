@@ -13,6 +13,8 @@ namespace Villeon.Systems.Update
 {
     public class GUIInputSystem : System, IUpdateSystem
     {
+        private GUIHandler _handler = GUIHandler.GetInstance();
+
         public GUIInputSystem(string name)
             : base(name)
         {
@@ -23,56 +25,54 @@ namespace Villeon.Systems.Update
         {
             foreach (IEntity entity in Entities)
             {
-                GUIHandler handler = GUIHandler.GetInstance();
-
-                CheckKeyMenu(handler);
+                CheckKeyMenu();
 
                 if (StateManager.InMenu)
                 {
                     Keys? currentkey = KeyHandler.GetLastPressedKey();
                     if (currentkey != null)
                     {
-                        bool updateMenu = handler.CurrentMenu!.OnKeyReleased((Keys)currentkey);
+                        bool updateMenu = _handler.CurrentMenu!.OnKeyReleased((Keys)currentkey);
                         if (updateMenu)
                         {
-                            UnloadMenu(handler.CurrentMenu);
-                            LoadMenu(handler.CurrentMenu);
+                            UnloadMenu(_handler.CurrentMenu);
+                            LoadMenu(_handler.CurrentMenu);
                         }
                     }
                 }
             }
         }
 
-        private void CheckKeyMenu(GUIHandler handler)
+        private void CheckKeyMenu()
         {
             // Dungeon Menu
             if (KeyHandler.IsPressed(Keys.L))
-                ChangeMenu(handler, handler.DungeonMenu);
+                ChangeMenu(_handler.DungeonMenu);
 
             // Equipment Menu
             if (KeyHandler.IsPressed(Keys.P))
-                ChangeMenu(handler, handler.EquipmentMenu);
+                ChangeMenu(_handler.EquipmentMenu);
 
             // Inventory Menu
             if (KeyHandler.IsPressed(Keys.Tab) || KeyHandler.IsPressed(Keys.I))
-                ChangeMenu(handler, handler.InventoryMenu);
+                ChangeMenu(_handler.InventoryMenu);
 
             // Map Menu
             if (KeyHandler.IsPressed(Keys.M))
             {
-                handler.MapMenu.MoveViewportToMarker();
-                ChangeMenu(handler, handler.MapMenu);
+                _handler.MapMenu.MoveViewportToMarker();
+                ChangeMenu(_handler.MapMenu);
             }
 
             // Pause Menu
             if (KeyHandler.IsPressed(Keys.Escape))
-                ChangeMenu(handler, handler.PauseMenu);
+                ChangeMenu(_handler.PauseMenu);
         }
 
-        private void ChangeMenu(GUIHandler handler, IGUIMenu menu)
+        private void ChangeMenu(IGUIMenu menu)
         {
             // No menu currently loaded -> Load selected menu
-            if (handler.CurrentMenu == null)
+            if (_handler.CurrentMenu == null)
             {
                 GUIHandler.GetInstance().CurrentMenu = menu;
                 LoadMenu(menu);
@@ -80,7 +80,7 @@ namespace Villeon.Systems.Update
             }
 
             // Selected menu already loaded -> Unload menu
-            else if (handler.CurrentMenu == menu)
+            else if (_handler.CurrentMenu == menu)
             {
                 UnloadMenu(menu);
                 GUIHandler.GetInstance().ClearMenu();
@@ -90,8 +90,8 @@ namespace Villeon.Systems.Update
             // Other menu currently loaded -> Unload current menu -> Load selected menu
             else
             {
-                UnloadMenu(handler.CurrentMenu);
-                handler.CurrentMenu = menu;
+                UnloadMenu(_handler.CurrentMenu);
+                _handler.CurrentMenu = menu;
                 LoadMenu(menu);
             }
         }
