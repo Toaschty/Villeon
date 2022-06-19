@@ -42,7 +42,7 @@ namespace Villeon.Systems.Update
             SmithScene.AddSystem(new TriggerSystem("Trigger"));
             SmithScene.AddSystem(new PortalSystem("PortalSystem"));
             SmithScene.AddSystem(new CameraSystem("CameraSystem"));
-            SmithScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            SmithScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             SmithScene.AddSystem(new PlayerVillageAnimationSystem("AnimationControllerSystem"));
             SmithScene.AddSystem(new AnimationSystem("AnimationSystem"));
             SmithScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
@@ -72,7 +72,7 @@ namespace Villeon.Systems.Update
 
             // Add required systems
             MainMenuScene.AddSystem(new CameraSystem("CameraSystem"));
-            MainMenuScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            MainMenuScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             MainMenuScene.AddSystem(new AutoCameraMovementSystem("MovingCamera"));
             MainMenuScene.AddSystem(new MainMenuInputSystem("MainMenuInput"));
         }
@@ -87,7 +87,7 @@ namespace Villeon.Systems.Update
             ShopScene.AddSystem(new TriggerSystem("Trigger"));
             ShopScene.AddSystem(new PortalSystem("PortalSystem"));
             ShopScene.AddSystem(new CameraSystem("CameraSystem"));
-            ShopScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            ShopScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             ShopScene.AddSystem(new PlayerVillageAnimationSystem("AnimationControllerSystem"));
             ShopScene.AddSystem(new AnimationSystem("AnimationSystem"));
             ShopScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
@@ -105,7 +105,7 @@ namespace Villeon.Systems.Update
             VillageScene.AddSystem(new TriggerSystem("Trigger"));
             VillageScene.AddSystem(new PortalSystem("PortalSystem"));
             VillageScene.AddSystem(new CameraSystem("CameraSystem"));
-            VillageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            VillageScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             VillageScene.AddSystem(new InteractionSystem("InteractionSystem"));
             VillageScene.AddSystem(new PlayerVillageAnimationSystem("AnimationControllerSystem"));
             VillageScene.AddSystem(new AnimationSystem("AnimationSystem"));
@@ -132,7 +132,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new CollisionSystem("Collision"));
             DungeonScene.AddSystem(new PlayerDeathSystem("Health"));
             DungeonScene.AddSystem(new CameraSystem("CameraSystem"));
-            DungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            DungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             DungeonScene.AddSystem(new EnemyHealthbarSystem("EnemyHealthbarSystem"));
             DungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
             DungeonScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));

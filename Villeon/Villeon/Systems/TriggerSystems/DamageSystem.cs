@@ -1,10 +1,13 @@
-﻿using System;
+﻿using OpenTK.Mathematics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Villeon.Components;
 using Villeon.EntityManagement;
+using Villeon.Generation;
+using Villeon.GUI;
 
 namespace Villeon.Systems.TriggerSystems
 {
@@ -42,7 +45,12 @@ namespace Villeon.Systems.TriggerSystems
                 {
                     Damage damage = collisionPair.Item1.GetComponent<Damage>();
                     Health health = collisionPair.Item2.GetComponent<Health>();
+                    Transform receiverTransform = collisionPair.Item2.GetComponent<Transform>();
                     health.Damage(damage.Amount);
+
+                    // Spawn the Damage Particles
+                    IEntity[] damageTextParticles = ParticleBuilder.DamageParticles(damage.Amount.ToString(), receiverTransform.Position + new Vector2(0f, 2f), 0.5f, 0.3f, false);
+                    Manager.GetInstance().AddEntities(damageTextParticles);
 
                     // Remove the DamageEntity
                     RemoveEntity(collisionPair.Item1);
