@@ -22,14 +22,14 @@ namespace Villeon.GUI
         private IEntity[,] _tabBar = new IEntity[2, 2];
 
         // Inventory
-        private int _inventorySlotsX = 7;
+        private int _inventorySlotsX = 8;
         private int _inventorySlotsY = 4;
 
         // Align inventory slots
-        private Vector2 _startPos = new Vector2(-5f, 0.3f);
+        private Vector2 _startPos = new Vector2(-5.1f, 0.3f);
         private float _slotScalingFactor = 0.3f;
         private float _slotSize = InventorySlot.SlotSize;
-        private float _offset = 0.3f;
+        private float _offset = 0.1f;
         private bool _onSlots = true;
 
         // Scroll
@@ -38,6 +38,7 @@ namespace Villeon.GUI
         private Vector2i _playerInventoryPosition = new Vector2i(0, 0);
         private Vector2i _playerTabbarPosition = new Vector2i(0, 1);
         private Vector2i _activeTabbar = new Vector2i(0, 1);
+        private Vector2i _swapIndicatorPosition = new Vector2i(0, 0);
         private Vector2i? _firstMovingPoint = null;
 
         // Inventories
@@ -46,6 +47,9 @@ namespace Villeon.GUI
         private InventorySlot[,] _weaponInventory;
         private InventorySlot[,] _potionInventory;
         private InventorySlot[,] _materialInventory;
+
+        // VillageOverlay
+        private VillageOverlay? _villageOverlay;
 
         private InventoryMenu()
         {
@@ -65,6 +69,11 @@ namespace Villeon.GUI
             if (_inventory == null)
                 _inventory = new InventoryMenu();
             return _inventory;
+        }
+
+        public void SetVillageOverlay(VillageOverlay overlay)
+        {
+            _villageOverlay = overlay;
         }
 
         public void AddItem(Item newItem)
@@ -110,7 +119,30 @@ namespace Villeon.GUI
             else
                 HandleTabNavigation(key);
 
+            // Hotbar
+            if (_onSlots)
+                HandleHotbar(key);
+
             return true;
+        }
+
+        private void HandleHotbar(Keys key)
+        {
+            switch (key)
+            {
+                case Keys.D1: AddItemToHotbar(0); break;
+                case Keys.D2: AddItemToHotbar(1); break;
+                case Keys.D3: AddItemToHotbar(2); break;
+                case Keys.D4: AddItemToHotbar(3); break;
+            }
+        }
+
+        private void AddItemToHotbar(int index)
+        {
+            if (GetCurrentlySelectedItem() is not null && _activeInventory == _potionInventory)
+            {
+                _villageOverlay!.AddItem(index, _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X], GetCurrentlySelectedItem() !);
+            }
         }
 
         public Item? GetCurrentlySelectedItem()
@@ -127,15 +159,18 @@ namespace Villeon.GUI
         public void RemoveItemAtCurrentPosition()
         {
             Item? item = GetActiveItem();
-            IEntity itemEntity = GetActiveItemEntity();
+            IEntity[] itemEntity = GetActiveItemEntity();
 
             if (item is not null)
             {
                 // Remove the old item entity
-                _allEntities.Remove(itemEntity);
+                foreach (IEntity entity in itemEntity)
+                {
+                    _allEntities.Remove(entity);
+                    Manager.GetInstance().RemoveEntity(entity);
+                }
 
                 // Remove the old item sprite from the inventory
-                Manager.GetInstance().RemoveEntity(itemEntity);
 
                 _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item = null;
 
@@ -151,9 +186,9 @@ namespace Villeon.GUI
             return _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item;
         }
 
-        private IEntity GetActiveItemEntity()
+        private IEntity[] GetActiveItemEntity()
         {
-            return _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].ItemEntity;
+            return _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].ItemEntites;
         }
 
         private void SetSlotPositions()
@@ -174,7 +209,17 @@ namespace Villeon.GUI
             {
                 for (int x = 0; x < _inventorySlotsX; x++)
                 {
-                    _allInventory[y, x].Item = null;
+                    Manager.GetInstance().RemoveEntities(_allInventory[y, x].ItemEntites);
+
+                    Manager.GetInstance().RemoveEntity(_allInventory[y, x].SlotSelection);
+                    _allEntities.Remove(_allInventory[y, x].SlotSelection);
+                    
+                    foreach (IEntity entity in _allInventory[y, x].ItemEntites)
+                    {
+                        _allEntities.Remove(entity);
+                    }
+
+                    _allInventory[y, x] = new InventorySlot(_allInventory[y, x].Transform);
                 }
             }
 
@@ -183,8 +228,10 @@ namespace Villeon.GUI
             {
                 for (int x = 0; x < _inventorySlotsX; x++)
                 {
-                    if (_weaponInventory[y, x].HasItem())
+                    for (int i = 0; i < _weaponInventory[y, x].Count; i++)
+                    {
                         allItems.Add(_weaponInventory[y, x].Item!);
+                    }
                 }
             }
 
@@ -194,7 +241,12 @@ namespace Villeon.GUI
                 for (int x = 0; x < _inventorySlotsX; x++)
                 {
                     if (_potionInventory[y, x].HasItem())
-                        allItems.Add(_potionInventory[y, x].Item!);
+                    {
+                        for (int i = 0; i < _potionInventory[y, x].Count; i++)
+                        {
+                            allItems.Add(_potionInventory[y, x].Item!);
+                        }
+                    }
                 }
             }
 
@@ -204,7 +256,12 @@ namespace Villeon.GUI
                 for (int x = 0; x < _inventorySlotsX; x++)
                 {
                     if (_materialInventory[y, x].HasItem())
-                        allItems.Add(_materialInventory[y, x].Item!);
+                    {
+                        for (int i = 0; i < _materialInventory[y, x].Count; i++)
+                        {
+                            allItems.Add(_materialInventory[y, x].Item!);
+                        }
+                    }
                 }
             }
 
@@ -221,24 +278,45 @@ namespace Villeon.GUI
             {
                 for (int x = 0; x < _inventorySlotsX; x++)
                 {
-                    Console.WriteLine(!inventory[y, x].HasItem() + " | " + !inventory[y, x].IsStackFull());
+                    // Item exists already
+                    if (inventory[y, x].HasItem())
+                    {
+                        if (inventory[y, x]!.Item!.Name == newItem.Name)
+                        {
+                            if (!inventory[y, x] !.IsStackFull())
+                            {
+                                foreach (IEntity entity in inventory[y, x].ItemEntites)
+                                {
+                                    _allEntities.Remove(entity);
+                                }
+
+                                inventory[y, x].IncreaseStack();
+
+                                if (inventory == _activeInventory)
+                                    _allEntities.AddRange(inventory[y, x].ItemEntites);
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+
+            Console.WriteLine("NEW ITEM");
+            for (int y = 0; y < _inventorySlotsY; y++)
+            {
+                for (int x = 0; x < _inventorySlotsX; x++)
+                {
                     if (!inventory[y, x].HasItem())
                     {
                         inventory[y, x].Item = newItem; // Adding new Item
 
                         if (inventory == _activeInventory)
-                            _allEntities.Add(inventory[y, x].ItemEntity);
-                        return;
-                    }
-                    else if (!inventory[y, x].IsStackFull())
-                    {
-                        inventory[y, x].IncreaseStack();
+                            _allEntities.AddRange(inventory[y, x].ItemEntites);
+
                         return;
                     }
                 }
             }
-
-            Console.WriteLine("Inventory Full!");
         }
 
         private void HandleInventorySlot(Keys key)
@@ -292,11 +370,20 @@ namespace Villeon.GUI
 
                     break;
                 case Keys.Space:
+                    _allEntities.Remove(_activeInventory[_swapIndicatorPosition.Y, _swapIndicatorPosition.X].SwapIndicator);
+                    Manager.GetInstance().RemoveEntity(_activeInventory[_swapIndicatorPosition.Y, _swapIndicatorPosition.X].SwapIndicator);
+
                     // Swapping Items
                     if (_firstMovingPoint == null)
                     {
-                        // First point not set
-                        _firstMovingPoint = new Vector2i(_playerInventoryPosition.X, _playerInventoryPosition.Y);
+                        if (GetActiveItem() is not null && _activeInventory != _allInventory)
+                        {
+                            // First point not set
+                            _firstMovingPoint = new Vector2i(_playerInventoryPosition.X, _playerInventoryPosition.Y);
+
+                            _swapIndicatorPosition = new Vector2i(_playerInventoryPosition.X, _playerInventoryPosition.Y);
+                            _allEntities.Add(_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].SwapIndicator);
+                        }
                     }
                     else
                     {
@@ -375,6 +462,7 @@ namespace Villeon.GUI
                     _allEntities.Add(_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
                     ChangeInventory(_activeTabbar);
                     _onSlots = true;
+                    _firstMovingPoint = null;
 
                     break;
             }
@@ -433,38 +521,57 @@ namespace Villeon.GUI
             Item? firstItem = _activeInventory[firstPoint.Y, firstPoint.X].Item;
             Item? secondItem = _activeInventory[secondPoint.Y, secondPoint.X].Item;
 
-            if ((firstItem == null && secondItem == null) || firstPoint.Equals(secondPoint))
+            if (firstItem == null || firstPoint.Equals(secondPoint))
             {
                 _firstMovingPoint = null; // Reset the first selected point
                 return;
             }
 
+            // Save count of items
+            int firstPointCount = _activeInventory[firstPoint.Y, firstPoint.X].Count;
+            int secondPointCount = _activeInventory[secondPoint.Y, secondPoint.X].Count;
+
             if (firstItem != null)
             {
                 // Remove the old item entity
-                _allEntities.Remove(_activeInventory[firstPoint.Y, firstPoint.X].ItemEntity);
+                foreach (IEntity entity in _activeInventory[firstPoint.Y, firstPoint.X].ItemEntites)
+                {
+                    _allEntities.Remove(entity);
+                }
 
                 // Remove the old item sprite from the inventory
-                Manager.GetInstance().RemoveEntity(_activeInventory[firstPoint.Y, firstPoint.X].ItemEntity);
+                Manager.GetInstance().RemoveEntities(_activeInventory[firstPoint.Y, firstPoint.X].ItemEntites);
+                _activeInventory[firstPoint.Y, firstPoint.X].UnloadCountText();
+                _activeInventory[firstPoint.Y, firstPoint.X].Item = null;
             }
 
             if (secondItem != null)
             {
                 // Remove the old item entity
-                _allEntities.Remove(_activeInventory[secondPoint.Y, secondPoint.X].ItemEntity);
+                foreach (IEntity entity in _activeInventory[secondPoint.Y, secondPoint.X].ItemEntites)
+                {
+                    _allEntities.Remove(entity);
+                }
 
                 // Remove the old item sprite from the inventory
-                Manager.GetInstance().RemoveEntity(_activeInventory[secondPoint.Y, secondPoint.X].ItemEntity);
+                Manager.GetInstance().RemoveEntities(_activeInventory[secondPoint.Y, secondPoint.X].ItemEntites);
+                _activeInventory[secondPoint.Y, secondPoint.X].UnloadCountText();
+                _activeInventory[secondPoint.Y, secondPoint.X].Item = null;
             }
 
-            _activeInventory[firstPoint.Y, firstPoint.X].Item = secondItem;
-            _activeInventory[secondPoint.Y, secondPoint.X].Item = firstItem;
+            // Swap items
+            _activeInventory[firstPoint.Y, firstPoint.X].SetItem(secondItem!, secondPointCount);
+            _activeInventory[secondPoint.Y, secondPoint.X].SetItem(firstItem!, firstPointCount);
+
+            // Load Counter Text
+            _activeInventory[firstPoint.Y, firstPoint.X].LoadCountText();
+            _activeInventory[secondPoint.Y, secondPoint.X].LoadCountText();
 
             if (secondItem != null)
-                _allEntities.Add(_activeInventory[firstPoint.Y, firstPoint.X].ItemEntity);
+                _allEntities.AddRange(_activeInventory[firstPoint.Y, firstPoint.X].ItemEntites);
 
             if (firstItem != null)
-                _allEntities.Add(_activeInventory[secondPoint.Y, secondPoint.X].ItemEntity);
+                _allEntities.AddRange(_activeInventory[secondPoint.Y, secondPoint.X].ItemEntites);
 
             _firstMovingPoint = null; // Reset the first selected point
         }
@@ -504,7 +611,7 @@ namespace Villeon.GUI
                 for (int x = 0; x < _inventorySlotsX; x++)
                 {
                     if (_activeInventory[y, x].HasItem())
-                        allItemEntities.Add(_activeInventory[y, x].ItemEntity);
+                        allItemEntities.AddRange(_activeInventory[y, x].ItemEntites);
                 }
             }
 
@@ -525,7 +632,7 @@ namespace Villeon.GUI
             Text allText = new Text("All", new Vector2(_startPos.X + 1.4f, positionY + 0.8f), "Alagard", letterSpacing, lineSpacing, letterScale);
             tabBarEntities.AddRange(allText.GetEntities());
 
-            Text weaponText = new Text("Weapons", new Vector2(_startPos.X, positionY - 0.4f), "Alagard", letterSpacing, lineSpacing, letterScale);
+            Text weaponText = new Text("Weapons", new Vector2(_startPos.X + 0.1f, positionY - 0.4f), "Alagard", letterSpacing, lineSpacing, letterScale);
             tabBarEntities.AddRange(weaponText.GetEntities());
 
             Text potionText = new Text("Potions", new Vector2(_startPos.X + 6.2f, positionY + 0.8f), "Alagard", letterSpacing, lineSpacing, letterScale);
@@ -534,10 +641,13 @@ namespace Villeon.GUI
             Text materialText = new Text("Materials", new Vector2(_startPos.X + 5.7f, positionY - 0.4f), "Alagard", letterSpacing, lineSpacing, letterScale);
             tabBarEntities.AddRange(materialText.GetEntities());
 
+            Text legendText = new Text("Use [E] Drop [Q] Swap [Space]", new Vector2(-6f, -4.5f), "Alagard", 0f, 3f, 0.2f);
+            tabBarEntities.AddRange(legendText.GetEntities());
+
             float horizontalLineY = _startPos.Y + 2.5f;
             float horizontalLineScale = 0.3f;
 
-            // Make HirzontalLines
+            // Make HorizontalLines
             IEntity firstHorizontalLine = new Entity(new Transform(new Vector2(_startPos.X + 0.2f, horizontalLineY), horizontalLineScale, 0f), "InventoryHorizontalLine");
             Sprite firstHorizontalSprite = Asset.GetSprite("GUI.Scroll_Horizontal_Line_1.png", SpriteLayer.ScreenGuiForeground, false);
             firstHorizontalLine.AddComponent(firstHorizontalSprite);

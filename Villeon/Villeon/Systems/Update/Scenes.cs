@@ -132,7 +132,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new CollisionSystem("Collision"));
             DungeonScene.AddSystem(new PlayerDeathSystem("Health"));
             DungeonScene.AddSystem(new CameraSystem("CameraSystem"));
-            DungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            DungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             DungeonScene.AddSystem(new EnemyHealthbarSystem("EnemyHealthbarSystem"));
             DungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
             DungeonScene.AddSystem(new ParticleSystem("ParticleSystem"));
