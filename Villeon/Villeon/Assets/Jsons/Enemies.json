@@ -2,8 +2,8 @@
   "slime": {
     "health": 100,
     "damage": 20,
-    "animationPath": "Enemies.slime.slime_jumping.png",
-    "animationSpeed":  1.0,
+    "animationPath": "Enemies.Slime.slime_jumping.png",
+    "animationSpeed": 0.1,
     "colliderWidth": 32,
     "colliderHeight": 24,
     "triggerWidth": 32,

@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Villeon.Assets;
 using Villeon.GUI;
 
-namespace Villeon.Components
+namespace Villeon.Assets
 {
     public class ItemDrops
     {
@@ -33,7 +32,7 @@ namespace Villeon.Components
                 int stackSize = items[i].stackSize;
                 string spriteName = items[i].sprite;
 
-                _items.Add(name, new Item(name, spriteName, stackSize, price, itemType));
+                _items.Add(name, new Item(name, spriteName, stackSize, price, itemType, Components.SpriteLayer.GUIBackground));
             }
         }
     }

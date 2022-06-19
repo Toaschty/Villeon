@@ -16,7 +16,7 @@ namespace Villeon.Systems.TriggerSystems
         {
             Signature.
                 IncludeAND(typeof(Trigger), typeof(Player)).
-                IncludeAND(typeof(Trigger), typeof(Drops));
+                IncludeAND(typeof(Trigger), typeof(Drop));
         }
 
         // Add Entity to TriggerLayer & Base
@@ -25,7 +25,7 @@ namespace Villeon.Systems.TriggerSystems
             base.AddEntity(entity);
             TriggerLayerType triggerLayerType = entity.GetComponent<Trigger>().TriggerLayers;
             Player receiver = entity.GetComponent<Player>();
-            Drops actor = entity.GetComponent<Drops>();
+            Drop actor = entity.GetComponent<Drop>();
             AddEntityToLayer(receiver, actor, entity);
         }
 
@@ -44,11 +44,8 @@ namespace Villeon.Systems.TriggerSystems
                     IEntity actor = collisionPair.Item1;
                     IEntity receiver = collisionPair.Item2;
 
-                    Sprite actorSpriteCopy = new Sprite(actor.GetComponent<Sprite>());
-                    actorSpriteCopy.RenderLayer = SpriteLayer.ScreenGuiForeground;
-                    actorSpriteCopy.IsDynamic = true;
-
-                    GUIHandler.GetInstance().InventoryMenu.AddItem(ItemLoader.GetItem(0));
+                    Drop drop = actor.GetComponent<Drop>();
+                    GUIHandler.GetInstance().InventoryMenu.AddItem(drop.Item);
 
                     RemoveEntity(actor);
                 }

@@ -10,7 +10,7 @@
 	<EmbeddedResource Include="Assets\**\*.*" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Assets\Enemies\slime\slime_jumping.png" />
+    <None Remove="Assets\Enemies\Slime\slime_jumping.png" />
     <None Remove="Assets\Fonts\Alagard.json" />
     <None Remove="Assets\Fonts\Alagard_Thin.json" />
     <None Remove="Assets\Fonts\VilleonFont.aseprite" />
@@ -27,7 +27,6 @@
     <None Remove="Assets\TileMap\obstacles.json" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Components\ItemDrops.cs" />
     <EmbeddedResource Include="Generation\DungeonGeneration\RoomGeneration.cs" />
     <EmbeddedResource Include="EntityManagement\IRender.cs" />
     <EmbeddedResource Include="EntityManagement\IRenderSystem.cs" />

@@ -7,6 +7,7 @@ using OpenTK.Mathematics;
 using TiledLib;
 using TiledLib.Layer;
 using Villeon.Components;
+using Villeon.Generation;
 using Villeon.Utils;
 
 namespace Villeon.EntityManagement
@@ -65,12 +66,12 @@ namespace Villeon.EntityManagement
                         // If current tile is enemy spawn -> Spawn enemy
                         if (gid == 8)
                         {
-                            _entities.Add(_spawner.SlimeEntity(new Vector2(x, layer.Height - 1 - y)));
+                            EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, layer.Height - 1 - y), new Vector2(1f));
                         }
 
                         if (gid == 32)
                         {
-                            _entities.Add(_spawner.BossSlimeEntity(new Vector2(x, layer.Height - 1 - y)));
+                            EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, layer.Height - 1 - y), new Vector2(5f));
                         }
 
                         // Get tile from dicitionary with gid

@@ -91,6 +91,7 @@ namespace Villeon.Assets
 
             // Enemy Animations
             AddSpriteSheet("Animations.slime_jumping.png", new SpriteSheet(Color4.White, GetTexture("Animations.slime_jumping.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Enemies.Slime.slime_jumping.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Slime.slime_jumping.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
 
             // TileMap
             AddSpriteSheet("TileMap.TilesetImages.DungeonTileSet.png", new SpriteSheet(Color4.White, GetTexture("TileMap.TilesetImages.DungeonTileSet.png"), 8, 8, 64, 0, SpriteLayer.Foreground));

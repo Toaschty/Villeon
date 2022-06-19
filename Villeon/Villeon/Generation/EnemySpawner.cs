@@ -35,13 +35,17 @@ namespace Villeon.Generation
             int dmg = json.damage;
             enemy.AddComponent(new EnemyAI(dmg));
 
+            // Add Physics
+            enemy.AddComponent(new Physics());
+            enemy.AddComponent(new Effect());
+
             AddDropInfo(json, enemy);
             AddAnimation(json, enemy);
             AddCollider(json, enemy, position, scale);
             AddTrigger(json, enemy, scale);
 
             // Spawn the Enemy
-            Manager.GetInstance().AddEntity(enemy);
+            Manager.GetInstance().AddEntityToScene(enemy, sceneName);
         }
 
         private static void AddDropInfo(dynamic json, IEntity entity)
@@ -69,9 +73,16 @@ namespace Villeon.Generation
             // Animation
             string animationPath = json.animationPath;
             float animationSpeed = json.animationSpeed;
+            AddSprite(json, entity, animationPath);
             AnimationController animController = new AnimationController();
             animController.AddAnimation(AnimationLoader.CreateAnimationFromFile(animationPath, animationSpeed));
             entity.AddComponent(animController);
+        }
+
+        private static void AddSprite(dynamic json, IEntity entity, string animationPath)
+        {
+            Sprite sprite = Asset.GetSpriteSheet(animationPath).GetSprite(0, SpriteLayer.Foreground, true);
+            entity.AddComponent(sprite);
         }
 
         private static void AddCollider(dynamic json, IEntity entity, Vector2 position, Vector2 scale)
@@ -79,7 +90,9 @@ namespace Villeon.Generation
             // Collider
             int colliderWidth = json.colliderWidth / 8f;
             int colliderHeight = json.colliderHeight / 8f;
-            entity.AddComponent(new Collider(Vector2.Zero, position, colliderWidth * scale.X, colliderHeight * scale.Y));
+            Collider collider = new Collider(Vector2.Zero, position, colliderWidth * scale.X, colliderHeight * scale.Y);
+            entity.AddComponent(collider);
+            entity.AddComponent(new DynamicCollider(collider));
         }
 
         private static void AddTrigger(dynamic json, IEntity entity, Vector2 scale)

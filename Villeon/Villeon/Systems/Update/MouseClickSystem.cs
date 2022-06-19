@@ -7,6 +7,7 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
 using Villeon.EntityManagement;
+using Villeon.Generation;
 using Villeon.Helper;
 
 namespace Villeon.Systems.Update
@@ -27,7 +28,7 @@ namespace Villeon.Systems.Update
             {
                 if (button.Button == MouseButton.Left)
                 {
-                    _entitySpawner.Spawn(button.MousePosition);
+                    EnemySpawner.Spawn("DungeonScene", "slime", button.MousePosition, new Vector2(1f));
                 }
             }
         }
