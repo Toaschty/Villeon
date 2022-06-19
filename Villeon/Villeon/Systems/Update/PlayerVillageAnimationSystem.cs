@@ -10,9 +10,9 @@ using Villeon.Helper;
 
 namespace Villeon.Systems.Update
 {
-    public class PlayerAnimationControllerSystem : System, IUpdateSystem
+    public class PlayerVillageAnimationSystem : System, IUpdateSystem
     {
-        public PlayerAnimationControllerSystem(string name)
+        public PlayerVillageAnimationSystem(string name)
             : base(name)
         {
             Signature.IncludeAND(typeof(AnimationController), typeof(Sprite), typeof(Player));
@@ -21,8 +21,8 @@ namespace Villeon.Systems.Update
         public void Update(float time)
         {
             // Get current walking direction
-            float leftRightAxis = KeyHandler.IsHeld(Keys.A) ? -1 : KeyHandler.IsHeld(Keys.D) ? 1 : 0;
-            float topDownAxis = KeyHandler.IsHeld(Keys.S) ? -1 : KeyHandler.IsHeld(Keys.W) ? 1 : 0;
+            int leftRightAxis = KeyHandler.IsHeld(Keys.A) ? -1 : KeyHandler.IsHeld(Keys.D) ? 1 : 0;
+            int topDownAxis = KeyHandler.IsHeld(Keys.S) ? -1 : KeyHandler.IsHeld(Keys.W) ? 1 : 0;
 
             foreach (IEntity entity in Entities)
             {
