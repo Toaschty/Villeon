@@ -20,14 +20,14 @@ void main()
 	fTexCoords = texCoords;
 	fTexID = texID;
 
-	// Screen Layers: -0, -1, -2, -3, -4, -5
-	if (position.z >= -5 )
+	// Screen Layers: -0, -1, -2, -3, -4, -5, -6, -7
+	if (position.z >= -7 )
 	{
 		gl_Position = position * screenMatrix;
 	}
 
 	// everything after the screen layers uses the camera
-	if (position.z < -5)
+	if (position.z < -7)
 	{
 		gl_Position = position * cameraMatrix;
 	}

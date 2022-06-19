@@ -66,7 +66,7 @@ void main(void)
 		vec3 completeLightColor = vec3(1, 1, 1);
 
 		// Only calculate light for non screen layers
-		if (fPosition.z < -5)
+		if (fPosition.z < -7)
 		{
 			int lights = lightCount;
 			completeLightColor = CalcLightInternal(directionalLight.baseLight);

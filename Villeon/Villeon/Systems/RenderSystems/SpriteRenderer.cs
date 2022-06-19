@@ -24,7 +24,7 @@ namespace Villeon.Systems.RenderSystems
             Signature.IncludeAND(typeof(Sprite), typeof(Light));
 
             // Create Layers
-            for (int i = (int)SpriteLayer.ScreenGuiForeground; i <= (int)SpriteLayer.Background; i++)
+            for (int i = (int)SpriteLayer.ScreenGuiOnTopOfForeground; i <= (int)SpriteLayer.Background; i++)
             {
                 _spriteLayers[i] = new Layer();
             }

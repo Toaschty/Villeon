@@ -8,9 +8,11 @@ namespace Villeon.Components
 {
     public enum SpriteLayer : int
     {
+        ScreenGuiOnTopOfForeground,
         ScreenGuiForeground,
         ScreenGuiMiddleground,
         ScreenGuiBackground,
+        ScreenGuiBehindBackground,
         ScreenGuiOverlayForeGround,
         ScreenGuiOverlayMiddleGround,
         ScreenGuiOverlayBackground,
