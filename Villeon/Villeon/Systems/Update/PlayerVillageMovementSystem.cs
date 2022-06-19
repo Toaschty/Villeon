@@ -11,9 +11,9 @@ using Villeon.Helper;
 
 namespace Villeon.Systems.Update
 {
-    internal class PlayerTopDownMovementSystem : System, IUpdateSystem
+    internal class PlayerVillageMovementSystem : System, IUpdateSystem
     {
-        public PlayerTopDownMovementSystem(string name)
+        public PlayerVillageMovementSystem(string name)
             : base(name)
         {
             Signature.IncludeAND(typeof(Collider), typeof(Player));

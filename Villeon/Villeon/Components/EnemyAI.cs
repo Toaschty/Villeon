@@ -8,7 +8,6 @@ namespace Villeon.Components
 {
     public class EnemyAI : IComponent
     {
-
         public EnemyAI(int damage)
         {
             Damage = damage;

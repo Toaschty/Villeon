@@ -11,9 +11,9 @@ using Villeon.Helper;
 
 namespace Villeon.Systems.Update
 {
-    public class DungeonPlayerAnimationControllerSystem : System, IUpdateSystem
+    public class DungeonPlayerAnimationSystem : System, IUpdateSystem
     {
-        public DungeonPlayerAnimationControllerSystem(string name)
+        public DungeonPlayerAnimationSystem(string name)
             : base(name)
         {
             Signature.IncludeAND(typeof(AnimationController), typeof(Sprite), typeof(Player), typeof(Physics));
@@ -21,14 +21,16 @@ namespace Villeon.Systems.Update
 
         public void Update(float time)
         {
-            // Get current walking direction
-            float leftRightAxis = KeyHandler.IsHeld(Keys.A) ? -1 : KeyHandler.IsHeld(Keys.D) ? 1 : 0;
 
-            foreach (IEntity entity in Entities)
+            foreach (IEntity player in Entities)
             {
+                // Get current walking direction
+                Player playerComponent = player.GetComponent<Player>();
+                int leftRightAxis = playerComponent.MovingLeft ? -1 : playerComponent.MovingRight ? 1 : 0;
+
                 // Get animation controller
-                AnimationController controller = entity.GetComponent<AnimationController>();
-                Physics physics = entity.GetComponent<Physics>();
+                AnimationController controller = player.GetComponent<AnimationController>();
+                Physics physics = player.GetComponent<Physics>();
 
                 // Idle / Walk animation
                 if (StateManager.IsGrounded)
@@ -54,9 +56,7 @@ namespace Villeon.Systems.Update
 
                 // Climbing animation
                 if (StateManager.IsClimbing)
-                {
                     controller.SetAnimation(7);
-                }
             }
         }
 

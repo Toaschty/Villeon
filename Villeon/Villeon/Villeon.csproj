@@ -41,8 +41,8 @@
     <EmbeddedResource Include="Systems\Update\PlayerDeathSystem.cs" />
     <EmbeddedResource Include="Systems\Update\MouseClickSystem.cs" />
     <EmbeddedResource Include="Systems\Update\PhysicsSystem.cs" />
-    <EmbeddedResource Include="Systems\Update\PlayerMovementSystem.cs" />
-    <EmbeddedResource Include="Systems\Update\PlayerTopDownMovementSystem.cs" />
+    <EmbeddedResource Include="Systems\Update\PlayerDungeonMovementSystem.cs" />
+    <EmbeddedResource Include="Systems\Update\PlayerVillageMovementSystem.cs" />
     <EmbeddedResource Include="Systems\Update\SimpleAISystem.cs" />
   </ItemGroup>
 

@@ -9,9 +9,9 @@ using Villeon.EntityManagement;
 
 namespace Villeon.Systems.Update
 {
-    public class ParticleSystem : System, IUpdateSystem
+    public class ParticleRemovalSystem : System, IUpdateSystem
     {
-        public ParticleSystem(string name)
+        public ParticleRemovalSystem(string name)
             : base(name)
         {
             Signature.IncludeAND(typeof(Particle));
@@ -24,21 +24,11 @@ namespace Villeon.Systems.Update
             {
                 Particle particle = particleEntity.GetComponent<Particle>() !;
                 particle.TTL -= time;
-
-                Transform transform = particleEntity.GetComponent<Transform>();
-                //transform.Scale = new Vector2(particle.TTL / particle.MaxTTL);
-
-                Sprite sprite = particleEntity.GetComponent<Sprite>();
-                Color4 color = sprite.Color;
-                color.A = particle.TTL / particle.MaxTTL;
-                sprite.Color = color;
-
                 if (particle.TTL <= 0.0f)
                     particlesToBeRemoved.Add(particleEntity);
             }
 
-            for (int i = 0; i < particlesToBeRemoved.Count; i++)
-                Manager.GetInstance().RemoveEntity(particlesToBeRemoved[0]);
+            Manager.GetInstance().RemoveEntities(particlesToBeRemoved);
         }
     }
 }

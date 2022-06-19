@@ -37,13 +37,13 @@ namespace Villeon.Systems.Update
             SceneLoader.AddScene(SmithScene);
 
             TileMapDictionary smithTileMap = new TileMapDictionary("VillageSmith.tmx");
-            SmithScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
+            SmithScene.AddSystem(new PlayerVillageMovementSystem("TopDownMovement"));
             SmithScene.AddSystem(new CollisionSystem("Collision"));
             SmithScene.AddSystem(new TriggerSystem("Trigger"));
             SmithScene.AddSystem(new PortalSystem("PortalSystem"));
             SmithScene.AddSystem(new CameraSystem("CameraSystem"));
             SmithScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
-            SmithScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
+            SmithScene.AddSystem(new PlayerVillageAnimationSystem("AnimationControllerSystem"));
             SmithScene.AddSystem(new AnimationSystem("AnimationSystem"));
             SmithScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
             SetTileMap(SmithScene, smithTileMap, false);
@@ -82,13 +82,13 @@ namespace Villeon.Systems.Update
             SceneLoader.AddScene(ShopScene);
 
             TileMapDictionary shopTileMap = new TileMapDictionary("VillageShop.tmx");
-            ShopScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
+            ShopScene.AddSystem(new PlayerVillageMovementSystem("TopDownMovement"));
             ShopScene.AddSystem(new CollisionSystem("Collision"));
             ShopScene.AddSystem(new TriggerSystem("Trigger"));
             ShopScene.AddSystem(new PortalSystem("PortalSystem"));
             ShopScene.AddSystem(new CameraSystem("CameraSystem"));
             ShopScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
-            ShopScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
+            ShopScene.AddSystem(new PlayerVillageAnimationSystem("AnimationControllerSystem"));
             ShopScene.AddSystem(new AnimationSystem("AnimationSystem"));
             ShopScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
             SetTileMap(ShopScene, shopTileMap, false);
@@ -99,7 +99,7 @@ namespace Villeon.Systems.Update
             SceneLoader.AddScene(VillageScene);
 
             TileMapDictionary villageTileMap = new TileMapDictionary("Village.tmx");
-            VillageScene.AddSystem(new PlayerTopDownMovementSystem("TopDownMovement"));
+            VillageScene.AddSystem(new PlayerVillageMovementSystem("TopDownMovement"));
             VillageScene.AddSystem(new CollisionSystem("Collision"));
             VillageScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             VillageScene.AddSystem(new TriggerSystem("Trigger"));
@@ -107,7 +107,7 @@ namespace Villeon.Systems.Update
             VillageScene.AddSystem(new CameraSystem("CameraSystem"));
             VillageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             VillageScene.AddSystem(new InteractionSystem("InteractionSystem"));
-            VillageScene.AddSystem(new PlayerAnimationControllerSystem("AnimationControllerSystem"));
+            VillageScene.AddSystem(new PlayerVillageAnimationSystem("AnimationControllerSystem"));
             VillageScene.AddSystem(new AnimationSystem("AnimationSystem"));
             VillageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
             VillageScene.AddSystem(new DialogSystem("DialogSystem"));
@@ -120,7 +120,7 @@ namespace Villeon.Systems.Update
 
             TileMapDictionary tileMap = new TileMapDictionary("Dungeon.tmx");
             DungeonScene.AddSystem(new EffectSystem("Effects"));
-            DungeonScene.AddSystem(new PlayerMovementSystem("Move"));
+            DungeonScene.AddSystem(new PlayerDungeonMovementSystem("Move"));
             DungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             DungeonScene.AddSystem(new SimpleAISystem("SimpleAISystem"));
             DungeonScene.AddSystem(new PhysicsSystem("Physics"));
@@ -135,7 +135,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             DungeonScene.AddSystem(new EnemyHealthbarSystem("EnemyHealthbarSystem"));
             DungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
-            DungeonScene.AddSystem(new ParticleSystem("ParticleSystem"));
+            DungeonScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
             DungeonScene.AddSystem(new PlayerParticleSystem("PlayerParticleSystem"));
             DungeonScene.AddSystem(new LadderSystem("LadderSystem"));
             DungeonScene.AddSystem(new MobDropSystem("MobdropSystem"));
@@ -143,7 +143,9 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
             DungeonScene.AddSystem(new PlayerHealthbarSystem("PlayerHealthbar", Constants.PLAYER_MAX_HEALTH));
             DungeonScene.AddSystem(new ItemUseSystem("ItemUseSystem"));
-            DungeonScene.AddSystem(new DungeonPlayerAnimationControllerSystem("AnimationControllerSystem"));
+            DungeonScene.AddSystem(new DungeonPlayerAnimationSystem("AnimationControllerSystem"));
+            DungeonScene.AddSystem(new PlayerFightingSystem("PlayerFightingSystem"));
+            DungeonScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
             SetTileMap(DungeonScene, tileMap, true);
         }
 

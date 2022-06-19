@@ -23,12 +23,5 @@ namespace Villeon.Helper
         public static bool InMenu { get; set; } = false;
 
         public static bool InDialog { get; set; } = false;
-
-        // Debug
-        public static bool DEBUGPAUSEACTIVE { get; set; } = false;
-
-        public static bool DEBUGNEXTFRAME { get; set; } = false;
-
-        public static bool DEBUGTHISFRAMEPHYSICS { get; set; } = true;
     }
 }
