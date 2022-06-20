@@ -41,7 +41,6 @@ namespace Villeon.Systems.TriggerSystems
         public override void RemoveEntity(IEntity entity)
         {
             base.RemoveEntity(entity);
-            Console.WriteLine("Removing: " + entity.Name);
             TriggerLayerType triggerLayerType = entity.GetComponent<Trigger>().TriggerLayers;
             foreach (Enum value in GetSetFlags(triggerLayerType))
             {

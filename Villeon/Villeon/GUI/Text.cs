@@ -58,10 +58,8 @@ namespace Villeon.GUI
 
         private void CreateLetters(string fontName, SpriteLayer layer)
         {
-            Font font = new Font(Color4.White, Asset.GetTexture("Fonts." + fontName + ".png"), "Fonts." + fontName + ".json");
-
             Vector2 letterPosition = _position;
-            float spriteHeight = font.FontHeight * _letterScale;
+            float spriteHeight = Font.FontHeight * _letterScale;
             foreach (char c in _text)
             {
                 // Move to next line '\n'
@@ -72,7 +70,7 @@ namespace Villeon.GUI
                     continue;
                 }
 
-                Sprite letterSprite = font.GetCharacter(c, layer, false);
+                Sprite letterSprite = Font.GetCharacter(c, layer, false);
                 float spriteWidth = letterSprite.Width * _letterScale;
 
                 // Create Entity for letter

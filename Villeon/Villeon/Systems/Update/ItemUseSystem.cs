@@ -32,7 +32,7 @@ namespace Villeon.Systems.Update
 
                     if (selectedItem.ItemType == Item.ITEM_TYPE.POTION)
                     {
-                        Console.WriteLine("Using Potion!");
+                        //Console.WriteLine("Using Potion!");
                         Health playerHealth = player.GetComponent<Health>();
                         playerHealth.Heal(50);
                         InventoryMenu.GetInstance().RemoveItemAtCurrentPosition();

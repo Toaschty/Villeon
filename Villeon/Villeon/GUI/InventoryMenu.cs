@@ -116,12 +116,12 @@ namespace Villeon.GUI
             if (key == Keys.H)
             {
                 AddItem(ItemLoader.GetItem("Sword"));
-                Console.WriteLine("Spawning Sword!");
+                //Console.WriteLine("Spawning Sword!");
             }
             else if (key == Keys.G)
             {
                 AddItem(ItemLoader.GetItem("HealthPotion"));
-                Console.WriteLine("Spawning Health potion!");
+                //Console.WriteLine("Spawning Health potion!");
             }
 
             if (_onSlots)
@@ -164,10 +164,10 @@ namespace Villeon.GUI
                 // Remove the old item sprite from the inventory
                 _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item = null;
 
-                if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].HasItem())
-                    Console.WriteLine("Item: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item!.Name + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
-                else
-                    Console.WriteLine("Item: Null " + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
+                //if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].HasItem())
+                //    Console.WriteLine("Item: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item!.Name + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
+                //else
+                //    Console.WriteLine("Item: Null " + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
             }
         }
 
@@ -312,7 +312,7 @@ namespace Villeon.GUI
                     // Slot has no item -> Add item
                     if (!inventory[y, x].HasItem())
                     {
-                        Console.WriteLine("NEW ITEM");
+                        //Console.WriteLine("NEW ITEM");
                         inventory[y, x].Item = newItem; // Adding new Item
 
                         if (inventory == _activeInventory)
@@ -389,10 +389,10 @@ namespace Villeon.GUI
 
             ReloadInventoryIndicators();
 
-            if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].HasItem())
-                Console.WriteLine("Item: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item!.Name + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
-            else
-                Console.WriteLine("Item: Null " + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
+            //if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].HasItem())
+            //    Console.WriteLine("Item: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item!.Name + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
+            //else
+            //    Console.WriteLine("Item: Null " + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
         }
 
         private void HandleTabNavigation(Keys key)
@@ -414,7 +414,7 @@ namespace Villeon.GUI
                     }
                     else
                     {
-                        Console.WriteLine("ActiveTabbar: " + _activeTabbar + " || Player: " + _playerTabbarPosition);
+                        //Console.WriteLine("ActiveTabbar: " + _activeTabbar + " || Player: " + _playerTabbarPosition);
                         _playerTabbarPosition = new Vector2i(_activeTabbar.X, _activeTabbar.Y); // set the tabbar position to the active tabbar position
                         _onSlots = true;
                     }
@@ -462,20 +462,20 @@ namespace Villeon.GUI
             switch (currentTab.Name)
             {
                 case "All":
-                    Console.WriteLine("All");
+                    //Console.WriteLine("All");
                     SetupAllInventory();
                     _activeInventory = _allInventory;
                     break;
                 case "Materials":
-                    Console.WriteLine("Materials");
+                    //Console.WriteLine("Materials");
                     _activeInventory = _materialInventory;
                     break;
                 case "Potions":
-                    Console.WriteLine("Potions");
+                    //Console.WriteLine("Potions");
                     _activeInventory = _potionInventory;
                     break;
                 case "Weapons":
-                    Console.WriteLine("Weapons");
+                    //Console.WriteLine("Weapons");
                     _activeInventory = _weaponInventory;
                     break;
             }
@@ -485,7 +485,7 @@ namespace Villeon.GUI
 
         private void ReloadItemEntities()
         {
-            Console.WriteLine("RELOADING ITEMS!");
+            //Console.WriteLine("RELOADING ITEMS!");
             Manager.GetInstance().RemoveEntities(_itemEntities);
             _itemEntities.Clear();
             _itemEntities.AddRange(GetAllItemEntities());

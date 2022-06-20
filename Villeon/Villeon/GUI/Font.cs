@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OpenTK.Mathematics;
 using Villeon.Assets;
 using Villeon.Components;
@@ -15,22 +16,22 @@ namespace Villeon.GUI
 {
     public class Font
     {
-        private Texture2D _sheetTexture;
-        private Sprite[] _sprites;
-        private float _fontHeight;
+        private static Dictionary<string, Font> _fonts = new Dictionary<string, Font>();
 
-        // FONT
-        private dynamic _fontJson;
+        private static Texture2D _sheetTexture;
+        private static Sprite[] _sprites;
+        private static float _fontHeight;
 
         public Font(Color4 color, Texture2D fontTexture, string fontJsonPath)
         {
             // Font JSON load
-            _fontJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText(fontJsonPath)) !;
-            int cellWidth = _fontJson.gridCellWidth;
-            int cellHeight = _fontJson.gridCellHeight;
-            int rows = _fontJson.rows;
-            int cols = _fontJson.cols;
-            int charCount = _fontJson.characters.Count;
+            JObject json = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText(fontJsonPath)) !;
+            dynamic fontJson = json;
+            int cellWidth = fontJson.gridCellWidth;
+            int cellHeight = fontJson.gridCellHeight;
+            int rows = fontJson.rows;
+            int cols = fontJson.cols;
+            int charCount = fontJson.characters.Count;
 
             // Init
             _sprites = new Sprite[charCount];
@@ -39,11 +40,11 @@ namespace Villeon.GUI
             int x = 0; // Start top Left
             int y = rows; // Start top left
 
-            int charHeight = _fontJson.characterHeight + _fontJson.borderTop + _fontJson.borderBottom;
+            int charHeight = fontJson.characterHeight + fontJson.borderTop + fontJson.borderBottom;
             _fontHeight = charHeight / 8f;
             for (int i = 0; i < charCount; i++)
             {
-                int charWidth = _fontJson.characters[i].width + _fontJson.borderLeft + _fontJson.borderRight;
+                int charWidth = fontJson.characters[i].width + fontJson.borderLeft + fontJson.borderRight;
                 Vector2[] texCoords = new Vector2[4]
                 {
                     new Vector2(x * cellWidth, (y * cellHeight) - charHeight) / _sheetTexture.Height,                // bottomLeft
@@ -67,20 +68,26 @@ namespace Villeon.GUI
             }
         }
 
-        public float FontHeight { get => _fontHeight; }
+        public static float FontHeight { get => _fontHeight; }
 
-        public Sprite GetCharacter(char c)
+        public static void AddFont(string fontName, Font font)
+        {
+            if (!_fonts.ContainsKey(fontName))
+                _fonts.Add(fontName, font);
+        }
+
+        public static Sprite GetCharacter(char c)
         {
             return _sprites[c - ' '];
         }
 
-        public Sprite GetCharacter(char c, SpriteLayer layer)
+        public static Sprite GetCharacter(char c, SpriteLayer layer)
         {
             _sprites[c - ' '].RenderLayer = layer;
             return _sprites[c - ' '];
         }
 
-        public Sprite GetCharacter(char c, SpriteLayer layer, bool isDynamic)
+        public static Sprite GetCharacter(char c, SpriteLayer layer, bool isDynamic)
         {
             _sprites[c - ' '].RenderLayer = layer;
             _sprites[c - ' '].IsDynamic = isDynamic;
