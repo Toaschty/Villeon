@@ -312,7 +312,13 @@ namespace Villeon.GUI
                             }
                         }
                     }
+                }
+            }
 
+            for (int y = 0; y < _inventorySlotsY; y++)
+            {
+                for (int x = 0; x < _inventorySlotsX; x++)
+                {
                     // Slot has no item -> Add item
                     if (!inventory[y, x].HasItem())
                     {

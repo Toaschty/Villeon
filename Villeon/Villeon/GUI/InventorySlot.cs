@@ -182,7 +182,7 @@ namespace Villeon.GUI
 
         public void LoadCountText()
         {
-            if (_item == null || _itemCount == 1)
+            if (_item == null)
                 return;
 
             _itemCountText = new Text(_itemCount.ToString(), _transform.Position, "Alagard", SpriteLayer.ScreenGuiOnTopOfForeground, 0.1f, 1f, 0.2f);
