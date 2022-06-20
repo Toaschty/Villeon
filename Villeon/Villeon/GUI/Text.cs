@@ -59,7 +59,7 @@ namespace Villeon.GUI
         private void CreateLetters(string fontName, SpriteLayer layer)
         {
             Vector2 letterPosition = _position;
-            float spriteHeight = Font.FontHeight * _letterScale;
+            float spriteHeight = Fonts.GetFontHeight(fontName) * _letterScale;
             foreach (char c in _text)
             {
                 // Move to next line '\n'
@@ -70,11 +70,11 @@ namespace Villeon.GUI
                     continue;
                 }
 
-                Sprite letterSprite = Font.GetCharacter(c, layer, false);
+                Sprite letterSprite = Fonts.GetCharacter(fontName, c, layer, false);
                 float spriteWidth = letterSprite.Width * _letterScale;
 
                 // Create Entity for letter
-                Entity letterEntity = new Entity(new Transform(letterPosition, _letterScale, 0f), "TBX[" + c + "]");
+                Entity letterEntity = new Entity(new Transform(letterPosition, _letterScale, 0f), "[" + c + "]");
                 Sprite letterSpriteCopy = new Sprite(letterSprite);
                 letterEntity.AddComponent(letterSpriteCopy);
                 _letters.Add(letterEntity);

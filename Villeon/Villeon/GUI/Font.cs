@@ -16,17 +16,14 @@ namespace Villeon.GUI
 {
     public class Font
     {
-        private static Dictionary<string, Font> _fonts = new Dictionary<string, Font>();
-
-        private static Texture2D _sheetTexture;
-        private static Sprite[] _sprites;
-        private static float _fontHeight;
+        private Texture2D _sheetTexture;
+        private Sprite[] _sprites;
+        private float _fontHeight;
 
         public Font(Color4 color, Texture2D fontTexture, string fontJsonPath)
         {
             // Font JSON load
-            JObject json = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText(fontJsonPath)) !;
-            dynamic fontJson = json;
+            dynamic fontJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText(fontJsonPath)) !;
             int cellWidth = fontJson.gridCellWidth;
             int cellHeight = fontJson.gridCellHeight;
             int rows = fontJson.rows;
@@ -68,30 +65,10 @@ namespace Villeon.GUI
             }
         }
 
-        public static float FontHeight { get => _fontHeight; }
+        public float FontHeight { get => _fontHeight; }
 
-        public static void AddFont(string fontName, Font font)
-        {
-            if (!_fonts.ContainsKey(fontName))
-                _fonts.Add(fontName, font);
-        }
+        public Texture2D SheetTexture { get => _sheetTexture; }
 
-        public static Sprite GetCharacter(char c)
-        {
-            return _sprites[c - ' '];
-        }
-
-        public static Sprite GetCharacter(char c, SpriteLayer layer)
-        {
-            _sprites[c - ' '].RenderLayer = layer;
-            return _sprites[c - ' '];
-        }
-
-        public static Sprite GetCharacter(char c, SpriteLayer layer, bool isDynamic)
-        {
-            _sprites[c - ' '].RenderLayer = layer;
-            _sprites[c - ' '].IsDynamic = isDynamic;
-            return _sprites[c - ' '];
-        }
+        public Sprite[] Sprites { get => _sprites; }
     }
 }

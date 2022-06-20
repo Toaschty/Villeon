@@ -39,8 +39,8 @@ namespace Villeon
             _gameWindow = WindowHelper.CreateWindow();
             TypeRegistry.SetupTypes();
             ItemDrops.SetupDrops();
-            Font.AddFont("Alagard", new Font(Color4.White, Asset.GetTexture("Fonts.Alagard.png"), "Fonts.Alagard.json"));
-            Font.AddFont("Alagard_Thin", new Font(Color4.White, Asset.GetTexture("Fonts.Alagard_Thin.png"), "Fonts.Alagard_Thin.json"));
+            Fonts.AddFont("Alagard", new Font(Color4.White, Asset.GetTexture("Fonts.Alagard.png"), "Fonts.Alagard.json"));
+            Fonts.AddFont("Alagard_Thin", new Font(Color4.White, Asset.GetTexture("Fonts.Alagard_Thin.png"), "Fonts.Alagard_Thin.json"));
             Asset.LoadRessources();
             _fps = new FPS(_gameWindow);
         }
