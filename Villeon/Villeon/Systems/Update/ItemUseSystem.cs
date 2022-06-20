@@ -35,7 +35,7 @@ namespace Villeon.Systems.Update
                         //Console.WriteLine("Using Potion!");
                         Health playerHealth = player.GetComponent<Health>();
                         playerHealth.Heal(50);
-                        InventoryMenu.GetInstance().RemoveItemAtCurrentPosition();
+                        InventoryMenu.GetInstance().UseItemAtCurrentPosition();
                     }
                 }
             }
