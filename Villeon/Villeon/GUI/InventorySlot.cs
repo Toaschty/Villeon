@@ -37,6 +37,8 @@ namespace Villeon.GUI
             _slotSwapIndicator = CreateSwapIndicator();
             _itemEntity = new Entity(transform, "ItemEntity");
             _itemCountText = null;
+            _itemCount = 0;
+            _itemStackSize = 0;
 
             _itemEntites.Add(_itemEntity);
         }
@@ -59,14 +61,6 @@ namespace Villeon.GUI
         public IEntity SwapIndicator
         {
             get { return _slotSwapIndicator; }
-        }
-
-        public IEntity ItemEntity
-        {
-            get
-            {
-                return _itemEntity;
-            }
         }
 
         public Transform Transform => _transform;
@@ -96,6 +90,7 @@ namespace Villeon.GUI
                 {
                     _itemStackSize = 0;
                     _itemCount = 0;
+                    _itemEntites.Clear();
                 }
                 else
                 {
@@ -122,13 +117,18 @@ namespace Villeon.GUI
 
         public bool IsStackFull()
         {
-            if (_itemStackSize == 0)
-                return false;
-
             if (_itemCount < _itemStackSize)
                 return false;
             else
                 return true;
+        }
+
+        public bool IsStackEmpty()
+        {
+            if (_itemCount <= 1)
+                return true;
+            else
+                return false;
         }
 
         public void SetStack(int count)
@@ -137,6 +137,8 @@ namespace Villeon.GUI
                 _itemCount = _itemStackSize;
             else
                 _itemCount = count;
+
+            RefreshText();
         }
 
         public void IncreaseStack()
@@ -153,9 +155,15 @@ namespace Villeon.GUI
                 }
             }
 
-            // Refresh the text
-            _itemCountText = new Text(_itemCount.ToString(), _transform.Position, "Alagard", SpriteLayer.ScreenGuiOnTopOfForeground, 0.1f, 1f, 0.2f);
-            _itemEntites.AddRange(_itemCountText.GetEntities());
+            RefreshText();
+        }
+
+        public void DecreaseStack()
+        {
+            if (_itemCount > 1)
+                _itemCount--;
+
+            RefreshText();
         }
 
         public void UnloadCountText()
@@ -180,6 +188,15 @@ namespace Villeon.GUI
             _itemCountText = new Text(_itemCount.ToString(), _transform.Position, "Alagard", SpriteLayer.ScreenGuiOnTopOfForeground, 0.1f, 1f, 0.2f);
             Manager.GetInstance().AddEntities(_itemCountText!.GetEntities());
             _itemEntites.AddRange(_itemCountText.GetEntities());
+        }
+
+        private void RefreshText()
+        {
+            _itemEntites.Clear();
+
+            _itemCountText = new Text(_itemCount.ToString(), _transform.Position, "Alagard", SpriteLayer.ScreenGuiOnTopOfForeground, 0.1f, 1f, 0.2f);
+            _itemEntites.AddRange(_itemCountText.GetEntities());
+            _itemEntites.Add(_itemEntity);
         }
 
         private IEntity CreateBackground()

@@ -147,23 +147,27 @@ namespace Villeon.GUI
             return null;
         }
 
-        public void RemoveItemAtCurrentPosition()
+        public void UseItemAtCurrentPosition()
         {
             Item? item = GetActiveItem();
             IEntity[] itemEntity = GetActiveItemEntity();
 
             if (item is not null)
             {
-                // Remove the old item entity
-                foreach (IEntity entity in itemEntity)
+                InventorySlot currentSlot = _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X];
+
+                if (currentSlot.IsStackEmpty())
                 {
-                    _itemEntities.Remove(entity);
-                    Manager.GetInstance().RemoveEntity(entity);
+                    // Stack is empty -> Remove item
+                    currentSlot.Item = null;
+                }
+                else
+                {
+                    // Stack is not empty -> Decrease the slot text
+                    currentSlot.DecreaseStack();
                 }
 
-                // Remove the old item sprite from the inventory
-                _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item = null;
-
+                ReloadItemEntities();
                 if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].HasItem())
                     Console.WriteLine("Item: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item!.Name + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
                 else
@@ -497,9 +501,11 @@ namespace Villeon.GUI
             Manager.GetInstance().RemoveEntities(_inventorySlotIndicators);
             _inventorySlotIndicators.Clear();
 
+            // Set the player cursor if the user is moving inside the Inventory
             if (_onSlots)
-                _inventorySlotIndicators.Add(_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection); // Set the current selection
+                _inventorySlotIndicators.Add(_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
 
+            // Set the active tabbar indicator when the user is not moving inside the tabbar
             if (_onSlots)
                 _inventorySlotIndicators.Add(_tabBar[_activeTabbar.Y, _activeTabbar.X]);
 
