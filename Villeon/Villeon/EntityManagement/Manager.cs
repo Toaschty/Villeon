@@ -41,7 +41,7 @@ namespace Villeon.EntityManagement
             }
         }
 
-        public void AddEntities(List<Entity> entities)
+        public void AddEntities(List<IEntity> entities)
         {
             foreach (IEntity entity in entities)
             {
