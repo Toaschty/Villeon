@@ -16,7 +16,7 @@ namespace Villeon.Generation.DungeonGeneration
 
         public int EndRoomY { get; set; } = 0;
 
-        public RoomModel[,] RoomModels { get; set; } = new RoomModel[4, 4];
+        public RoomModel[,] RoomModels { get; set; } = new RoomModel[6, 6];
 
         /*
         0 = not on the Paht
@@ -35,7 +35,7 @@ namespace Villeon.Generation.DungeonGeneration
             {
                 for (int j = 0; j < RoomModels.GetLength(1); j++)
                 {
-                    RoomModels[i, j] = new RoomModel(10, 10, 0, false, false);
+                    RoomModels[i, j] = new RoomModel(30, 30, 0, false, false);
                 }
             }
 

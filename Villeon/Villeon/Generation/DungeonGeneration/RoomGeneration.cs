@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using Villeon.Assets;
 using Villeon.Helper;
@@ -10,24 +12,14 @@ namespace Villeon.Generation.DungeonGeneration
     {
         public RoomGeneration(int startRoomX, int startRoomY, int endRoomX, int endRoomY, RoomModel[,] roomModels)
         {
-            Random random = new Random();
-            dynamic roomJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("TileMap.RoomLayouts.json")) !;
-            dynamic obstaclesJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("TileMap.Obstacles.json")) !;
+            string[] numberStrings = new string[4];
+            numberStrings[0] = "Filler";
+            numberStrings[1] = "Path";
+            numberStrings[2] = "PathBottomOpen";
+            numberStrings[3] = "PathTopOpen";
+            string fileName;
+            dynamic roomJson;
 
-            string[] numberStrings = new string[11];
-            numberStrings[0] = "zero";
-            numberStrings[1] = "one";
-            numberStrings[2] = "two";
-            numberStrings[3] = "three";
-            numberStrings[4] = "four";
-            numberStrings[5] = "five";
-            numberStrings[6] = "six";
-            numberStrings[7] = "seven";
-            numberStrings[8] = "eight";
-            numberStrings[9] = "nine";
-            numberStrings[10] = "ten";
-
-            int n;
             for (int i = 0; i < roomModels.GetLength(0); i++)
             {
                 for (int j = 0; j < roomModels.GetLength(1); j++)
@@ -36,38 +28,60 @@ namespace Villeon.Generation.DungeonGeneration
                     {
                         if (roomModels[i, j].RoomType == 1)
                         {
-                            n = random.Next(0, 3);
+                            fileName = Getrandomfile(Directory.GetCurrentDirectory() + "../../../../Assets/TileMap/DungeonRooms/Start/Pathway");
+
+                            roomJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("TileMap.DungeonRooms.Start.Pathway." + fileName)) !;
                         }
                         else
                         {
-                            n = random.Next(4, 7);
+                            fileName = Getrandomfile(Directory.GetCurrentDirectory() + "../../../../Assets/TileMap/DungeonRooms/Start/PathwayBottomOpen");
+                            roomJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("TileMap.DungeonRooms.Start.PathwayBottomOpen." + fileName)) !;
                         }
 
-                        roomModels[i, j].RoomLayout = roomJson.startRoom[numberStrings[n]].ToObject<string[,]>();
+                        roomModels[i, j].RoomLayout = roomJson.layers[0].data.ToObject<int[]>();
                     }
                     else if (roomModels[i, j].IsEnd)
                     {
                         if (roomModels[i - 1, j].RoomType == 2)
                         {
-                            n = random.Next(0, 3);
+                            fileName = Getrandomfile(Directory.GetCurrentDirectory() + "../../../../Assets/TileMap/DungeonRooms/End/Pathway");
+                            roomJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("TileMap.DungeonRooms.End.Pathway." + fileName)) !;
                         }
                         else
                         {
-                            n = random.Next(4, 7);
+                            fileName = Getrandomfile(Directory.GetCurrentDirectory() + "../../../../Assets/TileMap/DungeonRooms/End/PathwayTopOpen");
+                            roomJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("TileMap.DungeonRooms.End.PathwayTopOpen." + fileName)) !;
                         }
 
-                        roomModels[i, j].RoomLayout = roomJson.endRoom[numberStrings[n]].ToObject<string[,]>();
+                        roomModels[i, j].RoomLayout = roomJson.layers[0].data.ToObject<int[]>();
                     }
                     else
                     {
-                        roomModels[i, j].RoomLayout = roomJson[numberStrings[roomModels[i, j].RoomType]][numberStrings[random.Next(10)]].ToObject<string[,]>();
+                        if (i == 0)
+                        {
+                            fileName = Getrandomfile(Directory.GetCurrentDirectory() + "../../../../Assets/TileMap/DungeonRooms/" + numberStrings[roomModels[i, j].RoomType]);
+                            roomJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("TileMap.DungeonRooms." + numberStrings[roomModels[i, j].RoomType] + "." + fileName)) !;
+                        }
+                        else if (roomModels[i - 1, j].RoomType == 2 && roomModels[i, j].RoomType == 2)
+                        {
+                            fileName = Getrandomfile(Directory.GetCurrentDirectory() + "../../../../Assets/TileMap/DungeonRooms/" + numberStrings[roomModels[i, j].RoomType] + "/PathTopBottomOpen");
+                            roomJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("TileMap.DungeonRooms." + numberStrings[roomModels[i, j].RoomType] + ".PathTopBottomOpen." + fileName)) !;
+                        }
+                        else
+                        {
+                            fileName = Getrandomfile(Directory.GetCurrentDirectory() + "../../../../Assets/TileMap/DungeonRooms/" + numberStrings[roomModels[i, j].RoomType]);
+                            roomJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("TileMap.DungeonRooms." + numberStrings[roomModels[i, j].RoomType] + "." + fileName)) !;
+                        }
+
+                        roomModels[i, j].RoomLayout = roomJson.layers[0].data.ToObject<int[]>();
                     }
                 }
             }
 
+            /*
             for (int i = 0; i < roomModels.GetLength(0); i++)
             {
-                for (int y = 0; y < 8; y++)
+                for (int y = 0; y < 10; y++)
                 {
                     for (int j = 0; j < roomModels.GetLength(1); j++)
                     {
@@ -90,10 +104,31 @@ namespace Villeon.Generation.DungeonGeneration
                     }
                 }
             }
-
+            */
             RoomModels = roomModels;
         }
 
         public RoomModel[,] RoomModels { get; set; }
+
+        private string Getrandomfile(string path)
+        {
+            string? file = " ";
+            if (!string.IsNullOrEmpty(path))
+            {
+                var extensions = new string[] { ".tmj", ".json" };
+                try
+                {
+                    var di = new DirectoryInfo(path);
+                    var files = di.GetFiles("*.*").Where(f => extensions.Contains(f.Extension.ToLower()));
+                    Random rnd = new Random();
+                    file = files.ElementAt(rnd.Next(0, files.Count())).Name;
+                }
+                catch
+                {
+                }
+            }
+
+            return file;
+        }
     }
 }

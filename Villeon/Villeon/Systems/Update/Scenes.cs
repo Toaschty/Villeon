@@ -3,6 +3,7 @@ using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
 using Villeon.Generation;
+using Villeon.Generation.DungeonGeneration;
 using Villeon.GUI;
 using Villeon.Helper;
 using Villeon.Systems.RenderSystems;
@@ -154,6 +155,12 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new DungeonPlayerAnimationSystem("AnimationControllerSystem"));
             DungeonScene.AddSystem(new PlayerFightingSystem("PlayerFightingSystem"));
             DungeonScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
+            DungeonScene.AddStartUpFunc(() =>
+            {
+                //Manager.GetInstance().RemoveAllEntitiesFromScene("DungeonScene");
+                SetTileMap(DungeonScene, SpawnDungeon.CreateDungeon(), tileMap, true);
+                return true;
+            });
         }
 
         public static void SetupPortalEntities()
