@@ -148,6 +148,123 @@ namespace Villeon.Generation
             return _entities;
         }
 
+        // Generate entities depending on the tilemap
+        public static List<IEntity> GenerateEntitiesFromArray(int[,] map, TileMapDictionary tileMap, bool collisionOptimization)
+        {
+            // Clear existing entities
+            _entities = new List<IEntity>();
+
+            // Set height / width
+            _width = map.GetLength(1);
+            _height = map.GetLength(0);
+
+            // Initialize collider grid
+            _colliderGrid = new bool[_width, _height];
+
+            for (int y = 0, i = 0; y < _height; y++)
+            {
+                for (int x = 0; x < _width; x++, i++)
+                {
+                    // Get gid of current tile
+                    uint gid = (uint)map[y, x];
+
+                    // If gid is 0 -> Skip tile because it is space / air
+                    if (gid == 0)
+                        continue;
+
+                    // If current tile is ladder -> Spawn trigger
+                    if (gid == 4 || gid == 5)
+                    {
+                        IEntity ladder = new Entity(new Transform(new Vector2(x, _height - 1 - y), 1f, 0), "Ladder");
+                        ladder.AddComponent(new Trigger(TriggerLayerType.LADDER, 1, 1f));
+                        ladder.AddComponent(new Ladder());
+                        _entities.Add(ladder);
+                    }
+
+                    // If current tile is enemy spawn -> Spawn enemy
+                    if (gid == 8)
+                    {
+                        EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, _height - 1 - y), new Vector2(1f));
+                    }
+
+                    if (gid == 32)
+                    {
+                        EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, _height - 1 - y), new Vector2(5f));
+                    }
+
+                    // Get tile from dicitionary with gid
+                    Components.Tile currentTile = tileMap.Tiles[gid];
+
+                    // Create new entity for the upcoming tile
+                    IEntity tileEntity = new Entity(new Transform(new Vector2(x, _height - 1 - y), 1, 1), "Tile");
+
+                    // Setup Sprite Component
+                    Sprite tileSprite = new Sprite(currentTile, currentTile.TexCoords);
+
+                    // Make sprite dynamic in order to get updated after frame changes
+                    tileEntity.AddComponent(tileSprite);
+
+                    // Add animation component if tile contains any frames
+                    if (currentTile.AnimationFrames.Count() != 0)
+                    {
+                        // Dynamic: updated after frame changes
+                        tileSprite.IsDynamic = true;
+
+                        // Create new animationController component for current tile
+                        AnimationController animController = new AnimationController();
+
+                        // Create new animation for tile
+                        Animation animation = new Animation(currentTile.FrameDuration);
+
+                        // Add each animationtile as sprite to frames
+                        foreach (Components.Tile frameTile in currentTile.AnimationFrames)
+                        {
+                            animation.AnimationSprite.Add(new Sprite(frameTile, frameTile.TexCoords));
+                        }
+
+                        animController.AddAnimation(animation);
+
+                        // Add animation component
+                        tileEntity.AddComponent(animController);
+                    }
+
+                    // Convert current tile into Sprite
+                    _entities.Add(tileEntity);
+
+                    // If collider optimization is turned on and the current tile contains at least 1 collider..
+                    if (collisionOptimization && currentTile.Colliders.Count > 0)
+                    {
+                        // ... set current position in grid to true
+                        _colliderGrid[x, y] = true;
+                    }
+
+                    // If collider optimization is turned on and the current tile contains at least 1 collider..
+                    if (!collisionOptimization && currentTile.Colliders.Count > 0)
+                    {
+                        // ... go trough all colliders
+                        foreach (var collider in currentTile.Colliders)
+                        {
+                            // Create new entity which holds a collider with given data and add it to entities
+                            Vector2 currentPos = new Vector2(x, _height - 1 - y) + collider.Min;
+                            IEntity collisionEntity = new Entity(new Transform(currentPos, 1f, 1f), "CollisionBox");
+                            collisionEntity.AddComponent(new Collider(new Vector2(0, 0), currentPos, collider.Size.X, collider.Size.Y));
+                            _entities.Add(collisionEntity);
+                        }
+                    }
+                }
+            }
+
+            // If collider optimization was turned on during the previous step...
+            if (collisionOptimization)
+            {
+                // .. add the colliders
+                AddOptimizedColliders();
+            }
+
+            // Return the list of entities
+            return _entities;
+        }
+
         // Calculate optimized Colliders
         private static void AddOptimizedColliders()
         {

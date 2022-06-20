@@ -32,6 +32,14 @@ namespace Villeon.Systems.Update
             }
         }
 
+        public static void SetTileMap(Scene scene, int[,] map, TileMapDictionary tileMapDictionary, bool optimizedCollider)
+        {
+            foreach (IEntity entity in TileMapBuilder.GenerateEntitiesFromArray(map, tileMapDictionary, optimizedCollider))
+            {
+                scene.AddEntity(entity);
+            }
+        }
+
         public static void SetupSmithScene()
         {
             SceneLoader.AddScene(SmithScene);
@@ -132,7 +140,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new CollisionSystem("Collision"));
             DungeonScene.AddSystem(new PlayerDeathSystem("Health"));
             DungeonScene.AddSystem(new CameraSystem("CameraSystem"));
-            DungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            DungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             DungeonScene.AddSystem(new EnemyHealthbarSystem("EnemyHealthbarSystem"));
             DungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
             DungeonScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
@@ -146,7 +154,6 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new DungeonPlayerAnimationSystem("AnimationControllerSystem"));
             DungeonScene.AddSystem(new PlayerFightingSystem("PlayerFightingSystem"));
             DungeonScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
-            SetTileMap(DungeonScene, tileMap, true);
         }
 
         public static void SetupPortalEntities()
