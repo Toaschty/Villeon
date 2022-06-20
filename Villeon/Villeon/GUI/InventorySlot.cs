@@ -153,6 +153,7 @@ namespace Villeon.GUI
                 }
             }
 
+            // Refresh the text
             _itemCountText = new Text(_itemCount.ToString(), _transform.Position, "Alagard", SpriteLayer.ScreenGuiOnTopOfForeground, 0.1f, 1f, 0.2f);
             _itemEntites.AddRange(_itemCountText.GetEntities());
         }
