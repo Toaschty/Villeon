@@ -52,9 +52,6 @@ namespace Villeon.Systems.Update
                             }
                         }
                     }
-
-                    // Remove the dead enemy
-                    Manager.GetInstance().RemoveEntity(enemyEntity);
                 }
             }
         }
