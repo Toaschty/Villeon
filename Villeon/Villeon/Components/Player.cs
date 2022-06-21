@@ -8,6 +8,8 @@ namespace Villeon.Components
 {
     public class Player : IComponent
     {
+        public bool IsWalking { get; set; } = false;
+
         public bool MovingLeft { get; set; } = true;
 
         public bool MovingRight { get; set; } = false;

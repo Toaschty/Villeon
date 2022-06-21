@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
@@ -12,11 +13,11 @@ using Villeon.Helper;
 
 namespace Villeon.Systems.Update
 {
-    public class PlayerParticleSystem : System, IUpdateSystem
+    public class VillagePlayerParticleSystem : System, IUpdateSystem
     {
         private float _particleSpawnDelay = 0.1f;
 
-        public PlayerParticleSystem(string name)
+        public VillagePlayerParticleSystem(string name)
             : base(name)
         {
             Signature.IncludeAND(typeof(Player));
@@ -34,12 +35,12 @@ namespace Villeon.Systems.Update
                 {
                     Player player = entity.GetComponent<Player>();
 
-                    if (player.IsWalking && StateManager.IsGrounded)
+                    if (player.IsWalking)
                     {
                         Vector2 direction = Vector2.Zero;
-                        direction.X = player.MovingLeft ? 1 : -1;
-                        direction.Y = 0;
-                        IEntity particleEntity = ParticleBuilder.RandomParticle(transform.Position + new Vector2(0.5f, 0f), 0.8f, 0.7f, direction, 0.0f, 0.3f, true, "Sprites.Dust.png");
+                        direction.X = KeyHandler.IsHeld(Keys.A) ? 1 : KeyHandler.IsHeld(Keys.D) ? -1 : 0;
+                        direction.Y = KeyHandler.IsHeld(Keys.W) ? -1 : KeyHandler.IsHeld(Keys.S) ? 1 : 0;
+                        IEntity particleEntity = ParticleBuilder.RandomParticle(transform.Position + new Vector2(0.15f, 0.1f), 0.6f, 0.35f, direction, 0.0f, 0.7f, true, "Sprites.Dust.png");
                         Manager.GetInstance().AddEntity(particleEntity);
                     }
 

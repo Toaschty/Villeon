@@ -210,7 +210,7 @@ namespace Villeon
             _fps!.SetFps((float)args.Time);
             Time.SetTime((float)args.Time);
             Manager.GetInstance().Update((float)args.Time);
-            MouseHandler.ClickedMouseButtons.Clear();
+            MouseHandler.Clear();
             KeyHandler.UpdateKeys();
         }
 

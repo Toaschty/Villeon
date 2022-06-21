@@ -82,7 +82,7 @@ void main(void)
 	{
 		// Get the textureColor
 		int id = int(fTexID);
-        color = texture(textures[id], fTexCoords) * vec4(completeLightColor, fColor.a);
+        color = texture(textures[id], fTexCoords) * vec4(completeLightColor, fColor.a) * fColor;
 	}
 	else
 	{

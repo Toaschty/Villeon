@@ -14,9 +14,23 @@ namespace Villeon.Helper
 
         public static Vector2 WorldMousePosition { get; private set; }
 
-        public static List<ClickedMouseButton> ClickedMouseButtons { get; private set; } = new List<ClickedMouseButton>();
+        public static HashSet<ClickedMouseButton> ClickedMouseButtons { get; private set; } = new HashSet<ClickedMouseButton>();
 
-        public static List<ClickedMouseButton> ClickedRightMouseButtons { get; private set; } = new List<ClickedMouseButton>();
+        public static HashSet<ClickedMouseButton> ClickedRightMouseButtons { get; private set; } = new HashSet<ClickedMouseButton>();
+
+        public static bool IsMouseDown()
+        {
+            if (ClickedMouseButtons.Count > 0)
+                return true;
+            return false;
+        }
+
+        public static void Clear()
+        {
+            ClickedMouseButtons.Clear();
+            ClickedRightMouseButtons.Clear();
+        }
+
 
         public static void MouseDown(MouseButtonEventArgs args)
         {

@@ -249,8 +249,8 @@ namespace Villeon.Generation
         private static void AddOptimizedColliders()
         {
             // Create unionized colliders in Grid
-            Vector2 min = new(-1, -1);
-            Vector2 max = new(-1, -1);
+            Vector2 min = new (-1, -1);
+            Vector2 max = new (-1, -1);
 
             // Go trough all positions in the collidergrid
             for (int y = 0; y < _height; y++)
@@ -273,7 +273,8 @@ namespace Villeon.Generation
                         max.Y = y;
                         _colliderGrid[x, y] = false;
                     }
-                    else if (min.X != -1 && x + 1 == _width || !_colliderGrid[(x + 1) % _width, y])
+
+                    if ((min.X != -1 && x + 1 == _width) || !_colliderGrid[(x + 1) % _width, y])
                     {
                         for (int y2 = (int)min.Y + 1; y2 <= _height && min.X != -1; y2++)
                         {
@@ -302,8 +303,8 @@ namespace Villeon.Generation
                             else
                             {
                                 // Add collider entity to entities
-                                IEntity entity = new Entity(new Transform(new Vector2(min.X, max.Y * -1 + _height - 1), 1f, 0), "Map");
-                                entity.AddComponent(new Collider(new Vector2(0, 0), new Vector2(min.X, max.Y * -1 + _height - 1), max.X - min.X + 1, max.Y - min.Y + 1));
+                                IEntity entity = new Entity(new Transform(new Vector2(min.X, (max.Y * -1) + _height - 1), 1f, 0), "Map");
+                                entity.AddComponent(new Collider(new Vector2(0, 0), new Vector2(min.X, (max.Y * -1) + _height - 1), max.X - min.X + 1, max.Y - min.Y + 1));
                                 _entities.Add(entity);
                                 min = new Vector2(-1, -1);
                                 max = new Vector2(-1, -1);

@@ -124,7 +124,6 @@ namespace Villeon.Systems.Update
             VillageScene.AddSystem(new AnimationSystem("AnimationSystem"));
             VillageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
             VillageScene.AddSystem(new DialogSystem("DialogSystem"));
-            VillageScene.AddSystem(new TradingSystem("TradingSystem"));
             SetTileMap(VillageScene, villageTileMap, false);
         }
 
@@ -150,6 +149,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new EnemyHealthbarSystem("EnemyHealthbarSystem"));
             DungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
             DungeonScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
+            DungeonScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
             DungeonScene.AddSystem(new PlayerParticleSystem("PlayerParticleSystem"));
             DungeonScene.AddSystem(new LadderSystem("LadderSystem"));
             DungeonScene.AddSystem(new MobDropSystem("MobdropSystem"));
@@ -159,7 +159,6 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new ItemUseSystem("ItemUseSystem"));
             DungeonScene.AddSystem(new DungeonPlayerAnimationSystem("AnimationControllerSystem"));
             DungeonScene.AddSystem(new PlayerFightingSystem("PlayerFightingSystem"));
-            DungeonScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
             DungeonScene.AddStartUpFunc(() =>
             {
                 //Manager.GetInstance().RemoveAllEntitiesFromScene("DungeonScene");

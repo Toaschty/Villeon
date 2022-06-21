@@ -45,6 +45,7 @@ namespace Villeon.Systems.Update
                 // Player is not moving
                 playerComponent.MovingLeft = false;
                 playerComponent.MovingRight = false;
+                playerComponent.IsWalking = false;
 
                 // Check if player is grounded
                 StateManager.IsGrounded = collider.HasCollidedBottom;
@@ -52,6 +53,7 @@ namespace Villeon.Systems.Update
                 // Player is Walking Right
                 if (KeyHandler.IsHeld(Keys.D))
                 {
+                    playerComponent.IsWalking = true;
                     playerComponent.MovingRight = true;
                     playerComponent.MovingLeft = false;
                     playerComponent.WasLookingRight = true;
@@ -62,6 +64,7 @@ namespace Villeon.Systems.Update
                 // Player is Walking Left
                 if (KeyHandler.IsHeld(Keys.A))
                 {
+                    playerComponent.IsWalking = true;
                     playerComponent.MovingLeft = true;
                     playerComponent.MovingRight = false;
                     playerComponent.WasLookingRight = false;
@@ -81,7 +84,7 @@ namespace Villeon.Systems.Update
                 }
 
                 // Jump
-                if (KeyHandler.IsHeld(Keys.W))
+                if (KeyHandler.IsHeld(Keys.Space))
                 {
                     if (StateManager.IsGrounded)
                     {

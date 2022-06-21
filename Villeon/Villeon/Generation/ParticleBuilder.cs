@@ -17,12 +17,13 @@ namespace Villeon.Generation
             IEntity particleEntity = new Entity(new Transform(startingPosition, (float)random.NextDouble() * scale, 0.0f), "DustParticle");
             Particle particle = new Particle(timeToLive);
             particle.IsFading = isFading;
+            particle.HasWind = false;
             particleEntity.AddComponent(particle);
 
             Physics physics = new Physics();
             physics.Weight = weight;
             physics.Friction = friction;
-            physics.Velocity = new Vector2(direction.X * (float)((random.NextDouble() * 0.8) + 0.6), (float)((random.NextDouble() * 0.8) - 0.4));
+            physics.Velocity = new Vector2(direction.X * (float)(random.NextDouble() + 1f), direction.Y * (float)(random.NextDouble() + 1f));
             particleEntity.AddComponent(physics);
 
             Sprite sprite = Asset.GetSprite(spritePath, SpriteLayer.Foreground, true);
