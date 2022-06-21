@@ -25,7 +25,7 @@ namespace Villeon.GUI
         private float _oldHealth;
         private float _maxHealth;
 
-        private float _scale = 0.5f;
+        private float _scale = 0.4f;
 
         public PlayerHealthBar(int maxHealth)
         {
@@ -33,11 +33,11 @@ namespace Villeon.GUI
             _width = _maxWidth = sprite.Width;
             _height = sprite.Height;
 
-            Vector2 position = new Vector2(-10, 5.65f - (_height * _scale));
+            Vector2 position = new Vector2(-10, 5f - (_height * _scale));
             _maxHealth = maxHealth;
 
             CreateFrame(position);
-            CreateBackground(position, _width, _height);
+            //CreateBackground(position, _width, _height);
             CreateFilling(position, _width, _height);
 
             SpawnHealthBar();

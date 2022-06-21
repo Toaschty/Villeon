@@ -43,7 +43,7 @@ namespace Villeon.EntityManagement
             if (SceneLoader.CurrentScene.Name == "DungeonScene")
             {
                 // Dungeon is completely dark
-                return new Vector3(0.01f);
+                return new Vector3(1f);
             }
 
             // In wich scene?

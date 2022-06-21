@@ -162,6 +162,8 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new ItemUseSystem("ItemUseSystem"));
             DungeonScene.AddSystem(new DungeonPlayerAnimationSystem("AnimationControllerSystem"));
             DungeonScene.AddSystem(new PlayerFightingSystem("PlayerFightingSystem"));
+            DungeonScene.AddSystem(new PlayerExpSystem("PlayerExpSystem"));
+            DungeonScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE! 
             DungeonScene.AddStartUpFunc(() =>
             {
                 //Manager.GetInstance().RemoveAllEntitiesFromScene("DungeonScene");
