@@ -30,7 +30,7 @@ namespace Villeon.Systems.Update
             foreach (IEntity player in Entities)
             {
                 // Go to next player if not attacking
-                if (!KeyHandler.IsPressed(Keys.Space))
+                if (!(MouseHandler.IsMouseDown() || KeyHandler.IsPressed(Keys.E)))
                     continue;
 
                 // Check if the attack is on cooldown

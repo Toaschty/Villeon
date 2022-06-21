@@ -68,7 +68,7 @@ namespace Villeon
             Scenes.DungeonScene.AddEntity(floor);
 
             NPCLoader.LoadNpcs("VillageScene");
-            NPCLoader.LoadNpcs("DungeonScene");
+            //NPCLoader.LoadNpcs("DungeonScene");
         }
 
         private void InitWindowActions(GameWindow gameWindow)
@@ -204,7 +204,7 @@ namespace Villeon
             _fps!.SetFps((float)args.Time);
             Time.SetTime((float)args.Time);
             Manager.GetInstance().Update((float)args.Time);
-            MouseHandler.ClickedMouseButtons.Clear();
+            MouseHandler.Clear();
             KeyHandler.UpdateKeys();
         }
 
