@@ -11,8 +11,8 @@ namespace Villeon.Systems.Update
 {
     public class PlayerExpSystem : System, IUpdateSystem
     {
-        private PlayerExpBar _expBar;
-        private Exp _playerExp;
+        private static PlayerExpBar? _expBar;
+        private static Exp? _playerExp;
 
         public PlayerExpSystem(string name)
             : base(name)
@@ -21,6 +21,11 @@ namespace Villeon.Systems.Update
 
             _playerExp = new Exp(100);
             _expBar = new PlayerExpBar(_playerExp);
+        }
+
+        public static void Init()
+        {
+            _expBar = new PlayerExpBar(_playerExp!);
         }
 
         public void Update(float time)

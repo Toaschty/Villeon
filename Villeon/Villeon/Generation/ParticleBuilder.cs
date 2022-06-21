@@ -26,7 +26,7 @@ namespace Villeon.Generation
             physics.Velocity = new Vector2(direction.X * (float)(random.NextDouble() + 1f), direction.Y * (float)(random.NextDouble() + 1f));
             particleEntity.AddComponent(physics);
 
-            Sprite sprite = Asset.GetSprite(spritePath, SpriteLayer.Foreground, true);
+            Sprite sprite = Asset.GetSprite(spritePath, SpriteLayer.Middleground, true);
             particleEntity.AddComponent(sprite);
 
             return particleEntity;
@@ -40,7 +40,7 @@ namespace Villeon.Generation
             particle.IsFading = isFading;
             particleEntity.AddComponent(particle);
 
-            Sprite sprite = Asset.GetSprite("Sprites.Empty.png", SpriteLayer.Foreground, true);
+            Sprite sprite = Asset.GetSprite("Sprites.Empty.png", SpriteLayer.Middleground, true);
             particleEntity.AddComponent(sprite);
 
             AnimationController animController = new AnimationController();
@@ -59,7 +59,7 @@ namespace Villeon.Generation
             foreach (IEntity entity in text.GetEntities())
             {
                 Sprite sprite = entity.GetComponent<Sprite>();
-                sprite.RenderLayer = SpriteLayer.Foreground;
+                sprite.RenderLayer = SpriteLayer.Middleground;
                 sprite.IsDynamic = true;
 
                 // Add the particle
