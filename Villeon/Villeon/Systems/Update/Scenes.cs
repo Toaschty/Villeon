@@ -41,25 +41,6 @@ namespace Villeon.Systems.Update
             }
         }
 
-        public static void SetupSmithScene()
-        {
-            SceneLoader.AddScene(SmithScene);
-
-            TileMapDictionary smithTileMap = new TileMapDictionary("VillageSmith.tmx");
-            SmithScene.AddSystem(new PlayerVillageMovementSystem("TopDownMovement"));
-            SmithScene.AddSystem(new CollisionSystem("Collision"));
-            SmithScene.AddSystem(new TriggerSystem("Trigger"));
-            SmithScene.AddSystem(new PortalSystem("PortalSystem"));
-            SmithScene.AddSystem(new CameraSystem("CameraSystem"));
-            SmithScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
-            SmithScene.AddSystem(new PlayerVillageAnimationSystem("AnimationControllerSystem"));
-            SmithScene.AddSystem(new AnimationSystem("AnimationSystem"));
-            SmithScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
-            SmithScene.AddSystem(new DialogSystem("DialogSystem"));
-            SmithScene.AddSystem(new InteractionSystem("InteractionSystem"));
-            SetTileMap(SmithScene, smithTileMap, false);
-        }
-
         public static void SetupMainMenuScene()
         {
             // Show background image
@@ -88,25 +69,6 @@ namespace Villeon.Systems.Update
             MainMenuScene.AddSystem(new MainMenuInputSystem("MainMenuInput"));
         }
 
-        public static void SetupShopScene()
-        {
-            SceneLoader.AddScene(ShopScene);
-
-            TileMapDictionary shopTileMap = new TileMapDictionary("VillageShop.tmx");
-            ShopScene.AddSystem(new PlayerVillageMovementSystem("TopDownMovement"));
-            ShopScene.AddSystem(new CollisionSystem("Collision"));
-            ShopScene.AddSystem(new TriggerSystem("Trigger"));
-            ShopScene.AddSystem(new PortalSystem("PortalSystem"));
-            ShopScene.AddSystem(new CameraSystem("CameraSystem"));
-            ShopScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
-            ShopScene.AddSystem(new PlayerVillageAnimationSystem("AnimationControllerSystem"));
-            ShopScene.AddSystem(new AnimationSystem("AnimationSystem"));
-            ShopScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
-            ShopScene.AddSystem(new DialogSystem("DialogSystem"));
-            ShopScene.AddSystem(new InteractionSystem("InteractionSystem"));
-            SetTileMap(ShopScene, shopTileMap, false);
-        }
-
         public static void SetupVillageScene()
         {
             SceneLoader.AddScene(VillageScene);
@@ -124,7 +86,48 @@ namespace Villeon.Systems.Update
             VillageScene.AddSystem(new AnimationSystem("AnimationSystem"));
             VillageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
             VillageScene.AddSystem(new DialogSystem("DialogSystem"));
+            VillageScene.AddSystem(new TradingSystem("TradingSystem"));
             SetTileMap(VillageScene, villageTileMap, false);
+        }
+
+        public static void SetupShopScene()
+        {
+            SceneLoader.AddScene(ShopScene);
+
+            TileMapDictionary shopTileMap = new TileMapDictionary("VillageShop.tmx");
+            ShopScene.AddSystem(new PlayerVillageMovementSystem("TopDownMovement"));
+            ShopScene.AddSystem(new CollisionSystem("Collision"));
+            ShopScene.AddSystem(new TriggerSystem("Trigger"));
+            ShopScene.AddSystem(new PortalSystem("PortalSystem"));
+            ShopScene.AddSystem(new CameraSystem("CameraSystem"));
+            ShopScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            ShopScene.AddSystem(new PlayerVillageAnimationSystem("AnimationControllerSystem"));
+            ShopScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            ShopScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
+            ShopScene.AddSystem(new DialogSystem("DialogSystem"));
+            ShopScene.AddSystem(new InteractionSystem("InteractionSystem"));
+            ShopScene.AddSystem(new TradingSystem("TradingSystem"));
+            SetTileMap(ShopScene, shopTileMap, false);
+        }
+
+        public static void SetupSmithScene()
+        {
+            SceneLoader.AddScene(SmithScene);
+
+            TileMapDictionary smithTileMap = new TileMapDictionary("VillageSmith.tmx");
+            SmithScene.AddSystem(new PlayerVillageMovementSystem("TopDownMovement"));
+            SmithScene.AddSystem(new CollisionSystem("Collision"));
+            SmithScene.AddSystem(new TriggerSystem("Trigger"));
+            SmithScene.AddSystem(new PortalSystem("PortalSystem"));
+            SmithScene.AddSystem(new CameraSystem("CameraSystem"));
+            SmithScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            SmithScene.AddSystem(new PlayerVillageAnimationSystem("AnimationControllerSystem"));
+            SmithScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            SmithScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
+            SmithScene.AddSystem(new DialogSystem("DialogSystem"));
+            SmithScene.AddSystem(new InteractionSystem("InteractionSystem"));
+            SmithScene.AddSystem(new TradingSystem("TradingSystem"));
+            SetTileMap(SmithScene, smithTileMap, false);
         }
 
         public static void SetupDungeonScene()
