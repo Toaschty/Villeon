@@ -1,65 +1,144 @@
 ﻿{
   "VillageScene": [
     {
-      "name": "Shopkeeper",
-      "texturePath": "Sprites.Player.png",
-      "x": 50,
-      "y": 50,
+      "name": "Ferdinand",
+      "texturePath": "Sprites.NPC.Ferdinand.png",
+      "textureScale": 0.15,
+      "x": 45,
+      "y": 105,
       "options": [
         {
-          "option": "Talk",
+          "type": "talk",
+          "option": "Talk [T]",
           "key": "T"
         },
         {
-          "option": "Buy",
-          "key": "B"
-        },
-        {
-          "option": "Sell",
-          "key": "S"
+          "type": "trade",
+          "option": "200x Rock --> 7x Gold [1]",
+          "key": "D1",
+          "neededItem": "Rock",
+          "neededItemAmount": 200,
+          "buyItem": "Gold",
+          "buyItemAmount": 7
         }
       ],
       "dialog": [
-        "You wanna buy some stuff, then press the correct button you imbicle",
-        "Why are you still here?"
-      ]
-    },
-    {
-      "name": "Otto",
-      "x": 55,
-      "y": 50,
-      "texturePath": "Sprites.Player.png",
-      "options": [
-        {
-          "option": "Talk",
-          "key": "T"
-        }
-      ],
-      "dialog": [
-        "You see that shopkeeper over there, you might want to talk to him"
+        "Hmm...",
+        "Hmm?",
+        "Oh sorry. I not see you comin'.",
+        "You know... I love rocks!",
+        "I LOVE ROCKS!",
+        "If you have' talk to me. I give you reward. I found yellow stones in the woods.",
+        "Shiny rocks... But not for Ferdinand. He is me."
       ]
     }
   ],
-  "DungeonScene": [
+  "SmithScene": [
     {
-      "name": "DungeonJoe",
-      "x": 5,
-      "y": 5,
-      "texturePath": "Sprites.Player.png",
+      "name": "Alberich",
+      "texturePath": "Sprites.NPC.Alberich.png",
+      "textureScale": 0.15,
+      "x": 3,
+      "y": 10,
       "options": [
         {
-          "option": "Talk",
+          "type": "talk",
+          "option": "Talk [T]",
           "key": "T"
         },
         {
-          "option": "Rescue",
-          "key": "R"
+          "type": "trade",
+          "option": "10x Gold --> 1x Sword [1]",
+          "key": "D1",
+          "neededItem": "Gold",
+          "neededItemAmount": 10,
+          "buyItem": "Sword",
+          "buyItemAmount": 1
+        },
+        {
+          "type": "trade",
+          "option": "5x Gold --> 1x Shield [2]",
+          "key": "D2",
+          "neededItem": "Gold",
+          "neededItemAmount": 5,
+          "buyItem": "Sword",
+          "buyItemAmount": 1
+        },
+        {
+          "type": "trade",
+          "option": "50x Rock --> 1x Gold [3]",
+          "key": "D3",
+          "neededItem": "Rock",
+          "neededItemAmount": 50,
+          "buyItem": "Gold",
+          "buyItemAmount": 1
         }
       ],
       "dialog": [
-        "I dont even know why im here... like why comon, I have kids at home",
-        "Wanna save me?",
-        "Please."
+        "Hello there!",
+        "I am called Alberich and I am the smith in this village!",
+        "If you are looking for a sword or shield you are lucky!",
+        "My craftsmanship is well know in the whole country!",
+        "Once I even made 3 beautiful longswords for the king's 3 children!",
+        "It would be a shame if these swords were ever used in combat... ",
+        "Hmm...",
+        "Oh excuse me! I got lost in my thougths!",
+        "So what do you want?"
+      ]
+    }
+  ],
+  "ShopScene": [
+    {
+      "name": "Grunilde",
+      "texturePath": "Sprites.NPC.Grunilde.png",
+      "textureScale": 0.15,
+      "x": 10,
+      "y": 9,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        },
+        {
+          "type": "trade",
+          "option": "100x Rock --> 1x Gold [1]",
+          "key": "D1",
+          "neededItem": "Rock",
+          "neededItemAmount": 100,
+          "buyItem": "Gold",
+          "buyItemAmount": 1
+        }
+      ],
+      "dialog": [
+        "Oh hello again!",
+        "Thank you for saving me back there in the cave.",
+        "I was so afraid... I thought I would never see the sunlight again!",
+        "But then you came and saved me... My hero!",
+        "I am Grunilde and I run this shop",
+        "To be honest... This shop is also used as an tavern by most of the villagers.",
+        "So go ahead and sit down by the fire or buy something from me.",
+        "You have the choice."
+      ]
+    },
+    {
+      "name": "Hartwin",
+      "texturePath": "Sprites.NPC.Hartwin.png",
+      "textureScale": 0.15,
+      "x": 17,
+      "y": 7,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Hello fella.",
+        "Thanks for saving me.",
+        "To be honest I am still in stock...",
+        "So do you mind leaving me alone?"
       ]
     }
   ]

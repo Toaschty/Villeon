@@ -32,6 +32,7 @@ namespace Villeon.Generation
                 // Get NPC Name, X Position, Y Position
                 string npcName = scene[i].name;
                 string texturePath = scene[i].texturePath;
+                float textureScale = scene[i].textureScale;
                 float x = scene[i].x;
                 float y = scene[i].y;
 
@@ -45,25 +46,41 @@ namespace Villeon.Generation
                 int optionIndex = 0;
                 foreach (var option in optionJArray)
                 {
+                    string optionType = option.SelectToken("type") !.Value<string>() !;
                     string optionString = option.SelectToken("option") !.Value<string>() !;
                     string keyString = option.SelectToken("key") !.Value<string>() !;
                     Keys key = (Keys)Enum.Parse(typeof(Keys), keyString, true);
-                    optionArray[optionIndex] = new Option(optionString, key);
+
+                    if (optionType == "trade")
+                    {
+                        string neededItem = option.SelectToken("neededItem") !.Value<string>() !;
+                        int neededItemAmount = option.SelectToken("neededItemAmount") !.Value<int>() !;
+                        string buyItem = option.SelectToken("buyItem") !.Value<string>() !;
+                        int buyItemAmount = option.SelectToken("buyItemAmount") !.Value<int>() !;
+                        optionArray[optionIndex] = new Option(optionString, key, neededItem, neededItemAmount, buyItem, buyItemAmount);
+                    }
+                    else
+                    {
+                        optionArray[optionIndex] = new Option(optionString, key);
+                    }
+
                     optionIndex++;
                 }
 
-                SpawnNPC(sceneName, npcName, texturePath, x, y, optionArray, dialog);
+                SpawnNPC(sceneName, npcName, texturePath, textureScale, x, y, optionArray, dialog);
             }
         }
 
-        private static void SpawnNPC(string sceneName, string npcName, string texturepath, float x, float y, Option[] options, string[] dialogPages)
+        private static void SpawnNPC(string sceneName, string npcName, string texturepath, float textureScale, float x, float y, Option[] options, string[] dialogPages)
         {
             // Create the Entity
-            IEntity entity = new Entity(new Transform(new Vector2(x, y), 1.0f, 0.0f), npcName);
-            entity.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-1, -1), 2f, 2f));
+            Transform transform = new Transform(new Vector2(x, y), textureScale, 0.0f);
+            IEntity entity = new Entity(transform, npcName);
+            entity.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-0.4f, -0.4f), 1.4f, 1.8f));
+            entity.AddComponent(new Collider(Vector2.Zero, transform.Position, 0.6f, 1f));
             entity.AddComponent(new Interactable(options));
             entity.AddComponent(new Dialog(dialogPages));
-            entity.AddComponent(Assets.Asset.GetSprite(texturepath, SpriteLayer.Foreground, true));
+            entity.AddComponent(Assets.Asset.GetSprite(texturepath, SpriteLayer.Middleground, true));
 
             // Spawn it via the manager
             Manager.GetInstance().AddEntityToScene(entity, sceneName);

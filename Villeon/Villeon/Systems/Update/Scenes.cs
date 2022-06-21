@@ -55,6 +55,8 @@ namespace Villeon.Systems.Update
             SmithScene.AddSystem(new PlayerVillageAnimationSystem("AnimationControllerSystem"));
             SmithScene.AddSystem(new AnimationSystem("AnimationSystem"));
             SmithScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
+            SmithScene.AddSystem(new DialogSystem("DialogSystem"));
+            SmithScene.AddSystem(new InteractionSystem("InteractionSystem"));
             SetTileMap(SmithScene, smithTileMap, false);
         }
 
@@ -100,6 +102,8 @@ namespace Villeon.Systems.Update
             ShopScene.AddSystem(new PlayerVillageAnimationSystem("AnimationControllerSystem"));
             ShopScene.AddSystem(new AnimationSystem("AnimationSystem"));
             ShopScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
+            ShopScene.AddSystem(new DialogSystem("DialogSystem"));
+            ShopScene.AddSystem(new InteractionSystem("InteractionSystem"));
             SetTileMap(ShopScene, shopTileMap, false);
         }
 
@@ -120,6 +124,7 @@ namespace Villeon.Systems.Update
             VillageScene.AddSystem(new AnimationSystem("AnimationSystem"));
             VillageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
             VillageScene.AddSystem(new DialogSystem("DialogSystem"));
+            VillageScene.AddSystem(new TradingSystem("TradingSystem"));
             SetTileMap(VillageScene, villageTileMap, false);
         }
 

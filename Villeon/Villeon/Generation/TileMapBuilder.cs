@@ -54,26 +54,6 @@ namespace Villeon.Generation
                         if (gid == 0)
                             continue;
 
-                        // If current tile is ladder -> Spawn trigger
-                        if (gid == 4 || gid == 5)
-                        {
-                            IEntity ladder = new Entity(new Transform(new Vector2(x, layer.Height - 1 - y), 1f, 0), "Ladder");
-                            ladder.AddComponent(new Trigger(TriggerLayerType.LADDER, 1, 1f));
-                            ladder.AddComponent(new Ladder());
-                            _entities.Add(ladder);
-                        }
-
-                        // If current tile is enemy spawn -> Spawn enemy
-                        if (gid == 8)
-                        {
-                            EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, layer.Height - 1 - y), new Vector2(1f));
-                        }
-
-                        if (gid == 32)
-                        {
-                            EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, layer.Height - 1 - y), new Vector2(5f));
-                        }
-
                         // Get tile from dicitionary with gid
                         Components.Tile currentTile = tileMap.Tiles[gid];
 
