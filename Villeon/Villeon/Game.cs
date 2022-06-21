@@ -67,8 +67,7 @@ namespace Villeon
             floor.AddComponent(new Collider(new Vector2(0), new Transform(new Vector2(-20, -2), 1f, 0f), 100f, 1f));
             Scenes.DungeonScene.AddEntity(floor);
 
-            NPCLoader.LoadNpcs("VillageScene");
-            //NPCLoader.LoadNpcs("DungeonScene");
+            
         }
 
         private void InitWindowActions(GameWindow gameWindow)
@@ -167,6 +166,11 @@ namespace Villeon
                 DebuggingPlayground();
                 GUIHandler.GetInstance().LoadGUI();
 
+                // Load NPCs from file
+                NPCLoader.LoadNpcs("VillageScene");
+                NPCLoader.LoadNpcs("SmithScene");
+                NPCLoader.LoadNpcs("ShopScene");
+
                 // Switch scene if loading is done
                 SceneLoader.SetActiveScene("VillageScene");
                 return true;
@@ -186,6 +190,8 @@ namespace Villeon
             // Overlay - Village
             VillageOverlay villageOverlay = new VillageOverlay();
             Scenes.VillageScene.AddEntities(villageOverlay.GetEntities());
+            Scenes.ShopScene.AddEntities(villageOverlay.GetEntities());
+            Scenes.SmithScene.AddEntities(villageOverlay.GetEntities());
 
             // Overlay - Dungeon
             DungeonOverlay dungeonOverlay = new DungeonOverlay();

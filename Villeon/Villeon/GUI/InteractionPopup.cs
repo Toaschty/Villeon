@@ -22,9 +22,9 @@ namespace Villeon.GUI
             _options = interactable.Options;
 
             // Figure out startingposition of the boxes
-            float popupFrameScale = 0.5f;
+            float popupFrameScale = 0.2f;
             Sprite popupSprite = Assets.Asset.GetSprite("GUI.Popup.png", frameLayer, true);
-            Vector2 popupFramePos = new Vector2(position.X + 2f, position.Y + ((_interactable.Options.Count * popupSprite.Height * popupFrameScale) / 2f));
+            Vector2 popupFramePos = new Vector2(position.X + 1f, position.Y + ((_interactable.Options.Count * popupSprite.Height * popupFrameScale) / 2f));
             foreach (Option option in _options)
             {
                 // Create the popup frame
@@ -32,7 +32,7 @@ namespace Villeon.GUI
                 IEntity popupFrame = new Entity(transform, "InteractionPopupFrame");
                 popupFrame.AddComponent(popupSprite);
 
-                Text optionText = new Text(option.OptionString, popupFramePos + new Vector2(0.4f, 0.2f), "Alagard", textLayer, 0f, 0f, 0.3f);
+                Text optionText = new Text(option.OptionString, popupFramePos + new Vector2(0.2f, 0.1f), "Alagard_Thin", textLayer, 0f, 0f, 0.1f);
                 List<IEntity> textEntities = optionText.Letters;
 
                 // Add locally

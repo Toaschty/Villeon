@@ -100,6 +100,14 @@ namespace Villeon.GUI
                 SetupAllInventory();
         }
 
+        public void AddItems(Item newItem, int amount)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                AddItem(newItem);
+            }
+        }
+
         public IEntity[] GetEntities()
         {
             List<IEntity> allEntities = new List<IEntity>();
@@ -730,6 +738,102 @@ namespace Villeon.GUI
             background.AddComponent(scrollImage);
 
             return background;
+        }
+
+        // Check if item existing with given amount
+        public bool CheckIfExists(string itemName, int amount)
+        {
+            Item item = ItemLoader.GetItem(itemName);
+            InventorySlot[,] searchInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
+
+            // Depending on type of seach item -> Select correct inventory
+            switch (item.ItemType)
+            {
+                case Item.ITEM_TYPE.MATERIAL:
+                    searchInventory = _materialInventory;
+                    break;
+                case Item.ITEM_TYPE.POTION:
+                    searchInventory = _potionInventory;
+                    break;
+                case Item.ITEM_TYPE.WEAPON:
+                    searchInventory = _weaponInventory;
+                    break;
+            }
+
+            // Search for item in inventory
+            int itemCount = 0;
+
+            for (int y = 0; y < _inventorySlotsY; y++)
+            {
+                for (int x = 0; x < _inventorySlotsX; x++)
+                {
+                    // Slot has no item -> Add item
+                    if (searchInventory[y, x].HasItem() && searchInventory[y, x].Item !.Name == itemName)
+                    {
+                        itemCount += searchInventory[y, x].Count;
+                    }
+                }
+            }
+
+            if (itemCount >= amount)
+                return true;
+            return false;
+        }
+
+        public void RemoveItems(string itemName, int amount)
+        {
+            Item item = ItemLoader.GetItem(itemName);
+            InventorySlot[,] searchInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
+
+            // Depending on type of seach item -> Select correct inventory
+            switch (item.ItemType)
+            {
+                case Item.ITEM_TYPE.MATERIAL:
+                    searchInventory = _materialInventory;
+                    break;
+                case Item.ITEM_TYPE.POTION:
+                    searchInventory = _potionInventory;
+                    break;
+                case Item.ITEM_TYPE.WEAPON:
+                    searchInventory = _weaponInventory;
+                    break;
+            }
+
+            // Search for item in selected inventory
+            int removedItems = 0;
+            for (int y = 0; y < _inventorySlotsY; y++)
+            {
+                for (int x = 0; x < _inventorySlotsX; x++)
+                {
+                    // If enough items are removed -> Return
+                    if (amount <= removedItems)
+                        return;
+
+                    // Slot has no item -> Add item
+                    if (searchInventory[y, x].HasItem() && searchInventory[y, x].Item!.Name == itemName)
+                    {
+                        // Remove all remaining items from slot
+                        while (removedItems < amount)
+                        {
+                            if (searchInventory[y, x].IsStackEmpty())
+                            {
+                                // Stack is empty -> Remove item
+                                searchInventory[y, x].Item = null;
+                                removedItems++;
+
+                                // If slot is empty -> Break to next slot
+                                break;
+                            }
+                            else
+                            {
+                                // Stack is not empty -> Decrease the slot text
+                                searchInventory[y, x].DecreaseStack();
+                                removedItems++;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
