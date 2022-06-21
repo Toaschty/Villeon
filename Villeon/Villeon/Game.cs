@@ -66,8 +66,6 @@ namespace Villeon
             IEntity floor = new Entity(new Transform(new Vector2(-20, -2), 1f, 0f), "Floor");
             floor.AddComponent(new Collider(new Vector2(0), new Transform(new Vector2(-20, -2), 1f, 0f), 100f, 1f));
             Scenes.DungeonScene.AddEntity(floor);
-
-            
         }
 
         private void InitWindowActions(GameWindow gameWindow)
@@ -86,58 +84,6 @@ namespace Villeon
         {
             Camera.Resize(args.Width, args.Height);
             GL.Viewport(0, 0, args.Width, args.Height);
-        }
-
-        private IEntity CreateDungeonPlayer()
-        {
-            IEntity player;
-            Transform transform = new Transform(Constants.DUNGEON_SPAWN_POINT, 0.5f, 0f);
-            player = new Entity(transform, "DungeonMarin");
-            player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 1f, 1.5f));
-            player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
-            player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL | TriggerLayerType.LADDER | TriggerLayerType.MOBDROP, new Vector2(0f, 0f), 1f, 2f));
-            player.AddComponent(new Sprite(Asset.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
-            player.AddComponent(new Physics());
-            player.AddComponent(new Effect());
-            player.AddComponent(new Player());
-            player.AddComponent(new Light(Color4.White, -12, 4f, new Vector2(0.5f, 1f)));
-            player.AddComponent(new Health(Constants.PLAYER_MAX_HEALTH));
-
-            // Setup player animations
-            AnimationController animController = new AnimationController();
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.d_player_idle.png", 0.5f));
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.d_player_walk_left.png", 0.08f));
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.d_player_walk_right.png", 0.08f));
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.d_player_jump_left.png", 0.2f));
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.d_player_jump_right.png", 0.2f));
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.d_player_fall_left.png", 0.1f));
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.d_player_fall_right.png", 0.1f));
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.d_player_climb.png", 0.08f));
-            player.AddComponent(animController);
-            return player;
-        }
-
-        private IEntity CreateVillagePlayer(Vector2 spawnPoint)
-        {
-            IEntity player;
-            Transform transform = new Transform(spawnPoint, 0.25f, 0f);
-            player = new Entity(transform, "VillageMarin");
-            player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 0.5f, 0.5f));
-            player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
-            player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL, new Vector2(0f, 0f), 0.5f, 0.5f));
-            player.AddComponent(new Sprite(Asset.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
-            player.AddComponent(new Light(Color4.White));
-            player.AddComponent(new Player());
-
-            // Setup player animations
-            AnimationController animController = new AnimationController();
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_idle.png", 0.5f));
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_up.png", 0.08f));
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_down.png", 0.08f));
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_left.png", 0.08f));
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Animations.player_walk_right.png", 0.08f));
-            player.AddComponent(animController);
-            return player;
         }
 
         private void SetupLoadingScene()
@@ -179,10 +125,10 @@ namespace Villeon
 
         private void CreatePlayers()
         {
-            Scenes.VillageScene.AddEntity(CreateVillagePlayer(Constants.VILLAGE_SPAWN_POINT));
-            Scenes.DungeonScene.AddEntity(CreateDungeonPlayer());
-            Scenes.SmithScene.AddEntity(CreateVillagePlayer(Constants.SMITH_SPAWN_POINT));
-            Scenes.ShopScene.AddEntity(CreateVillagePlayer(Constants.SHOP_SPAWN_POINT));
+            Scenes.VillageScene.AddEntity(Players.CreateVillagePlayer(Constants.VILLAGE_SPAWN_POINT));
+            Scenes.DungeonScene.AddEntity(Players.CreateDungeonPlayer());
+            Scenes.SmithScene.AddEntity(Players.CreateVillagePlayer(Constants.SMITH_SPAWN_POINT));
+            Scenes.ShopScene.AddEntity(Players.CreateVillagePlayer(Constants.SHOP_SPAWN_POINT));
         }
 
         private void SetupGUIEntities()

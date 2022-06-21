@@ -163,7 +163,17 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE! 
             DungeonScene.AddStartUpFunc(() =>
             {
-                //Manager.GetInstance().RemoveAllEntitiesFromScene("DungeonScene");
+                Manager.GetInstance().RemoveAllEntitiesFromScene("DungeonScene");
+
+                // Add the Player again
+                Scenes.DungeonScene.AddEntity(Players.CreateDungeonPlayer());
+
+                // Add the Portal home
+                IEntity dungeonToVillage = new Entity(new Transform(new Vector2(1f, 3f), 1f, 0f), "dungeonToVillagePortal");
+                dungeonToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 4f));
+                dungeonToVillage.AddComponent(new Portal("VillageScene", Constants.DUNGEON_SPAWN_POINT));
+                DungeonScene.AddEntity(dungeonToVillage);
+
                 SetTileMap(DungeonScene, SpawnDungeon.CreateDungeon(), tileMap, true);
                 return true;
             });
