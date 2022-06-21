@@ -66,6 +66,9 @@ namespace Villeon
             IEntity floor = new Entity(new Transform(new Vector2(-20, -2), 1f, 0f), "Floor");
             floor.AddComponent(new Collider(new Vector2(0), new Transform(new Vector2(-20, -2), 1f, 0f), 100f, 1f));
             Scenes.DungeonScene.AddEntity(floor);
+
+            // GIVE PLAYER ITEMS
+            InventoryMenu.GetInstance().AddItems(ItemLoader.GetItem("Rock"), 512);
         }
 
         private void InitWindowActions(GameWindow gameWindow)
