@@ -38,13 +38,13 @@ namespace Villeon.Systems.Update
                     if (player.IsWalking)
                     {
                         Vector2 direction = Vector2.Zero;
-                        direction.X = KeyHandler.IsHeld(Keys.A) ? -1 : KeyHandler.IsHeld(Keys.D) ? 1 : 0;
-                        direction.Y = KeyHandler.IsHeld(Keys.W) ? 1 : KeyHandler.IsHeld(Keys.S) ? -1 : 0;
-                        IEntity particleEntity = ParticleBuilder.RandomParticle(transform.Position, 1f, 0.35f, direction, 0.0f, 0.3f, true, "Sprites.Dust.png");
+                        direction.X = KeyHandler.IsHeld(Keys.A) ? 1 : KeyHandler.IsHeld(Keys.D) ? -1 : 0;
+                        direction.Y = KeyHandler.IsHeld(Keys.W) ? -1 : KeyHandler.IsHeld(Keys.S) ? 1 : 0;
+                        IEntity particleEntity = ParticleBuilder.RandomParticle(transform.Position + new Vector2(0.15f, 0.1f), 0.6f, 0.35f, direction, 0.0f, 0.7f, true, "Sprites.Dust.png");
                         Manager.GetInstance().AddEntity(particleEntity);
                     }
 
-                    _particleSpawnDelay = 0.05f;
+                    _particleSpawnDelay = 0.025f;
                 }
             }
         }
