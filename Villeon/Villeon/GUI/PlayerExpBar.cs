@@ -39,8 +39,8 @@ namespace Villeon.GUI
             _maxExp = _exp.MaxExp;
 
             CreateFrame(_position);
-            //CreateBackground(_position, _width, _height);
             CreateFilling(_position, 0, _height);
+            UpdateFillingSprite();
             CreateLevel();
             SpawnExpBar();
         }
@@ -56,10 +56,11 @@ namespace Villeon.GUI
             if (levelUp)
                 CreateLevel();
 
-            Console.WriteLine("Current EXP: " + _exp.CurrentExp);
-            Console.WriteLine("Max EXP: " + _exp.MaxExp);
-            Console.WriteLine("Level: " + _exp.Level);
+            UpdateFillingSprite();
+        }
 
+        private void UpdateFillingSprite()
+        {
             // Update Healthfluid
             Sprite fillingSprite = _expFilling.GetComponent<Sprite>();
             float expToWidthConverter = _exp.MaxExp / _maxWidth;

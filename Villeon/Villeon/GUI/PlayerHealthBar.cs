@@ -50,23 +50,17 @@ namespace Villeon.GUI
 
         private void CalculateHealth(float newHealth)
         {
-            float factor = newHealth / _oldHealth;
-            _width *= factor;
-
-            _oldHealth = newHealth;
-
-            // Reset the health
-            if (newHealth == _maxHealth)
-                _width = _maxWidth;
-
-            Sprite sprite = _healthFilling.GetComponent<Sprite>() !;
-            sprite.Width = _width;
+            // Update Healthfluid
+            Sprite fillingSprite = _healthFilling.GetComponent<Sprite>();
+            float healthToWidthConverter = _maxHealth / _maxWidth;
+            float currentHealthInWidth = newHealth / healthToWidthConverter;
+            fillingSprite.Width = currentHealthInWidth;
         }
 
         private void CreateFrame(Vector2 position)
         {
             _frame = new Entity(new Transform(position, _scale, 0f), "Player Health Frame");
-            Sprite frame = Asset.GetSprite("GUI.Frame.png", SpriteLayer.ScreenGuiForeground, false);
+            Sprite frame = Asset.GetSprite("GUI.Frame.png", SpriteLayer.ScreenGuiForeground, true);
 
             _frame.AddComponent(frame);
         }

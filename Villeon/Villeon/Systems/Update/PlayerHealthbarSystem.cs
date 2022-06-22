@@ -7,8 +7,9 @@ namespace Villeon.Systems.Update
 {
     public class PlayerHealthbarSystem : System, IUpdateSystem
     {
-        private PlayerHealthBar _healthBar;
-        private Health _playerHealth;
+        private static PlayerHealthBar? _healthBar;
+        private static Health? _playerHealth;
+        private static int _maxPlayerHealth = 0;
         private float _currentHealth;
 
         public PlayerHealthbarSystem(string name, int maxPlayerHealth)
@@ -16,8 +17,14 @@ namespace Villeon.Systems.Update
         {
             Signature.IncludeAND(typeof(Health), typeof(Player));
 
-            _playerHealth = new Health(maxPlayerHealth);
-            _healthBar = new PlayerHealthBar(maxPlayerHealth);
+            _maxPlayerHealth = maxPlayerHealth;
+            _playerHealth = new Health(_maxPlayerHealth);
+            _healthBar = new PlayerHealthBar(_maxPlayerHealth);
+        }
+
+        public static void Init()
+        {
+            _healthBar = new PlayerHealthBar(_maxPlayerHealth);
         }
 
         public void Update(float time)

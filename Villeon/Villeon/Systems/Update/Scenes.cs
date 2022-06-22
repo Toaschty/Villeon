@@ -87,6 +87,12 @@ namespace Villeon.Systems.Update
             VillageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
             VillageScene.AddSystem(new DialogSystem("DialogSystem"));
             VillageScene.AddSystem(new TradingSystem("TradingSystem"));
+
+            // Particle stuff
+            VillageScene.AddSystem(new VillagePlayerParticleSystem("VillagePlayerParticleSystem"));
+            VillageScene.AddSystem(new PhysicsSystem("PhysicsSystem"));
+            VillageScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
+            VillageScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
             SetTileMap(VillageScene, villageTileMap, false);
         }
 
@@ -107,6 +113,12 @@ namespace Villeon.Systems.Update
             ShopScene.AddSystem(new DialogSystem("DialogSystem"));
             ShopScene.AddSystem(new InteractionSystem("InteractionSystem"));
             ShopScene.AddSystem(new TradingSystem("TradingSystem"));
+
+            // Particle stuff
+            ShopScene.AddSystem(new VillagePlayerParticleSystem("VillagePlayerParticleSystem"));
+            ShopScene.AddSystem(new PhysicsSystem("PhysicsSystem"));
+            ShopScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
+            ShopScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
             SetTileMap(ShopScene, shopTileMap, false);
         }
 
@@ -127,6 +139,12 @@ namespace Villeon.Systems.Update
             SmithScene.AddSystem(new DialogSystem("DialogSystem"));
             SmithScene.AddSystem(new InteractionSystem("InteractionSystem"));
             SmithScene.AddSystem(new TradingSystem("TradingSystem"));
+
+            // Particle stuff
+            SmithScene.AddSystem(new VillagePlayerParticleSystem("VillagePlayerParticleSystem"));
+            SmithScene.AddSystem(new PhysicsSystem("PhysicsSystem"));
+            SmithScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
+            SmithScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
             SetTileMap(SmithScene, smithTileMap, false);
         }
 
@@ -139,8 +157,6 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new PlayerDungeonMovementSystem("Move"));
             DungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             DungeonScene.AddSystem(new SimpleAISystem("SimpleAISystem"));
-            DungeonScene.AddSystem(new PhysicsSystem("Physics"));
-            DungeonScene.AddSystem(new PhysicsSystem("Physics"));
             DungeonScene.AddSystem(new PhysicsSystem("Physics"));
             DungeonScene.AddSystem(new TriggerSystem("Trigger"));
             DungeonScene.AddSystem(new PortalSystem("PortalSystem"));
@@ -166,7 +182,28 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE! 
             DungeonScene.AddStartUpFunc(() =>
             {
-                //Manager.GetInstance().RemoveAllEntitiesFromScene("DungeonScene");
+                Manager.GetInstance().RemoveAllEntitiesFromScene("DungeonScene");
+
+                // Add the Player again
+                Scenes.DungeonScene.AddEntity(Players.CreateDungeonPlayer());
+
+                // Add the Portal home
+                IEntity dungeonToVillage = new Entity(new Transform(new Vector2(1f, 3f), 1f, 0f), "dungeonToVillagePortal");
+                dungeonToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 4f));
+                dungeonToVillage.AddComponent(new Portal("VillageScene", Constants.DUNGEON_SPAWN_POINT));
+                DungeonScene.AddEntity(dungeonToVillage);
+
+                // Overlay - Dungeon
+                DungeonOverlay dungeonOverlay = new DungeonOverlay();
+                Scenes.DungeonScene.AddEntities(dungeonOverlay.GetEntities());
+                Entity guiHandlerEntity = new Entity("GuiHandler");
+                guiHandlerEntity.AddComponent(GUIHandler.GetInstance());
+                Scenes.DungeonScene.AddEntity(guiHandlerEntity);
+
+                // Set the Exp bar
+                PlayerExpSystem.Init();
+                PlayerHealthbarSystem.Init();
+
                 SetTileMap(DungeonScene, SpawnDungeon.CreateDungeon(), tileMap, true);
                 return true;
             });
