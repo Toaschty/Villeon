@@ -17,7 +17,6 @@ namespace Villeon.GUI
         private List<IEntity> _hotbarItems;
 
         // Hotbar
-        private Tuple<Item, InventorySlot>[] _hotbarSlotTuples;
         private InventorySlot[] _hotbarSlots;
 
         public VillageOverlay()
@@ -85,8 +84,6 @@ namespace Villeon.GUI
             _entities.AddRange(slot4Text.GetEntities());
 
             // Hotbar Slots
-            _hotbarSlotTuples = new Tuple<Item, InventorySlot>[4];
-
             _hotbarSlots = new InventorySlot[4];
 
             _hotbarSlots[0] = new InventorySlot(new Transform(new Vector2(4.5f - offset, -5f), 0.3f, 0f));
@@ -102,10 +99,10 @@ namespace Villeon.GUI
 
         public void AddItem(int index, InventorySlot itemSlot, Item item)
         {
-            _hotbarSlotTuples[index] = new Tuple<Item, InventorySlot>(item, itemSlot);
+            // Add item to slot
             _hotbarSlots[index].Item = ItemLoader.GetItem(item.Name);
-
             _hotbarSlots[index].Item.Sprite.RenderLayer = SpriteLayer.ScreenGuiOverlayForeGround;
+            _hotbarSlots[index].SetStack(itemSlot.Count);
 
             _hotbarItems.AddRange(_hotbarSlots[index].ItemEntites);
 

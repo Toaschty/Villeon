@@ -69,6 +69,7 @@ namespace Villeon
 
             // GIVE PLAYER ITEMS
             InventoryMenu.GetInstance().AddItems(ItemLoader.GetItem("Rock"), 512);
+            InventoryMenu.GetInstance().AddItems(ItemLoader.GetItem("HealthPotion"), 8);
         }
 
         private void InitWindowActions(GameWindow gameWindow)

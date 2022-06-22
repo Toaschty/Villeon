@@ -75,11 +75,24 @@ namespace Villeon.GUI
             return _inventory;
         }
 
+        // Get all entities of inventory
+        public IEntity[] GetEntities()
+        {
+            List<IEntity> allEntities = new List<IEntity>();
+            allEntities.AddRange(_inventorySlotEntities);
+            allEntities.AddRange(_tabbarEntities);
+            allEntities.AddRange(_itemEntities);
+            allEntities.AddRange(_inventorySlotIndicators);
+
+            return allEntities.ToArray();
+        }
+
         public void SetVillageOverlay(VillageOverlay overlay)
         {
             _villageOverlay = overlay;
         }
 
+        // Add item to inventory. Automatically adds to right type
         public void AddItem(Item newItem)
         {
             // Add Items to the specific Inventory it belongs
@@ -97,9 +110,10 @@ namespace Villeon.GUI
             }
 
             if (_activeInventory == _allInventory)
-                SetupAllInventory();
+                FillAllInventory();
         }
 
+        // Add items to inventory. Automatically adds to right types
         public void AddItems(Item newItem, int amount)
         {
             for (int i = 0; i < amount; i++)
@@ -108,29 +122,75 @@ namespace Villeon.GUI
             }
         }
 
-        public IEntity[] GetEntities()
+        // Add item to selected inventory. Automatically handles stacking of items
+        private void AddItemsToInventory(InventorySlot[,] inventory, Item newItem)
         {
-            List<IEntity> allEntities = new List<IEntity>();
-            allEntities.AddRange(_inventorySlotEntities);
-            allEntities.AddRange(_tabbarEntities);
-            allEntities.AddRange(_itemEntities);
-            allEntities.AddRange(_inventorySlotIndicators);
+            for (int y = 0; y < _inventorySlotsY; y++)
+            {
+                for (int x = 0; x < _inventorySlotsX; x++)
+                {
+                    // Slot has already a Item -> Stack Item
+                    if (inventory[y, x].HasItem())
+                    {
+                        // Check if the slot has the same item
+                        if (inventory[y, x].Item!.Name == newItem.Name)
+                        {
+                            // Check if the stack is not already full
+                            if (!inventory[y, x].IsStackFull())
+                            {
+                                // Remove all Item entities
+                                foreach (IEntity entity in inventory[y, x].ItemEntites)
+                                {
+                                    _itemEntities.Remove(entity);
+                                }
 
-            return allEntities.ToArray();
+                                inventory[y, x].IncreaseStack();
+
+                                if (inventory == _activeInventory)
+                                    _itemEntities.AddRange(inventory[y, x].ItemEntites);
+
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (int y = 0; y < _inventorySlotsY; y++)
+            {
+                for (int x = 0; x < _inventorySlotsX; x++)
+                {
+                    // Slot has no item -> Add item
+                    if (!inventory[y, x].HasItem())
+                    {
+                        //Console.WriteLine("NEW ITEM");
+                        inventory[y, x].Item = newItem; // Adding new Item
+
+                        if (inventory == _activeInventory)
+                            _itemEntities.AddRange(inventory[y, x].ItemEntites);
+
+                        return;
+                    }
+                }
+            }
+        }
+
+        // Adds currently selected item to hotbar slot of index
+        private void AddItemToHotbar(int index)
+        {
+            // Hotbar only avaiable for potion inventory
+            Item? selected = GetCurrentlySelectedItem();
+            if (selected is not null && _activeInventory == _potionInventory)
+                _villageOverlay!.AddItem(index, _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X], selected);
         }
 
         public bool OnKeyReleased(Keys key)
         {
+            // DEBUG --
             if (key == Keys.H)
-            {
                 AddItem(ItemLoader.GetItem("Sword"));
-                //Console.WriteLine("Spawning Sword!");
-            }
             else if (key == Keys.G)
-            {
                 AddItem(ItemLoader.GetItem("HealthPotion"));
-                //Console.WriteLine("Spawning Health potion!");
-            }
 
             if (_onSlots)
                 HandleInventorySlot(key);
@@ -144,14 +204,178 @@ namespace Villeon.GUI
             return true;
         }
 
+        // Handle movement of inventory slots
+        private void HandleInventorySlot(Keys key)
+        {
+            switch (key)
+            {
+                // Moving Up
+                case Keys.W:
+                    if (_playerInventoryPosition.Y > 0)
+                        _playerInventoryPosition.Y -= 1;
+                    else
+                        _onSlots = false;
+
+                    break;
+
+                // Moving Down
+                case Keys.S:
+                    if (_playerInventoryPosition.Y < _inventorySlotsY - 1)
+                        _playerInventoryPosition.Y += 1;
+                    else
+                        _playerInventoryPosition.Y = 0;
+
+                    break;
+
+                // Moving Left
+                case Keys.A:
+                    if (_playerInventoryPosition.X > 0)
+                        _playerInventoryPosition.X -= 1;
+                    else
+                        _playerInventoryPosition.X = _inventorySlotsX - 1;
+
+                    break;
+
+                // Moving Right
+                case Keys.D:
+                    if (_playerInventoryPosition.X < _inventorySlotsX - 1)
+                        _playerInventoryPosition.X += 1;
+                    else
+                        _playerInventoryPosition.X = 0;
+
+                    break;
+                case Keys.Space:
+                    // Swapping Items
+                    if (_firstMovingPoint is null)
+                    {
+                        // Swapping is not allowed in the all inventory
+                        // First selected item shouldn't be null
+                        if (GetItemAtCurrentPosition() is not null && _activeInventory != _allInventory)
+                        {
+                            // First point not set
+                            _firstMovingPoint = new Vector2i(_playerInventoryPosition.X, _playerInventoryPosition.Y);
+
+                            _swapIndicatorPosition = new Vector2i(_playerInventoryPosition.X, _playerInventoryPosition.Y);
+                        }
+                    }
+                    else
+                    {
+                        Vector2i secondPoint = new Vector2i(_playerInventoryPosition.X, _playerInventoryPosition.Y);
+                        SwapItems((Vector2i)_firstMovingPoint, secondPoint);
+                        _swapIndicatorPosition = null;
+                    }
+
+                    break;
+            }
+
+            ReloadInventoryIndicators();
+        }
+
+        // Handle movement of tab slots
+        private void HandleTabNavigation(Keys key)
+        {
+            switch (key)
+            {
+                // Moving Up
+                case Keys.W:
+                    if (_playerTabbarPosition.Y < 1)
+                        _playerTabbarPosition.Y += 1;
+
+                    break;
+
+                // Moving Down
+                case Keys.S:
+                    if (_playerTabbarPosition.Y > 0)
+                    {
+                        _playerTabbarPosition.Y -= 1;
+                    }
+                    else
+                    {
+                        _playerTabbarPosition = new Vector2i(_activeTabbar.X, _activeTabbar.Y); // set the tabbar position to the active tabbar position
+                        _onSlots = true;
+                    }
+
+                    break;
+
+                // Moving Left
+                case Keys.A:
+                    if (_playerTabbarPosition.X > 0)
+                        _playerTabbarPosition.X -= 1;
+                    else
+                        _playerTabbarPosition.X = 1;
+
+                    break;
+
+                // Moving Right
+                case Keys.D:
+                    if (_playerTabbarPosition.X < 1)
+                        _playerTabbarPosition.X += 1;
+                    else
+                        _playerTabbarPosition.X = 0;
+                    break;
+
+                case Keys.Space:
+                    // Player is changing the tab
+                    _activeTabbar = new Vector2i(_playerTabbarPosition.X, _playerTabbarPosition.Y);
+                    _onSlots = true;
+
+                    //Reset swap
+                    _firstMovingPoint = null;
+                    _swapIndicatorPosition = null;
+
+                    ChangeSelectedInventory(_activeTabbar);
+                    ReloadInventoryIndicators();
+                    break;
+            }
+
+            ReloadInventoryIndicators();
+        }
+
+        // Change the currently selected inventory
+        private void ChangeSelectedInventory(Vector2i tabbarPosition)
+        {
+            IEntity currentTab = _tabBar[tabbarPosition.Y, tabbarPosition.X];
+
+            switch (currentTab.Name)
+            {
+                case "All":
+                    //Console.WriteLine("All");
+                    FillAllInventory();
+                    _activeInventory = _allInventory;
+                    break;
+                case "Materials":
+                    //Console.WriteLine("Materials");
+                    _activeInventory = _materialInventory;
+                    break;
+                case "Potions":
+                    //Console.WriteLine("Potions");
+                    _activeInventory = _potionInventory;
+                    break;
+                case "Weapons":
+                    //Console.WriteLine("Weapons");
+                    _activeInventory = _weaponInventory;
+                    break;
+            }
+
+            ReloadItemEntitiesAndRender();
+        }
+
+        private void HandleHotbar(Keys key)
+        {
+            switch (key)
+            {
+                case Keys.D1: AddItemToHotbar(0); break;
+                case Keys.D2: AddItemToHotbar(1); break;
+                case Keys.D3: AddItemToHotbar(2); break;
+                case Keys.D4: AddItemToHotbar(3); break;
+            }
+        }
+
+        // Return the item which is currently selected -> Null if no item selected
         public Item? GetCurrentlySelectedItem()
         {
             if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item is not null)
-            {
-                Item? item = _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item;
-                return item;
-            }
-
+                return _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item;
             return null;
         }
 
@@ -185,18 +409,31 @@ namespace Villeon.GUI
         {
             InventorySlot[,] searchInventory = GetSearchInventory(itemName);
 
+            // Remove items from non-full stacks
+            int removed = RemoveItems(searchInventory, itemName, amount, false);
+
+            // Remove remaining items from full stacks
+            RemoveItems(searchInventory, itemName, amount - removed, true);
+        }
+
+        // Remove amount of items from inventory -> Option: Remove from full stacks | non-full stacks
+        private int RemoveItems(InventorySlot[,] searchInventory, string itemName, int amount, bool stackFullSearch)
+        {
             // Search for item in selected inventory
             int removedItems = 0;
+
+            // First remove stacks which are not full
             for (int y = 0; y < _inventorySlotsY; y++)
             {
                 for (int x = 0; x < _inventorySlotsX; x++)
                 {
                     // If enough items are removed -> Return
                     if (amount <= removedItems)
-                        return;
+                        return removedItems;
 
-                    // Slot has no item -> Add item
-                    if (searchInventory[y, x].HasItem() && searchInventory[y, x].Item!.Name == itemName)
+                    if ((searchInventory[y, x].HasItem() && searchInventory[y, x].Item!.Name == itemName && stackFullSearch)
+                        ||
+                        (searchInventory[y, x].HasItem() && searchInventory[y, x].Item!.Name == itemName && !stackFullSearch && !searchInventory[y, x].IsStackFull()))
                     {
                         // Remove all remaining items from slot
                         while (removedItems < amount)
@@ -216,41 +453,38 @@ namespace Villeon.GUI
                                 searchInventory[y, x].DecreaseStack();
                                 removedItems++;
                             }
+
+                            searchInventory[y, x].ReloadEntities();
                         }
+
+                        ReloadItemEntities();
                     }
                 }
             }
+
+            return removedItems;
         }
 
         // Find inventory in which item is -> For Exist Checking or Removing
         public void UseItemAtCurrentPosition()
         {
-            Item? item = GetActiveItem();
-            IEntity[] itemEntity = GetActiveItemEntity();
+            Item? item = GetItemAtCurrentPosition();
 
             if (item is not null)
             {
-                InventorySlot currentSlot = _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X];
-
-                if (currentSlot.IsStackEmpty())
-                {
-                    // Stack is empty -> Remove item
-                    currentSlot.Item = null;
-                }
-                else
-                {
-                    // Stack is not empty -> Decrease the slot text
-                    currentSlot.DecreaseStack();
-                }
-
-                ReloadItemEntities();
-                if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].HasItem())
-                    Console.WriteLine("Item: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item!.Name + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
-                else
-                    Console.WriteLine("Item: Null " + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
+                RemoveItems(item.Name, 1);
+                FillAllInventory();
+                ReloadItemEntitiesAndRender();
             }
         }
 
+        // Return item of current inventory position
+        private Item? GetItemAtCurrentPosition()
+        {
+            return _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item;
+        }
+
+        // Receive inventory with type of item
         private InventorySlot[,] GetSearchInventory(string itemName)
         {
             Item item = ItemLoader.GetItem(itemName);
@@ -273,45 +507,8 @@ namespace Villeon.GUI
             return searchInventory;
         }
 
-        private void HandleHotbar(Keys key)
-        {
-            switch (key)
-            {
-                case Keys.D1: AddItemToHotbar(0); break;
-                case Keys.D2: AddItemToHotbar(1); break;
-                case Keys.D3: AddItemToHotbar(2); break;
-                case Keys.D4: AddItemToHotbar(3); break;
-            }
-        }
-
-        private void AddItemToHotbar(int index)
-        {
-            if (GetCurrentlySelectedItem() is not null && _activeInventory == _potionInventory)
-            {
-                _villageOverlay!.AddItem(index, _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X], GetCurrentlySelectedItem() !);
-            }
-        }
-
-        private Item? GetActiveItem()
-        {
-            return _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item;
-        }
-
-        private IEntity[] GetActiveItemEntity()
-        {
-            return _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].ItemEntites;
-        }
-
-        private void SetSlotPositions()
-        {
-            SetInventorySlotPositions(_allInventory);
-            SetInventorySlotPositions(_weaponInventory);
-            SetInventorySlotPositions(_potionInventory);
-            SetInventorySlotPositions(_materialInventory);
-            _activeInventory = _allInventory;
-        }
-
-        private void SetupAllInventory()
+        // Fills all inventory
+        private void FillAllInventory()
         {
             List<Item> allItems = new List<Item>();
 
@@ -380,226 +577,26 @@ namespace Villeon.GUI
             }
         }
 
-        private void AddItemsToInventory(InventorySlot[,] inventory, Item newItem)
+        // Reload all inventory entities and add entities to scene
+        private void ReloadItemEntitiesAndRender()
         {
-            for (int y = 0; y < _inventorySlotsY; y++)
-            {
-                for (int x = 0; x < _inventorySlotsX; x++)
-                {
-                    // Slot has already a Item -> Stack Item
-                    if (inventory[y, x].HasItem())
-                    {
-                        // Check if the slot has the same item
-                        if (inventory[y, x].Item!.Name == newItem.Name)
-                        {
-                            // Check if the stack is not already full
-                            if (!inventory[y, x].IsStackFull())
-                            {
-                                // Remove all Item entities
-                                foreach (IEntity entity in inventory[y, x].ItemEntites)
-                                {
-                                    _itemEntities.Remove(entity);
-                                }
-
-                                inventory[y, x].IncreaseStack();
-
-                                if (inventory == _activeInventory)
-                                    _itemEntities.AddRange(inventory[y, x].ItemEntites);
-
-                                return;
-                            }
-                        }
-                    }
-                }
-            }
-
-            for (int y = 0; y < _inventorySlotsY; y++)
-            {
-                for (int x = 0; x < _inventorySlotsX; x++)
-                {
-                    // Slot has no item -> Add item
-                    if (!inventory[y, x].HasItem())
-                    {
-                        //Console.WriteLine("NEW ITEM");
-                        inventory[y, x].Item = newItem; // Adding new Item
-
-                        if (inventory == _activeInventory)
-                            _itemEntities.AddRange(inventory[y, x].ItemEntites);
-
-                        return;
-                    }
-                }
-            }
-        }
-
-        private void HandleInventorySlot(Keys key)
-        {
-            switch (key)
-            {
-                // Moving Up
-                case Keys.W:
-                    if (_playerInventoryPosition.Y > 0)
-                        _playerInventoryPosition.Y -= 1;
-                    else
-                        _onSlots = false;
-
-                    break;
-
-                // Moving Down
-                case Keys.S:
-                    if (_playerInventoryPosition.Y < _inventorySlotsY - 1)
-                        _playerInventoryPosition.Y += 1;
-                    else
-                        _playerInventoryPosition.Y = 0;
-
-                    break;
-
-                // Moving Left
-                case Keys.A:
-                    if (_playerInventoryPosition.X > 0)
-                        _playerInventoryPosition.X -= 1;
-                    else
-                        _playerInventoryPosition.X = _inventorySlotsX - 1;
-
-                    break;
-
-                // Moving Right
-                case Keys.D:
-                    if (_playerInventoryPosition.X < _inventorySlotsX - 1)
-                        _playerInventoryPosition.X += 1;
-                    else
-                        _playerInventoryPosition.X = 0;
-
-                    break;
-                case Keys.Space:
-                    // Swapping Items
-                    if (_firstMovingPoint is null)
-                    {
-                        // Swapping is not allowed in the all inventory
-                        // First selected item shouldn't be null
-                        if (GetActiveItem() is not null && _activeInventory != _allInventory)
-                        {
-                            // First point not set
-                            _firstMovingPoint = new Vector2i(_playerInventoryPosition.X, _playerInventoryPosition.Y);
-
-                            _swapIndicatorPosition = new Vector2i(_playerInventoryPosition.X, _playerInventoryPosition.Y);
-                        }
-                    }
-                    else
-                    {
-                        Vector2i secondPoint = new Vector2i(_playerInventoryPosition.X, _playerInventoryPosition.Y);
-                        SwapItems((Vector2i)_firstMovingPoint, secondPoint);
-                        _swapIndicatorPosition = null;
-                    }
-
-                    break;
-            }
-
-            ReloadInventoryIndicators();
-
-            //if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].HasItem())
-            //    Console.WriteLine("Item: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item!.Name + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
-            //else
-            //    Console.WriteLine("Item: Null " + " ItemCount: " + _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Count);
-        }
-
-        private void HandleTabNavigation(Keys key)
-        {
-            switch (key)
-            {
-                // Moving Up
-                case Keys.W:
-                    if (_playerTabbarPosition.Y < 1)
-                        _playerTabbarPosition.Y += 1;
-
-                    break;
-
-                // Moving Down
-                case Keys.S:
-                    if (_playerTabbarPosition.Y > 0)
-                    {
-                        _playerTabbarPosition.Y -= 1;
-                    }
-                    else
-                    {
-                        //Console.WriteLine("ActiveTabbar: " + _activeTabbar + " || Player: " + _playerTabbarPosition);
-                        _playerTabbarPosition = new Vector2i(_activeTabbar.X, _activeTabbar.Y); // set the tabbar position to the active tabbar position
-                        _onSlots = true;
-                    }
-
-                    break;
-
-                // Moving Left
-                case Keys.A:
-                    if (_playerTabbarPosition.X > 0)
-                        _playerTabbarPosition.X -= 1;
-                    else
-                        _playerTabbarPosition.X = 1;
-
-                    break;
-
-                // Moving Right
-                case Keys.D:
-                    if (_playerTabbarPosition.X < 1)
-                        _playerTabbarPosition.X += 1;
-                    else
-                        _playerTabbarPosition.X = 0;
-                    break;
-
-                case Keys.Space:
-                    // Player is changing the tab
-                    _activeTabbar = new Vector2i(_playerTabbarPosition.X, _playerTabbarPosition.Y);
-                    _onSlots = true;
-
-                    //Reset swap
-                    _firstMovingPoint = null;
-                    _swapIndicatorPosition = null;
-
-                    ChangeInventory(_activeTabbar);
-                    ReloadInventoryIndicators();
-                    break;
-            }
-
-            ReloadInventoryIndicators();
-        }
-
-        private void ChangeInventory(Vector2i tabbarPosition)
-        {
-            IEntity currentTab = _tabBar[tabbarPosition.Y, tabbarPosition.X];
-
-            switch (currentTab.Name)
-            {
-                case "All":
-                    //Console.WriteLine("All");
-                    SetupAllInventory();
-                    _activeInventory = _allInventory;
-                    break;
-                case "Materials":
-                    //Console.WriteLine("Materials");
-                    _activeInventory = _materialInventory;
-                    break;
-                case "Potions":
-                    //Console.WriteLine("Potions");
-                    _activeInventory = _potionInventory;
-                    break;
-                case "Weapons":
-                    //Console.WriteLine("Weapons");
-                    _activeInventory = _weaponInventory;
-                    break;
-            }
-
-            ReloadItemEntities();
-        }
-
-        private void ReloadItemEntities()
-        {
-            //Console.WriteLine("RELOADING ITEMS!");
             Manager.GetInstance().RemoveEntities(_itemEntities);
+
+            // Add all inventory entities
             _itemEntities.Clear();
             _itemEntities.AddRange(GetAllItemEntities());
             Manager.GetInstance().AddEntities(_itemEntities);
         }
 
+        // Reload all inventory entities
+        private void ReloadItemEntities()
+        {
+            // Add all inventory entities
+            _itemEntities.Clear();
+            _itemEntities.AddRange(GetAllItemEntities());
+        }
+
+        // Reload inventory indicators (Selections Slots & TabBar)
         private void ReloadInventoryIndicators()
         {
             Manager.GetInstance().RemoveEntities(_inventorySlotIndicators);
@@ -621,9 +618,10 @@ namespace Villeon.GUI
             Manager.GetInstance().AddEntities(_inventorySlotIndicators);
         }
 
+        // Handle the swapping of items
         private void SwapItems(Vector2i firstPoint, Vector2i secondPoint)
         {
-            // Switching Items in the All Inventory is unnessary
+            // Switching Items in the All Inventory is not allowed
             if (_activeInventory == _allInventory)
                 return;
 
@@ -650,7 +648,6 @@ namespace Villeon.GUI
 
                 // Remove the old item sprite from the inventory
                 Manager.GetInstance().RemoveEntities(_activeInventory[firstPoint.Y, firstPoint.X].ItemEntites);
-                _activeInventory[firstPoint.Y, firstPoint.X].UnloadCountText();
                 _activeInventory[firstPoint.Y, firstPoint.X].Item = null;
             }
 
@@ -664,7 +661,6 @@ namespace Villeon.GUI
 
                 // Remove the old item sprite from the inventory
                 Manager.GetInstance().RemoveEntities(_activeInventory[secondPoint.Y, secondPoint.X].ItemEntites);
-                _activeInventory[secondPoint.Y, secondPoint.X].UnloadCountText();
                 _activeInventory[secondPoint.Y, secondPoint.X].Item = null;
             }
 
@@ -672,9 +668,9 @@ namespace Villeon.GUI
             _activeInventory[firstPoint.Y, firstPoint.X].SetItem(secondItem!, secondPointCount);
             _activeInventory[secondPoint.Y, secondPoint.X].SetItem(firstItem!, firstPointCount);
 
-            // Load Counter Text
-            _activeInventory[firstPoint.Y, firstPoint.X].LoadCountText();
-            _activeInventory[secondPoint.Y, secondPoint.X].LoadCountText();
+            // Reload all entities of current slots (Add item entity and count sprites)
+            _activeInventory[firstPoint.Y, firstPoint.X].ReloadEntities();
+            _activeInventory[secondPoint.Y, secondPoint.X].ReloadEntities();
 
             if (secondItem != null)
                 _itemEntities.AddRange(_activeInventory[firstPoint.Y, firstPoint.X].ItemEntites);
@@ -685,18 +681,7 @@ namespace Villeon.GUI
             _firstMovingPoint = null; // Reset the first selected point
         }
 
-        private void AddEntitiesToList()
-        {
-            _inventorySlotEntities.AddRange(GetAllSlotEntities());
-            _inventorySlotEntities.Add(CreateInventoryBackground());
-            _tabbarEntities.AddRange(GetTabbarEntities());
-            _itemEntities.AddRange(GetAllItemEntities());
-
-            // Set the starting indicators in the Inventory and tabbar
-            _inventorySlotIndicators.Add(_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
-            _inventorySlotIndicators.Add(_tabBar[_playerTabbarPosition.Y, _playerTabbarPosition.X]);
-        }
-
+        // // Helper functions
         private List<IEntity> GetAllSlotEntities()
         {
             List<IEntity> allSlotEntities = new List<IEntity>();
@@ -773,6 +758,16 @@ namespace Villeon.GUI
             return tabBarEntities;
         }
 
+        // // Init functions
+        private void SetSlotPositions()
+        {
+            SetInventorySlotPositions(_allInventory);
+            SetInventorySlotPositions(_weaponInventory);
+            SetInventorySlotPositions(_potionInventory);
+            SetInventorySlotPositions(_materialInventory);
+            _activeInventory = _allInventory;
+        }
+
         // Calculate the position for every slot
         private void SetInventorySlotPositions(InventorySlot[,] inventorySlots)
         {
@@ -816,6 +811,18 @@ namespace Villeon.GUI
                     _tabBar[i, j].AddComponent(selectionBackground);
                 }
             }
+        }
+
+        private void AddEntitiesToList()
+        {
+            _inventorySlotEntities.AddRange(GetAllSlotEntities());
+            _inventorySlotEntities.Add(CreateInventoryBackground());
+            _tabbarEntities.AddRange(GetTabbarEntities());
+            _itemEntities.AddRange(GetAllItemEntities());
+
+            // Set the starting indicators in the Inventory and tabbar
+            _inventorySlotIndicators.Add(_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
+            _inventorySlotIndicators.Add(_tabBar[_playerTabbarPosition.Y, _playerTabbarPosition.X]);
         }
 
         private IEntity CreateInventoryBackground()
