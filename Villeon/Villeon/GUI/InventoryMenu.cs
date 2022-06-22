@@ -52,9 +52,6 @@ namespace Villeon.GUI
         private InventorySlot[,] _potionInventory;
         private InventorySlot[,] _materialInventory;
 
-        // VillageOverlay
-        private VillageOverlay? _villageOverlay;
-
         private InventoryMenu()
         {
             _activeInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
@@ -85,11 +82,6 @@ namespace Villeon.GUI
             allEntities.AddRange(_inventorySlotIndicators);
 
             return allEntities.ToArray();
-        }
-
-        public void SetVillageOverlay(VillageOverlay overlay)
-        {
-            _villageOverlay = overlay;
         }
 
         // Add item to inventory. Automatically adds to right type
@@ -181,7 +173,7 @@ namespace Villeon.GUI
             // Hotbar only avaiable for potion inventory
             Item? selected = GetCurrentlySelectedItem();
             if (selected is not null && _activeInventory == _potionInventory)
-                _villageOverlay!.AddItem(index, _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X], selected);
+                Hotbar.GetInstance().AddItem(index, _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X]);
         }
 
         public bool OnKeyReleased(Keys key)

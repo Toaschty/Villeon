@@ -78,6 +78,7 @@ namespace Villeon.GUI
                     _itemStackSize = 0;
                     _itemCount = 0;
                     _itemEntites.Clear();
+                    _itemCountText = null;
                 }
                 else
                 {
@@ -143,10 +144,6 @@ namespace Villeon.GUI
             if (_itemCount < _itemStackSize)
                 _itemCount++;
 
-            // Remove old count text
-            if (_itemCountText != null)
-                Manager.GetInstance().RemoveEntities(_itemCountText.GetEntities());
-
             // Reload all item entities
             ReloadEntities();
         }
@@ -154,12 +151,8 @@ namespace Villeon.GUI
         // Reduce stack by one
         public void DecreaseStack()
         {
-            if (_itemCount > 1)
+            if (_itemCount > 0)
                 _itemCount--;
-
-            // Remove old count text
-            if (_itemCountText != null)
-                Manager.GetInstance().RemoveEntities(_itemCountText.GetEntities());
 
             ReloadEntities();
         }
@@ -167,6 +160,10 @@ namespace Villeon.GUI
         // Reload all slot entities -> Spawn new text
         public void ReloadEntities()
         {
+            // Remove old count text
+            if (_itemCountText != null)
+                Manager.GetInstance().RemoveEntities(_itemCountText.GetEntities());
+
             _itemEntites.Clear();
 
             _itemCountText = new Text(_itemCount.ToString(), _transform.Position, "Alagard", SpriteLayer.ScreenGuiOnTopOfForeground, 0.1f, 1f, 0.2f);

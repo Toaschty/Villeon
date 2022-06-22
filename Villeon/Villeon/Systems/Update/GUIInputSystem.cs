@@ -14,6 +14,7 @@ namespace Villeon.Systems.Update
     public class GUIInputSystem : System, IUpdateSystem
     {
         private GUIHandler _handler = GUIHandler.GetInstance();
+        private Hotbar _hotbar = Hotbar.GetInstance();
 
         public GUIInputSystem(string name)
             : base(name)
@@ -23,24 +24,45 @@ namespace Villeon.Systems.Update
 
         public void Update(float time)
         {
-            foreach (IEntity entity in Entities)
-            {
-                CheckKeyMenu();
+            CheckHotbarKeys();
+            CheckKeyMenu();
 
-                if (StateManager.InMenu)
+            if (StateManager.InMenu)
+            {
+                Keys? currentkey = KeyHandler.GetLastPressedKey();
+                if (currentkey != null)
                 {
-                    Keys? currentkey = KeyHandler.GetLastPressedKey();
-                    if (currentkey != null)
+                    bool updateMenu = _handler.CurrentMenu!.OnKeyReleased((Keys)currentkey);
+                    if (updateMenu)
                     {
-                        bool updateMenu = _handler.CurrentMenu!.OnKeyReleased((Keys)currentkey);
-                        if (updateMenu)
-                        {
-                            UnloadMenu(_handler.CurrentMenu);
-                            LoadMenu(_handler.CurrentMenu);
-                        }
+                        UnloadMenu(_handler.CurrentMenu);
+                        LoadMenu(_handler.CurrentMenu);
                     }
                 }
             }
+        }
+
+        private void CheckHotbarKeys()
+        {
+            // Unable to use hotbar items when in menu
+            if (StateManager.InMenu)
+                return;
+
+            // Slot 1
+            if (KeyHandler.IsPressed(Keys.D1))
+                _hotbar.UseItemInHotbar(0);
+
+            // Slot 2
+            if (KeyHandler.IsPressed(Keys.D2))
+                _hotbar.UseItemInHotbar(1);
+
+            // Slot 3
+            if (KeyHandler.IsPressed(Keys.D3))
+                _hotbar.UseItemInHotbar(2);
+
+            // Slot 4
+            if (KeyHandler.IsPressed(Keys.D4))
+                _hotbar.UseItemInHotbar(3);
         }
 
         private void CheckKeyMenu()
