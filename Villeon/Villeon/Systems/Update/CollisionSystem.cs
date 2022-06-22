@@ -162,14 +162,16 @@ namespace Villeon.Systems.Update
             // test for left side
             float mulitplierLeft = (b.Position.X - (da.Width / 2) - da.LastCenter.X) / v.X;
 
-            int zeros = Convert.ToInt32(mulitplierTop == 0) +
-                        Convert.ToInt32(mulitplierBottom == 0) +
-                        Convert.ToInt32(mulitplierRight == 0) +
-                        Convert.ToInt32(mulitplierLeft == 0);
-            if (zeros > 1)
-            {
+            int zeros = (Convert.ToInt32(mulitplierTop == 0) * 4) +
+                                    (Convert.ToInt32(mulitplierLeft == 0) * 4) +
+                                    (Convert.ToInt32(mulitplierRight == 0) * 3) +
+                                    (Convert.ToInt32(mulitplierBottom == 0) * 2);
+            if (zeros > 6)
                 return Direction.UP;
-            }
+            else if (zeros > 5)
+                return Direction.LEFT;
+            else if (zeros > 4)
+                return Direction.RIGHT;
 
             CheckEdgeCases(v, ref mulitplierTop, ref mulitplierBottom, ref mulitplierRight, ref mulitplierLeft);
 
@@ -180,10 +182,8 @@ namespace Villeon.Systems.Update
 
             if (mulitplierTop < mulitplierBottom && mulitplierTop < mulitplierRight && mulitplierTop < mulitplierLeft)
                 return Direction.UP;
-            if (mulitplierBottom < mulitplierTop && mulitplierBottom < mulitplierRight && mulitplierBottom < mulitplierLeft)
-                return Direction.DOWN;
 
-            return Direction.NONE;
+            return Direction.DOWN;
         }
 
         private void CheckEdgeCases(Vector2 v, ref float mulitplierTop, ref float mulitplierBottom, ref float mulitplierRight, ref float mulitplierLeft)
