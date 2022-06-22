@@ -18,7 +18,7 @@ namespace Villeon.Systems.Update
         public PlayerDungeonMovementSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Physics), typeof(Collider), typeof(Player), typeof(Effect));
+            Signature.IncludeAND(typeof(Physics), typeof(DynamicCollider), typeof(Player), typeof(Effect));
         }
 
         public void Update(float time)
@@ -48,7 +48,7 @@ namespace Villeon.Systems.Update
                 playerComponent.IsWalking = false;
 
                 // Check if player is grounded
-                StateManager.IsGrounded = collider.HasCollidedBottom;
+                StateManager.IsGrounded = dynamicCollider.HasCollidedBottom;
 
                 // Player is Walking Right
                 if (KeyHandler.IsHeld(Keys.D))

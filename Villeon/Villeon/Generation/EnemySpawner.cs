@@ -19,7 +19,7 @@ namespace Villeon.Generation
         public static void Spawn(string sceneName, string enemyName, Vector2 position, Vector2 scale)
         {
             // Load the JSON
-            JObject enemiesJson = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.Enemies.json"))!;
+            JObject enemiesJson = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.Enemies.json")) !;
 
             // Choose the current scene
             dynamic json = enemiesJson.SelectToken(enemyName) !;
@@ -90,9 +90,7 @@ namespace Villeon.Generation
             // Collider
             int colliderWidth = json.colliderWidth / 8f;
             int colliderHeight = json.colliderHeight / 8f;
-            Collider collider = new Collider(Vector2.Zero, position, colliderWidth * scale.X, colliderHeight * scale.Y);
-            entity.AddComponent(collider);
-            entity.AddComponent(new DynamicCollider(collider));
+            entity.AddComponent(new DynamicCollider(Vector2.Zero, position, colliderWidth * scale.X, colliderHeight * scale.Y));
         }
 
         private static void AddTrigger(dynamic json, IEntity entity, Vector2 scale)

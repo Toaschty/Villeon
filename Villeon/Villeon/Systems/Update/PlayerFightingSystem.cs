@@ -12,7 +12,7 @@ namespace Villeon.Systems.Update
         public PlayerFightingSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Physics), typeof(Collider), typeof(Player), typeof(Effect));
+            Signature.IncludeAND(typeof(Physics), typeof(DynamicCollider), typeof(Player), typeof(Effect));
         }
 
         public override void AddEntity(IEntity entity)
@@ -34,7 +34,7 @@ namespace Villeon.Systems.Update
                     continue;
 
                 // Check if the attack is on cooldown
-                Effect effect = player.GetComponent<Effect>()!;
+                Effect effect = player.GetComponent<Effect>() !;
                 if (effect.Effects.ContainsKey("AttackCooldown"))
                     continue;
 
