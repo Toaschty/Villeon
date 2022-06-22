@@ -67,8 +67,7 @@ namespace Villeon.Systems.Update
             IEntity drop = new Entity(transformCopy, "[Loot][" + item.Name + "]");
 
             // Add Collider, Trigger, Sprite
-            drop.AddComponent(new Collider(new Vector2(0), transformCopy, 1f, 1f));
-            drop.AddComponent(new DynamicCollider(drop.GetComponent<Collider>()));
+            drop.AddComponent(new DynamicCollider(new Vector2(0), transformCopy, 1f, 1f));
             drop.AddComponent(new Trigger(TriggerLayerType.MOBDROP, 1f, 1f));
 
             // Add the itemSprite
