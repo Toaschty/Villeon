@@ -19,6 +19,8 @@ namespace Villeon.Systems.Update
 
         public static Scene DungeonScene { get; } = new Scene("DungeonScene");
 
+        public static Scene TutorialScene { get; } = new Scene("TutorialScene");
+
         public static Scene VillageScene { get; } = new Scene("VillageScene");
 
         public static Scene SmithScene { get; } = new Scene("SmithScene");
@@ -67,6 +69,34 @@ namespace Villeon.Systems.Update
             MainMenuScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             MainMenuScene.AddSystem(new AutoCameraMovementSystem("MovingCamera"));
             MainMenuScene.AddSystem(new MainMenuInputSystem("MainMenuInput"));
+        }
+
+        public static void SetupTutorialScene()
+        {
+            SceneLoader.AddScene(TutorialScene);
+
+            TutorialScene.AddSystem(new PlayerVillageMovementSystem("TopDownMovement"));
+            TutorialScene.AddSystem(new CollisionSystem("Collision"));
+            TutorialScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
+            TutorialScene.AddSystem(new TriggerSystem("Trigger"));
+            TutorialScene.AddSystem(new PortalSystem("PortalSystem"));
+            TutorialScene.AddSystem(new CameraSystem("CameraSystem"));
+            TutorialScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            TutorialScene.AddSystem(new InteractionSystem("InteractionSystem"));
+            TutorialScene.AddSystem(new PlayerVillageAnimationSystem("AnimationControllerSystem"));
+            TutorialScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            TutorialScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
+            TutorialScene.AddSystem(new DialogSystem("DialogSystem"));
+            TutorialScene.AddSystem(new TradingSystem("TradingSystem"));
+            TutorialScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
+
+            // Particle stuff
+            TutorialScene.AddSystem(new VillagePlayerParticleSystem("VillagePlayerParticleSystem"));
+            TutorialScene.AddSystem(new PhysicsSystem("PhysicsSystem"));
+            TutorialScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
+            TutorialScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
+            TileMapDictionary villageTileMap = new TileMapDictionary("VillageTutorial.tmx");
+            SetTileMap(TutorialScene, villageTileMap, false);
         }
 
         public static void SetupVillageScene()
@@ -216,6 +246,12 @@ namespace Villeon.Systems.Update
 
         public static void SetupPortalEntities()
         {
+            IEntity tutorialToDungeon = new Entity(new Transform(Constants.TUTORIAL_SPAWN_POINT + new Vector2(5, -2), 0.5f, 0f), "villageToDungeonPortal");
+            tutorialToDungeon.AddComponent(Asset.GetSprite("GUI.Dungeon_Button.png", SpriteLayer.Middleground, false));
+            tutorialToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 2f));
+            tutorialToDungeon.AddComponent(new Portal("DungeonScene", Constants.TUTORIAL_SPAWN_POINT));
+            TutorialScene.AddEntity(tutorialToDungeon);
+
             IEntity villageToDungeon = new Entity(new Transform(Constants.VILLAGE_SPAWN_POINT + new Vector2(5, 0), 1f, 0f), "villageToDungeonPortal");
             villageToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 2f));
             villageToDungeon.AddComponent(new Portal("DungeonScene", Constants.VILLAGE_SPAWN_POINT));

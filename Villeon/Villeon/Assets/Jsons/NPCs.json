@@ -1,4 +1,50 @@
 ﻿{
+  "TutorialScene": [
+    {
+      "name": "Guide",
+      "texturePath": "Sprites.NPC.Ferdinand.png",
+      "textureScale": 0.15,
+      "x": 28,
+      "y": 24,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Spawnnnnn",
+        "in",
+        "Tutorial",
+        "Scene",
+        "bzw.",
+        "Prolog?",
+        "(Village",
+        "am",
+        "brennen?)",
+        "Ein",
+        "NPC",
+        "Erklert",
+        "dir",
+        "das",
+        "spiel",
+        "Und",
+        "was",
+        "genau",
+        "vorgefallen",
+        "ist",
+        "Goal",
+        "Rette",
+        "alle",
+        "villager",
+        "Endgoal",
+        "Rette",
+        "da",
+        "Princess"
+      ]
+    }
+  ],
   "VillageScene": [
     {
       "name": "Ferdinand",
@@ -30,24 +76,6 @@
         "I LOVE ROCKS!",
         "If you have' talk to me. I give you reward. I found yellow stones in the woods.",
         "Shiny rocks... But not for Ferdinand. He is me."
-      ]
-    },
-    {
-      "name": "Guide",
-      "texturePath": "Sprites.NPC.Ferdinand.png",
-      "textureScale": 0.15,
-      "x": 80,
-      "y": 60,
-      "options": [
-        {
-          "type": "talk",
-          "option": "Talk [T]",
-          "key": "T"
-        }
-      ],
-      "dialog": [
-        "Oh sorry. I not see you comin'.",
-        "Now leave..!"
       ]
     }
   ],
