@@ -87,6 +87,7 @@ namespace Villeon.Systems.Update
             VillageScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
             VillageScene.AddSystem(new DialogSystem("DialogSystem"));
             VillageScene.AddSystem(new TradingSystem("TradingSystem"));
+            VillageScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
 
             // Particle stuff
             VillageScene.AddSystem(new VillagePlayerParticleSystem("VillagePlayerParticleSystem"));
@@ -113,6 +114,7 @@ namespace Villeon.Systems.Update
             ShopScene.AddSystem(new DialogSystem("DialogSystem"));
             ShopScene.AddSystem(new InteractionSystem("InteractionSystem"));
             ShopScene.AddSystem(new TradingSystem("TradingSystem"));
+            ShopScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
 
             // Particle stuff
             ShopScene.AddSystem(new VillagePlayerParticleSystem("VillagePlayerParticleSystem"));
@@ -139,6 +141,8 @@ namespace Villeon.Systems.Update
             SmithScene.AddSystem(new DialogSystem("DialogSystem"));
             SmithScene.AddSystem(new InteractionSystem("InteractionSystem"));
             SmithScene.AddSystem(new TradingSystem("TradingSystem"));
+            SmithScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
+
 
             // Particle stuff
             SmithScene.AddSystem(new VillagePlayerParticleSystem("VillagePlayerParticleSystem"));
@@ -179,6 +183,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new DungeonPlayerAnimationSystem("AnimationControllerSystem"));
             DungeonScene.AddSystem(new PlayerFightingSystem("PlayerFightingSystem"));
             DungeonScene.AddSystem(new PlayerExpSystem("PlayerExpSystem"));
+            DungeonScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
             DungeonScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE! 
             DungeonScene.AddStartUpFunc(() =>
             {

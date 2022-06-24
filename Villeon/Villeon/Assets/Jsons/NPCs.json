@@ -31,6 +31,24 @@
         "If you have' talk to me. I give you reward. I found yellow stones in the woods.",
         "Shiny rocks... But not for Ferdinand. He is me."
       ]
+    },
+    {
+      "name": "Guide",
+      "texturePath": "Sprites.NPC.Ferdinand.png",
+      "textureScale": 0.15,
+      "x": 80,
+      "y": 60,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Oh sorry. I not see you comin'.",
+        "Now leave..!"
+      ]
     }
   ],
   "SmithScene": [

@@ -22,8 +22,8 @@ namespace Villeon.Helper
             MonitorInfo monitorInfo = Monitors.GetMonitorFromWindow(GameWindow);
             GameWindow.Size = new Vector2i(monitorInfo.HorizontalResolution, monitorInfo.VerticalResolution) / 2;
             GameWindow.VSync = VSyncMode.Off;
-            GameWindow.UpdateFrequency = 120;
-            GameWindow.RenderFrequency = 120;
+            GameWindow.UpdateFrequency = 60;
+            GameWindow.RenderFrequency = 60;
             return GameWindow;
         }
 
