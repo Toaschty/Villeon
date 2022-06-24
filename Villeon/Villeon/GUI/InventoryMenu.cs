@@ -141,6 +141,9 @@ namespace Villeon.GUI
                                 if (inventory == _activeInventory)
                                     _itemEntities.AddRange(inventory[y, x].ItemEntites);
 
+                                // Update hotbar items
+                                Hotbar.GetInstance().UpdateItems();
+
                                 return;
                             }
                         }
@@ -155,11 +158,13 @@ namespace Villeon.GUI
                     // Slot has no item -> Add item
                     if (!inventory[y, x].HasItem())
                     {
-                        //Console.WriteLine("NEW ITEM");
                         inventory[y, x].Item = newItem; // Adding new Item
 
                         if (inventory == _activeInventory)
                             _itemEntities.AddRange(inventory[y, x].ItemEntites);
+
+                        // Update hotbar items
+                        Hotbar.GetInstance().UpdateItems();
 
                         return;
                     }
@@ -371,6 +376,11 @@ namespace Villeon.GUI
             return null;
         }
 
+        public InventorySlot GetSlotAtCurrentPosition()
+        {
+            return _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X];
+        }
+
         // Check if item existing with given amount
         public bool CheckIfExists(string itemName, int amount)
         {
@@ -457,15 +467,25 @@ namespace Villeon.GUI
             return removedItems;
         }
 
-        // Find inventory in which item is -> For Exist Checking or Removing
         public void UseItemAtCurrentPosition()
         {
+            // Check if current slot has item
             Item? item = GetItemAtCurrentPosition();
 
             if (item is not null)
             {
-                RemoveItems(item.Name, 1);
-                FillAllInventory();
+                // Get current slot
+                InventorySlot slot = GetSlotAtCurrentPosition();
+
+                // Decrease Item count by one
+                slot.DecreaseStack();
+
+                // If last item was used -> Reset item
+                if (slot.IsStackEmpty())
+                    slot.Item = null;
+
+                // Reload item entities
+                slot.ReloadEntities();
                 ReloadItemEntitiesAndRender();
             }
         }
@@ -581,10 +601,15 @@ namespace Villeon.GUI
         }
 
         // Reload all inventory entities
-        private void ReloadItemEntities()
+        public void ReloadItemEntities()
         {
             // Add all inventory entities
             _itemEntities.Clear();
+
+            // Refill all inventory if active
+            if (_activeInventory == _allInventory)
+                FillAllInventory();
+
             _itemEntities.AddRange(GetAllItemEntities());
         }
 

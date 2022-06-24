@@ -89,6 +89,8 @@ namespace Villeon.GUI
                     // Set item specific data
                     _itemStackSize = _item!.StackSize;
                     _itemCount = 1;
+
+                    ReloadEntities();
                 }
             }
         }
@@ -121,7 +123,7 @@ namespace Villeon.GUI
         // Check if stack is empty
         public bool IsStackEmpty()
         {
-            if (_itemCount <= 1)
+            if (_itemCount < 1)
                 return true;
             else
                 return false;

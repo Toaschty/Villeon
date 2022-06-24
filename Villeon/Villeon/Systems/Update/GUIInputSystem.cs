@@ -50,19 +50,19 @@ namespace Villeon.Systems.Update
 
             // Slot 1
             if (KeyHandler.IsPressed(Keys.D1))
-                _hotbar.UseItemInHotbar(0);
+                _hotbar.UseItem(0);
 
             // Slot 2
             if (KeyHandler.IsPressed(Keys.D2))
-                _hotbar.UseItemInHotbar(1);
+                _hotbar.UseItem(1);
 
             // Slot 3
             if (KeyHandler.IsPressed(Keys.D3))
-                _hotbar.UseItemInHotbar(2);
+                _hotbar.UseItem(2);
 
             // Slot 4
             if (KeyHandler.IsPressed(Keys.D4))
-                _hotbar.UseItemInHotbar(3);
+                _hotbar.UseItem(3);
         }
 
         private void CheckKeyMenu()
@@ -77,7 +77,10 @@ namespace Villeon.Systems.Update
 
             // Inventory Menu
             if (KeyHandler.IsPressed(Keys.Tab) || KeyHandler.IsPressed(Keys.I))
+            {
+                InventoryMenu.GetInstance().ReloadItemEntities();
                 ChangeMenu(_handler.InventoryMenu);
+            }
 
             // Map Menu
             if (KeyHandler.IsPressed(Keys.M))
