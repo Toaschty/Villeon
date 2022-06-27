@@ -31,9 +31,23 @@ namespace Villeon.Generation
             int hp = json.health;
             enemy.AddComponent(new Health(hp));
 
+            // Add Physics
+            enemy.AddComponent(new Physics());
+
             // Add Damage
             int dmg = json.damage;
-            enemy.AddComponent(new EnemyAI(dmg));
+            Vector2 offset = Vector2.Zero;
+            if (enemyName.Equals("bat"))
+            {
+                enemy.AddComponent(new FlyingAI(dmg));
+                offset = new Vector2(0.125f);
+                scale *= 0.8f;
+                enemy.GetComponent<Physics>().Weight = 0f;
+            }
+            else
+            {
+                enemy.AddComponent(new EnemyAI(dmg));
+            }
 
             // Add Experience
             int exp = json.experience;
@@ -45,7 +59,7 @@ namespace Villeon.Generation
 
             AddDropInfo(json, enemy);
             AddAnimation(json, enemy);
-            AddCollider(json, enemy, position, scale);
+            AddCollider(json, enemy, position, offset, scale);
             AddTrigger(json, enemy, scale);
 
             // Spawn the Enemy
@@ -89,12 +103,12 @@ namespace Villeon.Generation
             entity.AddComponent(sprite);
         }
 
-        private static void AddCollider(dynamic json, IEntity entity, Vector2 position, Vector2 scale)
+        private static void AddCollider(dynamic json, IEntity entity, Vector2 position, Vector2 offset, Vector2 scale)
         {
             // Collider
             int colliderWidth = json.colliderWidth / 8f;
             int colliderHeight = json.colliderHeight / 8f;
-            entity.AddComponent(new DynamicCollider(Vector2.Zero, position, colliderWidth * scale.X, colliderHeight * scale.Y));
+            entity.AddComponent(new DynamicCollider(offset, position, colliderWidth * scale.X, colliderHeight * scale.Y));
         }
 
         private static void AddTrigger(dynamic json, IEntity entity, Vector2 scale)

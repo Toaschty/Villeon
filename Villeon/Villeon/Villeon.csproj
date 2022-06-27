@@ -23,6 +23,8 @@
     <None Remove="Assets\Shaders\light.frag" />
     <None Remove="Assets\Shaders\light.vert" />
     <None Remove="Assets\Slime.aseprite" />
+    <None Remove="Assets\Sprites\PortalAnimation.aseprite" />
+    <None Remove="Assets\Sprites\PortalAnimation.png" />
     <None Remove="Assets\TileMap\Frame.aseprite" />
     <None Remove="Assets\TileMap\obstacles.json" />
   </ItemGroup>

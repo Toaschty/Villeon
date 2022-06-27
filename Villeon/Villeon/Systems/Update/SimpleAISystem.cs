@@ -88,8 +88,17 @@ namespace Villeon.Systems.Update
                             attackEntity.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-2f, 0f), 2f, 2f, 0.1f));
                         }
 
+                        int damage = 0;
+
                         EnemyAI enemyAI = enemyEntity.GetComponent<EnemyAI>();
-                        attackEntity.AddComponent(new Damage(enemyAI.Damage));
+                        if (enemyAI is not null)
+                            damage = enemyAI.Damage;
+
+                        FlyingAI flyingAI = enemyEntity.GetComponent<FlyingAI>();
+                        if (flyingAI is not null)
+                            damage = flyingAI.Damage;
+
+                        attackEntity.AddComponent(new Damage(damage));
                         Manager.GetInstance().AddEntity(attackEntity);
 
                         effect.Effects.Add("AttackCooldown", 1);
