@@ -1,9 +1,9 @@
-﻿using OpenTK.Mathematics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK.Mathematics;
 using Villeon.Components;
 using Villeon.EntityManagement;
 using Villeon.GUI;
@@ -17,7 +17,8 @@ namespace Villeon.Systems.Update
         public EnemyHealthbarSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Health), typeof(EnemyAI), typeof(Sprite));
+            Signature.IncludeAND(typeof(Health), typeof(EnemyAI), typeof(Sprite))
+                .IncludeOR(typeof(FlyingAI));
         }
 
         public override void AddEntity(IEntity entity)

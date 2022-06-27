@@ -16,7 +16,8 @@ namespace Villeon.Systems.Update
         public MobDropSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Health), typeof(EnemyAI), typeof(Trigger));
+            Signature.IncludeAND(typeof(Health), typeof(EnemyAI), typeof(Trigger))
+                .IncludeOR(typeof(FlyingAI));
         }
 
         public void Update(float time)

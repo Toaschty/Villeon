@@ -18,7 +18,7 @@ namespace Villeon.Systems.Update
         public FlyingAISystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Physics), typeof(DynamicCollider), typeof(EnemyAI))
+            Signature.IncludeAND(typeof(Physics), typeof(DynamicCollider), typeof(FlyingAI))
                 .IncludeOR(typeof(Player));
         }
 
@@ -77,7 +77,7 @@ namespace Villeon.Systems.Update
                     {
                         IEntity attackEntity = new Entity(new Transform(enemyTransform.Position, 1f, 0), "Attack");
                         attackEntity.AddComponent(new Trigger(TriggerLayerType.FRIEND, Vector2.Zero, 1.0f, 1.0f, 0.1f));
-                        EnemyAI enemyAI = enemyEntity.GetComponent<EnemyAI>();
+                        FlyingAI enemyAI = enemyEntity.GetComponent<FlyingAI>();
                         attackEntity.AddComponent(new Damage(enemyAI.Damage));
                         Manager.GetInstance().AddEntity(attackEntity);
                         effect.Effects.Add("AttackCooldown", 1);
