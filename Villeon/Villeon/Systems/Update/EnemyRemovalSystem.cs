@@ -14,7 +14,8 @@ namespace Villeon.Systems.Update
         public EnemyRemovalSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Health), typeof(EnemyAI), typeof(Health), typeof(Exp));
+            Signature.IncludeAND(typeof(Health), typeof(EnemyAI), typeof(Health), typeof(Exp))
+                .IncludeOR(typeof(FlyingAI));
         }
 
         public void Update(float time)
