@@ -92,6 +92,7 @@ namespace Villeon.Assets
             // Enemy Animations
             AddSpriteSheet("Animations.slime_jumping.png", new SpriteSheet(Color4.White, GetTexture("Animations.slime_jumping.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Enemies.Slime.slime_jumping.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Slime.slime_jumping.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Enemies.Bat.bat.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Bat.bat.png"), 32, 32, 4, 0, SpriteLayer.Foreground));
 
             // GUI
             AddSpriteSheet("Animations.InventorySlotSwapIndicator.png", new SpriteSheet(Color4.White, GetTexture("Animations.InventorySlotSwapIndicator.png"), 32, 32, 6, 0, SpriteLayer.ScreenGuiForeground));

@@ -17,7 +17,7 @@ namespace Villeon.Systems.Update
         public SimpleAISystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Physics), typeof(Collider), typeof(EnemyAI))
+            Signature.IncludeAND(typeof(Physics), typeof(DynamicCollider), typeof(EnemyAI))
                 .IncludeOR(typeof(Player));
         }
 
@@ -59,7 +59,7 @@ namespace Villeon.Systems.Update
                 if (playerDirection.Length < 10 && playerDirection.Length > 2.2f)
                 {
                     Physics physics = enemyEntity.GetComponent<Physics>();
-                    Collider collider = enemyEntity.GetComponent<Collider>();
+                    DynamicCollider collider = enemyEntity.GetComponent<DynamicCollider>();
                     physics.Acceleration += new Vector2(Constants.MOVEMENTSPEED * side * 0.4f, physics.Acceleration.Y);
                     if (side < 0 && collider.HasCollidedLeft && collider.HasCollidedBottom)
                         physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
@@ -88,8 +88,17 @@ namespace Villeon.Systems.Update
                             attackEntity.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-2f, 0f), 2f, 2f, 0.1f));
                         }
 
+                        int damage = 0;
+
                         EnemyAI enemyAI = enemyEntity.GetComponent<EnemyAI>();
-                        attackEntity.AddComponent(new Damage(enemyAI.Damage));
+                        if (enemyAI is not null)
+                            damage = enemyAI.Damage;
+
+                        FlyingAI flyingAI = enemyEntity.GetComponent<FlyingAI>();
+                        if (flyingAI is not null)
+                            damage = flyingAI.Damage;
+
+                        attackEntity.AddComponent(new Damage(damage));
                         Manager.GetInstance().AddEntity(attackEntity);
 
                         effect.Effects.Add("AttackCooldown", 1);

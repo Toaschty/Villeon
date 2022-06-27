@@ -22,13 +22,13 @@ namespace Villeon.Systems.Update
         {
             Physics physics;
             Transform transform;
-            Collider collider;
+            DynamicCollider collider;
             foreach (IEntity entity in Entities)
             {
                 // Get Components
                 physics = entity.GetComponent<Physics>();
                 transform = entity.GetComponent<Transform>();
-                collider = entity.GetComponent<Collider>();
+                collider = entity.GetComponent<DynamicCollider>();
 
                 if (collider != null)
                 {

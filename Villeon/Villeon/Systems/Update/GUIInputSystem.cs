@@ -14,6 +14,7 @@ namespace Villeon.Systems.Update
     public class GUIInputSystem : System, IUpdateSystem
     {
         private GUIHandler _handler = GUIHandler.GetInstance();
+        private Hotbar _hotbar = Hotbar.GetInstance();
 
         public GUIInputSystem(string name)
             : base(name)
@@ -23,24 +24,45 @@ namespace Villeon.Systems.Update
 
         public void Update(float time)
         {
-            foreach (IEntity entity in Entities)
-            {
-                CheckKeyMenu();
+            CheckHotbarKeys();
+            CheckKeyMenu();
 
-                if (StateManager.InMenu)
+            if (StateManager.InMenu)
+            {
+                Keys? currentkey = KeyHandler.GetLastPressedKey();
+                if (currentkey != null)
                 {
-                    Keys? currentkey = KeyHandler.GetLastPressedKey();
-                    if (currentkey != null)
+                    bool updateMenu = _handler.CurrentMenu!.OnKeyReleased((Keys)currentkey);
+                    if (updateMenu)
                     {
-                        bool updateMenu = _handler.CurrentMenu!.OnKeyReleased((Keys)currentkey);
-                        if (updateMenu)
-                        {
-                            UnloadMenu(_handler.CurrentMenu);
-                            LoadMenu(_handler.CurrentMenu);
-                        }
+                        UnloadMenu(_handler.CurrentMenu);
+                        LoadMenu(_handler.CurrentMenu);
                     }
                 }
             }
+        }
+
+        private void CheckHotbarKeys()
+        {
+            // Unable to use hotbar items when in menu
+            if (StateManager.InMenu)
+                return;
+
+            // Slot 1
+            if (KeyHandler.IsPressed(Keys.D1))
+                _hotbar.UseItem(0);
+
+            // Slot 2
+            if (KeyHandler.IsPressed(Keys.D2))
+                _hotbar.UseItem(1);
+
+            // Slot 3
+            if (KeyHandler.IsPressed(Keys.D3))
+                _hotbar.UseItem(2);
+
+            // Slot 4
+            if (KeyHandler.IsPressed(Keys.D4))
+                _hotbar.UseItem(3);
         }
 
         private void CheckKeyMenu()
@@ -55,7 +77,10 @@ namespace Villeon.Systems.Update
 
             // Inventory Menu
             if (KeyHandler.IsPressed(Keys.Tab) || KeyHandler.IsPressed(Keys.I))
+            {
+                InventoryMenu.GetInstance().ReloadItemEntities();
                 ChangeMenu(_handler.InventoryMenu);
+            }
 
             // Map Menu
             if (KeyHandler.IsPressed(Keys.M))
@@ -67,6 +92,10 @@ namespace Villeon.Systems.Update
             // Pause Menu
             if (KeyHandler.IsPressed(Keys.Escape))
                 ChangeMenu(_handler.PauseMenu);
+
+            // Death Menu
+            if (StateManager.IsPlayerDead && _handler.CurrentMenu != _handler.DeathMenu)
+                ChangeMenu(_handler.DeathMenu);
         }
 
         private void ChangeMenu(IGUIMenu menu)
@@ -90,9 +119,13 @@ namespace Villeon.Systems.Update
             // Other menu currently loaded -> Unload current menu -> Load selected menu
             else
             {
-                UnloadMenu(_handler.CurrentMenu);
-                _handler.CurrentMenu = menu;
-                LoadMenu(menu);
+                // don't open other menus while death menu is there or player is dead
+                if (_handler.CurrentMenu != _handler.DeathMenu || !StateManager.IsPlayerDead)
+                {
+                    UnloadMenu(_handler.CurrentMenu);
+                    _handler.CurrentMenu = menu;
+                    LoadMenu(menu);
+                }
             }
         }
 

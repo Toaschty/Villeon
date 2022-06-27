@@ -15,7 +15,7 @@ namespace Villeon.Systems.Update
         public CameraSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Collider), typeof(Player));
+            Signature.IncludeAND(typeof(DynamicCollider), typeof(Player));
         }
 
         public void Update(float time)

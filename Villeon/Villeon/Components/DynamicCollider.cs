@@ -11,6 +11,7 @@ namespace Villeon.Components
     {
         private Vector2 _position;
         private Vector2 _lastPosition;
+        private Vector2 _offset;
 
         private Vector2 _vertex2;
         private Vector2 _vertex3;
@@ -25,13 +26,32 @@ namespace Villeon.Components
         private float _width;
         private float _height;
 
-        public DynamicCollider(Collider collider)
+        public DynamicCollider(Vector2 offset, Transform transform, float width, float height)
         {
-            _position = collider.Position + Vector2.Zero;
-            _lastPosition = collider.Position + Vector2.Zero;
+            _position = transform.Position - offset;
+            _lastPosition = transform.Position - offset;
+            _offset = offset;
 
-            _width = collider.Width;
-            _height = collider.Height;
+            _width = width;
+            _height = height;
+
+            _vertex2 = new Vector2(_position.X + _width, _position.Y);
+            _vertex3 = new Vector2(_position.X + _width, _position.Y + _height);
+            _vertex4 = new Vector2(_position.X, _position.Y + _height);
+
+            _lastVertex2 = new Vector2(_position.X + _width, _position.Y);
+            _lastVertex3 = new Vector2(_position.X + _width, _position.Y + _height);
+            _lastVertex4 = new Vector2(_position.X, _position.Y + _height);
+        }
+
+        public DynamicCollider(Vector2 offset, Vector2 position, float width, float height)
+        {
+            _position = position - offset;
+            _lastPosition = position - offset;
+            _offset = offset;
+
+            _width = width;
+            _height = height;
 
             _vertex2 = new Vector2(_position.X + _width, _position.Y);
             _vertex3 = new Vector2(_position.X + _width, _position.Y + _height);
@@ -44,6 +64,14 @@ namespace Villeon.Components
 
         public int PolygonSize { get; set; }
 
+        public bool HasCollidedTop { get; set; } = false;
+
+        public bool HasCollidedBottom { get; set; } = false;
+
+        public bool HasCollidedLeft { get; set; } = false;
+
+        public bool HasCollidedRight { get; set; } = false;
+
         public float Width
         {
             get { return _width; }
@@ -54,6 +82,12 @@ namespace Villeon.Components
         {
             get { return _height; }
             set { _height = value; }
+        }
+
+        public Vector2 Offset
+        {
+            get { return _offset; }
+            set { _offset = value; }
         }
 
         public Vector2 LastPosition
@@ -71,6 +105,14 @@ namespace Villeon.Components
         public Vector2 LastCenter
         {
             get { return new Vector2(_lastPosition.X + (Width / 2), _lastPosition.Y + (Height / 2)); }
+        }
+
+        public void ResetHasCollided()
+        {
+            HasCollidedLeft = false;
+            HasCollidedRight = false;
+            HasCollidedTop = false;
+            HasCollidedBottom = false;
         }
 
         public Vector2[] GetPolygon()

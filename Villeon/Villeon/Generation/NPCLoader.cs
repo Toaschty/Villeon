@@ -76,6 +76,7 @@ namespace Villeon.Generation
             // Create the Entity
             Transform transform = new Transform(new Vector2(x, y), textureScale, 0.0f);
             IEntity entity = new Entity(transform, npcName);
+            entity.AddComponent(new NPC(npcName, sceneName));
             entity.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-0.4f, -0.4f), 1.4f, 1.8f));
             entity.AddComponent(new Collider(Vector2.Zero, transform.Position, 0.6f, 1f));
             entity.AddComponent(new Interactable(options));

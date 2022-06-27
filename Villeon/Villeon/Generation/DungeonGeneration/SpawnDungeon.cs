@@ -11,8 +11,12 @@ using Villeon.Helper;
 
 namespace Villeon.Generation.DungeonGeneration
 {
-    internal class SpawnDungeon
+    public class SpawnDungeon
     {
+        private static int[,]? _currentDungeon;
+
+        public static int[,]? CurrentDungeon => _currentDungeon;
+
         public static int[,] CreateDungeon()
         {
             // Spawn Dungeon
@@ -45,6 +49,7 @@ namespace Villeon.Generation.DungeonGeneration
                 }
             }
 
+            _currentDungeon = dungeon;
             return dungeon;
         }
     }

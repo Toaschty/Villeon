@@ -12,6 +12,7 @@ namespace Villeon.GUI
         private static GUIHandler? _instance;
 
         private PauseMenu? _pauseMenu;
+        private DeathMenu? _deathMenu;
         private DungeonMenu? _dungeonMenu;
         private EquipmentMenu? _equipmentMenu;
         private InventoryMenu? _inventoryMenu;
@@ -24,6 +25,8 @@ namespace Villeon.GUI
         }
 
         public PauseMenu PauseMenu => _pauseMenu!;
+
+        public DeathMenu DeathMenu => _deathMenu!;
 
         public DungeonMenu DungeonMenu => _dungeonMenu!;
 
@@ -52,6 +55,7 @@ namespace Villeon.GUI
         public void LoadGUI()
         {
             _pauseMenu = new PauseMenu();
+            _deathMenu = new DeathMenu();
             _dungeonMenu = new DungeonMenu();
             _equipmentMenu = new EquipmentMenu();
             _inventoryMenu = InventoryMenu.GetInstance();

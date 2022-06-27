@@ -16,18 +16,11 @@ namespace Villeon.GUI
         private List<IEntity> _entities;
         private List<IEntity> _hotbarItems;
 
-        // Hotbar
-        private Tuple<Item, InventorySlot>[] _hotbarSlotTuples;
-        private InventorySlot[] _hotbarSlots;
-
         public VillageOverlay()
         {
             // Create overlay layout
             _entities = new List<IEntity>();
             _hotbarItems = new List<IEntity>();
-
-            // Setup reference for Inventory Menu
-            InventoryMenu.GetInstance().SetVillageOverlay(this);
 
             // Load Sprites
             Sprite dungeonButton = Asset.GetSprite("GUI.Dungeon_Button.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
@@ -55,6 +48,7 @@ namespace Villeon.GUI
 
             // Hotbar Entities
             float offset = hotbarIcon.Width * 0.3f;
+            Console.WriteLine(offset);
 
             IEntity hotbarSlot1 = new Entity(new Transform(new Vector2(4.5f - offset, -5f), 0.3f, 0f), "Slot 1");
             hotbarSlot1.AddComponent(hotbarIcon);
@@ -83,39 +77,11 @@ namespace Villeon.GUI
 
             Text slot4Text = new Text("4", new Vector2(8.8f, -5.1f), "Alagard", SpriteLayer.ScreenGuiOverlayForeGround, 1f, 1f, 0.3f);
             _entities.AddRange(slot4Text.GetEntities());
-
-            // Hotbar Slots
-            _hotbarSlotTuples = new Tuple<Item, InventorySlot>[4];
-
-            _hotbarSlots = new InventorySlot[4];
-
-            _hotbarSlots[0] = new InventorySlot(new Transform(new Vector2(4.5f - offset, -5f), 0.3f, 0f));
-            _hotbarSlots[1] = new InventorySlot(new Transform(new Vector2(6f - offset, -5f), 0.3f, 0f));
-            _hotbarSlots[2] = new InventorySlot(new Transform(new Vector2(7.5f - offset, -5f), 0.3f, 0f));
-            _hotbarSlots[3] = new InventorySlot(new Transform(new Vector2(9f - offset, -5f), 0.3f, 0f));
         }
 
         public IEntity[] GetEntities()
         {
             return _entities.ToArray();
-        }
-
-        public void AddItem(int index, InventorySlot itemSlot, Item item)
-        {
-            _hotbarSlotTuples[index] = new Tuple<Item, InventorySlot>(item, itemSlot);
-            _hotbarSlots[index].Item = ItemLoader.GetItem(item.Name);
-
-            _hotbarSlots[index].Item.Sprite.RenderLayer = SpriteLayer.ScreenGuiOverlayForeGround;
-
-            _hotbarItems.AddRange(_hotbarSlots[index].ItemEntites);
-
-            ReloadOverlayItems();
-        }
-
-        private void ReloadOverlayItems()
-        {
-            Manager.GetInstance().RemoveEntities(_hotbarItems);
-            Manager.GetInstance().AddEntities(_hotbarItems.ToArray());
         }
     }
 }

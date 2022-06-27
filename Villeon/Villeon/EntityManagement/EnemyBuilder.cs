@@ -15,8 +15,7 @@ namespace Villeon.EntityManagement
         public void Spawn(Vector2 position)
         {
             IEntity entity = new Entity(new Transform(position, 0.5f, 0f), "Peter");
-            entity.AddComponent(new Collider(new Vector2(0f, 0f), position, 2f, 2f));
-            entity.AddComponent(new DynamicCollider(entity.GetComponent<Collider>()));
+            entity.AddComponent(new DynamicCollider(new Vector2(0f, 0f), position, 2f, 2f));
             entity.AddComponent(new Trigger(TriggerLayerType.ENEMY | TriggerLayerType.LADDER, new Vector2(0), 2f, 2f));
             entity.AddComponent(new Health(500));
             entity.AddComponent(new Effect());
@@ -37,8 +36,7 @@ namespace Villeon.EntityManagement
         public IEntity SlimeEntity(Vector2 position)
         {
             IEntity entity = new Entity(new Transform(position, 0.5f, 0f), "Slime");
-            entity.AddComponent(new Collider(new Vector2(0f, 0f), position, 2f, 2f));
-            entity.AddComponent(new DynamicCollider(entity.GetComponent<Collider>()));
+            entity.AddComponent(new DynamicCollider(new Vector2(0f, 0f), position, 2f, 2f));
             entity.AddComponent(new Trigger(TriggerLayerType.ENEMY | TriggerLayerType.LADDER, new Vector2(0), 2f, 2f));
             entity.AddComponent(new Health(500));
             entity.AddComponent(new Effect());
@@ -63,8 +61,7 @@ namespace Villeon.EntityManagement
             IEntity entity = new Entity(new Transform(position, 5f, 0f), "Boss Slime");
             Sprite sprite = Assets.Asset.GetSpriteSheet("Animations.slime_jumping.png").GetSprite(0, SpriteLayer.Foreground, true);
             entity.AddComponent(sprite);
-            entity.AddComponent(new Collider(new Vector2(sprite.Width * 5f / 2f, 0f), position, 2f, 2f));
-            entity.AddComponent(new DynamicCollider(entity.GetComponent<Collider>()));
+            entity.AddComponent(new DynamicCollider(new Vector2(sprite.Width * 5f / 2f, 0f), position, 2f, 2f));
             entity.AddComponent(new Trigger(TriggerLayerType.ENEMY | TriggerLayerType.LADDER, new Vector2(0), 2f, 2f));
             entity.AddComponent(new Health(500));
             entity.AddComponent(new Effect());

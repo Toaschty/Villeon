@@ -34,7 +34,7 @@ namespace Villeon.Systems.Update
             foreach (TriggerLayerType layerKey in TriggerLayers.Keys)
             {
                 // Continue if there is no collision on this layer
-                if (TriggerLayers[layerKey].Collisions is null)
+                if (TriggerLayers[layerKey].Collisions is null || StateManager.InMenu)
                     continue;
 
                 // Do action when collision happend

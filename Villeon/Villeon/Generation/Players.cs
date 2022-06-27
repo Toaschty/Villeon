@@ -19,8 +19,7 @@ namespace Villeon.Generation
             IEntity player;
             Transform transform = new Transform(Constants.DUNGEON_SPAWN_POINT, 0.5f, 0f);
             player = new Entity(transform, "DungeonMarin");
-            player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 1f, 1.5f));
-            player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
+            player.AddComponent(new DynamicCollider(new Vector2(0f, 0f), transform, 1f, 1.5f));
             player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL | TriggerLayerType.LADDER | TriggerLayerType.MOBDROP, new Vector2(0f, 0f), 1f, 2f));
             player.AddComponent(new Sprite(Asset.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
             player.AddComponent(new Physics());
@@ -48,8 +47,7 @@ namespace Villeon.Generation
             IEntity player;
             Transform transform = new Transform(spawnPoint, 0.25f, 0f);
             player = new Entity(transform, "VillageMarin");
-            player.AddComponent(new Collider(new Vector2(0f, 0f), transform, 0.5f, 0.5f));
-            player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
+            player.AddComponent(new DynamicCollider(new Vector2(0f, 0f), transform, 0.5f, 0.5f));
             player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL, new Vector2(0f, 0f), 0.5f, 0.5f));
             player.AddComponent(new Sprite(Asset.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
             player.AddComponent(new Light(Color4.White));

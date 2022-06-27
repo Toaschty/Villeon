@@ -43,37 +43,23 @@ namespace Villeon.GUI
             _itemEntites.Add(_itemEntity);
         }
 
-        public static float SlotSize
-        {
-            get => _slotSize;
-        }
+        public static float SlotSize => _slotSize;
 
-        public IEntity SlotBackground
-        {
-            get { return _slotBackground; }
-        }
+        public IEntity SlotBackground => _slotBackground;
 
-        public IEntity SlotSelection
-        {
-            get { return _slotSelection; }
-        }
+        public IEntity SlotSelection => _slotSelection;
 
-        public IEntity SwapIndicator
-        {
-            get { return _slotSwapIndicator; }
-        }
+        public IEntity SwapIndicator => _slotSwapIndicator;
 
         public Transform Transform => _transform;
 
-        public IEntity[] ItemEntites
+        public List<IEntity> ItemEntites
         {
-            get { return _itemEntites.ToArray(); }
+            get { return _itemEntites; }
             set { _itemEntites = new List<IEntity>(); }
         }
 
         public int Count => _itemCount;
-
-        public IEntity[] TextEntities => _itemCountText != null ? _itemCountText.GetEntities() : new IEntity[0];
 
         public Item? Item
         {
@@ -88,25 +74,35 @@ namespace Villeon.GUI
 
                 if (value == null)
                 {
+                    // Reset all item data from slot
                     _itemStackSize = 0;
                     _itemCount = 0;
                     _itemEntites.Clear();
+                    _itemCountText = null;
                 }
                 else
                 {
+                    // Add item sprite
+                    _itemEntity.RemoveComponent<Sprite>();
                     _itemEntity.AddComponent(_item!.Sprite);
+
+                    // Set item specific data
                     _itemStackSize = _item!.StackSize;
                     _itemCount = 1;
+
+                    ReloadEntities();
                 }
             }
         }
 
+        // Set item with count
         public void SetItem(Item item, int itemCount)
         {
             Item = item;
             _itemCount = itemCount;
         }
 
+        // Check if slot has item
         public bool HasItem()
         {
             if (_item == null)
@@ -115,6 +111,7 @@ namespace Villeon.GUI
                 return true;
         }
 
+        // Check if stack limit is reached
         public bool IsStackFull()
         {
             if (_itemCount < _itemStackSize)
@@ -123,14 +120,16 @@ namespace Villeon.GUI
                 return true;
         }
 
+        // Check if stack is empty
         public bool IsStackEmpty()
         {
-            if (_itemCount <= 1)
+            if (_itemCount < 1)
                 return true;
             else
                 return false;
         }
 
+        // Change stack count of current item
         public void SetStack(int count)
         {
             if (count > _itemStackSize)
@@ -138,60 +137,35 @@ namespace Villeon.GUI
             else
                 _itemCount = count;
 
-            RefreshText();
+            ReloadEntities();
         }
 
+        // Increase stack by one
         public void IncreaseStack()
         {
             if (_itemCount < _itemStackSize)
                 _itemCount++;
 
-            if (_itemCountText != null)
-            {
-                Manager.GetInstance().RemoveEntities(_itemCountText.GetEntities());
-                foreach (IEntity entity in _itemCountText.GetEntities())
-                {
-                    _itemEntites.Remove(entity);
-                }
-            }
-
-            RefreshText();
+            // Reload all item entities
+            ReloadEntities();
         }
 
+        // Reduce stack by one
         public void DecreaseStack()
         {
-            if (_itemCount > 1)
+            if (_itemCount > 0)
                 _itemCount--;
 
-            RefreshText();
+            ReloadEntities();
         }
 
-        public void UnloadCountText()
+        // Reload all slot entities -> Spawn new text
+        public void ReloadEntities()
         {
-            if (_itemCountText == null)
-                return;
+            // Remove old count text
+            if (_itemCountText != null)
+                Manager.GetInstance().RemoveEntities(_itemCountText.GetEntities());
 
-            Manager.GetInstance().RemoveEntities(_itemCountText!.GetEntities());
-            foreach (IEntity entity in _itemCountText!.GetEntities())
-            {
-                _itemEntites?.Remove(entity);
-            }
-
-            _itemCountText = null;
-        }
-
-        public void LoadCountText()
-        {
-            if (_item == null)
-                return;
-
-            _itemCountText = new Text(_itemCount.ToString(), _transform.Position, "Alagard", SpriteLayer.ScreenGuiOnTopOfForeground, 0.1f, 1f, 0.2f);
-            Manager.GetInstance().AddEntities(_itemCountText!.GetEntities());
-            _itemEntites.AddRange(_itemCountText.GetEntities());
-        }
-
-        private void RefreshText()
-        {
             _itemEntites.Clear();
 
             _itemCountText = new Text(_itemCount.ToString(), _transform.Position, "Alagard", SpriteLayer.ScreenGuiOnTopOfForeground, 0.1f, 1f, 0.2f);
@@ -199,6 +173,7 @@ namespace Villeon.GUI
             _itemEntites.Add(_itemEntity);
         }
 
+        // Init functions
         private IEntity CreateBackground()
         {
             IEntity background = new Entity(_transform, "SlotBackground");
