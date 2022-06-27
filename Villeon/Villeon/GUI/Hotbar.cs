@@ -15,6 +15,7 @@ namespace Villeon.Components
         private static Hotbar? _instance;
 
         private InventorySlot[] _hotbarSlots;
+        private InventorySlot[]? _inventoryReferences;
 
         private List<IEntity> _hotbarEntities;
 
@@ -22,6 +23,7 @@ namespace Villeon.Components
         {
             _hotbarEntities = new List<IEntity>();
             _hotbarSlots = new InventorySlot[4];
+            _inventoryReferences = new InventorySlot[4];
 
             float offset = 1.2f;
             _hotbarSlots[0] = new InventorySlot(new Transform(new Vector2(4.5f - offset, -5f), 0.3f, 0f));
@@ -37,63 +39,88 @@ namespace Villeon.Components
             return _instance;
         }
 
-        public void AddItem(int index, InventorySlot itemSlot)
+        public void AddItem(int index, InventorySlot slot)
         {
-            // Add item to slot
-            _hotbarSlots[index].Item = ItemLoader.GetItem(itemSlot.Item !.Name);
-            _hotbarSlots[index].SetStack(itemSlot.Count);
-
-            // Adjust RenderLayer for each entity
-            foreach (IEntity textEntity in _hotbarSlots[index].ItemEntites)
-            {
-                textEntity.GetComponent<Sprite>().RenderLayer = SpriteLayer.ScreenGuiOverlayForeGround;
-            }
-
-            _hotbarEntities.AddRange(_hotbarSlots[index].ItemEntites);
-
-            ReloadHotbar();
-        }
-
-        private void ReloadHotbar()
-        {
-            Manager.GetInstance().RemoveEntities(_hotbarEntities);
-            Manager.GetInstance().AddEntities(_hotbarEntities.ToArray());
-        }
-
-        // Use item on current slot
-        public void UseItemInHotbar(int index)
-        {
-            if (_hotbarSlots[index].Item == null)
+            // Catch wrong input
+            if (index > 3 || slot.Item == null)
                 return;
 
-            // Remove all item entities from hotbar
+            // Add item to hotbar
+            _inventoryReferences[index] = slot;
+
+            _hotbarSlots[index].Item = ItemLoader.GetItem(slot.Item.Name);
+            _hotbarSlots[index].SetStack(slot.Count);
+
+            // Adjust render layer of all new entities
             foreach (IEntity entity in _hotbarSlots[index].ItemEntites)
             {
-                _hotbarEntities.Remove(entity);
+                entity.GetComponent<Sprite>().RenderLayer = SpriteLayer.ScreenGuiOverlayForeGround;
             }
 
-            // Decrease stack by one
-            _hotbarSlots[index].DecreaseStack();
-
-            // If stack reached 0 -> Delete item from hotbar
-            if (_hotbarSlots[index].Count == 0)
-            {
-                RemoveItem(index);
-                return;
-            }
-
-            // Add item entities to hotbar
-            _hotbarEntities.AddRange(_hotbarSlots[index].ItemEntites);
-
-            // Reload hotbar entities
             ReloadHotbar();
         }
 
-        private void RemoveItem(int index)
+        public void UseItem(int index)
         {
-            // Delete all item entities from Scene
-            Manager.GetInstance().RemoveEntities(_hotbarSlots[index].ItemEntites);
-            _hotbarSlots[index].Item = null;
+            if (_inventoryReferences[index] == null)
+                return;
+
+            // Decrease item reference by one
+            _inventoryReferences[index].DecreaseStack();
+
+            // If stack is now empty -> Remove item from hotbar. Else add reduced item to hotbar again
+            if (_inventoryReferences[index].IsStackEmpty())
+                RemoveItem(_inventoryReferences[index]);
+
+            UpdateItems();
+
+            // Reload hotbar
+            ReloadHotbar();
+        }
+
+        public void RemoveItem(InventorySlot slot)
+        {
+            for (int i = 0; i < _inventoryReferences.Length; i++)
+            {
+                if (_inventoryReferences[i] == slot)
+                {
+                    // Remove entities from scene
+                    Manager.GetInstance().RemoveEntities(_hotbarSlots[i].ItemEntites);
+
+                    // Reset hotbar slot
+                    _hotbarSlots[i] = new InventorySlot(_hotbarSlots[i].Transform);
+                    _inventoryReferences[i] = null;
+                }
+            }
+        }
+
+        public void ReloadHotbar()
+        {
+            // Unload last state
+            Manager.GetInstance().RemoveEntities(_hotbarEntities);
+            _hotbarEntities.Clear();
+
+            // Load new state
+            foreach (InventorySlot slot in _hotbarSlots)
+            {
+                _hotbarEntities.AddRange(slot.ItemEntites);
+            }
+
+            Manager.GetInstance().AddEntities(_hotbarEntities);
+        }
+
+        public void UpdateItems()
+        {
+            for (int i = 0; i < _inventoryReferences.Length; i++)
+            {
+                if (_inventoryReferences[i] != null)
+                {
+                    if (_inventoryReferences[i].Item != null)
+                        AddItem(i, _inventoryReferences[i]);
+                    else
+                        RemoveItem(_inventoryReferences[i]);
+                }
+            }
         }
     }
 }

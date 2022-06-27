@@ -29,6 +29,8 @@ namespace Villeon.Helper
         public static float SCREEN_SCALE { get; } = 9f;
 
         // Spawnpoints
+        public static Vector2 TUTORIAL_SPAWN_POINT { get; } = new Vector2(23.5f, 23.5f);
+
         public static Vector2 VILLAGE_SPAWN_POINT { get; } = new Vector2(94.5f, 57f);
 
         public static Vector2 DUNGEON_SPAWN_POINT { get; } = new Vector2(5, 5);

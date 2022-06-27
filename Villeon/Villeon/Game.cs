@@ -107,6 +107,7 @@ namespace Villeon
 
                 // Handle the actual loading
                 Scenes.SetupDungeonScene();
+                Scenes.SetupTutorialScene();
                 Scenes.SetupVillageScene();
                 Scenes.SetupSmithScene();
                 Scenes.SetupShopScene();
@@ -117,18 +118,20 @@ namespace Villeon
                 GUIHandler.GetInstance().LoadGUI();
 
                 // Load NPCs from file
+                NPCLoader.LoadNpcs("TutorialScene");
                 NPCLoader.LoadNpcs("VillageScene");
                 NPCLoader.LoadNpcs("SmithScene");
                 NPCLoader.LoadNpcs("ShopScene");
 
                 // Switch scene if loading is done
-                SceneLoader.SetActiveScene("VillageScene");
+                SceneLoader.SetActiveScene("TutorialScene");
                 return true;
             });
         }
 
         private void CreatePlayers()
         {
+            Scenes.TutorialScene.AddEntity(Players.CreateVillagePlayer(Constants.TUTORIAL_SPAWN_POINT));
             Scenes.VillageScene.AddEntity(Players.CreateVillagePlayer(Constants.VILLAGE_SPAWN_POINT));
             Scenes.DungeonScene.AddEntity(Players.CreateDungeonPlayer());
             Scenes.SmithScene.AddEntity(Players.CreateVillagePlayer(Constants.SMITH_SPAWN_POINT));

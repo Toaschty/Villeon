@@ -49,6 +49,8 @@ namespace Villeon.GUI
             CreateLetters(font, layer);
         }
 
+        public float Width { get; set; }
+
         public List<IEntity> Letters { get => _letters; set => _letters = value; }
 
         public IEntity[] GetEntities()
@@ -82,6 +84,8 @@ namespace Villeon.GUI
                 // Set position for next letter
                 letterPosition.X += spriteWidth + _letterSpacing;
             }
+
+            Width = letterPosition.X;
         }
     }
 }
