@@ -8,6 +8,7 @@ using Villeon.GUI;
 using Villeon.Helper;
 using Villeon.Systems.RenderSystems;
 using Villeon.Systems.TriggerSystems;
+using Villeon.Utils;
 
 namespace Villeon.Systems.Update
 {
@@ -247,9 +248,14 @@ namespace Villeon.Systems.Update
         public static void SetupPortalEntities()
         {
             IEntity tutorialToDungeon = new Entity(new Transform(Constants.TUTORIAL_SPAWN_POINT + new Vector2(5, -2), 0.5f, 0f), "villageToDungeonPortal");
-            tutorialToDungeon.AddComponent(Asset.GetSprite("GUI.Dungeon_Button.png", SpriteLayer.Middleground, false));
+            tutorialToDungeon.AddComponent(Asset.GetSpriteSheet("Sprites.PortalAnimation.png").GetSprite(0, SpriteLayer.Middleground, true));
             tutorialToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 2f));
             tutorialToDungeon.AddComponent(new Portal("DungeonScene", Constants.TUTORIAL_SPAWN_POINT));
+
+            // Setup Portal animation
+            AnimationController animController = new AnimationController();
+            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile("Sprites.PortalAnimation.png", 0.1f));
+            tutorialToDungeon.AddComponent(animController);
             TutorialScene.AddEntity(tutorialToDungeon);
 
             IEntity villageToDungeon = new Entity(new Transform(Constants.VILLAGE_SPAWN_POINT + new Vector2(5, 0), 1f, 0f), "villageToDungeonPortal");
