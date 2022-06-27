@@ -35,6 +35,10 @@ namespace Villeon.Generation
             int dmg = json.damage;
             enemy.AddComponent(new EnemyAI(dmg));
 
+            // Add Experience
+            int exp = json.experience;
+            enemy.AddComponent(new Exp(exp));
+
             // Add Physics
             enemy.AddComponent(new Physics());
             enemy.AddComponent(new Effect());

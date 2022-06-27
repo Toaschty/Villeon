@@ -107,7 +107,7 @@ namespace Villeon.GUI
 
                 // Save game
                 case 1:
-                    Console.WriteLine("Game Saved");
+                    SaveLoad.Save();
                     break;
 
                 // Exit game

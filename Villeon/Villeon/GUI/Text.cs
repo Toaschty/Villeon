@@ -72,7 +72,7 @@ namespace Villeon.GUI
                     continue;
                 }
 
-                Sprite letterSprite = Fonts.GetCharacter(fontName, c, layer, false);
+                Sprite letterSprite = Fonts.GetCharacter(fontName, c, layer, true);
                 float spriteWidth = letterSprite.Width * _letterScale;
 
                 // Create Entity for letter

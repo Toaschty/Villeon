@@ -8,46 +8,13 @@ namespace Villeon.Components
 {
     public class Exp : IComponent
     {
-        private int _currentExp;
+        private int _experience;
 
-        private int _maxExp;
-
-        private int _level;
-
-        public Exp(int maxExp)
+        public Exp(int exp)
         {
-            _maxExp = maxExp;
-            _currentExp = 0;
-            _level = 1;
+            _experience = exp;
         }
 
-        public int CurrentExp { get => _currentExp; }
-
-        public int MaxExp { get => _maxExp; }
-
-        public int Level { get => _level; }
-
-        public bool GainExp(int expGain)
-        {
-            bool hasLeveledUp = false;
-
-            _currentExp += expGain;
-
-            // Went over the maxExp 
-            if (_currentExp > _maxExp)
-            {
-                // set exp to the overshoot
-                _currentExp = _currentExp - _maxExp;
-
-                // Calc. new max Exp
-                _maxExp = (int)(_maxExp * 1.1f);
-
-                // Level up
-                _level++;
-                hasLeveledUp = true;
-            }
-
-            return hasLeveledUp;
-        }
+        public int Experience => _experience;
     }
 }

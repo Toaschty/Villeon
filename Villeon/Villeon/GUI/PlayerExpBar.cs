@@ -7,6 +7,7 @@ using OpenTK.Mathematics;
 using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
+using Villeon.Helper;
 
 namespace Villeon.GUI
 {
@@ -20,23 +21,17 @@ namespace Villeon.GUI
         private float _width;
         private float _maxWidth;
         private float _height;
-        private float _maxExp;
 
         private float _scale = 0.25f;
         private Vector2 _position;
 
-        private Exp _exp;
-
-        public PlayerExpBar(Exp exp)
+        public PlayerExpBar()
         {
-            _exp = exp;
-
             Sprite sprite = Asset.GetSprite("GUI.Frame.png", SpriteLayer.ScreenGuiForeground, false);
             _width = _maxWidth = sprite.Width;
             _height = sprite.Height;
 
             _position = new Vector2(-10, 4f - (_height * _scale));
-            _maxExp = _exp.MaxExp;
 
             CreateFrame(_position);
             CreateFilling(_position, 0, _height);
@@ -45,17 +40,9 @@ namespace Villeon.GUI
             SpawnExpBar();
         }
 
-        public void UpdateExpbar(int expGain)
+        public void Update()
         {
-            GainExp(expGain);
-        }
-
-        private void GainExp(int expGain)
-        {
-            bool levelUp = _exp.GainExp(expGain);
-            if (levelUp)
-                CreateLevel();
-
+            CreateLevel();
             UpdateFillingSprite();
         }
 
@@ -63,8 +50,8 @@ namespace Villeon.GUI
         {
             // Update Healthfluid
             Sprite fillingSprite = _expFilling.GetComponent<Sprite>();
-            float expToWidthConverter = _exp.MaxExp / _maxWidth;
-            float currentExpInWidth = _exp.CurrentExp / expToWidthConverter;
+            float expToWidthConverter = Stats.GetInstance().RequiredExperience / _maxWidth;
+            float currentExpInWidth = Stats.GetInstance().Experience / expToWidthConverter;
             fillingSprite.Width = currentExpInWidth;
         }
 
@@ -78,7 +65,7 @@ namespace Villeon.GUI
             _level.Clear();
 
             // Add the new Leveltext
-            Text text = new Text("Level " + _exp.Level.ToString(), _position + new Vector2((_width * _scale) + 0.1f, 0f), "Alagard", SpriteLayer.ScreenGuiForeground, 0f, 0f, 0.2f);
+            Text text = new Text("Level " + Stats.GetInstance().Level.ToString(), _position + new Vector2((_width * _scale) + 0.1f, 0f), "Alagard", SpriteLayer.ScreenGuiForeground, 0f, 0f, 0.2f);
             foreach (IEntity entity in text.GetEntities())
             {
                 _level.Add(entity);
@@ -120,7 +107,6 @@ namespace Villeon.GUI
             Manager.GetInstance().AddEntityToScene(_frame, "DungeonScene");
             Manager.GetInstance().AddEntityToScene(_expFilling, "DungeonScene");
             Manager.GetInstance().AddEntityToScene(_background, "DungeonScene");
-
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Villeon.GUI
             // Load Sprites
             Sprite dungeonButton = Asset.GetSprite("GUI.Dungeon_Button.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
             Sprite mapButton = Asset.GetSprite("GUI.Map_Button.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
-            Sprite equipmentButton = Asset.GetSprite("GUI.Equipment_Button.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
+            Sprite equipmentButton = Asset.GetSprite("GUI.Equipment.Equipment_Button.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
             Sprite inventoryButton = Asset.GetSprite("GUI.Inventar_Button.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
             Sprite hotbarIcon = Asset.GetSprite("GUI.Slot.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
 

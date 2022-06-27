@@ -2,6 +2,7 @@
   "slime": {
     "health": 100,
     "damage": 20,
+    "experience": 10,
     "animationPath": "Enemies.Slime.slime_jumping.png",
     "animationSpeed": 0.1,
     "colliderWidth": 32,
@@ -38,9 +39,10 @@
       }
     ]
   },
-    "bat": {
+  "bat": {
     "health": 70,
     "damage": 15,
+    "experience": 10,
     "animationPath": "Enemies.Bat.bat.png",
     "animationSpeed": 0.1,
     "colliderWidth": 24,
