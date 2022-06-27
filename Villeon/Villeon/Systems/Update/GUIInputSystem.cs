@@ -92,6 +92,10 @@ namespace Villeon.Systems.Update
             // Pause Menu
             if (KeyHandler.IsPressed(Keys.Escape))
                 ChangeMenu(_handler.PauseMenu);
+
+            // Death Menu
+            if (StateManager.IsPlayerDead && _handler.CurrentMenu != _handler.DeathMenu)
+                ChangeMenu(_handler.DeathMenu);
         }
 
         private void ChangeMenu(IGUIMenu menu)
@@ -115,9 +119,13 @@ namespace Villeon.Systems.Update
             // Other menu currently loaded -> Unload current menu -> Load selected menu
             else
             {
-                UnloadMenu(_handler.CurrentMenu);
-                _handler.CurrentMenu = menu;
-                LoadMenu(menu);
+                // don't open other menus while death menu is there or player is dead
+                if (_handler.CurrentMenu != _handler.DeathMenu || !StateManager.IsPlayerDead)
+                {
+                    UnloadMenu(_handler.CurrentMenu);
+                    _handler.CurrentMenu = menu;
+                    LoadMenu(menu);
+                }
             }
         }
 

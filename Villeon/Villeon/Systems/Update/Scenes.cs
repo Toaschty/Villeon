@@ -173,7 +173,6 @@ namespace Villeon.Systems.Update
             SmithScene.AddSystem(new TradingSystem("TradingSystem"));
             SmithScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
 
-
             // Particle stuff
             SmithScene.AddSystem(new VillagePlayerParticleSystem("VillagePlayerParticleSystem"));
             SmithScene.AddSystem(new PhysicsSystem("PhysicsSystem"));
@@ -214,7 +213,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new PlayerFightingSystem("PlayerFightingSystem"));
             DungeonScene.AddSystem(new PlayerExpSystem("PlayerExpSystem"));
             DungeonScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
-            DungeonScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE! 
+            DungeonScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE!
             DungeonScene.AddStartUpFunc(() =>
             {
                 Manager.GetInstance().RemoveAllEntitiesFromScene("DungeonScene");
