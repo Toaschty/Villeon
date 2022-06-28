@@ -15,7 +15,7 @@ namespace Villeon.Components
         private static Hotbar? _instance;
 
         private InventorySlot[] _hotbarSlots;
-        private InventorySlot[]? _inventoryReferences;
+        private InventorySlot?[]? _inventoryReferences;
 
         private List<IEntity> _hotbarEntities;
 
@@ -46,7 +46,7 @@ namespace Villeon.Components
                 return;
 
             // Add item to hotbar
-            _inventoryReferences[index] = slot;
+            _inventoryReferences![index] = slot;
 
             _hotbarSlots[index].Item = ItemLoader.GetItem(slot.Item.Name);
             _hotbarSlots[index].SetStack(slot.Count);
@@ -62,15 +62,15 @@ namespace Villeon.Components
 
         public void UseItem(int index)
         {
-            if (_inventoryReferences[index] == null)
+            if (_inventoryReferences![index] == null)
                 return;
 
             // Decrease item reference by one
-            _inventoryReferences[index].DecreaseStack();
+            _inventoryReferences[index]!.DecreaseStack();
 
             // If stack is now empty -> Remove item from hotbar. Else add reduced item to hotbar again
-            if (_inventoryReferences[index].IsStackEmpty())
-                RemoveItem(_inventoryReferences[index]);
+            if (_inventoryReferences[index]!.IsStackEmpty())
+                RemoveItem(_inventoryReferences[index]!);
 
             UpdateItems();
 
@@ -80,7 +80,7 @@ namespace Villeon.Components
 
         public void RemoveItem(InventorySlot slot)
         {
-            for (int i = 0; i < _inventoryReferences.Length; i++)
+            for (int i = 0; i < _inventoryReferences!.Length; i++)
             {
                 if (_inventoryReferences[i] == slot)
                 {
@@ -111,14 +111,14 @@ namespace Villeon.Components
 
         public void UpdateItems()
         {
-            for (int i = 0; i < _inventoryReferences.Length; i++)
+            for (int i = 0; i < _inventoryReferences!.Length; i++)
             {
                 if (_inventoryReferences[i] != null)
                 {
-                    if (_inventoryReferences[i].Item != null)
-                        AddItem(i, _inventoryReferences[i]);
+                    if (_inventoryReferences[i]!.Item != null)
+                        AddItem(i, _inventoryReferences[i]!);
                     else
-                        RemoveItem(_inventoryReferences[i]);
+                        RemoveItem(_inventoryReferences[i]!);
                 }
             }
         }

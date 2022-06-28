@@ -30,6 +30,7 @@ namespace Villeon.Systems.Update
                 {
                     EnemySpawner.Spawn("DungeonScene", "slime", button.MousePosition);
                 }
+
                 if (button.Button == MouseButton.Middle)
                 {
                     EnemySpawner.Spawn("DungeonScene", "bat", button.MousePosition);

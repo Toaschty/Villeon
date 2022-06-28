@@ -283,6 +283,7 @@ namespace Villeon.Render
             Transform transform = data.Transform !;
             Vector2[] texCoords = sprite.TexCoords !;
             Vector2 scale = Vector2.One;
+
             // [0, tex1, tex2, tex3, ..]
             int slot = 0;
             if (sprite.Texture != null)

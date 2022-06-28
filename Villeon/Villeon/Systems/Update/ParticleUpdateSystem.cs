@@ -32,7 +32,6 @@ namespace Villeon.Systems.Update
             float y = ((float)_noise.Perlin(0f, Time.ElapsedTime, Time.ElapsedTime) * 2f) - 1f;
 
             Vector2 windDirection = new Vector2(x, y);
-            //Console.WriteLine(windDirection);
             foreach (IEntity particleEntity in Entities)
             {
                 Particle particle = particleEntity.GetComponent<Particle>() !;

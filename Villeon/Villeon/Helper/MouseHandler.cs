@@ -31,7 +31,6 @@ namespace Villeon.Helper
             ClickedRightMouseButtons.Clear();
         }
 
-
         public static void MouseDown(MouseButtonEventArgs args)
         {
             ClickedMouseButtons.Add(new ClickedMouseButton { Button = args.Button, MousePosition = WorldMousePosition });

@@ -37,7 +37,6 @@ namespace Villeon.GUI
             _maxHealth = maxHealth;
 
             CreateFrame(position);
-            //CreateBackground(position, _width, _height);
             CreateFilling(position, _width, _height);
 
             SpawnHealthBar();

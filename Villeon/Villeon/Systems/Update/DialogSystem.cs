@@ -55,7 +55,6 @@ namespace Villeon.Systems.Update
                     }
                 }
             }
-
         }
     }
 }

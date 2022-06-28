@@ -13,7 +13,6 @@ namespace Villeon.Generation.DungeonGeneration
 {
     public class SpawnDungeon
     {
-
         private static int[,]? _currentDungeon;
 
         public static int[,]? CurrentDungeon => _currentDungeon;

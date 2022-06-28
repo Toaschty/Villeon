@@ -99,7 +99,9 @@ namespace Villeon.Helper
                 // Create new save class
                 InventorySlotSaveClass saveSlot = new InventorySlotSaveClass();
 
+#pragma warning disable CS8601 // Possible null reference assignment.
                 saveSlot.Item = (weapon.Item != null) ? weapon.Item!.Name : null;
+#pragma warning restore CS8601 // Possible null reference assignment.
                 saveSlot.Count = weapon.Count;
 
                 // Serialize data

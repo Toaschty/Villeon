@@ -120,6 +120,112 @@ namespace Villeon.GUI
             }
         }
 
+        public bool OnKeyReleased(Keys key)
+        {
+            // DEBUG --
+            if (key == Keys.H)
+                AddItem(ItemLoader.GetItem("Sword"));
+            else if (key == Keys.G)
+                AddItem(ItemLoader.GetItem("HealthPotion"));
+
+            if (_onSlots)
+                HandleInventorySlot(key);
+            else
+                HandleTabNavigation(key);
+
+            // Hotbar
+            if (_onSlots)
+                HandleHotbar(key);
+
+            return true;
+        }
+
+        public void UseItemAtCurrentPosition()
+        {
+            // Check if current slot has item
+            Item? item = GetItemAtCurrentPosition();
+
+            if (item is not null)
+            {
+                // Get current slot
+                InventorySlot slot = GetSlotAtCurrentPosition();
+
+                // Decrease Item count by one
+                slot.DecreaseStack();
+
+                // If last item was used -> Reset item
+                if (slot.IsStackEmpty())
+                    slot.Item = null;
+
+                // Reload item entities
+                slot.ReloadEntities();
+                ReloadItemEntitiesAndRender();
+            }
+        }
+
+        // Return the item which is currently selected -> Null if no item selected
+        public Item? GetCurrentlySelectedItem()
+        {
+            if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item is not null)
+                return _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item;
+            return null;
+        }
+
+        public InventorySlot GetSlotAtCurrentPosition()
+        {
+            return _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X];
+        }
+
+        // Check if item existing with given amount
+        public bool CheckIfExists(string itemName, int amount)
+        {
+            InventorySlot[,] searchInventory = GetSearchInventory(itemName);
+
+            // Search for item in inventory
+            int itemCount = 0;
+
+            for (int y = 0; y < _inventorySlotsY; y++)
+            {
+                for (int x = 0; x < _inventorySlotsX; x++)
+                {
+                    // Slot has no item -> Add item
+                    if (searchInventory[y, x].HasItem() && searchInventory[y, x].Item!.Name == itemName)
+                    {
+                        itemCount += searchInventory[y, x].Count;
+                    }
+                }
+            }
+
+            if (itemCount >= amount)
+                return true;
+            return false;
+        }
+
+        // Remove amount of items from inventory
+        public void RemoveItems(string itemName, int amount)
+        {
+            InventorySlot[,] searchInventory = GetSearchInventory(itemName);
+
+            // Remove items from non-full stacks
+            int removed = RemoveItems(searchInventory, itemName, amount, false);
+
+            // Remove remaining items from full stacks
+            RemoveItems(searchInventory, itemName, amount - removed, true);
+        }
+
+        // Reload all inventory entities
+        public void ReloadItemEntities()
+        {
+            // Add all inventory entities
+            _itemEntities.Clear();
+
+            // Refill all inventory if active
+            if (_activeInventory == _allInventory)
+                FillAllInventory();
+
+            _itemEntities.AddRange(GetAllItemEntities());
+        }
+
         // Add item to selected inventory. Automatically handles stacking of items
         private void AddItemsToInventory(InventorySlot[,] inventory, Item newItem)
         {
@@ -185,26 +291,6 @@ namespace Villeon.GUI
             Item? selected = GetCurrentlySelectedItem();
             if (selected is not null && _activeInventory == _potionInventory)
                 Hotbar.GetInstance().AddItem(index, _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X]);
-        }
-
-        public bool OnKeyReleased(Keys key)
-        {
-            // DEBUG --
-            if (key == Keys.H)
-                AddItem(ItemLoader.GetItem("Sword"));
-            else if (key == Keys.G)
-                AddItem(ItemLoader.GetItem("HealthPotion"));
-
-            if (_onSlots)
-                HandleInventorySlot(key);
-            else
-                HandleTabNavigation(key);
-
-            // Hotbar
-            if (_onSlots)
-                HandleHotbar(key);
-
-            return true;
         }
 
         // Handle movement of inventory slots
@@ -374,56 +460,6 @@ namespace Villeon.GUI
             }
         }
 
-        // Return the item which is currently selected -> Null if no item selected
-        public Item? GetCurrentlySelectedItem()
-        {
-            if (_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item is not null)
-                return _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item;
-            return null;
-        }
-
-        public InventorySlot GetSlotAtCurrentPosition()
-        {
-            return _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X];
-        }
-
-        // Check if item existing with given amount
-        public bool CheckIfExists(string itemName, int amount)
-        {
-            InventorySlot[,] searchInventory = GetSearchInventory(itemName);
-
-            // Search for item in inventory
-            int itemCount = 0;
-
-            for (int y = 0; y < _inventorySlotsY; y++)
-            {
-                for (int x = 0; x < _inventorySlotsX; x++)
-                {
-                    // Slot has no item -> Add item
-                    if (searchInventory[y, x].HasItem() && searchInventory[y, x].Item!.Name == itemName)
-                    {
-                        itemCount += searchInventory[y, x].Count;
-                    }
-                }
-            }
-
-            if (itemCount >= amount)
-                return true;
-            return false;
-        }
-
-        // Remove amount of items from inventory
-        public void RemoveItems(string itemName, int amount)
-        {
-            InventorySlot[,] searchInventory = GetSearchInventory(itemName);
-
-            // Remove items from non-full stacks
-            int removed = RemoveItems(searchInventory, itemName, amount, false);
-
-            // Remove remaining items from full stacks
-            RemoveItems(searchInventory, itemName, amount - removed, true);
-        }
-
         // Remove amount of items from inventory -> Option: Remove from full stacks | non-full stacks
         private int RemoveItems(InventorySlot[,] searchInventory, string itemName, int amount, bool stackFullSearch)
         {
@@ -471,29 +507,6 @@ namespace Villeon.GUI
             }
 
             return removedItems;
-        }
-
-        public void UseItemAtCurrentPosition()
-        {
-            // Check if current slot has item
-            Item? item = GetItemAtCurrentPosition();
-
-            if (item is not null)
-            {
-                // Get current slot
-                InventorySlot slot = GetSlotAtCurrentPosition();
-
-                // Decrease Item count by one
-                slot.DecreaseStack();
-
-                // If last item was used -> Reset item
-                if (slot.IsStackEmpty())
-                    slot.Item = null;
-
-                // Reload item entities
-                slot.ReloadEntities();
-                ReloadItemEntitiesAndRender();
-            }
         }
 
         // Return item of current inventory position
@@ -604,19 +617,6 @@ namespace Villeon.GUI
             _itemEntities.Clear();
             _itemEntities.AddRange(GetAllItemEntities());
             Manager.GetInstance().AddEntities(_itemEntities);
-        }
-
-        // Reload all inventory entities
-        public void ReloadItemEntities()
-        {
-            // Add all inventory entities
-            _itemEntities.Clear();
-
-            // Refill all inventory if active
-            if (_activeInventory == _allInventory)
-                FillAllInventory();
-
-            _itemEntities.AddRange(GetAllItemEntities());
         }
 
         // Reload inventory indicators (Selections Slots & TabBar)
