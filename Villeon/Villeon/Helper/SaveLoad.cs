@@ -61,6 +61,7 @@ namespace Villeon.Helper
             Stats.GetInstance().HealthLevel = statsJson.HealthLevel;
             Stats.GetInstance().AttackLevel = statsJson.AttackLevel;
             Stats.GetInstance().DefenseLevel = statsJson.DefenseLevel;
+            Stats.GetInstance().Progress = statsJson.Progress;
 
             // Fill inventory with items
             for (int i = 0; i < 32; i++)

@@ -101,7 +101,10 @@ namespace Villeon.GUI
                 case 0:
                     StateManager.IsPlayerDead = false;
                     Manager.GetInstance().RemoveEntities(GetEntities());
-                    SceneLoader.SetActiveScene("VillageScene");
+                    if (Stats.GetInstance().Progress == 0)
+                        SceneLoader.SetActiveScene("TutorialScene");
+                    else
+                        SceneLoader.SetActiveScene("VillageScene");
                     break;
 
                 // Quit

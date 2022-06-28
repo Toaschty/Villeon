@@ -114,7 +114,11 @@ namespace Villeon
                 NPCLoader.LoadNpcs("ShopScene");
 
                 // Switch scene if loading is done
-                SceneLoader.SetActiveScene("TutorialScene");
+                if (Stats.GetInstance().Progress == 0)
+                    SceneLoader.SetActiveScene("TutorialScene");
+                else
+                    SceneLoader.SetActiveScene("VillageScene");
+
                 return true;
             });
         }

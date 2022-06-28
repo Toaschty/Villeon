@@ -9,7 +9,7 @@ namespace Villeon.Helper
     [Serializable]
     public class Stats
     {
-        private static Stats _instance;
+        private static Stats? _instance;
 
         // Level
         private int _level = 1;
@@ -21,15 +21,11 @@ namespace Villeon.Helper
         private int _attackLevel = 1;
         private int _defenseLevel = 1;
 
+        // Progress
+        private int _progress = 0;
+
         private Stats()
         {
-        }
-
-        public static Stats GetInstance()
-        {
-            if (_instance == null)
-                _instance = new Stats();
-            return _instance;
         }
 
         public int Level
@@ -68,6 +64,19 @@ namespace Villeon.Helper
             set { _defenseLevel = value; }
         }
 
+        public int Progress
+        {
+            get { return _progress; }
+            set { _progress = value; }
+        }
+
+        public static Stats GetInstance()
+        {
+            if (_instance == null)
+                _instance = new Stats();
+            return _instance;
+        }
+
         // Gain experience
         public void GainExperience(int exp)
         {
@@ -75,6 +84,7 @@ namespace Villeon.Helper
 
             while (_experience > _requiredExperience)
             {
+                _progress = 1;
                 _level++;
                 _experience -= _requiredExperience;
                 _requiredExperience = RequiredExperienceFunction();

@@ -66,7 +66,7 @@ namespace Villeon.Systems.Update
             switch (menu.CurrentSelection)
             {
                 case 0: SceneLoader.SetActiveScene("LoadingScene"); break;
-                case 1: SceneLoader.SetActiveScene("LoadingScene"); SaveLoad.Load(); break;
+                case 1: SaveLoad.Load(); SceneLoader.SetActiveScene("LoadingScene");  break;
                 case 2: WindowHelper.CloseWindow(); break;
             }
         }
