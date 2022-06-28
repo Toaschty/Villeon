@@ -95,16 +95,16 @@ namespace Villeon.Systems.Update
         {
             int[,]? dungeonGrid = SpawnDungeon.CurrentDungeon?.Clone() as int[,];
             if (dungeonGrid is null)
-                return playerPosition;
+                return Vector2.Zero;
 
             if (playerPosition == enemyPosition)
-                return playerPosition;
+                return Vector2.Zero;
 
             if (enemyPosition.X < 0 ||
                 enemyPosition.Y < 0 ||
                 enemyPosition.X >= dungeonGrid.GetLength(1) ||
                 enemyPosition.Y >= dungeonGrid.GetLength(0))
-            return playerPosition;
+                return Vector2.Zero;
 
             dungeonGrid[dungeonGrid.GetLength(0) - 1 - (int)enemyPosition.Y, (int)enemyPosition.X] = 167;
 
@@ -150,7 +150,7 @@ namespace Villeon.Systems.Update
             }
             else
             {
-                return playerPosition;
+                return Vector2.Zero;
             }
         }
 
