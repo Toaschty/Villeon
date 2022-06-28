@@ -112,14 +112,14 @@ namespace Villeon.EntityManagement
             // Get all child nodes from "animation" nodes
             XmlNodeList frames = tileChildNode.ChildNodes;
 
-            Tile tile = _tiles[tileId];
+            Tile tile = _tiles[tileId + 1];
 
             // Go through all "frame"-Nodes of animation
             foreach (XmlNode frame in frames)
             {
                 // Read animation frame id and save it into AnimationFrames
                 int frameId = int.Parse(frame.Attributes!["tileid"] !.Value);
-                tile.AnimationFrames.Add(_tiles[(uint)frameId]);
+                tile.AnimationFrames.Add(_tiles[(uint)frameId + 1]);
 
                 // Add current frame duration to animation FrameDuration. Value given in ms => /1000
                 tile.FrameDuration += float.Parse(frame.Attributes!["duration"] !.Value) / 1000;

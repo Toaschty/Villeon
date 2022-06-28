@@ -8,6 +8,7 @@ using TiledLib;
 using TiledLib.Layer;
 using Villeon.Components;
 using Villeon.EntityManagement;
+using Villeon.Helper;
 using Villeon.Utils;
 
 namespace Villeon.Generation
@@ -161,16 +162,35 @@ namespace Villeon.Generation
                         _entities.Add(ladder);
                     }
 
-                    // If current tile is enemy spawn -> Spawn enemy
-                    if (gid == 8)
+                    // If current tile is torch -> Spawn light
+                    if (gid == 9)
                     {
-                        EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, _height - 1 - y));
+                        IEntity torch = new Entity(new Transform(new Vector2(x + 0.5f, _height - 0.5f - y), 1f, 0), "Torch");
+                        torch.AddComponent(new Light(new Color4(255, 50, 50, 255), -13.5f, 4f, 1f, 0.7f, 1.8f));
+                        _entities.Add(torch);
                     }
 
-                    if (gid == 32)
+                    // Add portal glow
+                    if (gid == 292)
                     {
-                        EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, _height - 1 - y));
+                        IEntity glow = new Entity(new Transform(new Vector2(x, _height - 1f - y), 1f, 0), "Glow");
+                        glow.AddComponent(new Light(new Color4(237, 0, 134, 255), -12f, 20f, 1f, 0.7f, 1.8f));
+                        _entities.Add(glow);
                     }
+
+                    // Add back portal
+                    if (gid == 368)
+                    {
+                        // Add the Portal home
+                        IEntity portalTrigger = new Entity(new Transform(new Vector2(x, _height - y), 1f, 0f), "Portal Trigger");
+                        portalTrigger.AddComponent(new Trigger(TriggerLayerType.PORTAL, 4f, 5f));
+                        portalTrigger.AddComponent(new Portal("VillageScene", Constants.DUNGEON_SPAWN_POINT));
+                        _entities.Add(portalTrigger);
+                    }
+
+                    // If current tile is enemy spawn -> Spawn enemy
+                    if (gid == 33)
+                        EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, _height - 1 - y), new Vector2(1f));
 
                     // Get tile from dicitionary with gid
                     Components.Tile currentTile = tileMap.Tiles[gid];

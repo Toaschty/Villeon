@@ -39,9 +39,12 @@ namespace Villeon
             _gameWindow = WindowHelper.CreateWindow();
             TypeRegistry.SetupTypes();
             ItemDrops.SetupDrops();
+
             Fonts.AddFont("Alagard", new Font(Color4.White, Asset.GetTexture("Fonts.Alagard.png"), "Fonts.Alagard.json"));
             Fonts.AddFont("Alagard_Thin", new Font(Color4.White, Asset.GetTexture("Fonts.Alagard_Thin.png"), "Fonts.Alagard_Thin.json"));
+
             Asset.LoadRessources();
+
             _fps = new FPS(_gameWindow);
         }
 
@@ -58,18 +61,6 @@ namespace Villeon
             // Init and Start the Window
             InitWindowActions(_gameWindow);
             _gameWindow.Run();
-        }
-
-        private void DebuggingPlayground()
-        {
-            // floor
-            IEntity floor = new Entity(new Transform(new Vector2(-20, -2), 1f, 0f), "Floor");
-            floor.AddComponent(new Collider(new Vector2(0), new Transform(new Vector2(-20, -2), 1f, 0f), 100f, 1f));
-            Scenes.DungeonScene.AddEntity(floor);
-
-            // GIVE PLAYER ITEMS
-            InventoryMenu.GetInstance().AddItems(ItemLoader.GetItem("Rock"), 512);
-            InventoryMenu.GetInstance().AddItems(ItemLoader.GetItem("HealthPotion"), 8);
         }
 
         private void InitWindowActions(GameWindow gameWindow)
@@ -114,7 +105,6 @@ namespace Villeon
                 Scenes.SetupPortalEntities();
                 SetupGUIEntities();
                 CreatePlayers();
-                DebuggingPlayground();
                 GUIHandler.GetInstance().LoadGUI();
 
                 // Load NPCs from file

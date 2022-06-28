@@ -1,6 +1,6 @@
 ﻿#version 420 core
 
-#define MAX_POINT_LIGHTS 64
+#define MAX_POINT_LIGHTS 150
 
 out vec4 color;
 
