@@ -12,7 +12,7 @@ namespace Villeon.Systems.Update
         public PlayerFightingSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Physics), typeof(DynamicCollider), typeof(Player), typeof(Effect));
+            Signature.IncludeAND(typeof(Physics), typeof(DynamicCollider), typeof(Player), typeof(Effect), typeof(Health));
         }
 
         public override void AddEntity(IEntity entity)
@@ -29,6 +29,8 @@ namespace Villeon.Systems.Update
         {
             foreach (IEntity player in Entities)
             {
+                player.GetComponent<Health>().Protection = Stats.GetInstance().GetDefense() / 100f;
+
                 // Go to next player if not attacking
                 if (!(MouseHandler.IsMouseDown() || KeyHandler.IsPressed(Keys.E)))
                     continue;
@@ -38,7 +40,7 @@ namespace Villeon.Systems.Update
                 if (effect.Effects.ContainsKey("AttackCooldown"))
                     continue;
 
-                int damage = 50;
+                int damage = Stats.GetInstance().GetAttack();
 
                 Player playerComponent = player.GetComponent<Player>();
                 Transform transform = player.GetComponent<Transform>();

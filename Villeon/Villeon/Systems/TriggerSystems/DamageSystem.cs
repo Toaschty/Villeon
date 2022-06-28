@@ -46,10 +46,13 @@ namespace Villeon.Systems.TriggerSystems
                     Damage damage = collisionPair.Item1.GetComponent<Damage>();
                     Health health = collisionPair.Item2.GetComponent<Health>();
                     Transform receiverTransform = collisionPair.Item2.GetComponent<Transform>();
+
+                    int oldHealth = health.CurrentHealth;
                     health.Damage(damage.Amount);
+                    int actualDamage = oldHealth - health.CurrentHealth;
 
                     // Spawn the Damage Particles
-                    IEntity[] damageTextParticles = ParticleBuilder.DamageParticles(damage.Amount.ToString(), receiverTransform.Position + new Vector2(0f, 2f), 0.5f, 0.3f, false);
+                    IEntity[] damageTextParticles = ParticleBuilder.DamageParticles(actualDamage.ToString(), receiverTransform.Position + new Vector2(0f, 2f), 0.5f, 0.3f, false);
                     Manager.GetInstance().AddEntities(damageTextParticles);
 
                     // Remove the DamageEntity

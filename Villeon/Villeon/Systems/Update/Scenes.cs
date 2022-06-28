@@ -208,7 +208,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new MobDropSystem("MobdropSystem"));
             DungeonScene.AddSystem(new MobDropCollectionSystem("MobdropCollectionSystem"));
             DungeonScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
-            DungeonScene.AddSystem(new PlayerHealthbarSystem("PlayerHealthbar", Constants.PLAYER_MAX_HEALTH));
+            DungeonScene.AddSystem(new PlayerHealthbarSystem("PlayerHealthbar"));
             DungeonScene.AddSystem(new ItemUseSystem("ItemUseSystem"));
             DungeonScene.AddSystem(new DungeonPlayerAnimationSystem("AnimationControllerSystem"));
             DungeonScene.AddSystem(new PlayerFightingSystem("PlayerFightingSystem"));

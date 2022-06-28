@@ -28,6 +28,7 @@ namespace Villeon.GUI
             Sprite equipmentButton = Asset.GetSprite("GUI.Equipment.Equipment_Button.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
             Sprite inventoryButton = Asset.GetSprite("GUI.Inventar_Button.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
             Sprite hotbarIcon = Asset.GetSprite("GUI.Slot.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
+            Sprite helpButton = Asset.GetSprite("GUI.Help_Button.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
 
             // Menu Button Entities
             IEntity dungeonButtonEntity = new Entity(new Transform(new Vector2(-9f, -5f), 0.3f, 0f), "Dungeon Button");
@@ -45,6 +46,10 @@ namespace Villeon.GUI
             IEntity inventoryButtonEntity = new Entity(new Transform(new Vector2(-4.5f, -5f), 0.3f, 0f), "Inventory Button");
             inventoryButtonEntity.AddComponent(inventoryButton);
             _entities.Add(inventoryButtonEntity);
+
+            IEntity helpButtonEntity = new Entity(new Transform(new Vector2(-3f, -5f), 0.3f, 0f), "Help Button");
+            inventoryButtonEntity.AddComponent(helpButton);
+            _entities.Add(helpButtonEntity);
 
             // Hotbar Entities
             float offset = hotbarIcon.Width * 0.3f;

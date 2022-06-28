@@ -133,6 +133,7 @@ namespace Villeon
             // Overlay - Village
             VillageOverlay villageOverlay = new VillageOverlay();
             Scenes.VillageScene.AddEntities(villageOverlay.GetEntities());
+            Scenes.TutorialScene.AddEntities(villageOverlay.GetEntities());
             Scenes.ShopScene.AddEntities(villageOverlay.GetEntities());
             Scenes.SmithScene.AddEntities(villageOverlay.GetEntities());
 
