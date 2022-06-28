@@ -82,7 +82,7 @@ namespace Villeon.Systems.Update
             TutorialScene.AddSystem(new TriggerSystem("Trigger"));
             TutorialScene.AddSystem(new PortalSystem("PortalSystem"));
             TutorialScene.AddSystem(new CameraSystem("CameraSystem"));
-            TutorialScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            TutorialScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             TutorialScene.AddSystem(new InteractionSystem("InteractionSystem"));
             TutorialScene.AddSystem(new PlayerVillageAnimationSystem("AnimationControllerSystem"));
             TutorialScene.AddSystem(new AnimationSystem("AnimationSystem"));
@@ -111,7 +111,7 @@ namespace Villeon.Systems.Update
             VillageScene.AddSystem(new TriggerSystem("Trigger"));
             VillageScene.AddSystem(new PortalSystem("PortalSystem"));
             VillageScene.AddSystem(new CameraSystem("CameraSystem"));
-            VillageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            VillageScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             VillageScene.AddSystem(new InteractionSystem("InteractionSystem"));
             VillageScene.AddSystem(new PlayerVillageAnimationSystem("AnimationControllerSystem"));
             VillageScene.AddSystem(new AnimationSystem("AnimationSystem"));
@@ -203,7 +203,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new CollisionSystem("Collision"));
             DungeonScene.AddSystem(new PlayerDeathSystem("Health"));
             DungeonScene.AddSystem(new CameraSystem("CameraSystem"));
-            DungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
+            DungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             DungeonScene.AddSystem(new EnemyHealthbarSystem("EnemyHealthbarSystem"));
             DungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
             DungeonScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
@@ -221,6 +221,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new PlayerExpSystem("PlayerExpSystem"));
             DungeonScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
             DungeonScene.AddSystem(new JumpingAISystem("JumpingAISystem"));
+            DungeonScene.AddSystem(new HotbarSystem("HotbarUseSystem"));
             DungeonScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE!
             DungeonScene.AddStartUpFunc(() =>
             {

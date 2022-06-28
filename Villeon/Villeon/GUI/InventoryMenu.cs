@@ -509,6 +509,30 @@ namespace Villeon.GUI
             return removedItems;
         }
 
+        public void UseItemAtCurrentPosition()
+        {
+            // Check if current slot has item
+            Item? item = GetItemAtCurrentPosition();
+
+            if (item is not null && _activeInventory != _allInventory)
+            {
+                // Get current slot
+                InventorySlot slot = GetSlotAtCurrentPosition();
+
+                // Decrease Item count by one
+                slot.DecreaseStack();
+
+                // If last item was used -> Reset item
+                if (slot.IsStackEmpty())
+                    slot.Item = null;
+
+                // Reload item entities
+                slot.ReloadEntities();
+
+                ReloadItemEntitiesAndRender();
+            }
+        }
+
         // Return item of current inventory position
         private Item? GetItemAtCurrentPosition()
         {

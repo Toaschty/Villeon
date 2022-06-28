@@ -24,7 +24,6 @@ namespace Villeon.Systems.Update
 
         public void Update(float time)
         {
-            CheckHotbarKeys();
             CheckKeyMenu();
 
             if (StateManager.InMenu)
@@ -40,29 +39,6 @@ namespace Villeon.Systems.Update
                     }
                 }
             }
-        }
-
-        private void CheckHotbarKeys()
-        {
-            // Unable to use hotbar items when in menu
-            if (StateManager.InMenu)
-                return;
-
-            // Slot 1
-            if (KeyHandler.IsPressed(Keys.D1))
-                _hotbar.UseItem(0);
-
-            // Slot 2
-            if (KeyHandler.IsPressed(Keys.D2))
-                _hotbar.UseItem(1);
-
-            // Slot 3
-            if (KeyHandler.IsPressed(Keys.D3))
-                _hotbar.UseItem(2);
-
-            // Slot 4
-            if (KeyHandler.IsPressed(Keys.D4))
-                _hotbar.UseItem(3);
         }
 
         private void CheckKeyMenu()
