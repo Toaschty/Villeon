@@ -22,7 +22,7 @@ namespace Villeon.GUI
         private float _maxWidth;
         private float _height;
 
-        private float _oldHealth;
+        private float _health;
         private float _maxHealth;
 
         private float _scale = 0.4f;
@@ -43,8 +43,15 @@ namespace Villeon.GUI
             SpawnHealthBar();
         }
 
+        public void UpdateMaxHealth(int maxHealth)
+        {
+            _maxHealth = maxHealth;
+            CalculateHealth(_health);
+        }
+
         public void UpdateHealthbar(float newHealth)
         {
+            _health = newHealth;
             CalculateHealth(newHealth);
         }
 

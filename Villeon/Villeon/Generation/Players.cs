@@ -26,7 +26,7 @@ namespace Villeon.Generation
             player.AddComponent(new Effect());
             player.AddComponent(new Player());
             player.AddComponent(new Light(Color4.White, -12, 4f, new Vector2(0.5f, 1f)));
-            player.AddComponent(new Health(Constants.PLAYER_MAX_HEALTH));
+            player.AddComponent(new Health(Stats.GetInstance().GetHealth()));
 
             // Setup player animations
             AnimationController animController = new AnimationController();
