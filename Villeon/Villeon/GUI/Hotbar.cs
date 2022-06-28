@@ -91,7 +91,7 @@ namespace Villeon.Components
                     Manager.GetInstance().RemoveEntities(_hotbarSlots[i].ItemEntites);
 
                     // Remove item from inventory
-                    _inventoryReferences[i].Item = null;
+                    _inventoryReferences[i]!.Item = null;
 
                     // Reset hotbar slot
                     _hotbarSlots[i] = new InventorySlot(_hotbarSlots[i].Transform);

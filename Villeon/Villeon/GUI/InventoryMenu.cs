@@ -140,29 +140,6 @@ namespace Villeon.GUI
             return true;
         }
 
-        public void UseItemAtCurrentPosition()
-        {
-            // Check if current slot has item
-            Item? item = GetItemAtCurrentPosition();
-
-            if (item is not null)
-            {
-                // Get current slot
-                InventorySlot slot = GetSlotAtCurrentPosition();
-
-                // Decrease Item count by one
-                slot.DecreaseStack();
-
-                // If last item was used -> Reset item
-                if (slot.IsStackEmpty())
-                    slot.Item = null;
-
-                // Reload item entities
-                slot.ReloadEntities();
-                ReloadItemEntitiesAndRender();
-            }
-        }
-
         // Return the item which is currently selected -> Null if no item selected
         public Item? GetCurrentlySelectedItem()
         {
@@ -224,6 +201,30 @@ namespace Villeon.GUI
                 FillAllInventory();
 
             _itemEntities.AddRange(GetAllItemEntities());
+        }
+
+        public void UseItemAtCurrentPosition()
+        {
+            // Check if current slot has item
+            Item? item = GetItemAtCurrentPosition();
+
+            if (item is not null && _activeInventory != _allInventory)
+            {
+                // Get current slot
+                InventorySlot slot = GetSlotAtCurrentPosition();
+
+                // Decrease Item count by one
+                slot.DecreaseStack();
+
+                // If last item was used -> Reset item
+                if (slot.IsStackEmpty())
+                    slot.Item = null;
+
+                // Reload item entities
+                slot.ReloadEntities();
+
+                ReloadItemEntitiesAndRender();
+            }
         }
 
         // Add item to selected inventory. Automatically handles stacking of items
@@ -507,30 +508,6 @@ namespace Villeon.GUI
             }
 
             return removedItems;
-        }
-
-        public void UseItemAtCurrentPosition()
-        {
-            // Check if current slot has item
-            Item? item = GetItemAtCurrentPosition();
-
-            if (item is not null && _activeInventory != _allInventory)
-            {
-                // Get current slot
-                InventorySlot slot = GetSlotAtCurrentPosition();
-
-                // Decrease Item count by one
-                slot.DecreaseStack();
-
-                // If last item was used -> Reset item
-                if (slot.IsStackEmpty())
-                    slot.Item = null;
-
-                // Reload item entities
-                slot.ReloadEntities();
-
-                ReloadItemEntitiesAndRender();
-            }
         }
 
         // Return item of current inventory position
