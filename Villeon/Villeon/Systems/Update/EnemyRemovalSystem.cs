@@ -15,7 +15,7 @@ namespace Villeon.Systems.Update
             : base(name)
         {
             Signature.IncludeAND(typeof(Health), typeof(EnemyAI), typeof(Health), typeof(Exp))
-                .IncludeOR(typeof(FlyingAI));
+                .IncludeAND(typeof(Health), typeof(FlyingAI), typeof(Health), typeof(Exp));
         }
 
         public void Update(float time)

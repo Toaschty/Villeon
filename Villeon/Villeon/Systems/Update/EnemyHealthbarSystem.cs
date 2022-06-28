@@ -18,7 +18,7 @@ namespace Villeon.Systems.Update
             : base(name)
         {
             Signature.IncludeAND(typeof(Health), typeof(EnemyAI), typeof(Sprite))
-                .IncludeOR(typeof(FlyingAI));
+                .IncludeAND(typeof(Health), typeof(FlyingAI), typeof(Sprite));
         }
 
         public override void AddEntity(IEntity entity)

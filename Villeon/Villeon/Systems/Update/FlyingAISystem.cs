@@ -55,6 +55,7 @@ namespace Villeon.Systems.Update
             {
                 Transform enemyTransform = enemyEntity.GetComponent<Transform>();
                 Physics physics = enemyEntity.GetComponent<Physics>();
+                physics.Weight = 0;
 
                 Vector2 playerDirection = enemyTransform.Position - playerTransform.Position;
                 Vector2 targetPosition = enemyTransform.Position;
@@ -150,6 +151,7 @@ namespace Villeon.Systems.Update
 
                 dungeonGrid[dungeonGrid.GetLength(0) - (int)finishedPath.Position.Y - 1, (int)finishedPath.Position.X] = 203;
                 dungeonGrid[dungeonGrid.GetLength(0) - (int)finishedPath.LastPath.Position.Y - 1, (int)finishedPath.LastPath.Position.X] = 203;
+
                 return finishedPath.Position;
             }
             else
