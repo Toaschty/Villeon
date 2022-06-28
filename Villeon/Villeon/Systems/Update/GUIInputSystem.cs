@@ -93,6 +93,10 @@ namespace Villeon.Systems.Update
             if (KeyHandler.IsPressed(Keys.Escape))
                 ChangeMenu(_handler.PauseMenu);
 
+            // Help Menu
+            if (KeyHandler.IsPressed(Keys.H))
+                ChangeMenu(_handler.HelpMenu);
+
             // Death Menu
             if (StateManager.IsPlayerDead && _handler.CurrentMenu != _handler.DeathMenu)
                 ChangeMenu(_handler.DeathMenu);

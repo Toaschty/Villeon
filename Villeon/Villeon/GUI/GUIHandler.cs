@@ -17,6 +17,7 @@ namespace Villeon.GUI
         private EquipmentMenu? _equipmentMenu;
         private InventoryMenu? _inventoryMenu;
         private MapMenu? _mapMenu;
+        private HelpMenu? _helpMenu;
 
         private IGUIMenu? _currentMenu;
 
@@ -35,6 +36,8 @@ namespace Villeon.GUI
         public InventoryMenu InventoryMenu => _inventoryMenu!;
 
         public MapMenu MapMenu => _mapMenu!;
+
+        public HelpMenu HelpMenu => _helpMenu!;
 
         public IGUIMenu? CurrentMenu
         {
@@ -60,6 +63,7 @@ namespace Villeon.GUI
             _equipmentMenu = new EquipmentMenu();
             _inventoryMenu = InventoryMenu.GetInstance();
             _mapMenu = new MapMenu();
+            _helpMenu = new HelpMenu();
             _currentMenu = null;
         }
 
