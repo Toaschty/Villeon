@@ -41,7 +41,8 @@ namespace Villeon.Systems.Update
                 }
 
                 // Go to the next page in the current dialog box
-                if (interactable.CanInteract && Helper.KeyHandler.IsPressed(Keys.N) && _dialogBox is not null)
+                if ((interactable.CanInteract && Helper.KeyHandler.IsPressed(Keys.N) && _dialogBox is not null) ||
+                    (interactable.CanInteract && Helper.KeyHandler.IsPressed(Keys.Space) && _dialogBox is not null))
                 {
                     bool hasNextPage = _dialogBox.NextPage();
 
