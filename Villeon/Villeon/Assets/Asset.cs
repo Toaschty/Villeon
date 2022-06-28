@@ -93,7 +93,8 @@ namespace Villeon.Assets
             AddSpriteSheet("Animations.slime_attack_left.png", new SpriteSheet(Color4.White, GetTexture("Animations.slime_attack_left.png"), 32, 32, 4, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Animations.slime_attack_right.png", new SpriteSheet(Color4.White, GetTexture("Animations.slime_attack_right.png"), 32, 32, 4, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Enemies.Slime.slime_jumping.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Slime.slime_jumping.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
-            AddSpriteSheet("Enemies.Bat.bat.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Bat.bat.png"), 32, 32, 4, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Enemies.Bat.bat_left.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Bat.bat_left.png"), 32, 32, 4, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Enemies.Bat.bat_right.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Bat.bat_right.png"), 32, 32, 4, 0, SpriteLayer.Foreground));
 
             // Map Animations
             AddSpriteSheet("Sprites.PortalAnimation.png", new SpriteSheet(Color4.White, GetTexture("Sprites.PortalAnimation.png"), 48, 56, 17, 0, SpriteLayer.Middleground));
