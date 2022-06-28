@@ -67,17 +67,25 @@ namespace Villeon.Helper
             {
                 // Fill weapon slot
                 if (inventoryJson[i].Item != null)
+                {
                     InventoryMenu.GetInstance().WeaponInventory[i / 8, i % 8].SetItem(ItemLoader.GetItem((string)inventoryJson[i].Item), (int)inventoryJson[i].Count);
+                    InventoryMenu.GetInstance().MaterialInventory[i / 8, i % 8].ReloadEntities();
+                }
+
                 // Fill potion slot
                 if (inventoryJson[i + 32].Item != null)
+                {
                     InventoryMenu.GetInstance().PotionInventory[i / 8, i % 8].SetItem(ItemLoader.GetItem((string)inventoryJson[i + 32].Item), (int)inventoryJson[i + 32].Count);
+                    InventoryMenu.GetInstance().PotionInventory[i / 8, i % 8].ReloadEntities();
+                }
+
                 // Fill material slot
                 if (inventoryJson[i + 64].Item != null)
+                {
                     InventoryMenu.GetInstance().MaterialInventory[i / 8, i % 8].SetItem(ItemLoader.GetItem((string)inventoryJson[i + 64].Item), (int)inventoryJson[i + 64].Count);
+                    InventoryMenu.GetInstance().MaterialInventory[i / 8, i % 8].ReloadEntities();
+                }
             }
-
-            // Reload inventory
-            InventoryMenu.GetInstance().ReloadItemEntities();
         }
 
         // Return data string of given inventory
