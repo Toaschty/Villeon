@@ -41,6 +41,7 @@ namespace Villeon.Systems.Update
 
                 Transform playerTransform = entity.GetComponent<Transform>();
                 playerTransform.Position += new Vector2(leftRightAxis, topDownAxis) * time * Constants.TOPDOWNMOVEMENTSPEED;
+                Console.WriteLine(playerTransform.Position);
             }
         }
     }
