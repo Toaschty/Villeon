@@ -189,8 +189,18 @@ namespace Villeon.Generation
                     }
 
                     // If current tile is enemy spawn -> Spawn enemy
+                    Random random = new Random();
                     if (gid == 33)
-                        EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, _height - 1 - y));
+                    {
+                        if (random.Next(0, 2) == 0)
+                        {
+                            EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, _height - 1 - y));
+                        }
+                        else
+                        {
+                            EnemySpawner.Spawn("DungeonScene", "bat", new Vector2(x, _height - 1 - y));
+                        }
+                    }
 
                     // Get tile from dicitionary with gid
                     Components.Tile currentTile = tileMap.Tiles[gid];

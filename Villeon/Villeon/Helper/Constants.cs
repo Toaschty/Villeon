@@ -35,7 +35,7 @@ namespace Villeon.Helper
         // Spawnpoints
         public static Vector2 TUTORIAL_SPAWN_POINT { get; } = new Vector2(23.5f, 23.5f);
 
-        public static Vector2 VILLAGE_SPAWN_POINT { get; } = new Vector2(94.5f, 57f);
+        public static Vector2 VILLAGE_SPAWN_POINT { get; } = new Vector2(143, 69);
 
         public static Vector2 DUNGEON_SPAWN_POINT { get; } = new Vector2(9.5f, 55f) + new Vector2(Border);
 
