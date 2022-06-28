@@ -211,6 +211,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new PlayerHealthbarSystem("PlayerHealthbar"));
             DungeonScene.AddSystem(new ItemUseSystem("ItemUseSystem"));
             DungeonScene.AddSystem(new DungeonPlayerAnimationSystem("AnimationControllerSystem"));
+            DungeonScene.AddSystem(new FlyingEnemyAnimationSystem("FlyingEnemyAnimationSystem"));
             DungeonScene.AddSystem(new PlayerFightingSystem("PlayerFightingSystem"));
             DungeonScene.AddSystem(new PlayerExpSystem("PlayerExpSystem"));
             DungeonScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));

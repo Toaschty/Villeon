@@ -90,9 +90,15 @@ namespace Villeon.Generation
             // Animation
             string animationPath = json.animationPath;
             float animationSpeed = json.animationSpeed;
-            AddSprite(json, entity, animationPath);
+            JArray animationsArray = json.animations;
+            string[] animations = animationsArray.Values<string>().ToArray() !;
+            AddSprite(json, entity, animationPath + animations[0]);
             AnimationController animController = new AnimationController();
-            animController.AddAnimation(AnimationLoader.CreateAnimationFromFile(animationPath, animationSpeed));
+            foreach (string path in animations)
+            {
+                animController.AddAnimation(AnimationLoader.CreateAnimationFromFile(animationPath + path, animationSpeed));
+            }
+
             entity.AddComponent(animController);
         }
 
