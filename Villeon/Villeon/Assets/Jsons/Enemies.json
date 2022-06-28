@@ -1,0 +1,97 @@
+﻿{
+  "slime": {
+    "health": 100,
+    "damage": 20,
+    "ai": "JumpingAI",
+    "experience": 10,
+    "animationPath": "Enemies.Slime.",
+    "animations": [
+        "slime_jumping.png",
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 32,
+    "colliderHeight": 24,
+    "triggerWidth": 32,
+    "triggerHeight": 24,
+    "drops": [
+      {
+        "itemName": "HealthPotion",
+        "index": 0,
+        "rate": 0.3,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "Gold",
+        "index": 1,
+        "rate": 0.5,
+        "amount": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      {
+        "itemName": "Rock",
+        "index": 2,
+        "rate": 1,
+        "amount": {
+          "min": 2,
+          "max": 10
+        }
+      }
+    ]
+  },
+  "bat": {
+    "health": 70,
+    "damage": 15,
+    "ai": "FlyingAI",
+    "experience": 10,
+    "animationPath": "Enemies.Bat.",
+    "animations": [
+        "bat_left.png",
+        "bat_right.png",
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 24,
+    "colliderHeight": 24,
+    "triggerWidth": 32,
+    "triggerHeight": 32,
+    "drops": [
+      {
+        "itemName": "HealthPotion",
+        "index": 0,
+        "rate": 0.3,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "Gold",
+        "index": 1,
+        "rate": 0.5,
+        "amount": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      {
+        "itemName": "Rock",
+        "index": 2,
+        "rate": 1,
+        "amount": {
+          "min": 2,
+          "max": 10
+        }
+      }
+    ]
+  }
+}

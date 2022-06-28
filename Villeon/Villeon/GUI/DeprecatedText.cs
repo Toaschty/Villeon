@@ -4,15 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.Helper;
+using Villeon.Utils;
 
 namespace Villeon.GUI
 {
     public class DeprecatedText
     {
-        private static SpriteSheet _fontSheet = Assets.GetSpriteSheet("HenksFont.png");
+        private static SpriteSheet _fontSheet = Asset.GetSpriteSheet("HenksFont.png");
         private static Dictionary<IEntity, List<IEntity>> _textEntities = new Dictionary<IEntity, List<IEntity>>();
 
         public static void Write(IEntity entity, string text, Vector2 offset, float scale)
@@ -35,7 +37,7 @@ namespace Villeon.GUI
                 //Transform trans = new Transform(transform.Position, transform.Scale, transform.Degrees);
                 IEntity letter = new Entity(transform, c.ToString());
 
-                letter.AddComponent(_fontSheet.GetSprite(c - ' ', Render.SpriteLayer.Foreground, true));
+                letter.AddComponent(_fontSheet.GetSprite(c - ' ', SpriteLayer.Foreground, true));
                 _textEntities[entity].Add(letter);
                 Manager.GetInstance().AddEntity(letter);
 

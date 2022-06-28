@@ -1,0 +1,265 @@
+﻿{
+  "TutorialScene": [
+    {
+      "name": "Ferdinand",
+      "texturePath": "Sprites.NPC.Ferdinand.png",
+      "textureScale": 0.15,
+      "x": 51,
+      "y": 22,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Hello!",
+        "Huge Scary portal appeared in the woods... Scary now.",
+        "Please help!",
+        "Monsters stole people... Now village empty.",
+        "Ferdinand sad now..."
+      ]
+    },
+    {
+      "name": "Johnson",
+      "texturePath": "Sprites.NPC.Johnson.png",
+      "textureScale": 0.15,
+      "x": 30,
+      "y": 24,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "STOP!",
+        "What are your doing here?",
+        "What? You are just a traveller?",
+        "Well... I am sorry. To be honest - We are currently having a big problem in our village.",
+        "Hmm... Thats a nice sword you have here. Are you a warrior?",
+        "I am begging you - Can you visit the smith down the road?",
+        "He will tell you what happend here."
+      ]
+    },
+    {
+      "name": "Solaire",
+      "texturePath": "Sprites.NPC.Solaire.png",
+      "textureScale": 0.15,
+      "x": 72,
+      "y": 22,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Hello fella!",
+        "Are you here to help?",
+        "It was pure chaos the last few hours...",
+        "How did this even happen?",
+        "It was such a beautiful day - Even the sun was shining.",
+        "Your are searching the smith?",
+        "I think he is right next to the portal. Just walk further right.",
+        "... Just so you know... I am really glad that you are here."
+      ]
+    },
+    {
+      "name": "Alberich",
+      "texturePath": "Sprites.NPC.Alberich.png",
+      "textureScale": 0.15,
+      "x": 141,
+      "y": 31,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Hello there!",
+        "Are you here to help? We are really in need of a helping hand.",
+        "You know... This huge portal just appeared a few hours ago.",
+        "I do not know what is happening or why it is happening.",
+        "The moment the portal materialised a horde of monsters came out und kidnapped most of our citizens.",
+        "Even the majors daughter was taken by a swarm of bats. I have never seen such creatures...",
+        "You want to help? Great!",
+        "It would be awesome if you can rescue the majors daughter from the fangs of the monsters!",
+        "The existence of this village is depending on you!"
+      ]
+    }
+  ],
+  "VillageScene": [
+    {
+      "name": "Ferdinand",
+      "texturePath": "Sprites.NPC.Ferdinand.png",
+      "textureScale": 0.15,
+      "x": 45,
+      "y": 105,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        },
+        {
+          "type": "trade",
+          "option": "200x Rock --> 7x Gold [1]",
+          "key": "D1",
+          "neededItem": "Rock",
+          "neededItemAmount": 200,
+          "buyItem": "Gold",
+          "buyItemAmount": 7
+        }
+      ],
+      "dialog": [
+        "Hmm...",
+        "Hmm?",
+        "Oh sorry. I not see you comin'.",
+        "You know... I love rocks!",
+        "I LOVE ROCKS!",
+        "If you have' talk to me. I give you reward. I found yellow stones in the woods.",
+        "Shiny rocks... But not for Ferdinand. He is me."
+      ]
+    },
+    {
+      "name": "Alfred",
+      "texturePath": "Sprites.NPC.Alfred.png",
+      "textureScale": 0.15,
+      "x": 138,
+      "y": 102.5,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Hey there!",
+        "Are you still killing those creatures?",
+        "I am happy that most of the monsters are slimes. Easy to kill you know... Well a bit slimy but still.",
+        "Imagine what would happen if other - much stronger - foes would spawn in.",
+        "Zombies would be hilarious. They would be so stupid that you could probably run in circles and they would not catch you.",
+        "I think the more important question is where the portal leads.",
+        "Only 4 different locations were discovered by now.",
+        "Imagine if you hop inside and fall out in the middle of a jungle.",
+        "This really reminds me of something..."
+      ]
+    }
+  ],
+  "SmithScene": [
+    {
+      "name": "Alberich",
+      "texturePath": "Sprites.NPC.Alberich.png",
+      "textureScale": 0.15,
+      "x": 3,
+      "y": 10,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        },
+        {
+          "type": "trade",
+          "option": "10x Gold --> 1x Sword [1]",
+          "key": "D1",
+          "neededItem": "Gold",
+          "neededItemAmount": 10,
+          "buyItem": "Sword",
+          "buyItemAmount": 1
+        },
+        {
+          "type": "trade",
+          "option": "5x Gold --> 1x Shield [2]",
+          "key": "D2",
+          "neededItem": "Gold",
+          "neededItemAmount": 5,
+          "buyItem": "Sword",
+          "buyItemAmount": 1
+        },
+        {
+          "type": "trade",
+          "option": "50x Rock --> 1x Gold [3]",
+          "key": "D3",
+          "neededItem": "Rock",
+          "neededItemAmount": 50,
+          "buyItem": "Gold",
+          "buyItemAmount": 1
+        }
+      ],
+      "dialog": [
+        "Hello there!",
+        "I am called Alberich and I am the smith in this village!",
+        "If you are looking for a sword or shield you are lucky!",
+        "My craftsmanship is well know in the whole country!",
+        "Once I even made 3 beautiful longswords for the king's 3 children!",
+        "It would be a shame if these swords were ever used in combat... ",
+        "Hmm...",
+        "Oh excuse me! I got lost in my thougths!",
+        "So what do you want?"
+      ]
+    }
+  ],
+  "ShopScene": [
+    {
+      "name": "Grunilde",
+      "texturePath": "Sprites.NPC.Grunilde.png",
+      "textureScale": 0.15,
+      "x": 10,
+      "y": 9,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        },
+        {
+          "type": "trade",
+          "option": "100x Rock --> 1x Gold [1]",
+          "key": "D1",
+          "neededItem": "Rock",
+          "neededItemAmount": 100,
+          "buyItem": "Gold",
+          "buyItemAmount": 1
+        }
+      ],
+      "dialog": [
+        "Oh hello again!",
+        "Thank you for saving me back there in the cave.",
+        "I was so afraid... I thought I would never see the sunlight again!",
+        "But then you came and saved me... My hero!",
+        "I am Grunilde and I run this shop",
+        "To be honest... This shop is also used as an tavern by most of the villagers.",
+        "So go ahead and sit down by the fire or buy something from me.",
+        "You have the choice."
+      ]
+    },
+    {
+      "name": "Hartwin",
+      "texturePath": "Sprites.NPC.Hartwin.png",
+      "textureScale": 0.15,
+      "x": 17,
+      "y": 7,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Hello fella.",
+        "Thanks for saving me.",
+        "To be honest I am still in stock...",
+        "So do you mind leaving me alone?"
+      ]
+    }
+  ]
+}

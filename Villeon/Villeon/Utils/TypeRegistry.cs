@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Villeon.Components;
 
-namespace Villeon
+namespace Villeon.Utils
 {
     public class TypeRegistry
     {
-        private static Dictionary<Type, ulong> _flags = new ();
+        private static Dictionary<Type, ulong> _flags = new Dictionary<Type, ulong>();
 
-        private readonly Dictionary<Type, object> _types = new ();
+        private readonly Dictionary<Type, object> _types = new Dictionary<Type, object>();
 
         public static void SetupTypes()
         {

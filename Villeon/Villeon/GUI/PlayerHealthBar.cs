@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.Helper;
-using Villeon.Render;
+using Villeon.Utils;
 
 namespace Villeon.GUI
 {
@@ -21,51 +22,51 @@ namespace Villeon.GUI
         private float _maxWidth;
         private float _height;
 
-        private float _oldHealth;
+        private float _health;
         private float _maxHealth;
 
-        private float _scale = 0.5f;
+        private float _scale = 0.4f;
 
         public PlayerHealthBar(int maxHealth)
         {
-            Sprite sprite = Assets.GetSprite("GUI.Frame.png", SpriteLayer.ScreenGuiForeground, false);
+            Sprite sprite = Asset.GetSprite("GUI.Frame.png", SpriteLayer.ScreenGuiForeground, false);
             _width = _maxWidth = sprite.Width;
             _height = sprite.Height;
 
-            Vector2 position = new Vector2(-10, 5.65f - (_height * _scale));
+            Vector2 position = new Vector2(-10, 5f - (_height * _scale));
             _maxHealth = maxHealth;
 
             CreateFrame(position);
-            CreateBackground(position, _width, _height);
             CreateFilling(position, _width, _height);
 
             SpawnHealthBar();
         }
 
+        public void UpdateMaxHealth(int maxHealth)
+        {
+            _maxHealth = maxHealth;
+            CalculateHealth(_maxHealth);
+        }
+
         public void UpdateHealthbar(float newHealth)
         {
+            _health = newHealth;
             CalculateHealth(newHealth);
         }
 
         private void CalculateHealth(float newHealth)
         {
-            float factor = newHealth / _oldHealth;
-            _width *= factor;
-
-            _oldHealth = newHealth;
-
-            // Reset the health
-            if (newHealth == _maxHealth)
-                _width = _maxWidth;
-
-            Sprite sprite = _healthFilling.GetComponent<Sprite>() !;
-            sprite.Width = _width;
+            // Update Healthfluid
+            Sprite fillingSprite = _healthFilling.GetComponent<Sprite>();
+            float healthToWidthConverter = _maxHealth / _maxWidth;
+            float currentHealthInWidth = newHealth / healthToWidthConverter;
+            fillingSprite.Width = currentHealthInWidth;
         }
 
         private void CreateFrame(Vector2 position)
         {
             _frame = new Entity(new Transform(position, _scale, 0f), "Player Health Frame");
-            Sprite frame = Assets.GetSprite("GUI.Frame.png", SpriteLayer.ScreenGuiForeground, false);
+            Sprite frame = Asset.GetSprite("GUI.Frame.png", SpriteLayer.ScreenGuiForeground, true);
 
             _frame.AddComponent(frame);
         }

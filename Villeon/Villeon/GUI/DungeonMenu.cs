@@ -7,15 +7,19 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.Helper;
+using Villeon.Utils;
 
 namespace Villeon.GUI
 {
     public class DungeonMenu : IGUIMenu
     {
-        private List<Entity> _entities;
+        private static int _currentSelection = 0;
+
+        private List<IEntity> _entities;
 
         private Entity _menuSelection;
 
@@ -31,7 +35,6 @@ namespace Villeon.GUI
         private float _letterScaleSmall = 0.2f;
 
         // Selection variables
-        private int _currentSelection = 0;
         private bool _onExplore = false;
         private int _elementCount = 0;
 
@@ -44,23 +47,23 @@ namespace Villeon.GUI
         public DungeonMenu()
         {
             // Create Menu layout
-            _entities = new List<Entity>();
+            _entities = new List<IEntity>();
 
             // Load cave data
             _cavesJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.DungeonMenu.json")) !;
             _elementCount = _cavesJson.caves.Count;
 
             // Load Sprites
-            Sprite backgroundScrollSprite = Assets.GetSprite("GUI.Scroll_Dungeonmenu.png", Render.SpriteLayer.ScreenGuiBackground, false);
-            Sprite horizontalLine1Sprite = Assets.GetSprite("GUI.Scroll_Horizontal_Line_1.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite horizontalLine2Sprite = Assets.GetSprite("GUI.Scroll_Horizontal_Line_2.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite horizontalLine3Sprite = Assets.GetSprite("GUI.Scroll_Horizontal_Line_3.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite verticalLineSprite = Assets.GetSprite("GUI.Scroll_Vertical_Line_1.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite selectionSprite = Assets.GetSprite("GUI.Scroll_Selection.png", Render.SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite backgroundScrollSprite = Asset.GetSprite("GUI.Scroll_Dungeonmenu.png", SpriteLayer.ScreenGuiBackground, false);
+            Sprite horizontalLine1Sprite = Asset.GetSprite("GUI.Scroll_Horizontal_Line_1.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite horizontalLine2Sprite = Asset.GetSprite("GUI.Scroll_Horizontal_Line_2.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite horizontalLine3Sprite = Asset.GetSprite("GUI.Scroll_Horizontal_Line_3.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite verticalLineSprite = Asset.GetSprite("GUI.Scroll_Vertical_Line_1.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite selectionSprite = Asset.GetSprite("GUI.Scroll_Selection.png", SpriteLayer.ScreenGuiMiddleground, false);
 
             // Background
             Vector2 scrollMiddle = new Vector2(backgroundScrollSprite.Width / 2f, backgroundScrollSprite.Height / 2f);
-            Entity backgroundImage = new Entity(new Transform(Vector2.Zero - (scrollMiddle * 0.5f), 0.5f, 0f), "BackgroundImage");
+            IEntity backgroundImage = new Entity(new Transform(Vector2.Zero - (scrollMiddle * 0.5f), 0.5f, 0f), "BackgroundImage");
             backgroundImage.AddComponent(backgroundScrollSprite);
             _entities.Add(backgroundImage);
 
@@ -92,6 +95,8 @@ namespace Villeon.GUI
             // Load in first text
             LoadText();
         }
+
+        public static int Selection => _currentSelection;
 
         public IEntity[] GetEntities()
         {

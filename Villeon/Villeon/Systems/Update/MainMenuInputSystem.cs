@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.GUI;
 using Villeon.Helper;
 
@@ -66,7 +66,7 @@ namespace Villeon.Systems.Update
             switch (menu.CurrentSelection)
             {
                 case 0: SceneLoader.SetActiveScene("LoadingScene"); break;
-                case 1: SceneLoader.SetActiveScene("LoadingScene"); break;
+                case 1: SaveLoad.Load(); SceneLoader.SetActiveScene("LoadingScene");  break;
                 case 2: WindowHelper.CloseWindow(); break;
             }
         }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.GUI;
 using Villeon.Helper;
 
@@ -13,6 +13,9 @@ namespace Villeon.Systems.Update
 {
     public class GUIInputSystem : System, IUpdateSystem
     {
+        private GUIHandler _handler = GUIHandler.GetInstance();
+        private Hotbar _hotbar = Hotbar.GetInstance();
+
         public GUIInputSystem(string name)
             : base(name)
         {
@@ -21,58 +24,64 @@ namespace Villeon.Systems.Update
 
         public void Update(float time)
         {
-            foreach (IEntity entity in Entities)
+            CheckKeyMenu();
+
+            if (StateManager.InMenu)
             {
-                GUIHandler handler = GUIHandler.GetInstance();
-
-                CheckKeyMenu(handler);
-
-                if (StateManager.InMenu)
+                Keys? currentkey = KeyHandler.GetLastPressedKey();
+                if (currentkey != null)
                 {
-                    Keys? currentkey = KeyHandler.GetLastPressedKey();
-                    if (currentkey != null)
+                    bool updateMenu = _handler.CurrentMenu!.OnKeyReleased((Keys)currentkey);
+                    if (updateMenu)
                     {
-                        bool updateMenu = handler.CurrentMenu!.OnKeyReleased((Keys)currentkey);
-                        if (updateMenu)
-                        {
-                            UnloadMenu(handler.CurrentMenu);
-                            LoadMenu(handler.CurrentMenu);
-                        }
+                        UnloadMenu(_handler.CurrentMenu);
+                        LoadMenu(_handler.CurrentMenu);
                     }
                 }
             }
         }
 
-        private void CheckKeyMenu(GUIHandler handler)
+        private void CheckKeyMenu()
         {
             // Dungeon Menu
             if (KeyHandler.IsPressed(Keys.L))
-                ChangeMenu(handler, handler.DungeonMenu);
+                ChangeMenu(_handler.DungeonMenu);
 
             // Equipment Menu
             if (KeyHandler.IsPressed(Keys.P))
-                ChangeMenu(handler, handler.EquipmentMenu);
+                ChangeMenu(_handler.EquipmentMenu);
 
             // Inventory Menu
             if (KeyHandler.IsPressed(Keys.Tab) || KeyHandler.IsPressed(Keys.I))
-                ChangeMenu(handler, handler.InventoryMenu);
+            {
+                InventoryMenu.GetInstance().ReloadItemEntities();
+                ChangeMenu(_handler.InventoryMenu);
+            }
 
             // Map Menu
             if (KeyHandler.IsPressed(Keys.M))
             {
-                handler.MapMenu.MoveViewportToMarker();
-                ChangeMenu(handler, handler.MapMenu);
+                _handler.MapMenu.MoveViewportToMarker();
+                ChangeMenu(_handler.MapMenu);
             }
 
             // Pause Menu
             if (KeyHandler.IsPressed(Keys.Escape))
-                ChangeMenu(handler, handler.PauseMenu);
+                ChangeMenu(_handler.PauseMenu);
+
+            // Help Menu
+            if (KeyHandler.IsPressed(Keys.H))
+                ChangeMenu(_handler.HelpMenu);
+
+            // Death Menu
+            if (StateManager.IsPlayerDead && _handler.CurrentMenu != _handler.DeathMenu)
+                ChangeMenu(_handler.DeathMenu);
         }
 
-        private void ChangeMenu(GUIHandler handler, IGUIMenu menu)
+        private void ChangeMenu(IGUIMenu menu)
         {
             // No menu currently loaded -> Load selected menu
-            if (handler.CurrentMenu == null)
+            if (_handler.CurrentMenu == null)
             {
                 GUIHandler.GetInstance().CurrentMenu = menu;
                 LoadMenu(menu);
@@ -80,7 +89,7 @@ namespace Villeon.Systems.Update
             }
 
             // Selected menu already loaded -> Unload menu
-            else if (handler.CurrentMenu == menu)
+            else if (_handler.CurrentMenu == menu)
             {
                 UnloadMenu(menu);
                 GUIHandler.GetInstance().ClearMenu();
@@ -90,9 +99,13 @@ namespace Villeon.Systems.Update
             // Other menu currently loaded -> Unload current menu -> Load selected menu
             else
             {
-                UnloadMenu(handler.CurrentMenu);
-                handler.CurrentMenu = menu;
-                LoadMenu(menu);
+                // don't open other menus while death menu is there or player is dead
+                if (_handler.CurrentMenu != _handler.DeathMenu || !StateManager.IsPlayerDead)
+                {
+                    UnloadMenu(_handler.CurrentMenu);
+                    _handler.CurrentMenu = menu;
+                    LoadMenu(menu);
+                }
             }
         }
 

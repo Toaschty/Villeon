@@ -12,5 +12,9 @@ namespace Villeon.Components
         public Vector2 Velocity { get; set; } = Vector2.Zero;
 
         public Vector2 Acceleration { get; set; } = Vector2.Zero;
+
+        public float Weight { get; set; } = 1.0f;
+
+        public float Friction { get; set; } = 1.0f;
     }
 }

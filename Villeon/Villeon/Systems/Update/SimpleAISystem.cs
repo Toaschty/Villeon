@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.Helper;
 
-namespace Villeon.Systems
+namespace Villeon.Systems.Update
 {
     public class SimpleAISystem : System, IUpdateSystem
     {
@@ -17,7 +17,7 @@ namespace Villeon.Systems
         public SimpleAISystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Physics), typeof(Collider), typeof(EnemyAI))
+            Signature.IncludeAND(typeof(Physics), typeof(DynamicCollider), typeof(EnemyAI))
                 .IncludeOR(typeof(Player));
         }
 
@@ -54,14 +54,13 @@ namespace Villeon.Systems
                 Transform transform = enemyEntity.GetComponent<Transform>();
                 Vector2 playerDirection = transform.Position - playerTransform.Position;
 
-                float side = -(playerDirection.X / MathF.Abs(playerDirection.X));
+                // Make sure it doesn't reach 0 -> Can crash
+                float side = -(playerDirection.X / (MathF.Abs(playerDirection.X) + 0.000001f));
                 if (playerDirection.Length < 10 && playerDirection.Length > 2.2f)
                 {
                     Physics physics = enemyEntity.GetComponent<Physics>();
-                    Collider collider = enemyEntity.GetComponent<Collider>();
-
+                    DynamicCollider collider = enemyEntity.GetComponent<DynamicCollider>();
                     physics.Acceleration += new Vector2(Constants.MOVEMENTSPEED * side * 0.4f, physics.Acceleration.Y);
-
                     if (side < 0 && collider.HasCollidedLeft && collider.HasCollidedBottom)
                         physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
                     else if (side > 0 && collider.HasCollidedRight && collider.HasCollidedBottom)
@@ -89,23 +88,23 @@ namespace Villeon.Systems
                             attackEntity.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-2f, 0f), 2f, 2f, 0.1f));
                         }
 
-                        attackEntity.AddComponent(new Damage(10));
+                        int damage = 0;
+
+                        EnemyAI enemyAI = enemyEntity.GetComponent<EnemyAI>();
+                        if (enemyAI is not null)
+                            damage = enemyAI.Damage;
+
+                        FlyingAI flyingAI = enemyEntity.GetComponent<FlyingAI>();
+                        if (flyingAI is not null)
+                            damage = flyingAI.Damage;
+
+                        attackEntity.AddComponent(new Damage(damage));
                         Manager.GetInstance().AddEntity(attackEntity);
 
                         effect.Effects.Add("AttackCooldown", 1);
                     }
                 }
             }
-            }
-
-        //HashSet<IEntity> allEntities = Manager.GetInstance().GetEntities();
-        //IEntity? player = null;
-        //foreach (IEntity entity in allEntities)
-        //{
-        //    if (entity.GetComponent<Player>() != null)
-        //    {
-        //        player = entity;
-        //    }
-        //}
+        }
     }
 }

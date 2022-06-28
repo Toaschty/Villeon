@@ -10,35 +10,47 @@
 	<EmbeddedResource Include="Assets\**\*.*" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\Enemies\Slime\slime_jumping.png" />
     <None Remove="Assets\Fonts\Alagard.json" />
     <None Remove="Assets\Fonts\Alagard_Thin.json" />
     <None Remove="Assets\Fonts\VilleonFont.aseprite" />
     <None Remove="Assets\GUI\DungeonMenu.json" />
-    <None Remove="Assets\Jsons\Drops.json" />
+    <None Remove="Assets\Jsons\Enemies.json" />
     <None Remove="Assets\Jsons\items.json" />
+    <None Remove="Assets\Jsons\NPCs.json" />
     <None Remove="Assets\Player.png" />
     <None Remove="Assets\shader.vert" />
     <None Remove="Assets\Shaders\light.frag" />
     <None Remove="Assets\Shaders\light.vert" />
     <None Remove="Assets\Slime.aseprite" />
+    <None Remove="Assets\Sprites\PortalAnimation.aseprite" />
+    <None Remove="Assets\Sprites\PortalAnimation.png" />
+    <None Remove="Assets\TileMap\DungeonDarkendLair.tmx" />
+    <None Remove="Assets\TileMap\DungeonHellishHole.tmx" />
+    <None Remove="Assets\TileMap\DungeonSwampyGrot.tmx" />
     <None Remove="Assets\TileMap\Frame.aseprite" />
     <None Remove="Assets\TileMap\obstacles.json" />
+    <None Remove="Assets\TileMap\Tilesets\DungeonCrumblyCave.tsx" />
+    <None Remove="Assets\TileMap\Tilesets\DungeonDarkendLair.tsx" />
+    <None Remove="Assets\TileMap\Tilesets\DungeonHellishHole.tsx" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DungeonGeneration\RoomGeneration.cs" />
-    <EmbeddedResource Include="Systems\IRender.cs" />
-    <EmbeddedResource Include="Systems\IRenderSystem.cs" />
-    <EmbeddedResource Include="Systems\ISystem.cs" />
-    <EmbeddedResource Include="Systems\IUpdate.cs" />
-    <EmbeddedResource Include="Systems\IUpdateSystem.cs" />
+    <EmbeddedResource Include="Components\SpriteSheet.cs" />
+    <EmbeddedResource Include="Generation\DungeonGeneration\RoomGeneration.cs" />
+    <EmbeddedResource Include="EntityManagement\IRender.cs" />
+    <EmbeddedResource Include="EntityManagement\IRenderSystem.cs" />
+    <EmbeddedResource Include="EntityManagement\ISystem.cs" />
+    <EmbeddedResource Include="EntityManagement\IUpdate.cs" />
+    <EmbeddedResource Include="EntityManagement\IUpdateSystem.cs" />
+    <EmbeddedResource Include="Helper\ItemDrops.cs" />
     <EmbeddedResource Include="Systems\System.cs" />
     <EmbeddedResource Include="Systems\Update\CameraSystem.cs" />
     <EmbeddedResource Include="Systems\Update\CollisionSystem.cs" />
     <EmbeddedResource Include="Systems\Update\PlayerDeathSystem.cs" />
     <EmbeddedResource Include="Systems\Update\MouseClickSystem.cs" />
     <EmbeddedResource Include="Systems\Update\PhysicsSystem.cs" />
-    <EmbeddedResource Include="Systems\Update\PlayerMovementSystem.cs" />
-    <EmbeddedResource Include="Systems\Update\PlayerTopDownMovementSystem.cs" />
+    <EmbeddedResource Include="Systems\Update\PlayerDungeonMovementSystem.cs" />
+    <EmbeddedResource Include="Systems\Update\PlayerVillageMovementSystem.cs" />
     <EmbeddedResource Include="Systems\Update\SimpleAISystem.cs" />
   </ItemGroup>
 

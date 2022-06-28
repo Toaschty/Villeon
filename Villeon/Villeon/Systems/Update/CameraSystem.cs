@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
+using Villeon.Helper;
 using Villeon.Render;
 
-namespace Villeon.Systems
+namespace Villeon.Systems.Update
 {
     public class CameraSystem : System, IUpdateSystem
     {
         public CameraSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Collider), typeof(Player));
+            Signature.IncludeAND(typeof(DynamicCollider), typeof(Player));
         }
 
         public void Update(float time)

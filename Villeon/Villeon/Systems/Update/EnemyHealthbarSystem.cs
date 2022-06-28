@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK.Mathematics;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.GUI;
 
 namespace Villeon.Systems.Update
@@ -16,7 +17,8 @@ namespace Villeon.Systems.Update
         public EnemyHealthbarSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Health), typeof(EnemyAI));
+            Signature.IncludeAND(typeof(Health), typeof(EnemyAI), typeof(Sprite))
+                .IncludeAND(typeof(Health), typeof(FlyingAI), typeof(Sprite));
         }
 
         public override void AddEntity(IEntity entity)
@@ -24,7 +26,8 @@ namespace Villeon.Systems.Update
             base.AddEntity(entity);
             Health health = entity.GetComponent<Health>();
             Transform transform = entity.GetComponent<Transform>();
-            _healthBars.Add(entity, new HealthBar(health.CurrentHealth, new OpenTK.Mathematics.Vector2(0f, 2f), ref transform));
+            Sprite sprite = entity.GetComponent<Sprite>();
+            _healthBars.Add(entity, new HealthBar(health.CurrentHealth, ref transform, sprite.Width, sprite.Height));
         }
 
         public override void RemoveEntity(IEntity entity)

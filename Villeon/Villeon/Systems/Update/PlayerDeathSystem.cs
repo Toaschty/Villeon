@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
+using Villeon.GUI;
 using Villeon.Helper;
 
-namespace Villeon.Systems
+namespace Villeon.Systems.Update
 {
     public class PlayerDeathSystem : System, IUpdateSystem
     {
@@ -21,20 +22,16 @@ namespace Villeon.Systems
 
         public void Update(float time)
         {
-            foreach (IEntity healthEntity in Entities)
+            foreach (IEntity player in Entities)
             {
-                Health health = healthEntity.GetComponent<Health>();
-                Transform transform = healthEntity.GetComponent<Transform>();
+                Health health = player.GetComponent<Health>();
 
                 if (health.CurrentHealth <= 0)
                 {
+                    StateManager.InMenu = true;
                     StateManager.IsPlayerDead = true;
                     health.Heal(200);
-                    healthEntity.GetComponent<Transform>().Position = new Vector2(5f, 5f);
-                    healthEntity.GetComponent<DynamicCollider>().LastPosition = new Vector2(5f, 5f);
-                    healthEntity.GetComponent<Physics>().Velocity = Vector2.Zero;
-                    healthEntity.GetComponent<Physics>().Acceleration = Vector2.Zero;
-                    StateManager.IsPlayerDead = false;
+                    health.IsInvincible = true;
                 }
             }
         }

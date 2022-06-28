@@ -22,6 +22,8 @@ namespace Villeon.Render
 
         public Transform Transform { get; set; }
 
+        public Light? Light { get; set; }
+
         public Vector2 Offset { get; set; }
 
         public Vector2 Scale { get; set; }

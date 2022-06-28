@@ -12,10 +12,16 @@ namespace Villeon.Components
 
         private int _maxHealth;
 
+        private bool _isInvincible;
+
+        private float _protection;
+
         public Health(int health)
         {
             _maxHealth = health;
             CurrentHealth = health;
+            _isInvincible = false;
+            _protection = 0.0f;
         }
 
         public int CurrentHealth
@@ -31,7 +37,25 @@ namespace Villeon.Components
             }
         }
 
-        public void Damage(int damage) => CurrentHealth -= damage;
+        public bool IsInvincible
+        {
+            get { return _isInvincible; }
+            set { _isInvincible = value; }
+        }
+
+        public float Protection
+        {
+            get { return _protection; }
+            set { _protection = value; }
+        }
+
+        public int MaxHealth
+        {
+            get { return _maxHealth; }
+            set { _maxHealth = value; }
+        }
+
+        public void Damage(int damage) => CurrentHealth -= (int)(damage * (1.0f - Protection) * Convert.ToInt32(!_isInvincible));
 
         public void Heal(int heal) => CurrentHealth += heal;
     }

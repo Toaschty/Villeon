@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using Villeon.ECS;
 using Villeon.Render;
 using Villeon.Systems;
 
@@ -15,35 +14,21 @@ namespace Villeon.Helper
 
         public static Vector2 WorldMousePosition { get; private set; }
 
-        public static List<ClickedMouseButton> ClickedMouseButtons { get; private set; } = new List<ClickedMouseButton>();
+        public static HashSet<ClickedMouseButton> ClickedMouseButtons { get; private set; } = new HashSet<ClickedMouseButton>();
 
-        public static List<ClickedMouseButton> ClickedRightMouseButtons { get; private set; } = new List<ClickedMouseButton>();
+        public static HashSet<ClickedMouseButton> ClickedRightMouseButtons { get; private set; } = new HashSet<ClickedMouseButton>();
 
-        public static int ClickedMouseButtonCount { get; private set; } = 0;
-
-        private static int WheelValue { get; set; }
-
-        public static void MouseWheel(MouseWheelEventArgs args)
+        public static bool IsMouseDown()
         {
-            WheelValue = (int)args.OffsetY;
+            if (ClickedMouseButtons.Count > 0)
+                return true;
+            return false;
         }
 
-        public static int WheelChanged()
+        public static void Clear()
         {
-            if (WheelValue == 1)
-            {
-                WheelValue = 0;
-                return 1;
-            }
-
-            if (WheelValue == -1)
-            {
-                WheelValue = 0;
-                return -1;
-            }
-
-            WheelValue = 0;
-            return 0;
+            ClickedMouseButtons.Clear();
+            ClickedRightMouseButtons.Clear();
         }
 
         public static void MouseDown(MouseButtonEventArgs args)
@@ -53,7 +38,6 @@ namespace Villeon.Helper
             if (args.Button == MouseButton.Right)
             {
                 ClickedRightMouseButtons.Add(new ClickedMouseButton { Button = args.Button, MousePosition = WorldMousePosition });
-                ClickedMouseButtonCount++;
             }
         }
 
@@ -61,6 +45,7 @@ namespace Villeon.Helper
         {
             // Store Screen coordinaes
             ScreenMousePosition = args.Position;
+            Matrix4 fromViewportToScreenCoords = Camera.InverseViewportMatrix * Camera.GetInverseScreenMatrix();
 
             // Convert Screen to Worldcoordinates and store it
             Matrix4 fromViewportToWorldCoords = Camera.InverseViewportMatrix * Camera.GetInverseMatrix();

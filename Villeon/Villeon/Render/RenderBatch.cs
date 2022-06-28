@@ -8,8 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.Helper;
 using Villeon.Utils;
 using Zenseless.OpenTK;
@@ -20,6 +21,7 @@ namespace Villeon.Render
     {
         // Sprites Stored
         private HashSet<RenderingData> _renderingData;
+        private HashSet<RenderingData> _lights;
         private List<Texture2D> _textures;
         private int[] _texSlots = { 0, 1, 2, 3, 4, 5, 6, 7 };
         private int _spriteCount;
@@ -35,12 +37,11 @@ namespace Villeon.Render
 
         private Shader _shader;
 
-        private int _l = 0;
-
         public RenderBatch(Shader shader)
         {
             _shader = shader;
             _renderingData = new HashSet<RenderingData>(Constants.MAX_BATCH_SIZE);
+            _lights = new HashSet<RenderingData>();
             _textures = new List<Texture2D>();
 
             // Quad has 4 Vertices, each vertex is 9 long
@@ -99,11 +100,25 @@ namespace Villeon.Render
         {
             _shader.Use();
 
+            UploadMatricies();
+            UploadTextures();
+            UploadLights();
+
+            // Bind VAO & Enable all the attributes then Draw!
+            _vao.Bind();
+            GL.DrawElements(PrimitiveType.Triangles, _spriteCount * 6, DrawElementsType.UnsignedInt, 0);
+        }
+
+        public void UploadMatricies()
+        {
             // Update Camera, Set Transform in VertexShader
             Camera.Update();
             _shader.UploadMat4("cameraMatrix", Camera.GetMatrix());
             _shader.UploadMat4("screenMatrix", Camera.GetScreenMatrix());
+        }
 
+        public void UploadTextures()
+        {
             // Bind all textures that this batch contains
             int i = 0;
             foreach (Texture2D texture in _textures)
@@ -113,29 +128,37 @@ namespace Villeon.Render
                 i++;
             }
 
+            // Upload the Texture slots
             _shader.UploadIntArray("textures", _texSlots);
+        }
 
-            _shader.UploadInt("lightCount", MouseHandler.ClickedMouseButtonCount);
-
+        public void UploadLights()
+        {
             // Directional Lighting
-            _shader.UploadVec3("dirLight.direction", new Vector3(0, 0, -1));
-            _shader.UploadVec3("dirLight.ambient", new Vector3(0.8f));
-            _shader.UploadVec3("dirLight.diffuse", new Vector3(0.8f));
+            _shader.UploadVec3("directionalLight.baseLight.color", DirectionalSceneLight.GetAmbientColor());
+            _shader.UploadFloat("directionalLight.baseLight.intensity", 0.8f);
 
-            Random random = new Random();
-            foreach (MouseHandler.ClickedMouseButton c in MouseHandler.ClickedRightMouseButtons)
+            // Upload Pointlights!
+            int lightNumber = 0;
+            foreach (RenderingData light in _lights)
             {
-                _shader.UploadVec3("pointLights[" + _l + "].position", new Vector3(c.MousePosition.X, c.MousePosition.Y, 0));
-                _shader.UploadVec3("pointLights[" + _l + "].ambient", new Vector3(1, 0, 0.5f));
-                _shader.UploadVec3("pointLights[" + _l + "].diffuse", new Vector3(1f));
-                _l++;
+                // Skip if there is no light (shouldn't happen normally)
+                if (light.Light is null)
+                    continue;
+
+                // Don't upload more than the maxlightcount
+                if (lightNumber >= Size.MAX_LIGHT_COUNT)
+                    break;
+
+                _shader.UploadInt("lightCount", _lights.Count);
+                _shader.UploadVec3("pointLights[" + lightNumber + "].baseLight.color", light.Light.Color);
+                _shader.UploadFloat("pointLights[" + lightNumber + "].baseLight.intensity", light.Light.LightAmbientIntensity);
+                _shader.UploadFloat("pointLights[" + lightNumber + "].attenuation.constant", light.Light.Constant);
+                _shader.UploadFloat("pointLights[" + lightNumber + "].attenuation.linear", light.Light.Linear);
+                _shader.UploadFloat("pointLights[" + lightNumber + "].attenuation.expo", light.Light.Expo);
+                _shader.UploadVec3("pointLights[" + lightNumber + "].position", new Vector3(light.Transform.Position.X + light.Offset.X, light.Transform.Position.Y + light.Offset.Y, light.Light.LightHeight));
+                lightNumber++;
             }
-
-            MouseHandler.ClickedRightMouseButtons.Clear();
-
-            // Bind VAO & Enable all the attributes & Draw
-            _vao.Bind();
-            GL.DrawElements(PrimitiveType.Triangles, _spriteCount * 6, DrawElementsType.UnsignedInt, 0);
         }
 
         public void AddRenderingData(RenderingData data)
@@ -159,6 +182,15 @@ namespace Villeon.Render
                 }
             }
 
+            if (data.Light is not null)
+            {
+                // Are there lightSlots free?
+                if (_lights.Count < Size.MAX_LIGHT_COUNT)
+                {
+                    _lights.Add(data);
+                }
+            }
+
             // Fill the Attributes für this sprite
             FillVertexAttributes(data, index);
 
@@ -166,7 +198,7 @@ namespace Villeon.Render
                 _isFull = true;
         }
 
-        public bool RemoveEntity(RenderingData removableData)
+        public void RemoveEntity(RenderingData removableData)
         {
             if (_renderingData.Contains(removableData))
             {
@@ -176,17 +208,15 @@ namespace Villeon.Render
                 // Clear the last vertices
                 ClearVertices(backData.SpriteNumber);
 
-                // Store sprite number
-                //backData.SpriteNumber = removableData.SpriteNumber;
-
-                // Overwrite the Removed black
-                //FillVertexAttributes(backData, removableData.SpriteNumber);
                 _renderingData.Remove(removableData);
                 _spriteCount--;
-                return true;
             }
 
-            return false;
+            // Remove any existing light
+            if (_lights.Contains(removableData))
+            {
+                _lights.Remove(removableData);
+            }
         }
 
         public bool Full()
@@ -252,12 +282,13 @@ namespace Villeon.Render
             Sprite sprite = data.Sprite !;
             Transform transform = data.Transform !;
             Vector2[] texCoords = sprite.TexCoords !;
+            Vector2 scale = Vector2.One;
 
             // [0, tex1, tex2, tex3, ..]
             int slot = 0;
             if (sprite.Texture != null)
             {
-               for (int i = 0; i < _textures.Count; i++)
+                for (int i = 0; i < _textures.Count; i++)
                 {
                     if (_textures[i] == sprite.Texture)
                     {
@@ -265,6 +296,17 @@ namespace Villeon.Render
                         break;
                     }
                 }
+
+                // Use the scale of the transform
+                scale = transform.Scale;
+            }
+            else
+            {
+                // Sprite has no texture
+                slot = 0;
+
+                // Use the Scale of the Light, Collider or Trigger
+                scale = data.Scale;
             }
 
             // Offset in the vertex Array for the given sprite
@@ -293,8 +335,8 @@ namespace Villeon.Render
                 }
 
                 // Position
-                _vertices[offset + 0] = transform.Position.X + data.Offset.X + (add.X * data.Scale.X);
-                _vertices[offset + 1] = transform.Position.Y + data.Offset.Y + (add.Y * data.Scale.Y);
+                _vertices[offset + 0] = transform.Position.X + data.Offset.X + (add.X * scale.X);
+                _vertices[offset + 1] = transform.Position.Y + data.Offset.Y + (add.Y * scale.Y);
                 _vertices[offset + 2] = -(int)sprite.RenderLayer;
 
                 // Color
@@ -319,6 +361,7 @@ namespace Villeon.Render
         {
             public const int QUAD = 4;
             public const int TEX_SLOTS = 8;
+            public const int MAX_LIGHT_COUNT = 150;
             public const int POSITION = 3;
             public const int COLOR = 4;
             public const int TEX_COORDS = 2;

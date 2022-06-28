@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 
-namespace Villeon.Systems
+namespace Villeon.Systems.Update
 {
     public class CollisionSystem : System, IUpdateSystem
     {
         private List<Collider> _colliders = new List<Collider>();
-        private HashSet<Tuple<Collider, DynamicCollider, Transform>> _dynamicTuple = new HashSet<Tuple<Collider, DynamicCollider, Transform>>();
+        private HashSet<Tuple<DynamicCollider, Transform>> _dynamicTuple = new HashSet<Tuple<DynamicCollider, Transform>>();
 
         public CollisionSystem(string name)
             : base(name)
@@ -35,19 +35,19 @@ namespace Villeon.Systems
 
             Collider collider = entity.GetComponent<Collider>();
             DynamicCollider dynamicCollider = entity.GetComponent<DynamicCollider>();
+
             if (dynamicCollider is not null)
             {
                 Transform dynamicTransform = entity.GetComponent<Transform>();
-                dynamicCollider.Position = collider!.Position;
-                _dynamicTuple.Add(Tuple.Create(collider, dynamicCollider, dynamicTransform));
+                dynamicCollider.Position = dynamicTransform.Position + dynamicCollider.Offset;
+                dynamicCollider.ResetHasCollided();
+                _dynamicTuple.Add(Tuple.Create(dynamicCollider, dynamicTransform));
             }
-            else if (collider is not null)
+
+            if (collider is not null)
             {
                 _colliders.Add(collider);
             }
-
-            collider!.ResetHasCollided();
-            collider!.Position = entity.GetComponent<Transform>().Position + collider.Offset;
         }
 
         public override void RemoveEntity(IEntity entity)
@@ -61,10 +61,11 @@ namespace Villeon.Systems
                 Transform dynamicTransform = entity.GetComponent<Transform>();
 
                 // Remove tuple with the dynamicCollider
-                var tupleToRemove = Tuple.Create(collider, dynamicCollider, dynamicTransform);
+                var tupleToRemove = Tuple.Create(dynamicCollider, dynamicTransform);
                 _dynamicTuple.Remove(tupleToRemove);
             }
-            else if (collider is not null)
+
+            if (collider is not null)
             {
                 _colliders.Remove(collider);
             }
@@ -82,18 +83,17 @@ namespace Villeon.Systems
         {
             foreach (var tuple in _dynamicTuple)
             {
-                Collider colliderFromDynamic = tuple.Item1;
-                DynamicCollider dynamicCollider = tuple.Item2;
+                DynamicCollider dynamicCollider = tuple.Item1;
 
                 foreach (Collider e2collider in _colliders)
                 {
-                    if (CollidesSAT(colliderFromDynamic, dynamicCollider, e2collider))
+                    if (CollidesSAT(dynamicCollider, e2collider))
                     {
-                        Direction direction = CollidesDirectionAABB(colliderFromDynamic, dynamicCollider, e2collider);
-                        HandleCleanCollision(direction, colliderFromDynamic, dynamicCollider, e2collider);
+                        Direction direction = CollidesDirectionAABB(dynamicCollider, e2collider);
+                        HandleCleanCollision(direction, dynamicCollider, e2collider);
                     }
 
-                    if (colliderFromDynamic.Position == dynamicCollider.LastPosition)
+                    if (dynamicCollider.Position == dynamicCollider.LastPosition)
                         break;
                 }
             }
@@ -104,8 +104,7 @@ namespace Villeon.Systems
             foreach (var tuple in _dynamicTuple)
             {
                 // Set Collider position
-                tuple.Item1.Position = tuple.Item3.Position + tuple.Item1.Offset;
-                tuple.Item2.Position = tuple.Item1.Position;
+                tuple.Item1.Position = tuple.Item2.Position + tuple.Item1.Offset;
 
                 // Reset Collider bool
                 tuple.Item1.ResetHasCollided();
@@ -117,63 +116,62 @@ namespace Villeon.Systems
             foreach (var tuple in _dynamicTuple)
             {
                 // Set Dynamic Transform
-                tuple.Item3.Position = tuple.Item1.Position - tuple.Item1.Offset;
+                tuple.Item2.Position = tuple.Item1.Position - tuple.Item1.Offset;
 
                 // Set Dynamic Collider Last position from Collider
-                tuple.Item2.LastPosition = tuple.Item1.Position;
+                tuple.Item1.LastPosition = tuple.Item1.Position;
             }
         }
 
-        private void HandleCleanCollision(Direction direction, Collider collider, DynamicCollider dynamicCollider, Collider e2Collider)
+        private void HandleCleanCollision(Direction direction, DynamicCollider dynamicCollider, Collider e2Collider)
         {
             switch (direction)
             {
                 case Direction.DOWN:
-                    collider.HasCollidedTop = true;
-                    collider.Position = new Vector2(collider.Position.X, e2Collider.Position.Y - collider.Height);
+                    dynamicCollider.HasCollidedTop = true;
+                    dynamicCollider.Position = new Vector2(dynamicCollider.Position.X, e2Collider.Position.Y - dynamicCollider.Height);
                     break;
                 case Direction.UP:
-                    collider.HasCollidedBottom = true;
-                    collider.Position = new Vector2(collider.Position.X, e2Collider.Position.Y + e2Collider.Height);
+                    dynamicCollider.HasCollidedBottom = true;
+                    dynamicCollider.Position = new Vector2(dynamicCollider.Position.X, e2Collider.Position.Y + e2Collider.Height);
                     break;
                 case Direction.LEFT:
-                    collider.HasCollidedRight = true;
-                    collider.Position = new Vector2(e2Collider.Position.X - collider.Width, collider.Position.Y);
+                    dynamicCollider.HasCollidedRight = true;
+                    dynamicCollider.Position = new Vector2(e2Collider.Position.X - dynamicCollider.Width, dynamicCollider.Position.Y);
                     break;
                 case Direction.RIGHT:
-                    collider.HasCollidedLeft = true;
-                    collider.Position = new Vector2(e2Collider.Position.X + e2Collider.Width, collider.Position.Y);
+                    dynamicCollider.HasCollidedLeft = true;
+                    dynamicCollider.Position = new Vector2(e2Collider.Position.X + e2Collider.Width, dynamicCollider.Position.Y);
                     break;
             }
-
-            dynamicCollider.Position = collider.Position;
         }
 
-        private Direction CollidesDirectionAABB(Collider a, DynamicCollider da, Collider b)
+        private Direction CollidesDirectionAABB(DynamicCollider da, Collider b)
         {
-            Vector2 v = new (a.Position.X - da.LastPosition.X, a.Position.Y - da.LastPosition.Y);
+            Vector2 v = new (da.Position.X - da.LastPosition.X, da.Position.Y - da.LastPosition.Y);
 
             // test for top side
-            float mulitplierTop = (b.Position.Y + b.Height + (a.Height / 2) - da.LastCenter.Y) / v.Y;
+            float mulitplierTop = (b.Position.Y + b.Height + (da.Height / 2) - da.LastCenter.Y) / v.Y;
 
             // test for bottom side
-            float mulitplierBottom = (b.Position.Y - (a.Height / 2) - da.LastCenter.Y) / v.Y;
+            float mulitplierBottom = (b.Position.Y - (da.Height / 2) - da.LastCenter.Y) / v.Y;
 
             // test for right side
-            float mulitplierRight = (b.Position.X + b.Width + (a.Width / 2) - da.LastCenter.X) / v.X;
+            float mulitplierRight = (b.Position.X + b.Width + (da.Width / 2) - da.LastCenter.X) / v.X;
 
             // test for left side
-            float mulitplierLeft = (b.Position.X - (a.Width / 2) - da.LastCenter.X) / v.X;
+            float mulitplierLeft = (b.Position.X - (da.Width / 2) - da.LastCenter.X) / v.X;
 
-            int zeros = Convert.ToInt32(mulitplierTop == 0) +
-                        Convert.ToInt32(mulitplierBottom == 0) +
-                        Convert.ToInt32(mulitplierRight == 0) +
-                        Convert.ToInt32(mulitplierLeft == 0);
-            if (zeros > 1)
-            {
-                Console.WriteLine(zeros);
+            int zeros = (Convert.ToInt32(mulitplierTop == 0) * 4) +
+                                    (Convert.ToInt32(mulitplierLeft == 0) * 4) +
+                                    (Convert.ToInt32(mulitplierRight == 0) * 3) +
+                                    (Convert.ToInt32(mulitplierBottom == 0) * 2);
+            if (zeros > 6)
                 return Direction.UP;
-            }
+            else if (zeros > 5)
+                return Direction.LEFT;
+            else if (zeros > 4)
+                return Direction.RIGHT;
 
             CheckEdgeCases(v, ref mulitplierTop, ref mulitplierBottom, ref mulitplierRight, ref mulitplierLeft);
 
@@ -184,10 +182,8 @@ namespace Villeon.Systems
 
             if (mulitplierTop < mulitplierBottom && mulitplierTop < mulitplierRight && mulitplierTop < mulitplierLeft)
                 return Direction.UP;
-            if (mulitplierBottom < mulitplierTop && mulitplierBottom < mulitplierRight && mulitplierBottom < mulitplierLeft)
-                return Direction.DOWN;
 
-            return Direction.NONE;
+            return Direction.DOWN;
         }
 
         private void CheckEdgeCases(Vector2 v, ref float mulitplierTop, ref float mulitplierBottom, ref float mulitplierRight, ref float mulitplierLeft)
@@ -211,7 +207,7 @@ namespace Villeon.Systems
             }
         }
 
-        private bool CollidesSAT(Collider a, DynamicCollider da, Collider b)
+        private bool CollidesSAT(DynamicCollider da, Collider b)
         {
             Vector2[] polygon1 = da.GetPolygon();
             Vector2[] polygon2 = b.GetPolygon();

@@ -5,10 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 
-namespace Villeon
+namespace Villeon.Helper
 {
     public static class Constants
     {
+        // Dungeon
+        public static int Border { get; } = 10;
+
+        // Physics
         public static float GRAVITY { get; } = 40;
 
         public static float FRICTION { get; } = 7.5f;
@@ -24,14 +28,16 @@ namespace Villeon
         public static float DEBUGTIME { get; set; } = 0.00833f;
 
         // Rendering
-        public static int MAX_BATCH_SIZE { get; } = 512;
+        public static int MAX_BATCH_SIZE { get; } = 1024;
 
         public static float SCREEN_SCALE { get; } = 9f;
 
         // Spawnpoints
-        public static Vector2 VILLAGE_SPAWN_POINT { get; } = new Vector2(94.5f, 57f);
+        public static Vector2 TUTORIAL_SPAWN_POINT { get; } = new Vector2(23.5f, 23.5f);
 
-        public static Vector2 DUNGEON_SPAWN_POINT { get; } = new Vector2(5, 5);
+        public static Vector2 VILLAGE_SPAWN_POINT { get; } = new Vector2(143, 69);
+
+        public static Vector2 DUNGEON_SPAWN_POINT { get; } = new Vector2(9.5f, 55f) + new Vector2(Border);
 
         public static Vector2 SMITH_SPAWN_POINT { get; } = new Vector2(10.5f, 2f);
 

@@ -5,15 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.Helper;
+using Villeon.Utils;
 
 namespace Villeon.GUI
 {
     public class PauseMenu : IGUIMenu
     {
-        private List<Entity> _entities;
+        private List<IEntity> _entities;
 
         private float _letterScale = 0.35f;
 
@@ -28,10 +30,10 @@ namespace Villeon.GUI
         public PauseMenu()
         {
             // Create Pause layout
-            _entities = new List<Entity>();
+            _entities = new List<IEntity>();
 
             // Load Sprites
-            Sprite backgroundScrollSprite = Assets.GetSprite("GUI.Scroll_Pausemenu.png", Render.SpriteLayer.ScreenGuiBackground, false);
+            Sprite backgroundScrollSprite = Asset.GetSprite("GUI.Scroll_Pausemenu.png", SpriteLayer.ScreenGuiBackground, false);
 
             // Background
             Vector2 scrollMiddle = new Vector2(backgroundScrollSprite.Width / 2f, (backgroundScrollSprite.Height / 2f) - 1f);
@@ -41,17 +43,17 @@ namespace Villeon.GUI
 
             // Menu Texts
             Text resumeText = new Text("Resume", new Vector2(-1.35f, 1f), "Alagard", 0f, 1f, _letterScale);
-            Array.ForEach(resumeText.GetEntities(), entity => _entities.Add(entity));
+            _entities.AddRange(resumeText.GetEntities());
 
             Text saveGameText = new Text("Save Game", new Vector2(-1.9f, 0f), "Alagard", 0f, 1f, _letterScale);
-            Array.ForEach(saveGameText.GetEntities(), entity => _entities.Add(entity));
+            _entities.AddRange(saveGameText.GetEntities());
 
             Text exitGameText = new Text("Exit Game", new Vector2(-1.85f, -1f), "Alagard", 0f, 1f, _letterScale);
-            Array.ForEach(exitGameText.GetEntities(), entity => _entities.Add(entity));
+            _entities.AddRange(exitGameText.GetEntities());
 
             // Selector
             _selectorText = new Text(">               <", _selectorStartPosition, "Alagard", 0f, 0.5f, _letterScale);
-            Array.ForEach(_selectorText.GetEntities(), entity => _entities.Add(entity));
+            _entities.AddRange(_selectorText.GetEntities());
         }
 
         public IEntity[] GetEntities()
@@ -98,13 +100,14 @@ namespace Villeon.GUI
                 case 0:
                     // Remove menu from scene
                     Manager.GetInstance().RemoveEntities(GetEntities());
-                    GUIHandler.GetInstance().ClearMenu();
+
+                    // GUIHandler.GetInstance().ClearMenu();
                     StateManager.InMenu = false;
                     break;
 
                 // Save game
                 case 1:
-                    Console.WriteLine("Game Saved");
+                    SaveLoad.Save();
                     break;
 
                 // Exit game

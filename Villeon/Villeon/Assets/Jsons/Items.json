@@ -1,12 +1,35 @@
-﻿{
-  "items": [
-    {
-      "id": 0,
-      "name": "Gold"
-    },
-    {
-      "id": 1,
-      "name": "Healpotion"
-    }
-  ]
-}
+﻿[
+  {
+    "name": "HealthPotion",
+    "index": 0,
+    "price": "5",
+    "itemType": "Potion",
+    "stackSize": 20,
+    "sprite": "Potion_Item.png"
+  },
+  {
+    "name": "Sword",
+    "index": 1,
+    "price": "20",
+    "itemType": "Weapon",
+    "stackSize": 1,
+    "sprite": "Sword_1.png"
+  },
+  {
+    "name": "Gold",
+    "index": 2,
+    "price": 10,
+    "itemType": "Material",
+    "stackSize": 100,
+    "sprite": "Gold.png"
+  },
+  {
+    "name": "Rock",
+    "index": 3,
+    "price": 1,
+    "itemType": "Material",
+    "stackSize": 100,
+    "sprite": "Rock.png"
+  }
+]
+

@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenTK.Mathematics;
-using Villeon;
 using Villeon.Components;
-using Villeon.ECS;
-using Villeon.Systems;
+using Villeon.EntityManagement;
+using Villeon.Systems.Update;
+using Villeon.Utils;
 
 namespace VilleonTests
 {
@@ -45,8 +45,7 @@ namespace VilleonTests
             enemy.AddComponent(new Collider(Vector2.Zero, new Vector2(0, 0), 1f, 1f));
 
             Entity player = new Entity(new Transform(new Vector2(0, 2), 1.0f, 0.0f), "Player");
-            player.AddComponent(new Collider(Vector2.Zero, new Vector2(0, 2), 1f, 1f));
-            player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
+            player.AddComponent(new DynamicCollider(Vector2.Zero, new Vector2(0, 2), 1f, 1f));
 
             // Add every entity to the collisionsystem
             collisionSystem.AddEntity(enemy);
@@ -56,8 +55,7 @@ namespace VilleonTests
             player.GetComponent<Transform>().Position -= new Vector2(0, 2);
             collisionSystem.Update(0);
 
-            //Assert.AreEqual(new Vector2(0, 1), player.GetComponent<Collider>().Position);
-            Assert.AreEqual(player.GetComponent<Collider>().Position, player.GetComponent<Transform>().Position);
+            Assert.AreEqual(new Vector2(0, 1), player.GetComponent<Transform>().Position);
         }
 
         [TestMethod]
@@ -73,8 +71,7 @@ namespace VilleonTests
             enemy.AddComponent(new Collider(Vector2.Zero, enemyStartPos, 1f, 1f));
 
             Entity player = new Entity(new Transform(playerStartPos, 1.0f, 0.0f), "Player");
-            player.AddComponent(new Collider(Vector2.Zero, playerStartPos, 1f, 1f));
-            player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
+            player.AddComponent(new DynamicCollider(Vector2.Zero, playerStartPos, 1f, 1f));
 
             collisionSystem.AddEntity(enemy);
             collisionSystem.AddEntity(player);
@@ -98,8 +95,7 @@ namespace VilleonTests
             enemy.AddComponent(new Collider(Vector2.Zero, enemyStartPos, 1f, 1f));
 
             Entity player = new Entity(new Transform(playerStartPos, 1.0f, 0.0f), "Player");
-            player.AddComponent(new Collider(Vector2.Zero, playerStartPos, 1f, 1f));
-            player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
+            player.AddComponent(new DynamicCollider(Vector2.Zero, playerStartPos, 1f, 1f));
 
             collisionSystem.AddEntity(enemy);
             collisionSystem.AddEntity(player);
@@ -123,8 +119,7 @@ namespace VilleonTests
             enemy.AddComponent(new Collider(Vector2.Zero, enemyStartPos, 1f, 1f));
 
             Entity player = new Entity(new Transform(playerStartPos, 1.0f, 0.0f), "Player");
-            player.AddComponent(new Collider(Vector2.Zero, playerStartPos, 1f, 1f));
-            player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
+            player.AddComponent(new DynamicCollider(Vector2.Zero, playerStartPos, 1f, 1f));
 
             collisionSystem.AddEntity(enemy);
             collisionSystem.AddEntity(player);
@@ -136,7 +131,7 @@ namespace VilleonTests
         }
 
         [TestMethod]
-        public void CollisionCornerCorner()
+        public void CollisionTopCornerCorner()
         {
             TypeRegistry.SetupTypes();
             CollisionSystem collisionSystem = new ("collisionSystem");
@@ -148,8 +143,7 @@ namespace VilleonTests
             enemy.AddComponent(new Collider(Vector2.Zero, enemyStartPos, 1f, 1f));
 
             Entity player = new Entity(new Transform(playerStartPos, 1.0f, 0.0f), "Player");
-            player.AddComponent(new Collider(Vector2.Zero, playerStartPos, 1f, 1f));
-            player.AddComponent(new DynamicCollider(player.GetComponent<Collider>()));
+            player.AddComponent(new DynamicCollider(Vector2.Zero, playerStartPos, 1f, 1f));
 
             collisionSystem.AddEntity(enemy);
             collisionSystem.AddEntity(player);
@@ -158,6 +152,105 @@ namespace VilleonTests
             collisionSystem.Update(0);
 
             Assert.AreEqual(new Vector2(0.9f, 1f), player.GetComponent<Transform>().Position);
+        }
+
+        [TestMethod]
+        public void CollisionRightCornerCorner()
+        {
+            TypeRegistry.SetupTypes();
+            CollisionSystem collisionSystem = new ("collisionSystem");
+
+            Vector2 enemyStartPos = new Vector2(0, 0);
+            Vector2 playerStartPos = new Vector2(1, -1);
+
+            Entity enemy = new Entity(new Transform(enemyStartPos, 1.0f, 0.0f), "Enemy");
+            enemy.AddComponent(new Collider(Vector2.Zero, enemyStartPos, 1f, 1f));
+
+            Entity player = new Entity(new Transform(playerStartPos, 1.0f, 0.0f), "Player");
+            player.AddComponent(new DynamicCollider(Vector2.Zero, playerStartPos, 1f, 1f));
+
+            collisionSystem.AddEntity(enemy);
+            collisionSystem.AddEntity(player);
+
+            player.GetComponent<Transform>().Position += new Vector2(-0.1f, 0.1f);
+            collisionSystem.Update(0);
+
+            Assert.AreEqual(new Vector2(1f, -0.9f), player.GetComponent<Transform>().Position);
+        }
+
+        [TestMethod]
+        public void CollisionLeftCornerCorner()
+        {
+            TypeRegistry.SetupTypes();
+            CollisionSystem collisionSystem = new ("collisionSystem");
+
+            Vector2 enemyStartPos = new Vector2(0, 0);
+            Vector2 playerStartPos = new Vector2(-1, -1);
+
+            Entity enemy = new Entity(new Transform(enemyStartPos, 1.0f, 0.0f), "Enemy");
+            enemy.AddComponent(new Collider(Vector2.Zero, enemyStartPos, 1f, 1f));
+
+            Entity player = new Entity(new Transform(playerStartPos, 1.0f, 0.0f), "Player");
+            player.AddComponent(new DynamicCollider(Vector2.Zero, playerStartPos, 1f, 1f));
+
+            collisionSystem.AddEntity(enemy);
+            collisionSystem.AddEntity(player);
+
+            player.GetComponent<Transform>().Position += new Vector2(0.1f, 0.1f);
+            collisionSystem.Update(0);
+
+            Assert.AreEqual(new Vector2(-1f, -0.9f), player.GetComponent<Transform>().Position);
+        }
+
+        [TestMethod]
+        public void CollistionNotMoving()
+        {
+            TypeRegistry.SetupTypes();
+            CollisionSystem collisionSystem = new ("collisionSystem");
+
+            Entity enemy = new Entity(new Transform(new Vector2(0, 0), 1.0f, 0.0f), "Enemy");
+            enemy.AddComponent(new Collider(Vector2.Zero, enemy.GetComponent<Transform>(), 1f, 1f));
+
+            Entity player = new Entity(new Transform(new Vector2(1, 1), 1.0f, 0.0f), "Player");
+            player.AddComponent(new DynamicCollider(Vector2.Zero, player.GetComponent<Transform>(), 1f, 1f));
+
+            collisionSystem.AddEntity(enemy);
+            collisionSystem.AddEntity(player);
+
+            collisionSystem.Update(0);
+
+            Assert.AreEqual(new Vector2(1f, 1f), player.GetComponent<Transform>().Position);
+        }
+
+        [TestMethod]
+        public void CollisionMultipleDynamicCollider()
+        {
+            TypeRegistry.SetupTypes();
+            CollisionSystem collisionSystem = new ("collisionSystem");
+
+            Vector2 enemyStartPos = new Vector2(0, 0.5f);
+            Vector2 playerStartPos = new Vector2(0, -0.5f);
+            Vector2 blockStartPos = new Vector2(1, 0);
+
+            Entity block = new Entity(new Transform(blockStartPos, 1.0f, 0.0f), "Enemy");
+            block.AddComponent(new Collider(Vector2.Zero, blockStartPos, 1f, 1f));
+
+            Entity enemy = new Entity(new Transform(enemyStartPos, 1.0f, 0.0f), "Enemy");
+            enemy.AddComponent(new DynamicCollider(Vector2.Zero, enemyStartPos, 1f, 1f));
+
+            Entity player = new Entity(new Transform(playerStartPos, 1.0f, 0.0f), "Player");
+            player.AddComponent(new DynamicCollider(Vector2.Zero, playerStartPos, 1f, 1f));
+
+            collisionSystem.AddEntity(block);
+            collisionSystem.AddEntity(enemy);
+            collisionSystem.AddEntity(player);
+
+            enemy.GetComponent<Transform>().Position += new Vector2(0.1f, -0.1f);
+            player.GetComponent<Transform>().Position += new Vector2(0.1f, 0.1f);
+            collisionSystem.Update(0);
+
+            Assert.AreEqual(new Vector2(0f, -0.4f), player.GetComponent<Transform>().Position);
+            Assert.AreEqual(new Vector2(0f, 0.4f), enemy.GetComponent<Transform>().Position);
         }
     }
 }

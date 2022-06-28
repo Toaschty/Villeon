@@ -5,48 +5,52 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
+using Villeon.Helper;
 
-namespace Villeon.Systems
+namespace Villeon.Systems.Update
 {
     public class PhysicsSystem : System, IUpdateSystem
     {
         public PhysicsSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Physics), typeof(Collider));
+            Signature.IncludeAND(typeof(Physics));
         }
 
         public void Update(float time)
         {
             Physics physics;
             Transform transform;
-            Collider collider;
+            DynamicCollider collider;
             foreach (IEntity entity in Entities)
             {
                 // Get Components
                 physics = entity.GetComponent<Physics>();
                 transform = entity.GetComponent<Transform>();
-                collider = entity.GetComponent<Collider>();
+                collider = entity.GetComponent<DynamicCollider>();
 
-                // If Collided, stop player in that axis
-                if ((collider.HasCollidedBottom && physics.Velocity.Y < 0.0f) ||
-                    (collider.HasCollidedTop && physics.Velocity.Y > 0.0f))
-                    physics.Velocity = new Vector2(physics.Velocity.X, 0.0f);
+                if (collider != null)
+                {
+                    // If Collided, stop player in that axis
+                    if ((collider.HasCollidedBottom && physics.Velocity.Y < 0.0f) ||
+                        (collider.HasCollidedTop && physics.Velocity.Y > 0.0f))
+                        physics.Velocity = new Vector2(physics.Velocity.X, 0.0f);
 
-                if ((collider.HasCollidedLeft && physics.Velocity.X < 0.0f) ||
-                   (collider.HasCollidedRight && physics.Velocity.X > 0.0f))
-                    physics.Velocity = new Vector2(0.0f, physics.Velocity.Y);
+                    if ((collider.HasCollidedLeft && physics.Velocity.X < 0.0f) ||
+                       (collider.HasCollidedRight && physics.Velocity.X > 0.0f))
+                        physics.Velocity = new Vector2(0.0f, physics.Velocity.Y);
+                }
 
                 // Add Gravity
-                physics.Acceleration += new Vector2(0.0f, -Constants.GRAVITY);
+                physics.Acceleration += new Vector2(0.0f, -Constants.GRAVITY * physics.Weight);
 
                 // Peak Super downward mega speed speed lets go
                 if (physics.Velocity.Y <= 0)
-                    physics.Acceleration += new Vector2(0.0f, 2.0f * -Constants.GRAVITY);
+                    physics.Acceleration += new Vector2(0.0f, 2.0f * -Constants.GRAVITY * physics.Weight);
 
                 // Friction
-                physics.Acceleration += new Vector2(-Constants.FRICTION * physics.Velocity.X, 0);
+                physics.Acceleration += new Vector2(-Constants.FRICTION * physics.Velocity.X * physics.Friction, 0);
 
                 // Physics calculation
                 Vector2 oldVelocity = physics.Velocity;

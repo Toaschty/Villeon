@@ -6,46 +6,52 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.Helper;
-using Villeon.Render;
 using Villeon.Utils;
 
 namespace Villeon.GUI
 {
     public class EquipmentMenu : IGUIMenu
     {
-        private List<Entity> _entities;
+        private List<IEntity> _entities;
+        private List<IEntity> _statEntities;
 
         private float _letterScale = 0.35f;
+        private float _letterScaleStats = 0.25f;
 
         private dynamic _charakterJson;
 
         public EquipmentMenu()
         {
             // Create Menu layout
-            _entities = new List<Entity>();
+            _entities = new List<IEntity>();
+            _statEntities = new List<IEntity>();
 
             // Load character data
             _charakterJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.Character.json")) !;
 
             // Load Sprites
-            Sprite backgroundScrollSprite = Assets.GetSprite("GUI.Scroll_Equipment.png", Render.SpriteLayer.ScreenGuiBackground, false);
-            Sprite swordSlotSprite = Assets.GetSprite("GUI.Inventory.InventorySlot_Sword.png", SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite shieldSlotSprite = Assets.GetSprite("GUI.Inventory.InventorySlot_Shield.png", SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite slotSprite = Assets.GetSprite("GUI.Inventory.InventorySlot.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite backgroundScrollSprite = Asset.GetSprite("GUI.Scroll_Equipment.png", SpriteLayer.ScreenGuiBackground, false);
+            Sprite statHealthSprite = Asset.GetSprite("GUI.Equipment.Equipment_Stat_Health.png", SpriteLayer.ScreenGuiForeground, false);
+            Sprite statAttackSprite = Asset.GetSprite("GUI.Equipment.Equipment_Stat_Attack.png", SpriteLayer.ScreenGuiForeground, false);
+            Sprite statDefenseSprite = Asset.GetSprite("GUI.Equipment.Equipment_Stat_Defense.png", SpriteLayer.ScreenGuiForeground, false);
+            Sprite swordSlotSprite = Asset.GetSprite("GUI.Inventory.InventorySlot_Sword.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite shieldSlotSprite = Asset.GetSprite("GUI.Inventory.InventorySlot_Shield.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite slotSprite = Asset.GetSprite("GUI.Inventory.InventorySlot.png", SpriteLayer.ScreenGuiMiddleground, false);
 
             // Background
             Vector2 scrollMiddle = new Vector2(backgroundScrollSprite.Width / 2f, backgroundScrollSprite.Height / 2f);
-            Entity backgroundImage = new Entity(new Transform(Vector2.Zero - (scrollMiddle * 0.5f), 0.5f, 0f), "BackgroundImage");
+            IEntity backgroundImage = new Entity(new Transform(Vector2.Zero - (scrollMiddle * 0.5f), 0.5f, 0f), "BackgroundImage");
             backgroundImage.AddComponent(backgroundScrollSprite);
             _entities.Add(backgroundImage);
 
             // Character name
             string charakterName = _charakterJson.name.ToString();
             Text name = new Text(charakterName, new Vector2(-5.9f, 3.2f), "Alagard", 0f, 0.5f, _letterScale);
-            Array.ForEach(name.GetEntities(), entity => _entities.Add(entity));
+            _entities.AddRange(name.GetEntities());
 
             // Idle player animation
             Entity image = new Entity(new Transform(new Vector2(-4.2f, -1.6f), 0.7f, 0f), "Profil");
@@ -65,6 +71,28 @@ namespace Villeon.GUI
             image.AddComponent(controller);
             _entities.Add(image);
 
+            // Player stats
+            Entity healthIcon = new Entity(new Transform(new Vector2(-6.2f, -4f), 0.2f, 0f), "Health Icon");
+            healthIcon.AddComponent(statHealthSprite);
+            _entities.Add(healthIcon);
+
+            Text health = new Text(Stats.GetInstance().GetHealth().ToString(), new Vector2(-5.5f, -4.1f), "Alagard", 0f, 0.5f, _letterScaleStats);
+            Array.ForEach(health.GetEntities(), entity => _statEntities.Add(entity));
+
+            Entity attackIcon = new Entity(new Transform(new Vector2(-4.2f, -4f), 0.2f, 0f), "Attack Icon");
+            attackIcon.AddComponent(statAttackSprite);
+            _entities.Add(attackIcon);
+
+            Text attack = new Text(Stats.GetInstance().GetAttack().ToString(), new Vector2(-3.5f, -4.1f), "Alagard", 0f, 0.5f, _letterScaleStats);
+            Array.ForEach(attack.GetEntities(), entity => _statEntities.Add(entity));
+
+            Entity defenseIcon = new Entity(new Transform(new Vector2(-2.2f, -4f), 0.2f, 0f), "Defense Icon");
+            defenseIcon.AddComponent(statDefenseSprite);
+            _entities.Add(defenseIcon);
+
+            Text defense = new Text(Stats.GetInstance().GetDefense().ToString(), new Vector2(-1.5f, -4.1f), "Alagard", 0f, 0.5f, _letterScaleStats);
+            Array.ForEach(defense.GetEntities(), entity => _statEntities.Add(entity));
+
             // Weapon
             Text weapon = new Text("Sword & Shield", new Vector2(0.6f, 3.2f), "Alagard", 0f, 0.5f, _letterScale);
             Array.ForEach(weapon.GetEntities(), entity => _entities.Add(entity));
@@ -82,10 +110,10 @@ namespace Villeon.GUI
             Array.ForEach(hotbar.GetEntities(), entity => _entities.Add(entity));
 
             // Hotbar Slots
-            Entity slot1 = new Entity(new Transform(new Vector2(0.6f, -3.2f), 0.3f, 0f), "Slot1");
-            Entity slot2 = new Entity(new Transform(new Vector2(2.1f, -3.2f), 0.3f, 0f), "Slot2");
-            Entity slot3 = new Entity(new Transform(new Vector2(3.6f, -3.2f), 0.3f, 0f), "Slot3");
-            Entity slot4 = new Entity(new Transform(new Vector2(5.1f, -3.2f), 0.3f, 0f), "Slot4");
+            IEntity slot1 = new Entity(new Transform(new Vector2(0.6f, -3.2f), 0.3f, 0f), "Slot1");
+            IEntity slot2 = new Entity(new Transform(new Vector2(2.1f, -3.2f), 0.3f, 0f), "Slot2");
+            IEntity slot3 = new Entity(new Transform(new Vector2(3.6f, -3.2f), 0.3f, 0f), "Slot3");
+            IEntity slot4 = new Entity(new Transform(new Vector2(5.1f, -3.2f), 0.3f, 0f), "Slot4");
             slot1.AddComponent(slotSprite);
             slot2.AddComponent(slotSprite);
             slot3.AddComponent(slotSprite);
@@ -94,6 +122,8 @@ namespace Villeon.GUI
             _entities.Add(slot2);
             _entities.Add(slot3);
             _entities.Add(slot4);
+
+            _entities.AddRange(_statEntities);
         }
 
         public IEntity[] GetEntities()
@@ -103,7 +133,32 @@ namespace Villeon.GUI
 
         public bool OnKeyReleased(Keys key)
         {
+            // Refresh stat texts
+            RefreshStatText();
+
             return true;
+        }
+
+        private void RefreshStatText()
+        {
+            // Delete old text
+            Manager.GetInstance().RemoveEntities(_entities);
+            for (int i = 0; i < _statEntities.Count; i++)
+                _entities.Remove(_statEntities[i]);
+
+            _statEntities.Clear();
+
+            // Add stats texts
+            Text health = new Text(Stats.GetInstance().GetHealth().ToString(), new Vector2(-5.5f, -4.1f), "Alagard", 0f, 0.5f, _letterScaleStats);
+            Array.ForEach(health.GetEntities(), entity => _statEntities.Add(entity));
+
+            Text attack = new Text(Stats.GetInstance().GetAttack().ToString(), new Vector2(-3.5f, -4.1f), "Alagard", 0f, 0.5f, _letterScaleStats);
+            Array.ForEach(attack.GetEntities(), entity => _statEntities.Add(entity));
+
+            Text defense = new Text(Stats.GetInstance().GetDefense().ToString(), new Vector2(-1.5f, -4.1f), "Alagard", 0f, 0.5f, _letterScaleStats);
+            Array.ForEach(defense.GetEntities(), entity => _statEntities.Add(entity));
+
+            _entities.AddRange(_statEntities);
         }
     }
 }

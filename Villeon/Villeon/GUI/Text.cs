@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Villeon.Assets;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
 using Villeon.Helper;
-using Villeon.Render;
+using Villeon.Utils;
 
 namespace Villeon.GUI
 {
     public class Text
     {
-        private List<Entity> _letters;
+        private List<IEntity> _letters;
 
         // Text settings
         private string _text;
@@ -24,7 +25,7 @@ namespace Villeon.GUI
 
         public Text(string text, Vector2 position, string font, float letterSpacing = 1.1f, float lineSpacing = 1.1f, float letterScale = 1f)
         {
-            _letters = new List<Entity>();
+            _letters = new List<IEntity>();
 
             _text = text;
             _position = position;
@@ -32,20 +33,35 @@ namespace Villeon.GUI
             _lineSpacing = lineSpacing * letterScale;
             _letterScale = letterScale;
 
-            CreateLetters(font);
+            CreateLetters(font, SpriteLayer.ScreenGuiForeground);
         }
 
-        public Entity[] GetEntities()
+        public Text(string text, Vector2 position, string font, SpriteLayer layer, float letterSpacing = 1.1f, float lineSpacing = 1.1f, float letterScale = 1f)
+        {
+            _letters = new List<IEntity>();
+
+            _text = text;
+            _position = position;
+            _letterSpacing = letterSpacing * letterScale;
+            _lineSpacing = lineSpacing * letterScale;
+            _letterScale = letterScale;
+
+            CreateLetters(font, layer);
+        }
+
+        public float Width { get; set; }
+
+        public List<IEntity> Letters { get => _letters; set => _letters = value; }
+
+        public IEntity[] GetEntities()
         {
             return _letters.ToArray();
         }
 
-        private void CreateLetters(string fontName)
+        private void CreateLetters(string fontName, SpriteLayer layer)
         {
-            Font font = new Font(Color4.White, Assets.GetTexture("Fonts." + fontName + ".png"), "Fonts." + fontName + ".json");
-
             Vector2 letterPosition = _position;
-            float spriteHeight = font.FontHeight * _letterScale;
+            float spriteHeight = Fonts.GetFontHeight(fontName) * _letterScale;
             foreach (char c in _text)
             {
                 // Move to next line '\n'
@@ -56,11 +72,11 @@ namespace Villeon.GUI
                     continue;
                 }
 
-                Sprite letterSprite = font.GetCharacter(c, SpriteLayer.ScreenGuiForeground, false);
+                Sprite letterSprite = Fonts.GetCharacter(fontName, c, layer, true);
                 float spriteWidth = letterSprite.Width * _letterScale;
 
                 // Create Entity for letter
-                Entity letterEntity = new Entity(new Transform(letterPosition, _letterScale, 0f), "TBX[" + c + "]");
+                Entity letterEntity = new Entity(new Transform(letterPosition, _letterScale, 0f), "[" + c + "]");
                 Sprite letterSpriteCopy = new Sprite(letterSprite);
                 letterEntity.AddComponent(letterSpriteCopy);
                 _letters.Add(letterEntity);
@@ -68,6 +84,8 @@ namespace Villeon.GUI
                 // Set position for next letter
                 letterPosition.X += spriteWidth + _letterSpacing;
             }
+
+            Width = letterPosition.X;
         }
     }
 }

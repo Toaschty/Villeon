@@ -201,7 +201,7 @@ dotnet_diagnostic.SA1009.severity = warning
 dotnet_diagnostic.SA1010.severity = warning
 
 # SA1011: Closing square brackets should be spaced correctly
-dotnet_diagnostic.SA1011.severity = warning
+dotnet_diagnostic.SA1011.severity = none
 
 # SA1012: Opening braces should be spaced correctly
 dotnet_diagnostic.SA1012.severity = warning

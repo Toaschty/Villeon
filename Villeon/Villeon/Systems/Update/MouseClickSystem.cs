@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
-using Villeon.ECS;
+using Villeon.EntityManagement;
+using Villeon.Generation;
 using Villeon.Helper;
 
-namespace Villeon.Systems
+namespace Villeon.Systems.Update
 {
     public class MouseClickSystem : System, IUpdateSystem
     {
-        private EntitySpawner _entitySpawner = new EntitySpawner();
+        private EnemyBuilder _entitySpawner = new EnemyBuilder();
 
         public MouseClickSystem(string name)
             : base(name)
@@ -25,9 +26,14 @@ namespace Villeon.Systems
         {
             foreach (MouseHandler.ClickedMouseButton button in MouseHandler.ClickedMouseButtons)
             {
-                if (button.Button == MouseButton.Left)
+                if (button.Button == MouseButton.Right)
                 {
-                    _entitySpawner.Spawn(button.MousePosition);
+                    EnemySpawner.Spawn("DungeonScene", "slime", button.MousePosition);
+                }
+
+                if (button.Button == MouseButton.Middle)
+                {
+                    EnemySpawner.Spawn("DungeonScene", "bat", button.MousePosition);
                 }
             }
         }
