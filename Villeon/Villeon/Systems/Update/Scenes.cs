@@ -82,7 +82,7 @@ namespace Villeon.Systems.Update
             TutorialScene.AddSystem(new TriggerSystem("Trigger"));
             TutorialScene.AddSystem(new PortalSystem("PortalSystem"));
             TutorialScene.AddSystem(new CameraSystem("CameraSystem"));
-            TutorialScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            TutorialScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             TutorialScene.AddSystem(new InteractionSystem("InteractionSystem"));
             TutorialScene.AddSystem(new PlayerVillageAnimationSystem("AnimationControllerSystem"));
             TutorialScene.AddSystem(new AnimationSystem("AnimationSystem"));
@@ -111,7 +111,7 @@ namespace Villeon.Systems.Update
             VillageScene.AddSystem(new TriggerSystem("Trigger"));
             VillageScene.AddSystem(new PortalSystem("PortalSystem"));
             VillageScene.AddSystem(new CameraSystem("CameraSystem"));
-            VillageScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            VillageScene.AddSystem(new SpriteRenderer("SpriteRenderer", true));
             VillageScene.AddSystem(new InteractionSystem("InteractionSystem"));
             VillageScene.AddSystem(new PlayerVillageAnimationSystem("AnimationControllerSystem"));
             VillageScene.AddSystem(new AnimationSystem("AnimationSystem"));
@@ -190,7 +190,6 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new EffectSystem("Effects"));
             DungeonScene.AddSystem(new PlayerDungeonMovementSystem("Move"));
             DungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
-            DungeonScene.AddSystem(new SimpleAISystem("SimpleAISystem"));
             DungeonScene.AddSystem(new FlyingAISystem("FlyingAISystem"));
             DungeonScene.AddSystem(new PhysicsSystem("Physics"));
             DungeonScene.AddSystem(new TriggerSystem("Trigger"));
@@ -215,6 +214,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new PlayerFightingSystem("PlayerFightingSystem"));
             DungeonScene.AddSystem(new PlayerExpSystem("PlayerExpSystem"));
             DungeonScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
+            DungeonScene.AddSystem(new JumpingAISystem("JumpingAISystem"));
             DungeonScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE!
             DungeonScene.AddStartUpFunc(() =>
             {
@@ -241,9 +241,9 @@ namespace Villeon.Systems.Update
 
         public static void SetupPortalEntities()
         {
-            IEntity tutorialToDungeon = new Entity(new Transform(Constants.TUTORIAL_SPAWN_POINT + new Vector2(5, -2), 0.5f, 0f), "villageToDungeonPortal");
+            IEntity tutorialToDungeon = new Entity(new Transform(new Vector2(143, 32), 1f, 0f), "villageToDungeonPortal");
             tutorialToDungeon.AddComponent(Asset.GetSpriteSheet("Sprites.PortalAnimation.png").GetSprite(0, SpriteLayer.Middleground, true));
-            tutorialToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 2f));
+            tutorialToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, new Vector2(1.3f, 1f), 3f, 5f));
             tutorialToDungeon.AddComponent(new Portal("DungeonScene", Constants.TUTORIAL_SPAWN_POINT));
 
             // Setup Portal animation
