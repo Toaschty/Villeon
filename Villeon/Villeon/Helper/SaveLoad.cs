@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Villeon.GUI;
 
 namespace Villeon.Helper
 {
@@ -19,8 +21,18 @@ namespace Villeon.Helper
 
             // Serialize player stats
             string playerStats = Newtonsoft.Json.JsonConvert.SerializeObject(Stats.GetInstance());
-            byte[] playerStatsBytes = Encoding.Default.GetBytes(playerStats);
-            var hexString = BitConverter.ToString(playerStatsBytes);
+
+            // Serialize player inventory
+            string inventoryData = "[";
+            inventoryData += SaveInventory(InventoryMenu.GetInstance().WeaponInventory);
+            inventoryData += SaveInventory(InventoryMenu.GetInstance().PotionInventory);
+            inventoryData += SaveInventory(InventoryMenu.GetInstance().MaterialInventory);
+            inventoryData += "]";
+
+            // Convert to hex
+            string saveData = playerStats + "   " + inventoryData;
+            byte[] saveDataBytes = Encoding.Default.GetBytes(saveData);
+            var hexString = BitConverter.ToString(saveDataBytes);
             hexString = hexString.Replace("-", string.Empty);
 
             // Write data to file
@@ -35,16 +47,62 @@ namespace Villeon.Helper
             // Decode save data
             string saveGame = DecodeHex(hexSaveGame);
 
-            // Convert save data to json object
-            dynamic saveGameJson = JsonConvert.DeserializeObject<Stats>(saveGame) !;
+            // Split stat data from inventory data
+            string[] data = saveGame.Split("   ");
 
-            // Set stat variables
-            Stats.GetInstance().Level = saveGameJson.Level;
-            Stats.GetInstance().Experience = saveGameJson.Experience;
-            Stats.GetInstance().RequiredExperience = saveGameJson.RequiredExperience;
-            Stats.GetInstance().HealthLevel = saveGameJson.HealthLevel;
-            Stats.GetInstance().AttackLevel = saveGameJson.AttackLevel;
-            Stats.GetInstance().DefenseLevel = saveGameJson.DefenseLevel;
+            // Convert save data to json objects
+            dynamic statsJson = JsonConvert.DeserializeObject<dynamic>(data[0]) !;
+            List<dynamic> inventoryJson = JsonConvert.DeserializeObject<List<dynamic>>(data[1]) !;
+
+            // Set stats variables
+            Stats.GetInstance().Level = statsJson.Level;
+            Stats.GetInstance().Experience = statsJson.Experience;
+            Stats.GetInstance().RequiredExperience = statsJson.RequiredExperience;
+            Stats.GetInstance().HealthLevel = statsJson.HealthLevel;
+            Stats.GetInstance().AttackLevel = statsJson.AttackLevel;
+            Stats.GetInstance().DefenseLevel = statsJson.DefenseLevel;
+
+            // Fill inventory with items
+            for (int i = 0; i < 32; i++)
+            {
+                // Fill weapon slot
+                if (inventoryJson[i].Item != null)
+                    InventoryMenu.GetInstance().WeaponInventory[i / 8, i % 8].SetItem(ItemLoader.GetItem((string)inventoryJson[i].Item), (int)inventoryJson[i].Count);
+                // Fill potion slot
+                if (inventoryJson[i + 32].Item != null)
+                    InventoryMenu.GetInstance().PotionInventory[i / 8, i % 8].SetItem(ItemLoader.GetItem((string)inventoryJson[i + 32].Item), (int)inventoryJson[i + 32].Count);
+                // Fill material slot
+                if (inventoryJson[i + 64].Item != null)
+                    InventoryMenu.GetInstance().MaterialInventory[i / 8, i % 8].SetItem(ItemLoader.GetItem((string)inventoryJson[i + 64].Item), (int)inventoryJson[i + 64].Count);
+            }
+
+            // Reload inventory
+            InventoryMenu.GetInstance().ReloadItemEntities();
+        }
+
+        // Return data string of given inventory
+        private static string SaveInventory(InventorySlot[,] inv)
+        {
+            string data = string.Empty;
+
+            foreach (var weapon in inv)
+            {
+                // Create new save class
+                InventorySlotSaveClass saveSlot = new InventorySlotSaveClass();
+
+                saveSlot.Item = (weapon.Item != null) ? weapon.Item!.Name : null;
+                saveSlot.Count = weapon.Count;
+
+                // Serialize data
+                data += Newtonsoft.Json.JsonConvert.SerializeObject(saveSlot, Formatting.Indented, new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                });
+
+                data += ",";
+            }
+
+            return data;
         }
 
         // Decode hex string to string
