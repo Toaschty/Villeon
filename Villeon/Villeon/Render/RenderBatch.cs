@@ -360,7 +360,7 @@ namespace Villeon.Render
         {
             public const int QUAD = 4;
             public const int TEX_SLOTS = 8;
-            public const int MAX_LIGHT_COUNT = 64;
+            public const int MAX_LIGHT_COUNT = 150;
             public const int POSITION = 3;
             public const int COLOR = 4;
             public const int TEX_COORDS = 2;

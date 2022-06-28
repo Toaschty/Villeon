@@ -223,12 +223,6 @@ namespace Villeon.Systems.Update
                 // Add the Player again
                 Scenes.DungeonScene.AddEntity(Players.CreateDungeonPlayer());
 
-                // Add the Portal home
-                IEntity dungeonToVillage = new Entity(new Transform(new Vector2(1f, 3f), 1f, 0f), "dungeonToVillagePortal");
-                dungeonToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 4f));
-                dungeonToVillage.AddComponent(new Portal("VillageScene", Constants.DUNGEON_SPAWN_POINT));
-                DungeonScene.AddEntity(dungeonToVillage);
-
                 // Overlay - Dungeon
                 DungeonOverlay dungeonOverlay = new DungeonOverlay();
                 Scenes.DungeonScene.AddEntities(dungeonOverlay.GetEntities());
