@@ -62,7 +62,6 @@ namespace Villeon.Assets
         public static void LoadRessources()
         {
             // Shaders
-            GetShader("Shaders.shader");
             GetShader("Shaders.light");
 
             // Font
