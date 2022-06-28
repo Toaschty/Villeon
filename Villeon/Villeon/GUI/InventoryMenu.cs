@@ -478,7 +478,7 @@ namespace Villeon.GUI
             // Check if current slot has item
             Item? item = GetItemAtCurrentPosition();
 
-            if (item is not null)
+            if (item is not null && _activeInventory != _allInventory)
             {
                 // Get current slot
                 InventorySlot slot = GetSlotAtCurrentPosition();
@@ -492,6 +492,7 @@ namespace Villeon.GUI
 
                 // Reload item entities
                 slot.ReloadEntities();
+
                 ReloadItemEntitiesAndRender();
             }
         }

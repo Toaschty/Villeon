@@ -221,6 +221,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new PlayerExpSystem("PlayerExpSystem"));
             DungeonScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
             DungeonScene.AddSystem(new JumpingAISystem("JumpingAISystem"));
+            DungeonScene.AddSystem(new HotbarSystem("HotbarUseSystem"));
             DungeonScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE!
             DungeonScene.AddStartUpFunc(() =>
             {
