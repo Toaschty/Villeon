@@ -1,20 +1,22 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Villeon 
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+## Über unser Spiel
+In unserem Spiel geht der Spieler auf eine Rettungsmission, um ein verlorenes Dorf zu retten. 
+Der Spieler trifft dabei auf eine Höhle, worin er auf viele unterschiedliche Monster trifft. 
+Am Ende der Höhle wartet ein sehr starker Boss, der einen Dorfbewohner gefangen hält. 
+Der Spieler besiegt nun den Boss und rettet damit einen weiteren Dorfbewohner.
+Das Ziel ist es alle Dorfbewohner des Dorfs zu retten.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## Spiel starten
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+### Mit EXE starten
+Einfach auf unsere `Villeon.exe` drücken und das Spiel installieren.
+Nach der Installation kann das Spiel mit einem doppelten Mausklick ausgeführt werden.
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+### Mit dem Source Code Starten
+Vorraussetzungen zum ausführen unseren Projekts:
+* Visual Studio
+* .NET Version 5
+* OpenTK
+
+Die Packages sollten normaler weise automatisch heruntergeladen und installiert werden. Wenn nicht, dann können Sie `OpenTK` über oben `Project` -> `Manage NuGet Packages` nach installieren.
