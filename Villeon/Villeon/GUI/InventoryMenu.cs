@@ -65,6 +65,12 @@ namespace Villeon.GUI
             AddEntitiesToList();
         }
 
+        public InventorySlot[,] WeaponInventory => _weaponInventory;
+
+        public InventorySlot[,] PotionInventory => _potionInventory;
+
+        public InventorySlot[,] MaterialInventory => _materialInventory;
+
         public static InventoryMenu GetInstance()
         {
             if (_inventory == null)
@@ -724,6 +730,7 @@ namespace Villeon.GUI
             {
                 for (int x = 0; x < _inventorySlotsX; x++)
                 {
+                    _activeInventory[y, x].ReloadEntities();
                     if (_activeInventory[y, x].HasItem())
                         allItemEntities.AddRange(_activeInventory[y, x].ItemEntites);
                 }
