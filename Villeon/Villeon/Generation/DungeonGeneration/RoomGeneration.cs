@@ -44,13 +44,13 @@ namespace Villeon.Generation.DungeonGeneration
                     {
                         if (roomModels[i - 1, j].RoomType == 2)
                         {
-                            fileName = Getrandomfile(Directory.GetCurrentDirectory() + "../../../../Assets/TileMap/DungeonRooms/End/Pathway");
-                            roomJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("TileMap.DungeonRooms.End.Pathway." + fileName)) !;
+                            fileName = Getrandomfile(Directory.GetCurrentDirectory() + "../../../../Assets/TileMap/DungeonRooms/End/PathwayTopOpen");
+                            roomJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("TileMap.DungeonRooms.End.PathwayTopOpen." + fileName)) !;
                         }
                         else
                         {
-                            fileName = Getrandomfile(Directory.GetCurrentDirectory() + "../../../../Assets/TileMap/DungeonRooms/End/PathwayTopOpen");
-                            roomJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("TileMap.DungeonRooms.End.PathwayTopOpen." + fileName)) !;
+                            fileName = Getrandomfile(Directory.GetCurrentDirectory() + "../../../../Assets/TileMap/DungeonRooms/End/Pathway");
+                            roomJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("TileMap.DungeonRooms.End.Pathway." + fileName)) !;
                         }
 
                         roomModels[i, j].RoomLayout = roomJson.layers[0].data.ToObject<int[]>();
