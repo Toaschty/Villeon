@@ -60,7 +60,7 @@ namespace Villeon.Components
             ReloadHotbar();
         }
 
-        public void UseItem(int index)
+        public void UseItem(int index, Health playerHealth)
         {
             if (_inventoryReferences[index] == null)
                 return;
@@ -74,6 +74,9 @@ namespace Villeon.Components
 
             UpdateItems();
 
+            // Apply effect
+            playerHealth.Heal(20);
+
             // Reload hotbar
             ReloadHotbar();
         }
@@ -86,6 +89,9 @@ namespace Villeon.Components
                 {
                     // Remove entities from scene
                     Manager.GetInstance().RemoveEntities(_hotbarSlots[i].ItemEntites);
+
+                    // Remove item from inventory
+                    _inventoryReferences[i].Item = null;
 
                     // Reset hotbar slot
                     _hotbarSlots[i] = new InventorySlot(_hotbarSlots[i].Transform);
