@@ -42,7 +42,6 @@ namespace Villeon.Generation
                 enemy.AddComponent(new FlyingAI(dmg));
                 offset = new Vector2(0.125f);
                 scale *= 0.8f;
-                enemy.GetComponent<Physics>().Weight = 0f;
             }
             else
             {

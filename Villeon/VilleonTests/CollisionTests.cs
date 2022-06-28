@@ -158,7 +158,7 @@ namespace VilleonTests
         public void CollisionRightCornerCorner()
         {
             TypeRegistry.SetupTypes();
-            CollisionSystem collisionSystem = new("collisionSystem");
+            CollisionSystem collisionSystem = new ("collisionSystem");
 
             Vector2 enemyStartPos = new Vector2(0, 0);
             Vector2 playerStartPos = new Vector2(1, -1);
@@ -182,7 +182,7 @@ namespace VilleonTests
         public void CollisionLeftCornerCorner()
         {
             TypeRegistry.SetupTypes();
-            CollisionSystem collisionSystem = new("collisionSystem");
+            CollisionSystem collisionSystem = new ("collisionSystem");
 
             Vector2 enemyStartPos = new Vector2(0, 0);
             Vector2 playerStartPos = new Vector2(-1, -1);
@@ -206,7 +206,7 @@ namespace VilleonTests
         public void CollistionNotMoving()
         {
             TypeRegistry.SetupTypes();
-            CollisionSystem collisionSystem = new("collisionSystem");
+            CollisionSystem collisionSystem = new ("collisionSystem");
 
             Entity enemy = new Entity(new Transform(new Vector2(0, 0), 1.0f, 0.0f), "Enemy");
             enemy.AddComponent(new Collider(Vector2.Zero, enemy.GetComponent<Transform>(), 1f, 1f));
@@ -226,7 +226,7 @@ namespace VilleonTests
         public void CollisionMultipleDynamicCollider()
         {
             TypeRegistry.SetupTypes();
-            CollisionSystem collisionSystem = new("collisionSystem");
+            CollisionSystem collisionSystem = new ("collisionSystem");
 
             Vector2 enemyStartPos = new Vector2(0, 0.5f);
             Vector2 playerStartPos = new Vector2(0, -0.5f);
