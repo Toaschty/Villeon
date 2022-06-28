@@ -266,9 +266,11 @@ namespace Villeon.Systems.Update
             tutorialToDungeon.AddComponent(animController);
             TutorialScene.AddEntity(tutorialToDungeon);
 
-            IEntity villageToDungeon = new Entity(new Transform(Constants.VILLAGE_SPAWN_POINT + new Vector2(5, 0), 1f, 0f), "villageToDungeonPortal");
-            villageToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 2f));
+            IEntity villageToDungeon = new Entity(new Transform((141, 70), 1f, 0f), "villageToDungeonPortal");
+            villageToDungeon.AddComponent(Asset.GetSpriteSheet("Sprites.PortalAnimation.png").GetSprite(0, SpriteLayer.Middleground, true));
+            villageToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, new Vector2(1.3f, 1f), 3f, 5f));
             villageToDungeon.AddComponent(new Portal("DungeonScene", Constants.VILLAGE_SPAWN_POINT));
+            villageToDungeon.AddComponent(animController);
             VillageScene.AddEntity(villageToDungeon);
 
             IEntity dungeonToVillage = new Entity(new Transform(new Vector2(1f, 3f), 1f, 0f), "dungeonToVillagePortal");
