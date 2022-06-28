@@ -48,7 +48,7 @@ namespace Villeon.GUI
             _entities.Add(inventoryButtonEntity);
 
             IEntity helpButtonEntity = new Entity(new Transform(new Vector2(-3f, -5f), 0.3f, 0f), "Help Button");
-            inventoryButtonEntity.AddComponent(helpButton);
+            helpButtonEntity.AddComponent(helpButton);
             _entities.Add(helpButtonEntity);
 
             // Hotbar Entities
