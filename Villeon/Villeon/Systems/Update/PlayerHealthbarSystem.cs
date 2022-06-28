@@ -46,6 +46,7 @@ namespace Villeon.Systems.Update
             {
                 _playerHealth.MaxHealth = Stats.GetInstance().GetHealth();
                 _healthBar!.UpdateMaxHealth(_playerHealth.MaxHealth);
+                _playerHealth.CurrentHealth = _playerHealth.MaxHealth;
                 _currentMaxHealth = _playerHealth.MaxHealth;
             }
         }
