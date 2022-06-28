@@ -164,12 +164,12 @@ namespace Villeon.Generation
                     // If current tile is enemy spawn -> Spawn enemy
                     if (gid == 8)
                     {
-                        EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, _height - 1 - y), new Vector2(1f));
+                        EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, _height - 1 - y));
                     }
 
                     if (gid == 32)
                     {
-                        EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, _height - 1 - y), new Vector2(5f));
+                        EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, _height - 1 - y));
                     }
 
                     // Get tile from dicitionary with gid

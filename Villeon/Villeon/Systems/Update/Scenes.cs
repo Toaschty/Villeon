@@ -190,7 +190,6 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new EffectSystem("Effects"));
             DungeonScene.AddSystem(new PlayerDungeonMovementSystem("Move"));
             DungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
-            DungeonScene.AddSystem(new SimpleAISystem("SimpleAISystem"));
             DungeonScene.AddSystem(new FlyingAISystem("FlyingAISystem"));
             DungeonScene.AddSystem(new PhysicsSystem("Physics"));
             DungeonScene.AddSystem(new TriggerSystem("Trigger"));
@@ -215,6 +214,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new PlayerFightingSystem("PlayerFightingSystem"));
             DungeonScene.AddSystem(new PlayerExpSystem("PlayerExpSystem"));
             DungeonScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
+            DungeonScene.AddSystem(new JumpingAISystem("JumpingAISystem"));
             DungeonScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE!
             DungeonScene.AddStartUpFunc(() =>
             {

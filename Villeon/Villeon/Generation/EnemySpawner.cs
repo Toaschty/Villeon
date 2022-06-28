@@ -16,7 +16,7 @@ namespace Villeon.Generation
 {
     public static class EnemySpawner
     {
-        public static void Spawn(string sceneName, string enemyName, Vector2 position, Vector2 scale)
+        public static void Spawn(string sceneName, string enemyName, Vector2 position)
         {
             // Load the JSON
             JObject enemiesJson = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.Enemies.json")) !;
@@ -25,6 +25,7 @@ namespace Villeon.Generation
             dynamic json = enemiesJson.SelectToken(enemyName) !;
 
             // Assemble the Enemy //
+            float scale = json.scale;
             IEntity enemy = new Entity(new Transform(position, scale, 0f), enemyName);
 
             // Add Health
@@ -36,18 +37,16 @@ namespace Villeon.Generation
 
             // Add Damage
             int dmg = json.damage;
-            Vector2 offset = Vector2.Zero;
-            if (enemyName.Equals("bat"))
-            {
+            float offsetX = json.offsetX;
+            float offsetY = json.offsetY;
+            Vector2 offset = new Vector2(offsetX, offsetY);
+
+            // Add AI
+            string ai = json.ai;
+            if (ai.Equals("FlyingAI"))
                 enemy.AddComponent(new FlyingAI(dmg));
-                offset = new Vector2(0.125f);
-                scale *= 0.8f;
-                enemy.GetComponent<Physics>().Weight = 0f;
-            }
             else
-            {
                 enemy.AddComponent(new EnemyAI(dmg));
-            }
 
             // Add Experience
             int exp = json.experience;
@@ -60,7 +59,7 @@ namespace Villeon.Generation
             AddDropInfo(json, enemy);
             AddAnimation(json, enemy);
             AddCollider(json, enemy, position, offset, scale);
-            AddTrigger(json, enemy, scale);
+            AddTrigger(json, enemy, offset, scale);
 
             // Spawn the Enemy
             Manager.GetInstance().AddEntityToScene(enemy, sceneName);
@@ -103,20 +102,20 @@ namespace Villeon.Generation
             entity.AddComponent(sprite);
         }
 
-        private static void AddCollider(dynamic json, IEntity entity, Vector2 position, Vector2 offset, Vector2 scale)
+        private static void AddCollider(dynamic json, IEntity entity, Vector2 position, Vector2 offset, float scale)
         {
             // Collider
             int colliderWidth = json.colliderWidth / 8f;
             int colliderHeight = json.colliderHeight / 8f;
-            entity.AddComponent(new DynamicCollider(offset, position, colliderWidth * scale.X, colliderHeight * scale.Y));
+            entity.AddComponent(new DynamicCollider(offset, position, colliderWidth * scale, colliderHeight * scale));
         }
 
-        private static void AddTrigger(dynamic json, IEntity entity, Vector2 scale)
+        private static void AddTrigger(dynamic json, IEntity entity, Vector2 offset, float scale)
         {
             // Trigger
             int triggerWidth = json.triggerWidth / 8f;
             int triggerHeight = json.triggerHeight / 8f;
-            entity.AddComponent(new Trigger(TriggerLayerType.ENEMY, triggerWidth * scale.X, triggerHeight * scale.Y));
+            entity.AddComponent(new Trigger(TriggerLayerType.ENEMY, offset, triggerWidth * scale, triggerHeight * scale));
         }
     }
 }
