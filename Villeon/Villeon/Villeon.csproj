@@ -25,10 +25,13 @@
     <None Remove="Assets\Slime.aseprite" />
     <None Remove="Assets\Sprites\PortalAnimation.aseprite" />
     <None Remove="Assets\Sprites\PortalAnimation.png" />
+    <None Remove="Assets\TileMap\DungeonDarkendLair.tmx" />
+    <None Remove="Assets\TileMap\DungeonHellishHole.tmx" />
+    <None Remove="Assets\TileMap\DungeonSwampyGrot.tmx" />
     <None Remove="Assets\TileMap\Frame.aseprite" />
     <None Remove="Assets\TileMap\obstacles.json" />
     <None Remove="Assets\TileMap\Tilesets\DungeonCrumblyCave.tsx" />
-    <None Remove="Assets\TileMap\Tilesets\DungeonDarkishLayer.tsx" />
+    <None Remove="Assets\TileMap\Tilesets\DungeonDarkendLair.tsx" />
     <None Remove="Assets\TileMap\Tilesets\DungeonHellishHole.tsx" />
   </ItemGroup>
   <ItemGroup>

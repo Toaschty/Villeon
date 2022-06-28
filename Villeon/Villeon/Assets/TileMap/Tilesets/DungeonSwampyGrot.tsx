@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.8" tiledversion="1.8.4" name="DungeonTileSet" tilewidth="8" tileheight="8" tilecount="960" columns="24">
-    <image source="TilesetImages.DungeonDarkishLayer.png" trans="8d8d8d" width="192" height="320"/>
+<tileset version="1.8" tiledversion="1.8.4" name="DungeonSwampyGrot" tilewidth="8" tileheight="8" tilecount="960" columns="24">
+ <image source="TilesetImages.DungeonSwampyGrot.png" trans="8d8d8d" width="192" height="320"/>
  <tile id="8">
   <animation>
    <frame tileid="8" duration="100"/>

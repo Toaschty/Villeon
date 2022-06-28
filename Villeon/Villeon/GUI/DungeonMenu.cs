@@ -17,6 +17,8 @@ namespace Villeon.GUI
 {
     public class DungeonMenu : IGUIMenu
     {
+        private static int _currentSelection = 0;
+
         private List<IEntity> _entities;
 
         private Entity _menuSelection;
@@ -33,7 +35,6 @@ namespace Villeon.GUI
         private float _letterScaleSmall = 0.2f;
 
         // Selection variables
-        private int _currentSelection = 0;
         private bool _onExplore = false;
         private int _elementCount = 0;
 
@@ -94,6 +95,8 @@ namespace Villeon.GUI
             // Load in first text
             LoadText();
         }
+
+        public static int Selection => _currentSelection;
 
         public IEntity[] GetEntities()
         {
