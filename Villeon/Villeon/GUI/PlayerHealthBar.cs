@@ -46,7 +46,7 @@ namespace Villeon.GUI
         public void UpdateMaxHealth(int maxHealth)
         {
             _maxHealth = maxHealth;
-            CalculateHealth(_health);
+            CalculateHealth(_maxHealth);
         }
 
         public void UpdateHealthbar(float newHealth)
