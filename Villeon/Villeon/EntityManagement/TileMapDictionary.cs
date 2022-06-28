@@ -7,6 +7,7 @@ using System.Xml;
 using OpenTK.Mathematics;
 using Villeon.Assets;
 using Villeon.Components;
+using Villeon.GUI;
 using Villeon.Helper;
 using Zenseless.OpenTK;
 using static Villeon.Components.Tile;
@@ -41,8 +42,7 @@ namespace Villeon.EntityManagement
         // Start the setup prozess
         private void SetupTileDictionaries()
         {
-            // Go through all avaiable tilesets
-            foreach (var tileSet in _map.Tilesets)
+            foreach (var tileSet in _map !.Tilesets)
             {
                 float rezImageWidth = 1f / tileSet.ImageWidth;
                 float rezImageHeight = 1f / tileSet.ImageHeight;

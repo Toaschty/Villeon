@@ -186,7 +186,12 @@ namespace Villeon.Systems.Update
         {
             SceneLoader.AddScene(DungeonScene);
 
-            TileMapDictionary tileMap = new TileMapDictionary("Dungeon.tmx");
+            // Setup all different tilesets
+            TileMapDictionary tileMapCrumblyCave = new TileMapDictionary("DungeonCrumblyCave.tmx");
+            TileMapDictionary tileMapDarkendLair = new TileMapDictionary("DungeonDarkendLair.tmx");
+            TileMapDictionary tileMapSwampyGrot = new TileMapDictionary("DungeonSwampyGrot.tmx");
+            TileMapDictionary tileMapHellishHole = new TileMapDictionary("DungeonHellishHole.tmx");
+
             DungeonScene.AddSystem(new EffectSystem("Effects"));
             DungeonScene.AddSystem(new PlayerDungeonMovementSystem("Move"));
             DungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
@@ -235,7 +240,15 @@ namespace Villeon.Systems.Update
                 PlayerExpSystem.Init();
                 PlayerHealthbarSystem.Init();
 
-                SetTileMap(DungeonScene, SpawnDungeon.CreateDungeon(), tileMap, true);
+                // Choose tileset depending on selection
+                switch (DungeonMenu.Selection)
+                {
+                    case 0: SetTileMap(DungeonScene, SpawnDungeon.CreateDungeon(), tileMapCrumblyCave, true); break;
+                    case 1: SetTileMap(DungeonScene, SpawnDungeon.CreateDungeon(), tileMapDarkendLair, true); break;
+                    case 2: SetTileMap(DungeonScene, SpawnDungeon.CreateDungeon(), tileMapSwampyGrot, true); break;
+                    case 3: SetTileMap(DungeonScene, SpawnDungeon.CreateDungeon(), tileMapHellishHole, true); break;
+                }
+
                 return true;
             });
         }

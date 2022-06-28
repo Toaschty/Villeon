@@ -104,6 +104,8 @@ namespace Villeon.Assets
 
             // TileMap
             AddSpriteSheet("TileMap.TilesetImages.DungeonCrumblyCave.png", new SpriteSheet(Color4.White, GetTexture("TileMap.TilesetImages.DungeonCrumblyCave.png"), 8, 8, 64, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("TileMap.TilesetImages.DungeonDarkendLair.png", new SpriteSheet(Color4.White, GetTexture("TileMap.TilesetImages.DungeonDarkendLair.png"), 8, 8, 64, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("TileMap.TilesetImages.DungeonSwampyGrot.png", new SpriteSheet(Color4.White, GetTexture("TileMap.TilesetImages.DungeonSwampyGrot.png"), 8, 8, 64, 0, SpriteLayer.Foreground));
             AddSpriteSheet("TileMap.TilesetImages.DungeonHellishHole.png", new SpriteSheet(Color4.White, GetTexture("TileMap.TilesetImages.DungeonHellishHole.png"), 8, 8, 64, 0, SpriteLayer.Foreground));
         }
     }

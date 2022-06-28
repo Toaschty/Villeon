@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.8" tiledversion="1.8.4" name="DungeonTileSet" tilewidth="8" tileheight="8" tilecount="960" columns="24">
+<tileset version="1.8" tiledversion="1.8.4" name="DungeonHellishHole" tilewidth="8" tileheight="8" tilecount="960" columns="24">
     <image source="TilesetImages.DungeonHellishHole.png" trans="8d8d8d" width="192" height="320"/>
  <tile id="8">
   <animation>
