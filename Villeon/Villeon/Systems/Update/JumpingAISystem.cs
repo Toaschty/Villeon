@@ -186,7 +186,6 @@ namespace Villeon.Systems.Update
 
             // Do the Jumpy
             Physics physics = enemyEntity.GetComponent<Physics>();
-            Console.WriteLine(direction);
             physics.Acceleration = new Vector2(physics.Acceleration.X - (direction.X * 50f), physics.Acceleration.Y);
             physics.Velocity = new Vector2(physics.Velocity.X - (direction.X * 2.5f), Constants.JUMPSTRENGTH);
 
