@@ -13,6 +13,7 @@ namespace Villeon.Generation.DungeonGeneration
 {
     public class SpawnDungeon
     {
+
         private static int[,]? _currentDungeon;
 
         public static int[,]? CurrentDungeon => _currentDungeon;
@@ -33,7 +34,7 @@ namespace Villeon.Generation.DungeonGeneration
                 Console.WriteLine();
             }
 
-            int[,] dungeon = new int[60, 120];
+            int[,] dungeon = new int[60 + (2 * Constants.Border), 120 + (2 * Constants.Border)];
 
             for (int i = 0; i < lvlGen.RoomModels.GetLength(0); i++)
             {
@@ -43,9 +44,25 @@ namespace Villeon.Generation.DungeonGeneration
                     {
                         for (int l = 0; l < 20; l++)
                         {
-                            dungeon[k + (i * 10), l + (j * 20)] = roomGen.RoomModels[i, j].RoomLayout[l + (k * 20)];
+                            dungeon[k + (i * 10) + Constants.Border, l + (j * 20) + Constants.Border] = roomGen.RoomModels[i, j].RoomLayout[l + (k * 20)];
                         }
                     }
+                }
+            }
+
+            // border around dungeon
+            for (int b = 0; b < Constants.Border; b++)
+            {
+                for (int x = 0; x < dungeon.GetLength(1); x++)
+                {
+                    dungeon[b, x] = 97;
+                    dungeon[dungeon.GetLength(0) - (1 + b), x] = 97;
+                }
+
+                for (int y = 0; y < dungeon.GetLength(0); y++)
+                {
+                    dungeon[y, b] = 97;
+                    dungeon[y, dungeon.GetLength(1) - (1 + b)] = 97;
                 }
             }
 

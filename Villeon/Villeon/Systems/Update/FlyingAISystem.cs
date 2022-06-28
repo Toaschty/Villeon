@@ -106,7 +106,7 @@ namespace Villeon.Systems.Update
                 enemyPosition.Y >= dungeonGrid.GetLength(0))
             return playerPosition;
 
-            dungeonGrid[dungeonGrid.GetLength(0) - 1 - (int)enemyPosition.Y, (int)enemyPosition.X] = 202;
+            dungeonGrid[dungeonGrid.GetLength(0) - 1 - (int)enemyPosition.Y, (int)enemyPosition.X] = 167;
 
             List<Path> leaves = new List<Path>();
             leaves.Add(new Path(null, enemyPosition));
@@ -144,13 +144,7 @@ namespace Villeon.Systems.Update
             if (finishedPath is not null)
             {
                 while (finishedPath.LastPath!.LastPath is not null)
-                {
-                    dungeonGrid[dungeonGrid.GetLength(0) - (int)finishedPath.Position.Y - 1, (int)finishedPath.Position.X] = 203;
                     finishedPath = finishedPath.LastPath;
-                }
-
-                dungeonGrid[dungeonGrid.GetLength(0) - (int)finishedPath.Position.Y - 1, (int)finishedPath.Position.X] = 203;
-                dungeonGrid[dungeonGrid.GetLength(0) - (int)finishedPath.LastPath.Position.Y - 1, (int)finishedPath.LastPath.Position.X] = 203;
 
                 return finishedPath.Position;
             }
@@ -166,13 +160,14 @@ namespace Villeon.Systems.Update
                 newPosition.Y > 0 &&
                 newPosition.X < dungeonGrid.GetLength(1) &&
                 newPosition.Y < dungeonGrid.GetLength(0) &&
-                dungeonGrid[dungeonGrid.GetLength(0) - 1 - (int)newPosition.Y, (int)newPosition.X] < 33)
+                (dungeonGrid[dungeonGrid.GetLength(0) - 1 - (int)newPosition.Y, (int)newPosition.X] < 80 ||
+                dungeonGrid[dungeonGrid.GetLength(0) - 1 - (int)newPosition.Y, (int)newPosition.X] > 167))
             {
                 Path newLeaf = new Path(leaf, newPosition);
                 if (newPosition == playerPosition)
                     finishedPath = newLeaf;
 
-                dungeonGrid[dungeonGrid.GetLength(0) - 1 - (int)newPosition.Y, (int)newPosition.X] = 200;
+                dungeonGrid[dungeonGrid.GetLength(0) - 1 - (int)newPosition.Y, (int)newPosition.X] = 167;
                 newLeaves.Add(newLeaf);
                 return true;
             }
@@ -188,18 +183,10 @@ namespace Villeon.Systems.Update
             {
                 for (int x = 0; x < dungeonGrid.GetLength(1); x++)
                 {
-                    if (dungeonGrid[y, x] < 32)
+                    if (dungeonGrid[y, x] < 80 || dungeonGrid[y, x] > 167)
                         Console.Write("  ");
                     else if (dungeonGrid[y, x] == 200)
                         Console.Write(" X");
-                    else if (dungeonGrid[y, x] == 201)
-                        Console.Write(" P");
-                    else if (dungeonGrid[y, x] == 202)
-                        Console.Write(" E");
-                    else if (dungeonGrid[y, x] == 203)
-                        Console.Write(" %");
-                    else
-                        Console.Write(" 0");
                 }
 
                 Console.WriteLine();

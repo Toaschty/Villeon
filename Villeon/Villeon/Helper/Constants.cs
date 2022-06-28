@@ -9,6 +9,10 @@ namespace Villeon.Helper
 {
     public static class Constants
     {
+        // Dungeon
+        public static int Border { get; } = 10;
+
+        // Physics
         public static float GRAVITY { get; } = 40;
 
         public static float FRICTION { get; } = 7.5f;
@@ -33,7 +37,7 @@ namespace Villeon.Helper
 
         public static Vector2 VILLAGE_SPAWN_POINT { get; } = new Vector2(94.5f, 57f);
 
-        public static Vector2 DUNGEON_SPAWN_POINT { get; } = new Vector2(9.5f, 55f);
+        public static Vector2 DUNGEON_SPAWN_POINT { get; } = new Vector2(9.5f, 55f) + new Vector2(Border);
 
         public static Vector2 SMITH_SPAWN_POINT { get; } = new Vector2(10.5f, 2f);
 
