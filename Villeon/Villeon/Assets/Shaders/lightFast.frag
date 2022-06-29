@@ -14,20 +14,12 @@ out vec4 color;
 void main(void)
 {
 
-	//vec3 completeLightColor = vec3(1, 1, 1);
-
-	// Only calculate light for non screen layers
-	//	if (fPosition.z < -7)
-	//	{
-	//
-	//	}
-	//
-
 	if (fTexID > 0)
 	{
-		// Get the textureColor
+		// Get the textureColor and multiply it by the lightcolor 
 		int id = int(fTexID);
         color = texture(textures[id], fTexCoords) * fColor;
+
 	}
 	else
 	{
