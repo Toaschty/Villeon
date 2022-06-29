@@ -86,6 +86,6 @@ void main(void)
 	}
 	else
 	{
-		color = fColor * vec4(completeLightColor, fColor.a);
+		color = vec4(completeLightColor, fColor.a) * fColor;
 	}
 }

@@ -118,7 +118,7 @@ namespace Villeon.Render
 
         private RenderBatch CreateRenderBatch()
         {
-            RenderBatch newBatch = new RenderBatch(Asset.GetShader("Shaders.light"));
+            RenderBatch newBatch = new RenderBatch(Asset.GetShader("Shaders.lightFast"));
             return newBatch;
         }
     }
