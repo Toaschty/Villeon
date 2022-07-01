@@ -198,6 +198,8 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new PlayerDungeonMovementSystem("Move"));
             DungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             DungeonScene.AddSystem(new FlyingAISystem("FlyingAISystem"));
+            DungeonScene.AddSystem(new JumpingAISystem("JumpingAISystem"));
+            DungeonScene.AddSystem(new RollingAISystem("RollingAISystem"));
             DungeonScene.AddSystem(new PhysicsSystem("Physics"));
             DungeonScene.AddSystem(new TriggerSystem("Trigger"));
             DungeonScene.AddSystem(new PortalSystem("PortalSystem"));
@@ -218,11 +220,10 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new PlayerHealthbarSystem("PlayerHealthbar"));
             DungeonScene.AddSystem(new ItemUseSystem("ItemUseSystem"));
             DungeonScene.AddSystem(new DungeonPlayerAnimationSystem("AnimationControllerSystem"));
-            DungeonScene.AddSystem(new FlyingEnemyAnimationSystem("FlyingEnemyAnimationSystem"));
+            DungeonScene.AddSystem(new EnemyAnimationSystem("FlyingEnemyAnimationSystem"));
             DungeonScene.AddSystem(new PlayerFightingSystem("PlayerFightingSystem"));
             DungeonScene.AddSystem(new PlayerExpSystem("PlayerExpSystem"));
             DungeonScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
-            DungeonScene.AddSystem(new JumpingAISystem("JumpingAISystem"));
             DungeonScene.AddSystem(new HotbarSystem("HotbarUseSystem"));
             DungeonScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE!
             DungeonScene.AddStartUpFunc(() =>

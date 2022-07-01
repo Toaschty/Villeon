@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Villeon.Components
 {
-    public class FlyingAI : IComponent
+    public class JumpingAI : IComponent
     {
-        public FlyingAI()
+        public JumpingAI()
         {
         }
     }

@@ -51,8 +51,8 @@ namespace Villeon.GUI
             string[] data = saveGame.Split("   ");
 
             // Convert save data to json objects
-            dynamic statsJson = JsonConvert.DeserializeObject<dynamic>(data[0])!;
-            List<dynamic> inventoryJson = JsonConvert.DeserializeObject<List<dynamic>>(data[1])!;
+            dynamic statsJson = JsonConvert.DeserializeObject<dynamic>(data[0]) !;
+            List<dynamic> inventoryJson = JsonConvert.DeserializeObject<List<dynamic>>(data[1]) !;
 
             // Set stats variables
             Stats.GetInstance().Level = statsJson.Level;

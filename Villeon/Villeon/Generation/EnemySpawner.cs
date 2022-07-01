@@ -37,6 +37,8 @@ namespace Villeon.Generation
 
             // Add Damage
             int dmg = json.damage;
+            enemy.AddComponent(new EnemyAI(dmg));
+
             float offsetX = json.offsetX;
             float offsetY = json.offsetY;
             Vector2 offset = new Vector2(offsetX, offsetY);
@@ -44,9 +46,11 @@ namespace Villeon.Generation
             // Add AI
             string ai = json.ai;
             if (ai.Equals("FlyingAI"))
-                enemy.AddComponent(new FlyingAI(dmg));
-            else
-                enemy.AddComponent(new EnemyAI(dmg));
+                enemy.AddComponent(new FlyingAI());
+            else if (ai.Equals("JumpingAI"))
+                enemy.AddComponent(new JumpingAI());
+            else if (ai.Equals("RollingAI"))
+                enemy.AddComponent(new RollingAI());
 
             // Add Experience
             int exp = json.experience;

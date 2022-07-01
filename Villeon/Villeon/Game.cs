@@ -135,10 +135,13 @@ namespace Villeon
 
         private void SetupGUIEntities()
         {
+            // Overlay - Tutorial
+            TutorialOverlay tutorialOverlay = new TutorialOverlay();
+            Scenes.TutorialScene.AddEntities(tutorialOverlay.GetEntities());
+
             // Overlay - Village
             VillageOverlay villageOverlay = new VillageOverlay();
             Scenes.VillageScene.AddEntities(villageOverlay.GetEntities());
-            Scenes.TutorialScene.AddEntities(villageOverlay.GetEntities());
             Scenes.ShopScene.AddEntities(villageOverlay.GetEntities());
             Scenes.SmithScene.AddEntities(villageOverlay.GetEntities());
 
@@ -151,6 +154,8 @@ namespace Villeon
             guiHandlerEntity.AddComponent(GUIHandler.GetInstance());
 
             Scenes.VillageScene.AddEntity(guiHandlerEntity);
+            Scenes.ShopScene.AddEntity(guiHandlerEntity);
+            Scenes.SmithScene.AddEntity(guiHandlerEntity);
             Scenes.DungeonScene.AddEntity(guiHandlerEntity);
         }
 
