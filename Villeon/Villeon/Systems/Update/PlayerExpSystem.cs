@@ -17,8 +17,7 @@ namespace Villeon.Systems.Update
         public PlayerExpSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(EnemyAI), typeof(Health))
-                .IncludeAND(typeof(FlyingAI), typeof(Health));
+            Signature.IncludeAND(typeof(EnemyAI), typeof(Health));
 
             _expBar = new PlayerExpBar();
         }

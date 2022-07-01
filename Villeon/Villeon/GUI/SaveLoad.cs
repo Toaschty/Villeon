@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Villeon.GUI;
+using Villeon.Helper;
 
-namespace Villeon.Helper
+namespace Villeon.GUI
 {
     public class SaveLoad
     {
@@ -20,7 +20,7 @@ namespace Villeon.Helper
             Directory.CreateDirectory(_saveGamePath);
 
             // Serialize player stats
-            string playerStats = Newtonsoft.Json.JsonConvert.SerializeObject(Stats.GetInstance());
+            string playerStats = JsonConvert.SerializeObject(Stats.GetInstance());
 
             // Serialize player inventory
             string inventoryData = "[";
@@ -100,12 +100,12 @@ namespace Villeon.Helper
                 InventorySlotSaveClass saveSlot = new InventorySlotSaveClass();
 
 #pragma warning disable CS8601 // Possible null reference assignment.
-                saveSlot.Item = (weapon.Item != null) ? weapon.Item!.Name : null;
+                saveSlot.Item = weapon.Item != null ? weapon.Item!.Name : null;
 #pragma warning restore CS8601 // Possible null reference assignment.
                 saveSlot.Count = weapon.Count;
 
                 // Serialize data
-                data += Newtonsoft.Json.JsonConvert.SerializeObject(saveSlot, Formatting.Indented, new JsonSerializerSettings()
+                data += JsonConvert.SerializeObject(saveSlot, Formatting.Indented, new JsonSerializerSettings()
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 });

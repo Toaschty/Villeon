@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Villeon.Components;
 using Villeon.EntityManagement;
-using Villeon.GUI;
 
-namespace Villeon.Components
+namespace Villeon.GUI
 {
     public class Hotbar
     {

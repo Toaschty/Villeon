@@ -339,6 +339,14 @@ namespace Villeon.Render
                 _vertices[offset + 1] = transform.Position.Y + data.Offset.Y + (add.Y * scale.Y);
                 _vertices[offset + 2] = -(int)sprite.RenderLayer;
 
+                //Color4 color = new Color4();
+                //switch (i)
+                //{
+                //    case 0: color = Color4.Red; break;
+                //    case 1: color = Color4.Green; break;
+                //    case 2: color = Color4.Blue; break;
+                //    case 3: color = Color4.Black; break;
+                //}
                 // Color
                 _vertices[offset + 3] = sprite.Color.R;
                 _vertices[offset + 4] = sprite.Color.G;

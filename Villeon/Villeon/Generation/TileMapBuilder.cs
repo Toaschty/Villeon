@@ -192,14 +192,13 @@ namespace Villeon.Generation
                     Random random = new Random();
                     if (gid == 33)
                     {
-                        if (random.Next(0, 2) == 0)
-                        {
+                        int type = random.Next(0, 3);
+                        if (type == 0)
                             EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, _height - 1 - y));
-                        }
+                        else if (type == 1)
+                            EnemySpawner.Spawn("DungeonScene", "bubble", new Vector2(x, _height - 1 - y));
                         else
-                        {
                             EnemySpawner.Spawn("DungeonScene", "bat", new Vector2(x, _height - 1 - y));
-                        }
                     }
 
                     // Get tile from dicitionary with gid

@@ -8,12 +8,12 @@ using Villeon.EntityManagement;
 
 namespace Villeon.Systems.Update
 {
-    public class FlyingEnemyAnimationSystem : System, IUpdateSystem
+    public class EnemyAnimationSystem : System, IUpdateSystem
     {
-        public FlyingEnemyAnimationSystem(string name)
+        public EnemyAnimationSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(AnimationController), typeof(Sprite), typeof(FlyingAI), typeof(Physics));
+            Signature.IncludeAND(typeof(AnimationController), typeof(Sprite), typeof(EnemyAI), typeof(Physics));
         }
 
         public void Update(float time)
@@ -24,7 +24,7 @@ namespace Villeon.Systems.Update
                 AnimationController controller = entity.GetComponent<AnimationController>();
                 Physics physics = entity.GetComponent<Physics>();
 
-                if (physics.Velocity.Y > 0)
+                if (physics.Velocity.X < 0)
                     controller.SetAnimation(0);
                 else
                     controller.SetAnimation(1);

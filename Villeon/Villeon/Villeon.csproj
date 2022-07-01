@@ -22,6 +22,8 @@
     <None Remove="Assets\shader.vert" />
     <None Remove="Assets\Shaders\light.frag" />
     <None Remove="Assets\Shaders\light.vert" />
+    <None Remove="Assets\Shaders\lightFast.frag" />
+    <None Remove="Assets\Shaders\lightFast.vert" />
     <None Remove="Assets\Slime.aseprite" />
     <None Remove="Assets\Sprites\PortalAnimation.aseprite" />
     <None Remove="Assets\Sprites\PortalAnimation.png" />

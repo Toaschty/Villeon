@@ -17,8 +17,7 @@ namespace Villeon.Systems.Update
         public EnemyHealthbarSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Health), typeof(EnemyAI), typeof(Sprite))
-                .IncludeAND(typeof(Health), typeof(FlyingAI), typeof(Sprite));
+            Signature.IncludeAND(typeof(Health), typeof(EnemyAI), typeof(Sprite));
         }
 
         public override void AddEntity(IEntity entity)
