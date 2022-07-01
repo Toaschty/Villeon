@@ -103,6 +103,7 @@ namespace Villeon
                 Scenes.SetupSmithScene();
                 Scenes.SetupShopScene();
                 Scenes.SetupPortalEntities();
+                Scenes.SetupBossScene();
                 SetupGUIEntities();
                 CreatePlayers();
                 GUIHandler.GetInstance().LoadGUI();
@@ -127,7 +128,7 @@ namespace Villeon
         {
             Scenes.TutorialScene.AddEntity(Players.CreateVillagePlayer(Constants.TUTORIAL_SPAWN_POINT));
             Scenes.VillageScene.AddEntity(Players.CreateVillagePlayer(Constants.VILLAGE_SPAWN_POINT));
-            Scenes.DungeonScene.AddEntity(Players.CreateDungeonPlayer());
+            Scenes.DungeonScene.AddEntity(Players.CreateDungeonPlayer(Constants.DUNGEON_SPAWN_POINT));
             Scenes.SmithScene.AddEntity(Players.CreateVillagePlayer(Constants.SMITH_SPAWN_POINT));
             Scenes.ShopScene.AddEntity(Players.CreateVillagePlayer(Constants.SHOP_SPAWN_POINT));
         }

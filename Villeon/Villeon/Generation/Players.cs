@@ -14,10 +14,10 @@ namespace Villeon.Generation
 {
     public class Players
     {
-        public static IEntity CreateDungeonPlayer()
+        public static IEntity CreateDungeonPlayer(Vector2 spawnPoint)
         {
             IEntity player;
-            Transform transform = new Transform(Constants.DUNGEON_SPAWN_POINT, 0.5f, 0f);
+            Transform transform = new Transform(spawnPoint, 0.5f, 0f);
             player = new Entity(transform, "DungeonMarin");
             player.AddComponent(new DynamicCollider(new Vector2(0f, 0f), transform, 1f, 1.5f));
             player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL | TriggerLayerType.LADDER | TriggerLayerType.MOBDROP, new Vector2(0f, 0f), 1f, 2f));
