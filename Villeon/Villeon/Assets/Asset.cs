@@ -63,6 +63,7 @@ namespace Villeon.Assets
         {
             // Shaders
             GetShader("Shaders.light");
+            GetShader("Shaders.lightFast");
 
             // Font
             AddSpriteSheet("Fonts.VilleonFont.png", new SpriteSheet(Color4.White, GetTexture("Fonts.VilleonFont.png"), 8, 12, 95));
