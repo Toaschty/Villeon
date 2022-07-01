@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Villeon.Components;
+using Villeon.GUI;
 using Villeon.Helper;
 using Villeon.Systems;
 
@@ -14,10 +15,17 @@ namespace Villeon.EntityManagement
         public static void SetActiveScene(string sceneName)
         {
             Scene scene = _scenesDictionary[sceneName];
+
             KeyHandler.ClearKeys();
-            StateManager.InMenu = false;
+            StateManager.ResetMenu();
+            StateManager.SetSceneFlag(sceneName);
+            GUIHandler.GetInstance().ClearMenu();
+
             CurrentScene = scene;
             CurrentScene.StartUp();
+
+            Hotbar.GetInstance().UpdateItems();
+            Hotbar.GetInstance().ReloadHotbar();
         }
 
         public static void AddToScene(IEntity entity, string sceneName)

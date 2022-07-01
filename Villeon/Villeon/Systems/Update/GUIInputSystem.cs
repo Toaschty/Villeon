@@ -43,9 +43,9 @@ namespace Villeon.Systems.Update
 
         private void CheckKeyMenu()
         {
-            // Dungeon Menu
-            if (KeyHandler.IsPressed(Keys.L))
-                ChangeMenu(_handler.DungeonMenu);
+            // Death Menu
+            if (StateManager.IsPlayerDead && _handler.CurrentMenu != _handler.DeathMenu)
+                ChangeMenu(_handler.DeathMenu);
 
             // Equipment Menu
             if (KeyHandler.IsPressed(Keys.P))
@@ -58,13 +58,6 @@ namespace Villeon.Systems.Update
                 ChangeMenu(_handler.InventoryMenu);
             }
 
-            // Map Menu
-            if (KeyHandler.IsPressed(Keys.M))
-            {
-                _handler.MapMenu.MoveViewportToMarker();
-                ChangeMenu(_handler.MapMenu);
-            }
-
             // Pause Menu
             if (KeyHandler.IsPressed(Keys.Escape))
                 ChangeMenu(_handler.PauseMenu);
@@ -73,9 +66,20 @@ namespace Villeon.Systems.Update
             if (KeyHandler.IsPressed(Keys.H))
                 ChangeMenu(_handler.HelpMenu);
 
-            // Death Menu
-            if (StateManager.IsPlayerDead && _handler.CurrentMenu != _handler.DeathMenu)
-                ChangeMenu(_handler.DeathMenu);
+            // Lock specific menus in specific scenes
+            if (StateManager.InDungeon || StateManager.InTutorial)
+                return;
+
+            // Dungeon Menu
+            if (KeyHandler.IsPressed(Keys.L))
+                ChangeMenu(_handler.DungeonMenu);
+
+            // Map Menu
+            if (KeyHandler.IsPressed(Keys.M))
+            {
+                _handler.MapMenu.MoveViewportToMarker();
+                ChangeMenu(_handler.MapMenu);
+            }
         }
 
         private void ChangeMenu(IGUIMenu menu)

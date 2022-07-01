@@ -128,5 +128,20 @@ namespace Villeon.Components
                 }
             }
         }
+
+        public int[] GetHotbarIndexes(InventorySlot slot)
+        {
+            List<int> indexes = new List<int>();
+
+            for (int i = 0; i < _inventoryReferences.Length; i++)
+            {
+                if (_inventoryReferences[i] == slot)
+                {
+                    indexes.Add(i);
+                }
+            }
+
+            return indexes.ToArray();
+        }
     }
 }

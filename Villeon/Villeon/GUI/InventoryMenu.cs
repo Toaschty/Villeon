@@ -244,6 +244,8 @@ namespace Villeon.GUI
                             if (!inventory[y, x].IsStackFull())
                             {
                                 // Remove all Item entities
+                                Manager.GetInstance().RemoveEntities(inventory[y, x].ItemEntites);
+
                                 foreach (IEntity entity in inventory[y, x].ItemEntites)
                                 {
                                     _itemEntities.Remove(entity);
@@ -662,6 +664,10 @@ namespace Villeon.GUI
             int firstPointCount = _activeInventory[firstPoint.Y, firstPoint.X].Count;
             int secondPointCount = _activeInventory[secondPoint.Y, secondPoint.X].Count;
 
+            // Check if slots are on hotbar
+            int[] indicesFirstItemOnHotbar = Hotbar.GetInstance().GetHotbarIndexes(_activeInventory[firstPoint.Y, firstPoint.X]);
+            int[] indicesSecondItemOnHotbar = Hotbar.GetInstance().GetHotbarIndexes(_activeInventory[secondPoint.Y, secondPoint.X]);
+
             if (firstItem != null)
             {
                 // Remove the old item entity
@@ -692,6 +698,19 @@ namespace Villeon.GUI
             _activeInventory[firstPoint.Y, firstPoint.X].SetItem(secondItem!, secondPointCount);
             _activeInventory[secondPoint.Y, secondPoint.X].SetItem(firstItem!, firstPointCount);
 
+            // Swap hotbar references for both items
+            if (indicesFirstItemOnHotbar.Length > 0)
+            {
+                for (int i = 0; i < indicesFirstItemOnHotbar.Length; i++)
+                    Hotbar.GetInstance().AddItem(indicesFirstItemOnHotbar[i], _activeInventory[secondPoint.Y, secondPoint.X]);
+            }
+
+            if (indicesSecondItemOnHotbar.Length > 0)
+            {
+                for (int i = 0; i < indicesSecondItemOnHotbar.Length; i++)
+                    Hotbar.GetInstance().AddItem(indicesSecondItemOnHotbar[i], _activeInventory[firstPoint.Y, firstPoint.X]);
+            }
+
             // Reload all entities of current slots (Add item entity and count sprites)
             _activeInventory[firstPoint.Y, firstPoint.X].ReloadEntities();
             _activeInventory[secondPoint.Y, secondPoint.X].ReloadEntities();
@@ -703,6 +722,10 @@ namespace Villeon.GUI
                 _itemEntities.AddRange(_activeInventory[secondPoint.Y, secondPoint.X].ItemEntites);
 
             _firstMovingPoint = null; // Reset the first selected point
+
+            // Update hotbar
+            Hotbar.GetInstance().UpdateItems();
+            Hotbar.GetInstance().ReloadHotbar();
         }
 
         // // Helper functions
