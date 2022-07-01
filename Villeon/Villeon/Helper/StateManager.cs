@@ -27,18 +27,18 @@ namespace Villeon.Helper
 
         public static void SetSceneFlag(string sceneName)
         {
+            // Reset all scenes
             InDungeon = false;
             InTutorial = false;
             InVillage = false;
 
+            // Set active scene
             if (sceneName.Equals("DungeonScene"))
                 InDungeon = true;
             else if (sceneName.Equals("TutorialScene"))
                 InTutorial = true;
             else if (sceneName.Equals("VillageScene"))
                 InVillage = true;
-
-            Console.WriteLine(InDungeon + " " + InTutorial + " " + InVillage);
         }
 
         public static void ResetMenu()

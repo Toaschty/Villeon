@@ -131,17 +131,25 @@ namespace Villeon.GUI
 
         public int[] GetHotbarIndexes(InventorySlot slot)
         {
-            List<int> indexes = new List<int>();
+            List<int> indices = new List<int>();
 
-            for (int i = 0; i < _inventoryReferences.Length; i++)
+            // Check at which indices current slot is
+            for (int i = 0; i < _inventoryReferences !.Length; i++)
             {
                 if (_inventoryReferences[i] == slot)
                 {
-                    indexes.Add(i);
+                    indices.Add(i);
                 }
             }
 
-            return indexes.ToArray();
+            return indices.ToArray();
+        }
+
+        public void UnloadHotbar()
+        {
+            // Unload all hotbar entities
+            Manager.GetInstance().RemoveEntities(_hotbarEntities);
+            _hotbarEntities.Clear();
         }
     }
 }

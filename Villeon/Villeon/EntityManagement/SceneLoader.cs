@@ -16,14 +16,19 @@ namespace Villeon.EntityManagement
         {
             Scene scene = _scenesDictionary[sceneName];
 
+            // Reset pressed keys & menu states
             KeyHandler.ClearKeys();
             StateManager.ResetMenu();
             StateManager.SetSceneFlag(sceneName);
             GUIHandler.GetInstance().ClearMenu();
 
+            // Unload hotbar items -> Prevent reference loss
+            Hotbar.GetInstance().UnloadHotbar();
+
             CurrentScene = scene;
             CurrentScene.StartUp();
 
+            // Reload hotbar entities
             Hotbar.GetInstance().UpdateItems();
             Hotbar.GetInstance().ReloadHotbar();
         }
