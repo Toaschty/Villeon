@@ -20,6 +20,8 @@ namespace Villeon.Systems.Update
 
         public static Scene DungeonScene { get; } = new Scene("DungeonScene");
 
+        public static Scene BossScene { get; } = new Scene("BossScene");
+
         public static Scene TutorialScene { get; } = new Scene("TutorialScene");
 
         public static Scene VillageScene { get; } = new Scene("VillageScene");
@@ -229,7 +231,7 @@ namespace Villeon.Systems.Update
                 Manager.GetInstance().RemoveAllEntitiesFromScene("DungeonScene");
 
                 // Add the Player again
-                Scenes.DungeonScene.AddEntity(Players.CreateDungeonPlayer());
+                Scenes.DungeonScene.AddEntity(Players.CreateDungeonPlayer(Constants.DUNGEON_SPAWN_POINT));
 
                 // Overlay - Dungeon
                 DungeonOverlay dungeonOverlay = new DungeonOverlay();
@@ -251,6 +253,74 @@ namespace Villeon.Systems.Update
                     case 3: SetTileMap(DungeonScene, SpawnDungeon.CreateDungeon(), tileMapHellishHole, true); break;
                 }
 
+                return true;
+            });
+        }
+
+        public static void SetupBossScene()
+        {
+            SceneLoader.AddScene(BossScene);
+            TileMapDictionary bossTilemap = new TileMapDictionary("BossRoom.tmx");
+
+            BossScene.AddSystem(new EffectSystem("Effects"));
+            BossScene.AddSystem(new PlayerDungeonMovementSystem("Move"));
+            BossScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
+            BossScene.AddSystem(new FlyingAISystem("FlyingAISystem"));
+            BossScene.AddSystem(new PhysicsSystem("Physics"));
+            BossScene.AddSystem(new TriggerSystem("Trigger"));
+            BossScene.AddSystem(new PortalSystem("PortalSystem"));
+            BossScene.AddSystem(new DamageSystem("DamageSystem"));
+            BossScene.AddSystem(new CollisionSystem("Collision"));
+            BossScene.AddSystem(new PlayerDeathSystem("Health"));
+            BossScene.AddSystem(new CameraSystem("CameraSystem"));
+            BossScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            BossScene.AddSystem(new EnemyHealthbarSystem("EnemyHealthbarSystem"));
+            BossScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            BossScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
+            BossScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
+            BossScene.AddSystem(new PlayerParticleSystem("PlayerParticleSystem"));
+            BossScene.AddSystem(new LadderSystem("LadderSystem"));
+            BossScene.AddSystem(new MobDropSystem("MobdropSystem"));
+            BossScene.AddSystem(new MobDropCollectionSystem("MobdropCollectionSystem"));
+            BossScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
+            BossScene.AddSystem(new PlayerHealthbarSystem("PlayerHealthbar"));
+            BossScene.AddSystem(new ItemUseSystem("ItemUseSystem"));
+            BossScene.AddSystem(new DungeonPlayerAnimationSystem("AnimationControllerSystem"));
+            BossScene.AddSystem(new FlyingEnemyAnimationSystem("FlyingEnemyAnimationSystem"));
+            BossScene.AddSystem(new PlayerFightingSystem("PlayerFightingSystem"));
+            BossScene.AddSystem(new PlayerExpSystem("PlayerExpSystem"));
+            BossScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
+            BossScene.AddSystem(new JumpingAISystem("JumpingAISystem"));
+            BossScene.AddSystem(new HotbarSystem("HotbarUseSystem"));
+            BossScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE!
+            BossScene.AddStartUpFunc(() =>
+            {
+                // Add the Player
+                Scenes.BossScene.AddEntity(Players.CreateDungeonPlayer(Constants.BOSS_ROOM_SPAWN_POINT));
+
+                // Overlay - Dungeon
+                DungeonOverlay dungeonOverlay = new DungeonOverlay();
+                Scenes.BossScene.AddEntities(dungeonOverlay.GetEntities());
+                Entity guiHandlerEntity = new Entity("GuiHandler");
+                guiHandlerEntity.AddComponent(GUIHandler.GetInstance());
+                Scenes.BossScene.AddEntity(guiHandlerEntity);
+
+                // Set the Exp bar
+                PlayerExpSystem.Init();
+                PlayerHealthbarSystem.Init();
+
+                IEntity glow = new Entity(new Transform(new Vector2(36, 20), 1f, 0), "Glow");
+                glow.AddComponent(new Light(new Color4(237, 0, 134, 255), -12f, 20f, 1f, 0.7f, 1.8f));
+                Scenes.BossScene.AddEntity(glow);
+
+                // Add back portal
+                // Add the Portal home BOSSROOM
+                IEntity portalTrigger = new Entity(new Transform(new Vector2(36, 20), 1f, 0f), "Portal Trigger");
+                portalTrigger.AddComponent(new Trigger(TriggerLayerType.PORTAL, 4f, 5f));
+                portalTrigger.AddComponent(new Portal("BossScene", new Vector2(36, 20)));
+                Scenes.BossScene.AddEntity(portalTrigger);
+
+                SetTileMap(BossScene, bossTilemap, true);
                 return true;
             });
         }

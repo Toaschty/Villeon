@@ -55,6 +55,24 @@ namespace Villeon.Generation
                         if (gid == 0)
                             continue;
 
+                        // If current tile is ladder -> Spawn trigger
+                        if (gid == 4 || gid == 5)
+                        {
+                            IEntity ladder = new Entity(new Transform(new Vector2(x, _height - 1 - y), 1f, 0), "Ladder");
+                            ladder.AddComponent(new Trigger(TriggerLayerType.LADDER, 1, 1f));
+                            ladder.AddComponent(new Ladder());
+                            _entities.Add(ladder);
+                        }
+
+                        // BOSSROOM TORCHES?
+                        // If current tile is torch -> Spawn light
+                        if (gid == 9)
+                        {
+                            IEntity torch = new Entity(new Transform(new Vector2(x + 0.5f, _height - 0.5f - y), 1f, 0), "Torch");
+                            torch.AddComponent(new Light(new Color4(255, 50, 50, 255), -13.5f, 4f, 1f, 0.7f, 1.8f));
+                            _entities.Add(torch);
+                        }
+
                         // Get tile from dicitionary with gid
                         Components.Tile currentTile = tileMap.Tiles[gid];
 
@@ -184,7 +202,7 @@ namespace Villeon.Generation
                         // Add the Portal home
                         IEntity portalTrigger = new Entity(new Transform(new Vector2(x, _height - y), 1f, 0f), "Portal Trigger");
                         portalTrigger.AddComponent(new Trigger(TriggerLayerType.PORTAL, 4f, 5f));
-                        portalTrigger.AddComponent(new Portal("VillageScene", Constants.DUNGEON_SPAWN_POINT));
+                        portalTrigger.AddComponent(new Portal("BossScene", Constants.DUNGEON_SPAWN_POINT));
                         _entities.Add(portalTrigger);
                     }
 

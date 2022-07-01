@@ -42,6 +42,8 @@ namespace Villeon.Systems.Update
                 playerComponent = player.GetComponent<Player>();
                 effect = player.GetComponent<Effect>();
 
+                Console.WriteLine(transform.Position);
+
                 // Player is not moving
                 playerComponent.MovingLeft = false;
                 playerComponent.MovingRight = false;

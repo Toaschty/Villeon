@@ -12,10 +12,22 @@ namespace Villeon.Systems.Update
 {
     public class PhysicsSystem : System, IUpdateSystem
     {
+        private IEntity? _player = null;
+
         public PhysicsSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Physics));
+            Signature.IncludeAND(typeof(Physics)).
+                IncludeAND(typeof(Physics), typeof(Player));
+        }
+
+        public override void AddEntity(IEntity entity)
+        {
+            base.AddEntity(entity);
+            if (entity.HasComponent<Player>())
+            {
+                _player = entity;
+            }
         }
 
         public void Update(float time)
@@ -23,12 +35,17 @@ namespace Villeon.Systems.Update
             Physics physics;
             Transform transform;
             DynamicCollider collider;
+
             foreach (IEntity entity in Entities)
             {
                 // Get Components
                 physics = entity.GetComponent<Physics>();
                 transform = entity.GetComponent<Transform>();
                 collider = entity.GetComponent<DynamicCollider>();
+
+                // Skip this entity if player isn't in range
+                if (!IsInRangeOfPlayer(transform))
+                    continue;
 
                 if (collider != null)
                 {
@@ -59,6 +76,22 @@ namespace Villeon.Systems.Update
 
                 physics.Acceleration = Vector2.Zero;
             }
+        }
+
+        private bool IsInRangeOfPlayer(Transform physicsTransform)
+        {
+            if (_player is null)
+                return false;
+
+            Transform playerTransform = _player.GetComponent<Transform>();
+            Vector2 distance = playerTransform.Position - physicsTransform.Position;
+
+            // Length between player and enemy
+            float length = distance.LengthFast;
+            if (length < 15)
+                return true;
+
+            return false;
         }
     }
 }

@@ -112,9 +112,7 @@ namespace Villeon.GUI
 
                 // Exit game
                 case 2:
-                    // Remove menu from scene (Not visible if game is loaded again)
-                    Manager.GetInstance().RemoveEntities(GetEntities());
-                    SceneLoader.SetActiveScene("MainMenuScene");
+                    WindowHelper.CloseWindow();
                     break;
             }
         }

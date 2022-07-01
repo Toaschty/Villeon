@@ -1,7 +1,7 @@
 ﻿{
   "slime": {
     "health": 100,
-    "damage": 20,
+    "damage": 5,
     "ai": "JumpingAI",
     "experience": 10,
     "animationPath": "Enemies.Slime.",
@@ -49,13 +49,13 @@
   },
   "bat": {
     "health": 70,
-    "damage": 15,
+    "damage": 3,
     "ai": "FlyingAI",
     "experience": 10,
     "animationPath": "Enemies.Bat.",
     "animations": [
         "bat_left.png",
-        "bat_right.png",
+        "bat_right.png"
     ],
     "animationSpeed": 0.1,
     "scale": 0.25,
