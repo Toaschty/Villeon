@@ -66,7 +66,6 @@ namespace Villeon.Systems.Update
                 Physics physics = enemyEntity.GetComponent<Physics>();
                 physics.Acceleration += new Vector2(Constants.MOVEMENTSPEED * 0.3f * direction, physics.Acceleration.Y);
 
-
                 if (distance.X < 20)
                 {
                     if (distance.X < 2 && !effect.Effects.ContainsKey("AttackCooldown"))
