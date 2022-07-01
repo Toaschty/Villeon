@@ -286,7 +286,7 @@ namespace Villeon.Systems.Update
             BossScene.AddSystem(new PlayerHealthbarSystem("PlayerHealthbar"));
             BossScene.AddSystem(new ItemUseSystem("ItemUseSystem"));
             BossScene.AddSystem(new DungeonPlayerAnimationSystem("AnimationControllerSystem"));
-            BossScene.AddSystem(new FlyingEnemyAnimationSystem("FlyingEnemyAnimationSystem"));
+            BossScene.AddSystem(new EnemyAnimationSystem("FlyingEnemyAnimationSystem"));
             BossScene.AddSystem(new PlayerFightingSystem("PlayerFightingSystem"));
             BossScene.AddSystem(new PlayerExpSystem("PlayerExpSystem"));
             BossScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
