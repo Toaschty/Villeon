@@ -18,7 +18,7 @@ namespace Villeon.Systems.Update
         public JumpingAISystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Physics), typeof(DynamicCollider), typeof(EnemyAI), typeof(Effect))
+            Signature.IncludeAND(typeof(Physics), typeof(DynamicCollider), typeof(JumpingAI), typeof(EnemyAI), typeof(Effect))
                 .IncludeOR(typeof(Player));
         }
 

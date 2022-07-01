@@ -21,6 +21,7 @@ namespace Villeon.EntityManagement
             entity.AddComponent(new Effect());
             entity.AddComponent(new Physics());
             entity.AddComponent(new EnemyAI(20));
+            entity.AddComponent(new JumpingAI());
             entity.AddComponent(new Sprite(Assets.Asset.GetTexture("Sprites.Empty.png"), SpriteLayer.Foreground, true));
             Random random = new Random();
             Color4 color = new Color4(1.0f, 0.5f, 0.2f, 1.0f);
@@ -42,6 +43,7 @@ namespace Villeon.EntityManagement
             entity.AddComponent(new Effect());
             entity.AddComponent(new Physics());
             entity.AddComponent(new EnemyAI(20));
+            entity.AddComponent(new JumpingAI());
             Sprite sprite = Assets.Asset.GetSpriteSheet("Animations.slime_jumping.png").GetSprite(0, SpriteLayer.Foreground, true);
             entity.AddComponent(sprite);
             Random random = new Random();
@@ -67,6 +69,7 @@ namespace Villeon.EntityManagement
             entity.AddComponent(new Effect());
             entity.AddComponent(new Physics());
             entity.AddComponent(new EnemyAI(50));
+            entity.AddComponent(new JumpingAI());
             Random random = new Random();
             Color4 color = new Color4(1.0f, 0.5f, 0.2f, 1.0f);
             entity.AddComponent(new Light(color, -3f, 5f, new Vector2(sprite.Width * 5f / 2f, sprite.Height * 5f / 2f)));

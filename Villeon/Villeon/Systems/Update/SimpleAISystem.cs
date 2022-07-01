@@ -91,12 +91,7 @@ namespace Villeon.Systems.Update
                         int damage = 0;
 
                         EnemyAI enemyAI = enemyEntity.GetComponent<EnemyAI>();
-                        if (enemyAI is not null)
-                            damage = enemyAI.Damage;
-
-                        FlyingAI flyingAI = enemyEntity.GetComponent<FlyingAI>();
-                        if (flyingAI is not null)
-                            damage = flyingAI.Damage;
+                        damage = enemyAI.Damage;
 
                         attackEntity.AddComponent(new Damage(damage));
                         Manager.GetInstance().AddEntity(attackEntity);
