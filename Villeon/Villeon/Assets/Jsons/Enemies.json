@@ -19,7 +19,7 @@
     "triggerHeight": 24,
     "drops": [
       {
-        "itemName": "HealthPotion",
+        "itemName": "HealthPotionSmall",
         "index": 0,
         "rate": 0.3,
         "amount": {
@@ -67,7 +67,7 @@
     "triggerHeight": 32,
     "drops": [
       {
-        "itemName": "HealthPotion",
+        "itemName": "HealthPotionSmall",
         "index": 0,
         "rate": 0.3,
         "amount": {
@@ -115,7 +115,7 @@
     "triggerHeight": 45,
     "drops": [
       {
-        "itemName": "HealthPotion",
+        "itemName": "HealthPotionSmall",
         "index": 0,
         "rate": 0.3,
         "amount": {

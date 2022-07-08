@@ -34,7 +34,7 @@ namespace Villeon.GUI
             _entities = new List<IEntity>();
 
             // Load Sprites
-            Sprite backgroundScrollSprite = Asset.GetSprite("GUI.Scroll_Pausemenu.png", SpriteLayer.ScreenGuiBackground, false);
+            Sprite backgroundScrollSprite = Asset.GetSprite("GUI.Scrolls.Scroll_Pausemenu.png", SpriteLayer.ScreenGuiBackground, false);
 
             // Background
             Vector2 scrollMiddle = new Vector2(backgroundScrollSprite.Width / 2f, (backgroundScrollSprite.Height / 2f) - 1f);

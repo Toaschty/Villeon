@@ -34,7 +34,7 @@ namespace Villeon.GUI
             _charakterJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.Character.json")) !;
 
             // Load Sprites
-            Sprite backgroundScrollSprite = Asset.GetSprite("GUI.Scroll_Equipment.png", SpriteLayer.ScreenGuiBackground, false);
+            Sprite backgroundScrollSprite = Asset.GetSprite("GUI.Scrolls.Scroll_Equipment.png", SpriteLayer.ScreenGuiBackground, false);
             Sprite statHealthSprite = Asset.GetSprite("GUI.Equipment.Equipment_Stat_Health.png", SpriteLayer.ScreenGuiForeground, false);
             Sprite statAttackSprite = Asset.GetSprite("GUI.Equipment.Equipment_Stat_Attack.png", SpriteLayer.ScreenGuiForeground, false);
             Sprite statDefenseSprite = Asset.GetSprite("GUI.Equipment.Equipment_Stat_Defense.png", SpriteLayer.ScreenGuiForeground, false);

@@ -42,9 +42,9 @@ namespace Villeon.GUI
             _entities = new List<IEntity>();
 
             // Load sprites
-            Sprite backgroundScrollSprite = Asset.GetSprite("GUI.Scroll.png", SpriteLayer.ScreenGuiBackground, false);
-            _playerMarker = Asset.GetSprite("GUI.Map_Marker.png", SpriteLayer.ScreenGuiForeground, false);
-            _mapSprite = Asset.GetSprite("GUI.Scroll_Map.png", SpriteLayer.ScreenGuiMiddleground, true);
+            Sprite backgroundScrollSprite = Asset.GetSprite("GUI.Scrolls.Scroll.png", SpriteLayer.ScreenGuiBackground, false);
+            _playerMarker = Asset.GetSprite("GUI.Map.Map_Marker.png", SpriteLayer.ScreenGuiForeground, false);
+            _mapSprite = Asset.GetSprite("GUI.Map.Scroll_Map.png", SpriteLayer.ScreenGuiMiddleground, true);
 
             // Background
             Vector2 scrollMiddle = new Vector2(backgroundScrollSprite.Width / 2f, backgroundScrollSprite.Height / 2f);
