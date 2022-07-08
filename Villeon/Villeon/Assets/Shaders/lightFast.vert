@@ -61,6 +61,9 @@ vec3 CalcPointLight(int index)
 	float attenuation = pointLights[index].attenuation.constant + 
 						(pointLights[index].attenuation.linear * distanceToLight) +
 						(pointLights[index].attenuation.expo * distanceToLight * distanceToLight);
+	
+	// Little Color boost
+	color = color * 2.0;
 	return color / attenuation;
 }
 

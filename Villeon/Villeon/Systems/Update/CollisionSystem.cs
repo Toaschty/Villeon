@@ -278,7 +278,7 @@ namespace Villeon.Systems.Update
 
             // Length between player and enemy
             float length = distance.LengthFast;
-            if (length < 15)
+            if (length < 20)
                 return true;
 
             return false;
