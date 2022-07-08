@@ -25,7 +25,7 @@ namespace Villeon.GUI
             _entities = new List<IEntity>();
 
             // Load Sprites
-            Sprite villeonLogo = Asset.GetSprite("GUI.Scroll_Logo.png", SpriteLayer.ScreenGuiBackground, false);
+            Sprite villeonLogo = Asset.GetSprite("GUI.Scrolls.Scroll_Logo.png", SpriteLayer.ScreenGuiBackground, false);
 
             // Load logo background
             Vector2 scrollMiddle = new Vector2(villeonLogo.Width / 2, villeonLogo.Height / 2);

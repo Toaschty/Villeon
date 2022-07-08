@@ -21,10 +21,10 @@ namespace Villeon.GUI
             _entities = new List<IEntity>();
 
             // Load Sprites
-            Sprite equipmentButton = Asset.GetSprite("GUI.Equipment.Equipment_Button.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
-            Sprite inventoryButton = Asset.GetSprite("GUI.Inventar_Button.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
-            Sprite hotbarIcon = Asset.GetSprite("GUI.Slot.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
-            Sprite helpButton = Asset.GetSprite("GUI.Help_Button.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
+            Sprite equipmentButton = Asset.GetSprite("GUI.Overlay.Equipment_Button.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
+            Sprite inventoryButton = Asset.GetSprite("GUI.Overlay.Inventar_Button.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
+            Sprite hotbarIcon = Asset.GetSprite("GUI.Overlay.Slot.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
+            Sprite helpButton = Asset.GetSprite("GUI.Overlay.Help_Button.png", SpriteLayer.ScreenGuiOverlayMiddleGround, false);
 
             // Button Entities
             IEntity equipmentButtonEntity = new Entity(new Transform(new Vector2(-9f, -5f), 0.3f, 0f), "Equipment Button");

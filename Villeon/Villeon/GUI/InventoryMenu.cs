@@ -123,10 +123,8 @@ namespace Villeon.GUI
         public bool OnKeyReleased(Keys key)
         {
             // DEBUG --
-            if (key == Keys.H)
-                AddItem(ItemLoader.GetItem("Sword"));
-            else if (key == Keys.G)
-                AddItem(ItemLoader.GetItem("HealthPotion"));
+            if (key == Keys.G)
+                AddItem(ItemLoader.GetItem("HealthPotionSmall"));
 
             if (_onSlots)
                 HandleInventorySlot(key);
@@ -793,12 +791,12 @@ namespace Villeon.GUI
 
             // Make HorizontalLines
             IEntity firstHorizontalLine = new Entity(new Transform(new Vector2(_startPos.X + 0.2f, horizontalLineY), horizontalLineScale, 0f), "InventoryHorizontalLine");
-            Sprite firstHorizontalSprite = Asset.GetSprite("GUI.Scroll_Horizontal_Line_1.png", SpriteLayer.ScreenGuiForeground, false);
+            Sprite firstHorizontalSprite = Asset.GetSprite("GUI.Scrolls.Scroll_Horizontal_Line_1.png", SpriteLayer.ScreenGuiForeground, false);
             firstHorizontalLine.AddComponent(firstHorizontalSprite);
             tabBarEntities.Add(firstHorizontalLine);
 
             IEntity secondHorizontalLine = new Entity(new Transform(new Vector2(_startPos.X + 6f, horizontalLineY), horizontalLineScale, 0f), "InventoryHorizontalLine");
-            Sprite secondHorizontalSprite = Asset.GetSprite("GUI.Scroll_Horizontal_Line_2.png", SpriteLayer.ScreenGuiForeground, false);
+            Sprite secondHorizontalSprite = Asset.GetSprite("GUI.Scrolls.Scroll_Horizontal_Line_2.png", SpriteLayer.ScreenGuiForeground, false);
             secondHorizontalLine.AddComponent(secondHorizontalSprite);
             tabBarEntities.Add(secondHorizontalLine);
 
@@ -849,7 +847,7 @@ namespace Villeon.GUI
             _tabBar[1, 0] = new Entity(new Transform(new Vector2(positionX, positionY + offsetY), scale, 0f), "All");
             _tabBar[1, 1] = new Entity(new Transform(new Vector2(positionX + offsetX, positionY + offsetY), scale, 0f), "Potions");
 
-            Sprite selectionBackground = Asset.GetSprite("GUI.Scroll_Selection.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite selectionBackground = Asset.GetSprite("GUI.Scrolls.Scroll_Selection.png", SpriteLayer.ScreenGuiMiddleground, false);
 
             for (int i = 0; i < 2; i++)
             {
@@ -874,7 +872,7 @@ namespace Villeon.GUI
 
         private IEntity CreateInventoryBackground()
         {
-            Sprite scrollImage = Asset.GetSprite("GUI.Scroll.png", SpriteLayer.ScreenGuiBackground, false);
+            Sprite scrollImage = Asset.GetSprite("GUI.Scrolls.Scroll.png", SpriteLayer.ScreenGuiBackground, false);
             Vector2 middle = new Vector2(scrollImage.Width / 2f, scrollImage.Height / 2f);
             middle *= _scrollScale;
 
