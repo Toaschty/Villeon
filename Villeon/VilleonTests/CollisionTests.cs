@@ -45,6 +45,7 @@ namespace VilleonTests
             enemy.AddComponent(new Collider(Vector2.Zero, new Vector2(0, 0), 1f, 1f));
 
             Entity player = new Entity(new Transform(new Vector2(0, 2), 1.0f, 0.0f), "Player");
+            player.AddComponent(new Player());
             player.AddComponent(new DynamicCollider(Vector2.Zero, new Vector2(0, 2), 1f, 1f));
 
             // Add every entity to the collisionsystem
@@ -71,6 +72,7 @@ namespace VilleonTests
             enemy.AddComponent(new Collider(Vector2.Zero, enemyStartPos, 1f, 1f));
 
             Entity player = new Entity(new Transform(playerStartPos, 1.0f, 0.0f), "Player");
+            player.AddComponent(new Player());
             player.AddComponent(new DynamicCollider(Vector2.Zero, playerStartPos, 1f, 1f));
 
             collisionSystem.AddEntity(enemy);
@@ -95,6 +97,7 @@ namespace VilleonTests
             enemy.AddComponent(new Collider(Vector2.Zero, enemyStartPos, 1f, 1f));
 
             Entity player = new Entity(new Transform(playerStartPos, 1.0f, 0.0f), "Player");
+            player.AddComponent(new Player());
             player.AddComponent(new DynamicCollider(Vector2.Zero, playerStartPos, 1f, 1f));
 
             collisionSystem.AddEntity(enemy);
@@ -119,6 +122,7 @@ namespace VilleonTests
             enemy.AddComponent(new Collider(Vector2.Zero, enemyStartPos, 1f, 1f));
 
             Entity player = new Entity(new Transform(playerStartPos, 1.0f, 0.0f), "Player");
+            player.AddComponent(new Player());
             player.AddComponent(new DynamicCollider(Vector2.Zero, playerStartPos, 1f, 1f));
 
             collisionSystem.AddEntity(enemy);
@@ -143,6 +147,7 @@ namespace VilleonTests
             enemy.AddComponent(new Collider(Vector2.Zero, enemyStartPos, 1f, 1f));
 
             Entity player = new Entity(new Transform(playerStartPos, 1.0f, 0.0f), "Player");
+            player.AddComponent(new Player());
             player.AddComponent(new DynamicCollider(Vector2.Zero, playerStartPos, 1f, 1f));
 
             collisionSystem.AddEntity(enemy);
@@ -167,6 +172,7 @@ namespace VilleonTests
             enemy.AddComponent(new Collider(Vector2.Zero, enemyStartPos, 1f, 1f));
 
             Entity player = new Entity(new Transform(playerStartPos, 1.0f, 0.0f), "Player");
+            player.AddComponent(new Player());
             player.AddComponent(new DynamicCollider(Vector2.Zero, playerStartPos, 1f, 1f));
 
             collisionSystem.AddEntity(enemy);
@@ -191,6 +197,7 @@ namespace VilleonTests
             enemy.AddComponent(new Collider(Vector2.Zero, enemyStartPos, 1f, 1f));
 
             Entity player = new Entity(new Transform(playerStartPos, 1.0f, 0.0f), "Player");
+            player.AddComponent(new Player());
             player.AddComponent(new DynamicCollider(Vector2.Zero, playerStartPos, 1f, 1f));
 
             collisionSystem.AddEntity(enemy);
@@ -212,6 +219,7 @@ namespace VilleonTests
             enemy.AddComponent(new Collider(Vector2.Zero, enemy.GetComponent<Transform>(), 1f, 1f));
 
             Entity player = new Entity(new Transform(new Vector2(1, 1), 1.0f, 0.0f), "Player");
+            player.AddComponent(new Player());
             player.AddComponent(new DynamicCollider(Vector2.Zero, player.GetComponent<Transform>(), 1f, 1f));
 
             collisionSystem.AddEntity(enemy);
@@ -239,6 +247,7 @@ namespace VilleonTests
             enemy.AddComponent(new DynamicCollider(Vector2.Zero, enemyStartPos, 1f, 1f));
 
             Entity player = new Entity(new Transform(playerStartPos, 1.0f, 0.0f), "Player");
+            player.AddComponent(new Player());
             player.AddComponent(new DynamicCollider(Vector2.Zero, playerStartPos, 1f, 1f));
 
             collisionSystem.AddEntity(block);

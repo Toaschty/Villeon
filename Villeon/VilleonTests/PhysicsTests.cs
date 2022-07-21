@@ -36,6 +36,7 @@ namespace VilleonTests
             // Instanciate physics entity
             Entity physicEntity = new Entity("Physic");
             physicEntity.AddComponent(new Physics());
+            physicEntity.AddComponent(new Player());
             physicEntity.AddComponent(new DynamicCollider(new Vector2(0, 0), new Vector2(0, 0), 1, 1));
 
             // Setup Test-Scene
@@ -68,6 +69,7 @@ namespace VilleonTests
             // Instanciate physics entity
             Entity physicEntity = new Entity("Physic");
             physicEntity.AddComponent(new Physics());
+            physicEntity.AddComponent(new Player());
             physicEntity.AddComponent(new DynamicCollider(new Vector2(0, 0), new Vector2(0, 5), 1, 1));
 
             // Instanciate "Floor" to collide with
@@ -109,6 +111,7 @@ namespace VilleonTests
             // Instanciate physics entity
             Entity physicEntity = new Entity("Physic");
             physicEntity.AddComponent(new Physics());
+            physicEntity.AddComponent(new Player());
             physicEntity.AddComponent(new DynamicCollider(new Vector2(0, 0), new Vector2(0, 0), 1, 1));
 
             // Instanciate "Ceiling" to collide with
@@ -150,6 +153,7 @@ namespace VilleonTests
             // Instanciate physics entity
             Entity physicEntity = new Entity("Physic");
             physicEntity.AddComponent(new Physics());
+            physicEntity.AddComponent(new Player());
             physicEntity.AddComponent(new DynamicCollider(new Vector2(0, 0), new Vector2(0, 1), 1, 1));
 
             // Instanciate "Floor" to collide with
@@ -197,6 +201,7 @@ namespace VilleonTests
             // Instanciate physics entity
             Entity physicEntity = new Entity("Physic");
             physicEntity.AddComponent(new Physics());
+            physicEntity.AddComponent(new Player());
             physicEntity.AddComponent(new DynamicCollider(new Vector2(0, 0), new Vector2(0, 1), 1, 1));
 
             // Instanciate "Floor" to collide with
