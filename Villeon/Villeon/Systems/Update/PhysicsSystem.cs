@@ -59,10 +59,10 @@ namespace Villeon.Systems.Update
                         physics.Velocity = new Vector2(0.0f, physics.Velocity.Y);
                 }
 
-                // Add Gravity
+                // Add Gravity to acceleration
                 physics.Acceleration += new Vector2(0.0f, -Constants.GRAVITY * physics.Weight);
 
-                // Peak Super downward mega speed speed lets go
+                // Peak downward acceleration
                 if (physics.Velocity.Y <= 0)
                     physics.Acceleration += new Vector2(0.0f, 2.0f * -Constants.GRAVITY * physics.Weight);
 

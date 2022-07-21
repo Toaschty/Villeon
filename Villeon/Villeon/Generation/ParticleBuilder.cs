@@ -32,6 +32,40 @@ namespace Villeon.Generation
             return particleEntity;
         }
 
+        public static IEntity RandomParticle(Vector2 startingPosition, float timeToLive, float scale, float spreadingSpeed, float weight, float friction, bool isFading, string spritePath)
+        {
+            // Random Spreading Direction
+            Random random = new Random();
+            Vector2 spreadingDirection = new Vector2(((float)random.NextDouble() * spreadingSpeed) - (spreadingSpeed / 2), ((float)random.NextDouble() * spreadingSpeed) - (spreadingSpeed / 2));
+            return RandomParticle(startingPosition, timeToLive, scale, spreadingDirection, weight, friction, isFading, spritePath);
+        }
+
+        public static List<IEntity> RandomParticles(Vector2 startingPosition, float timeToLive, float scale, Vector2 direction, float weight, float friction, bool isFading, string spritePath, int amount, Vector2 variationRange)
+        {
+            List<IEntity> particles = new List<IEntity>(amount);
+            Random random = new Random();
+            for (int i = 0; i < amount; i++)
+            {
+                Vector2 variation = new Vector2(((float)random.NextDouble() * variationRange.X) - (variationRange.X / 2f), ((float)random.NextDouble() * variationRange.Y) - (variationRange.Y / 2f));
+                particles.Add(RandomParticle(startingPosition + variation, timeToLive, scale, direction, weight, friction, isFading, spritePath));
+            }
+
+            return particles;
+        }
+
+        public static List<IEntity> RandomParticles(Vector2 startingPosition, float timeToLive, float scale, float spreadingSpeed, float weight, float friction, bool isFading, string spritePath, int amount, Vector2 variationRange)
+        {
+            List<IEntity> particles = new List<IEntity>(amount);
+            Random random = new Random();
+            for (int i = 0; i < amount; i++)
+            {
+                Vector2 variation = new Vector2(((float)random.NextDouble() * variationRange.X) - (variationRange.X / 2f), ((float)random.NextDouble() * variationRange.Y) - (variationRange.Y / 2f));
+                particles.Add(RandomParticle(startingPosition + variation, timeToLive, scale, spreadingSpeed, weight, friction, isFading, spritePath));
+            }
+
+            return particles;
+        }
+
         public static IEntity StationaryParticle(Vector2 startingPosition, float timeToLive, float scale, bool isFading, string spritePath, float frameTime)
         {
             IEntity particleEntity = new Entity(new Transform(startingPosition, scale, 0.0f), "AnimatedParticle");
@@ -61,6 +95,7 @@ namespace Villeon.Generation
                 Sprite sprite = entity.GetComponent<Sprite>();
                 sprite.RenderLayer = SpriteLayer.Middleground;
                 sprite.IsDynamic = true;
+                sprite.Color = Color4.LightPink;
 
                 // Add the particle
                 entity.AddComponent(new Particle(timeToLive));

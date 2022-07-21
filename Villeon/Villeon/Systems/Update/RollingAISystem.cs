@@ -58,6 +58,9 @@ namespace Villeon.Systems.Update
                 Effect effect = enemyEntity.GetComponent<Effect>();
                 DynamicCollider enemyCollider = enemyEntity.GetComponent<DynamicCollider>();
 
+                if (!IsInRangeOfPlayer(enemyTransfrom))
+                    continue;
+
                 Vector2 distance = playerTransform.Position - enemyTransfrom.Position;
                 float direction = 0;
                 if (distance.X != 0)
@@ -79,6 +82,22 @@ namespace Villeon.Systems.Update
                     }
                 }
             }
+        }
+
+        private bool IsInRangeOfPlayer(Transform physicsTransform)
+        {
+            if (_playerEntity is null)
+                return false;
+
+            Transform playerTransform = _playerEntity.GetComponent<Transform>();
+            Vector2 distance = playerTransform.Position - physicsTransform.Position;
+
+            // Length between player and enemy
+            float length = distance.LengthFast;
+            if (length < 15)
+                return true;
+
+            return false;
         }
     }
 }

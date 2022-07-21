@@ -46,6 +46,9 @@ namespace Villeon.Systems.TriggerSystems
                     Damage damage = collisionPair.Item1.GetComponent<Damage>();
                     Health health = collisionPair.Item2.GetComponent<Health>();
                     Transform receiverTransform = collisionPair.Item2.GetComponent<Transform>();
+                    Effect receiverEffects = collisionPair.Item2.GetComponent<Effect>();
+
+                    receiverEffects.Effects.TryAdd("TookDamage", 0.08f);
 
                     int oldHealth = health.CurrentHealth;
                     health.Damage(damage.Amount);

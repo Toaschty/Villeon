@@ -204,6 +204,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new TriggerSystem("Trigger"));
             DungeonScene.AddSystem(new PortalSystem("PortalSystem"));
             DungeonScene.AddSystem(new DamageSystem("DamageSystem"));
+            DungeonScene.AddSystem(new DamageColoringSystem("DamageColoringSystem"));
             DungeonScene.AddSystem(new CollisionSystem("Collision"));
             DungeonScene.AddSystem(new PlayerDeathSystem("Health"));
             DungeonScene.AddSystem(new CameraSystem("CameraSystem"));
@@ -327,7 +328,9 @@ namespace Villeon.Systems.Update
 
         public static void SetupPortalEntities()
         {
-            IEntity tutorialToDungeon = new Entity(new Transform(new Vector2(143, 32), 1f, 0f), "villageToDungeonPortal");
+
+            //IEntity tutorialToDungeon = new Entity(new Transform(new Vector2(143, 32), 1f, 0f), "villageToDungeonPortal");
+            IEntity tutorialToDungeon = new Entity(new Transform(new Vector2(25.5f, 23.5f), 1f, 0f), "villageToDungeonPortal");
             tutorialToDungeon.AddComponent(Asset.GetSpriteSheet("Sprites.PortalAnimation.png").GetSprite(0, SpriteLayer.Middleground, true));
             tutorialToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, new Vector2(1.3f, 1f), 3f, 5f));
             tutorialToDungeon.AddComponent(new Portal("DungeonScene", Constants.TUTORIAL_SPAWN_POINT));
