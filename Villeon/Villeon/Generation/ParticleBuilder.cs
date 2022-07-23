@@ -11,7 +11,7 @@ namespace Villeon.Generation
 {
     public class ParticleBuilder
     {
-        public static IEntity RandomParticle(Vector2 startingPosition, float timeToLive, float scale, Vector2 direction, float weight, float friction, bool isFading, string spritePath)
+        public static IEntity RandomParticle(Vector2 startingPosition, float timeToLive, float scale, Vector2 direction, float weight, float friction, bool isFading, string spritePath, Color4 color)
         {
             Random random = new Random();
             IEntity particleEntity = new Entity(new Transform(startingPosition, (float)random.NextDouble() * scale, 0.0f), "DustParticle");
@@ -27,40 +27,49 @@ namespace Villeon.Generation
             particleEntity.AddComponent(physics);
 
             Sprite sprite = Asset.GetSprite(spritePath, SpriteLayer.Middleground, true);
+            sprite.Color = color;
             particleEntity.AddComponent(sprite);
 
             return particleEntity;
         }
 
-        public static IEntity RandomParticle(Vector2 startingPosition, float timeToLive, float scale, float spreadingSpeed, float weight, float friction, bool isFading, string spritePath)
+        public static IEntity RandomParticle(Vector2 startingPosition, float timeToLive, float scale, float spreadingSpeed, float weight, float friction, bool isFading, string spritePath, Color4 color)
         {
             // Random Spreading Direction
             Random random = new Random();
             Vector2 spreadingDirection = new Vector2(((float)random.NextDouble() * spreadingSpeed) - (spreadingSpeed / 2), ((float)random.NextDouble() * spreadingSpeed) - (spreadingSpeed / 2));
-            return RandomParticle(startingPosition, timeToLive, scale, spreadingDirection, weight, friction, isFading, spritePath);
+            return RandomParticle(startingPosition, timeToLive, scale, spreadingDirection, weight, friction, isFading, spritePath, color);
         }
 
-        public static List<IEntity> RandomParticles(Vector2 startingPosition, float timeToLive, float scale, Vector2 direction, float weight, float friction, bool isFading, string spritePath, int amount, Vector2 variationRange)
+        public static IEntity RandomParticle(Vector2 startingPosition, float timeToLive, float scale, float spreadingSpeed, float weight, float friction, bool isFading, string spritePath, Vector2 variationRange, Color4 color)
+        {
+            Random random = new Random();
+            Vector2 variation = new Vector2(((float)random.NextDouble() * variationRange.X) - (variationRange.X / 2f), ((float)random.NextDouble() * variationRange.Y) - (variationRange.Y / 2f));
+            IEntity particle = RandomParticle(startingPosition + variation, timeToLive, scale, spreadingSpeed, weight, friction, isFading, spritePath, color);
+            return particle;
+        }
+
+        public static List<IEntity> RandomParticles(Vector2 startingPosition, float timeToLive, float scale, Vector2 direction, float weight, float friction, bool isFading, string spritePath, int amount, Vector2 variationRange, Color4 color)
         {
             List<IEntity> particles = new List<IEntity>(amount);
             Random random = new Random();
             for (int i = 0; i < amount; i++)
             {
                 Vector2 variation = new Vector2(((float)random.NextDouble() * variationRange.X) - (variationRange.X / 2f), ((float)random.NextDouble() * variationRange.Y) - (variationRange.Y / 2f));
-                particles.Add(RandomParticle(startingPosition + variation, timeToLive, scale, direction, weight, friction, isFading, spritePath));
+                particles.Add(RandomParticle(startingPosition + variation, timeToLive, scale, direction, weight, friction, isFading, spritePath, color));
             }
 
             return particles;
         }
 
-        public static List<IEntity> RandomParticles(Vector2 startingPosition, float timeToLive, float scale, float spreadingSpeed, float weight, float friction, bool isFading, string spritePath, int amount, Vector2 variationRange)
+        public static List<IEntity> RandomParticles(Vector2 startingPosition, float timeToLive, float scale, float spreadingSpeed, float weight, float friction, bool isFading, string spritePath, int amount, Vector2 variationRange, Color4 color)
         {
             List<IEntity> particles = new List<IEntity>(amount);
             Random random = new Random();
             for (int i = 0; i < amount; i++)
             {
                 Vector2 variation = new Vector2(((float)random.NextDouble() * variationRange.X) - (variationRange.X / 2f), ((float)random.NextDouble() * variationRange.Y) - (variationRange.Y / 2f));
-                particles.Add(RandomParticle(startingPosition + variation, timeToLive, scale, spreadingSpeed, weight, friction, isFading, spritePath));
+                particles.Add(RandomParticle(startingPosition + variation, timeToLive, scale, spreadingSpeed, weight, friction, isFading, spritePath, color));
             }
 
             return particles;

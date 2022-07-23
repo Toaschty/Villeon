@@ -97,6 +97,7 @@ namespace Villeon.Systems.Update
             TutorialScene.AddSystem(new VillagePlayerParticleSystem("VillagePlayerParticleSystem"));
             TutorialScene.AddSystem(new PhysicsSystem("PhysicsSystem"));
             TutorialScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
+            TutorialScene.AddSystem(new ParticleSpawnerSystem("ParticleSpawnerSystem"));
             TutorialScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
             TileMapDictionary villageTileMap = new TileMapDictionary("VillageTutorial.tmx");
             SetTileMap(TutorialScene, villageTileMap, false);
@@ -124,6 +125,7 @@ namespace Villeon.Systems.Update
 
             // Particle stuff
             VillageScene.AddSystem(new VillagePlayerParticleSystem("VillagePlayerParticleSystem"));
+            VillageScene.AddSystem(new ParticleSpawnerSystem("ParticleSpawnerSystem"));
             VillageScene.AddSystem(new PhysicsSystem("PhysicsSystem"));
             VillageScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
             VillageScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
@@ -211,6 +213,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             DungeonScene.AddSystem(new EnemyHealthbarSystem("EnemyHealthbarSystem"));
             DungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            DungeonScene.AddSystem(new ParticleSpawnerSystem("ParticleSpawnerSystem"));
             DungeonScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
             DungeonScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
             DungeonScene.AddSystem(new PlayerParticleSystem("PlayerParticleSystem"));
@@ -280,6 +283,7 @@ namespace Villeon.Systems.Update
             BossScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
             BossScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
             BossScene.AddSystem(new PlayerParticleSystem("PlayerParticleSystem"));
+            BossScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
             BossScene.AddSystem(new LadderSystem("LadderSystem"));
             BossScene.AddSystem(new MobDropSystem("MobdropSystem"));
             BossScene.AddSystem(new MobDropCollectionSystem("MobdropCollectionSystem"));
@@ -328,12 +332,18 @@ namespace Villeon.Systems.Update
 
         public static void SetupPortalEntities()
         {
+            // Particle Spawner for Portal
+            ParticleSpawner particleSpawner = new ParticleSpawner(50, "Sprites.PortalDust.png");
+            particleSpawner.VariationWidth = 2;
+            particleSpawner.VariationHeight = 3;
+            particleSpawner.Offset = new Vector2(2.5f, 3f);
 
             //IEntity tutorialToDungeon = new Entity(new Transform(new Vector2(143, 32), 1f, 0f), "villageToDungeonPortal");
             IEntity tutorialToDungeon = new Entity(new Transform(new Vector2(25.5f, 23.5f), 1f, 0f), "villageToDungeonPortal");
             tutorialToDungeon.AddComponent(Asset.GetSpriteSheet("Sprites.PortalAnimation.png").GetSprite(0, SpriteLayer.Middleground, true));
             tutorialToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, new Vector2(1.3f, 1f), 3f, 5f));
             tutorialToDungeon.AddComponent(new Portal("DungeonScene", Constants.TUTORIAL_SPAWN_POINT));
+            tutorialToDungeon.AddComponent(particleSpawner);
 
             // Setup Portal animation
             AnimationController animController = new AnimationController();
@@ -346,11 +356,13 @@ namespace Villeon.Systems.Update
             villageToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, new Vector2(1.3f, 1f), 3f, 5f));
             villageToDungeon.AddComponent(new Portal("DungeonScene", Constants.VILLAGE_SPAWN_POINT));
             villageToDungeon.AddComponent(animController);
+            villageToDungeon.AddComponent(particleSpawner);
             VillageScene.AddEntity(villageToDungeon);
 
             IEntity dungeonToVillage = new Entity(new Transform(new Vector2(1f, 3f), 1f, 0f), "dungeonToVillagePortal");
             dungeonToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 4f));
             dungeonToVillage.AddComponent(new Portal("VillageScene", Constants.DUNGEON_SPAWN_POINT));
+            dungeonToVillage.AddComponent(particleSpawner);
             DungeonScene.AddEntity(dungeonToVillage);
 
             IEntity villageToSmith = new Entity(new Transform(Constants.TO_SMITH_PORTAL_POINT, 1f, 0f), "VillageToSmithPortal");

@@ -70,6 +70,8 @@ namespace Villeon.Generation
                         {
                             IEntity torch = new Entity(new Transform(new Vector2(x + 0.5f, _height - 0.5f - y), 1f, 0), "Torch");
                             torch.AddComponent(new Light(new Color4(255, 50, 50, 255), -13.5f, 4f, 1f, 0.7f, 1.8f));
+                            ParticleSpawner particleSpawner = new ParticleSpawner(4, "Sprites.Smoke.png");
+                            torch.AddComponent(particleSpawner);
                             _entities.Add(torch);
                         }
 
@@ -185,6 +187,11 @@ namespace Villeon.Generation
                     {
                         IEntity torch = new Entity(new Transform(new Vector2(x + 0.5f, _height - 0.5f - y), 1f, 0), "Torch");
                         torch.AddComponent(new Light(new Color4(255, 50, 50, 255), -13.5f, 4f, 1f, 0.7f, 1.8f));
+
+                        // Add particle spawner for the flakes
+                        ParticleSpawner particleSpawner = new ParticleSpawner(3, "Sprites.Smoke.png");
+                        particleSpawner.ParticleWeight = -0.1f;
+                        torch.AddComponent(particleSpawner);
                         _entities.Add(torch);
                     }
 
@@ -193,6 +200,10 @@ namespace Villeon.Generation
                     {
                         IEntity glow = new Entity(new Transform(new Vector2(x, _height - 1f - y), 1f, 0), "Glow");
                         glow.AddComponent(new Light(new Color4(237, 0, 134, 255), -12f, 20f, 1f, 0.7f, 1.8f));
+                        ParticleSpawner particleSpawner = new ParticleSpawner(50, "Sprites.PortalDust.png");
+                        particleSpawner.VariationWidth = 2;
+                        particleSpawner.VariationHeight = 3;
+                        glow.AddComponent(particleSpawner);
                         _entities.Add(glow);
                     }
 
