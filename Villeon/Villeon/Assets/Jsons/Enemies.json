@@ -7,7 +7,7 @@
     "animationPath": "Enemies.Slime.",
     "animations": [
         "slime_jumping.png",
-        "slime_jumping.png",
+        "slime_jumping.png"
     ],
     "animationSpeed": 0.1,
     "scale": 0.25,
@@ -21,7 +21,52 @@
       {
         "itemName": "HealthPotionSmall",
         "index": 0,
-        "rate": 0.3,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "HealthPotionMiddle",
+        "index": 0,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "HealthPotionBig",
+        "index": 0,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "HealthPotionSpecial",
+        "index": 0,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "Sword",
+        "index": 0,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 1,
         "amount": {
           "min": 1,
           "max": 2
@@ -29,20 +74,101 @@
       },
       {
         "itemName": "Gold",
-        "index": 1,
-        "rate": 0.5,
+        "index": 0,
+        "rate": 1,
         "amount": {
           "min": 1,
-          "max": 5
+          "max": 2
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "Iron",
+        "index": 0,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "Diamond",
+        "index": 0,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "Ruby",
+        "index": 0,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "Stick",
+        "index": 0,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 2
         }
       },
       {
         "itemName": "Rock",
-        "index": 2,
+        "index": 0,
         "rate": 1,
         "amount": {
-          "min": 2,
-          "max": 10
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "Pebbel",
+        "index": 0,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "BatWings",
+        "index": 0,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 2
         }
       }
     ]
@@ -67,12 +193,12 @@
     "triggerHeight": 32,
     "drops": [
       {
-        "itemName": "HealthPotionSmall",
+        "itemName": "BatWings",
         "index": 0,
-        "rate": 0.3,
+        "rate": 1,
         "amount": {
           "min": 1,
-          "max": 2
+          "max": 10
         }
       },
       {
@@ -103,7 +229,7 @@
     "animationPath": "Enemies.Bubble.",
     "animations": [
         "bubble_left.png",
-        "bubble_right.png",
+        "bubble_right.png"
     ],
     "animationSpeed": 0.1,
     "scale": 0.25,

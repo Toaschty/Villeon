@@ -32,9 +32,14 @@ namespace Villeon.Systems.Update
 
                     if (selectedItem.ItemType == Item.ITEM_TYPE.POTION)
                     {
-                        //Console.WriteLine("Using Potion!");
                         Health playerHealth = player.GetComponent<Health>();
-                        playerHealth.Heal(50);
+
+                        // Check how much current potion heals
+                        int health = ItemLoader.GetHealthEffect(selectedItem.Name);
+                        if (health > 0)
+                            playerHealth.Heal(health);
+                        else
+                            playerHealth.CurrentHealth = playerHealth.MaxHealth;
 
                         // Handle inventory & hotbar
                         InventoryMenu.GetInstance().UseItemAtCurrentPosition();

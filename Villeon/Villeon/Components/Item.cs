@@ -14,7 +14,6 @@ namespace Villeon.Components
     {
         private string _name;
         private Sprite _sprite;
-        private int _price;
         private int _itemStackSize;
         private ITEM_TYPE _itemType;
 
@@ -22,25 +21,22 @@ namespace Villeon.Components
         {
             _name = "Null";
             _sprite = new Sprite(SpriteLayer.ScreenGuiMiddleground, 0, 0, true);
-            _price = -1;
             _itemType = ITEM_TYPE.POTION;
         }
 
-        public Item(string name, Sprite sprite, int itemMaxStack, int price, ITEM_TYPE type)
+        public Item(string name, Sprite sprite, int itemMaxStack, ITEM_TYPE type)
         {
             _name = name;
             _sprite = sprite;
-            _price = price;
             _itemStackSize = itemMaxStack;
             _itemType = type;
         }
 
-        public Item(string name, Sprite sprite, int itemMaxStack, int price, ITEM_TYPE type, SpriteLayer layer)
+        public Item(string name, Sprite sprite, int itemMaxStack, ITEM_TYPE type, SpriteLayer layer)
         {
             _name = name;
             _sprite = sprite;
             _sprite.RenderLayer = layer;
-            _price = price;
             _itemStackSize = itemMaxStack;
             _itemType = type;
         }
@@ -49,7 +45,6 @@ namespace Villeon.Components
         {
             _name = copy.Name;
             _sprite = new Sprite(copy.Sprite);
-            _price = copy.Price;
             _itemStackSize = copy.StackSize;
             _itemType = copy.ItemType;
         }
@@ -79,11 +74,6 @@ namespace Villeon.Components
         public int StackSize
         {
             get { return _itemStackSize; }
-        }
-
-        public int Price
-        {
-            get { return _price; }
         }
     }
 }

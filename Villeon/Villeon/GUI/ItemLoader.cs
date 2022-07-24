@@ -26,11 +26,10 @@ namespace Villeon.GUI
             string name = itemJson.name.ToString();
             string spriteName = itemJson.sprite.ToString();
             Sprite sprite = Asset.GetSprite("GUI.Items." + spriteName, SpriteLayer.ScreenGuiForeground, true);
-            int price = itemJson.price;
             int stackSize = itemJson.stackSize;
             Item.ITEM_TYPE type = itemJson.itemType;
 
-            return new Item(name, sprite, stackSize, price, type);
+            return new Item(name, sprite, stackSize, type);
         }
 
         public static Item GetItem(string itemName)
@@ -52,11 +51,29 @@ namespace Villeon.GUI
 
             string spriteName = itemJson!.sprite;
             Sprite sprite = Asset.GetSprite("GUI.Items." + spriteName, SpriteLayer.ScreenGuiForeground, true);
-            int price = itemJson.price;
             int stackSize = itemJson.stackSize;
             Item.ITEM_TYPE type = itemJson.itemType;
 
-            return new Item(name!, sprite, stackSize, price, type);
+            return new Item(name!, sprite, stackSize, type);
+        }
+
+        public static int GetHealthEffect(string potionName)
+        {
+            // If special potion was used -> Heal everything
+            if (potionName == "HealthPotionSpecial")
+                return 0;
+
+            // Search for potion in json
+            for (int i = 0; i < _itemsCount; i++)
+            {
+                if (_itemJson[i].name == potionName)
+                {
+                    // Return healing effect
+                    return _itemJson[i].healthEffect;
+                }
+            }
+
+            return -1;
         }
     }
 }

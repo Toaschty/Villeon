@@ -2,34 +2,124 @@
   {
     "name": "HealthPotionSmall",
     "index": 0,
-    "price": "5",
     "itemType": "Potion",
     "stackSize": 20,
-    "sprite": "Potions.PotionSmall.png"
+    "sprite": "Potions.PotionSmall.png",
+    "healthEffect": 10
+  },
+  {
+    "name": "HealthPotionMiddle",
+    "index": 1,
+    "itemType": "Potion",
+    "stackSize": 20,
+    "sprite": "Potions.PotionMiddle.png",
+    "healthEffect": 30
+  },
+  {
+    "name": "HealthPotionBig",
+    "index": 2,
+    "itemType": "Potion",
+    "stackSize": 20,
+    "sprite": "Potions.PotionBig.png",
+    "healthEffect": 50
+  },
+  {
+    "name": "HealthPotionSpecial",
+    "index": 3,
+    "itemType": "Potion",
+    "stackSize": 20,
+    "sprite": "Potions.PotionSpecial.png"
   },
   {
     "name": "Sword",
-    "index": 1,
-    "price": "20",
+    "index": 4,
     "itemType": "Weapon",
     "stackSize": 1,
     "sprite": "Weapons.Sword.png"
   },
   {
-    "name": "Gold",
-    "index": 2,
-    "price": 10,
+    "name": "RawGold",
+    "index": 5,
     "itemType": "Material",
-    "stackSize": 100,
+    "stackSize": 500,
+    "sprite": "Materials.RawGold.png"
+  },
+  {
+    "name": "Gold",
+    "index": 6,
+    "itemType": "Material",
+    "stackSize": 200,
     "sprite": "Materials.Gold.png"
   },
   {
+    "name": "RawIron",
+    "index": 7,
+    "itemType": "Material",
+    "stackSize": 500,
+    "sprite": "Materials.RawIron.png"
+  },
+  {
+    "name": "Iron",
+    "index": 8,
+    "itemType": "Material",
+    "stackSize": 200,
+    "sprite": "Materials.Iron.png"
+  },
+  {
+    "name": "RawDiamond",
+    "index": 9,
+    "itemType": "Material",
+    "stackSize": 500,
+    "sprite": "Materials.RawDiamond.png"
+  },
+  {
+    "name": "Diamond",
+    "index": 10,
+    "itemType": "Material",
+    "stackSize": 200,
+    "sprite": "Materials.Diamond.png"
+  },
+  {
+    "name": "RawRuby",
+    "index": 11,
+    "itemType": "Material",
+    "stackSize": 500,
+    "sprite": "Materials.RawRuby.png"
+  },
+  {
+    "name": "Ruby",
+    "index": 12,
+    "itemType": "Material",
+    "stackSize": 200,
+    "sprite": "Materials.Ruby.png"
+  },
+  {
+    "name": "Stick",
+    "index": 13,
+    "itemType": "Material",
+    "stackSize": 100,
+    "sprite": "Materials.Stick.png"
+  },
+  {
     "name": "Rock",
-    "index": 3,
-    "price": 1,
+    "index": 14,
     "itemType": "Material",
     "stackSize": 100,
     "sprite": "Materials.Rock.png"
+  },
+  {
+    "name": "Pebbel",
+    "index": 15,
+    "itemType": "Material",
+    "stackSize": 300,
+    "sprite": "Materials.Pebbel.png"
+  },
+  {
+    "name": "BatWings",
+    "index": 16,
+    "itemType": "Material",
+    "stackSize": 100,
+    "sprite": "Materials.BatWings.png"
   }
 ]
 

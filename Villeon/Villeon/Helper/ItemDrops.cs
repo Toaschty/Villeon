@@ -27,14 +27,13 @@ namespace Villeon.Helper
             for (int i = 0; i < items.Count; i++)
             {
                 string name = items[i].name;
-                int price = items[i].price;
                 string itemTypeString = items[i].itemType;
                 Item.ITEM_TYPE itemType = (Item.ITEM_TYPE)Enum.Parse(typeof(Item.ITEM_TYPE), itemTypeString, true);
                 int stackSize = items[i].stackSize;
                 string spriteName = items[i].sprite;
                 Sprite sprite = Asset.GetSprite("GUI.Items." + spriteName, SpriteLayer.ScreenGuiForeground, true);
 
-                _items.Add(name, new Item(name, sprite, stackSize, price, itemType, Components.SpriteLayer.GUIForeground));
+                _items.Add(name, new Item(name, sprite, stackSize, itemType, Components.SpriteLayer.GUIForeground));
             }
         }
     }
