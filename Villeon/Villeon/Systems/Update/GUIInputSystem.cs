@@ -42,6 +42,12 @@ namespace Villeon.Systems.Update
 
         private void CheckKeyMenu()
         {
+            // Toggle Raytracing
+            if (KeyHandler.IsPressed(Keys.Z))
+            {
+                StateManager.RayTracingEnabled = !StateManager.RayTracingEnabled;
+            }
+
             // Death Menu
             if (StateManager.IsPlayerDead && _handler.CurrentMenu != _handler.DeathMenu)
                 ChangeMenu(_handler.DeathMenu);

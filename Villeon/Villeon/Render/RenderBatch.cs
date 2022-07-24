@@ -23,7 +23,7 @@ namespace Villeon.Render
         private HashSet<RenderingData> _renderingData;
         private HashSet<RenderingData> _lights;
         private List<Texture2D> _textures;
-        private int[] _texSlots = { 0, 1, 2, 3, 4, 5, 6, 7 };
+        private int[] _texSlots = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
         private int _spriteCount;
         private bool _isFull;
 
@@ -98,11 +98,33 @@ namespace Villeon.Render
 
         public void Render()
         {
-            _shader.Use();
+            if (StateManager.InDungeon && StateManager.RayTracingEnabled)
+            {
+                Shader raytracingShader = Asset.GetShader("Shaders.rayTracing");
+                raytracingShader.Use();
 
-            UploadMatricies();
-            UploadTextures();
-            UploadLights();
+                Camera.Update();
+                raytracingShader.UploadMat4("cameraMatrix", Camera.GetMatrix());
+                raytracingShader.UploadMat4("screenMatrix", Camera.GetScreenMatrix());
+                int i = 0;
+                foreach (Texture2D texture in _textures)
+                {
+                    GL.ActiveTexture(TextureUnit.Texture0 + i + 1);
+                    texture.Bind();
+                    i++;
+                }
+
+                raytracingShader.UploadIntArray("textures", _texSlots);
+                raytracingShader.UploadFloatArray("dimensions", new float[] { Camera.ScreenWidth, Camera.ScreenHeight });
+            }
+            else
+            {
+                _shader.Use();
+
+                UploadMatricies();
+                UploadTextures();
+                UploadLights();
+            }
 
             // Bind VAO & Enable all the attributes then Draw!
             _vao.Bind();

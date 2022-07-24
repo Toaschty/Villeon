@@ -19,6 +19,10 @@ namespace Villeon.Helper
         private static float _screenWidth;
         private static float _screenHeight;
 
+        public static float ScreenWidth { get => _screenWidth; }
+
+        public static float ScreenHeight { get => _screenHeight; }
+
         public static Matrix4 InverseViewportMatrix
         {
             get { return _inverseViewportMatrix; }
@@ -60,6 +64,18 @@ namespace Villeon.Helper
             Matrix4 scale = Scale(1 / _cameraScale);
             Matrix4 ortho = Matrix4.CreateOrthographic(2f, 2f, 0, 100);
             Matrix4 cameraMatrix = translation * rotation * scale * _aspectRatioMatrixY * ortho;
+            return cameraMatrix;
+        }
+
+        public static Matrix4 GetRaytracingMatrix(float x, float y)
+        {
+            Matrix4 translation = Translate(-_cameraCenter);
+            Matrix4 rotation = RotateDegrees(-_cameraRotation);
+            Matrix4 scale = Scale(1 / _cameraScale);
+
+            Matrix4 scaleScreen = Scale(x / 2);
+
+            Matrix4 cameraMatrix = translation * rotation * scale * scaleScreen * Translate(new Vector2(-x / 2, -y / 2));
             return cameraMatrix;
         }
 

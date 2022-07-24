@@ -16,6 +16,9 @@ namespace Villeon.Helper
         // Menu
         public static bool InMenu { get; set; } = false;
 
+        // Raytracing
+        public static bool RayTracingEnabled { get; set; } = false;
+
         // Player
         public static bool IsPlayerDead { get; set; } = false;
 

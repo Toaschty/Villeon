@@ -30,7 +30,7 @@ namespace Villeon.GUI
             inventoryData += "]";
 
             // Convert to hex
-            string saveData = playerStats + "   " + inventoryData;
+            string saveData = playerStats + "   " + inventoryData + "   " + StateManager.RayTracingEnabled;
             byte[] saveDataBytes = Encoding.Default.GetBytes(saveData);
             var hexString = BitConverter.ToString(saveDataBytes);
             hexString = hexString.Replace("-", string.Empty);
@@ -53,6 +53,7 @@ namespace Villeon.GUI
             // Convert save data to json objects
             dynamic statsJson = JsonConvert.DeserializeObject<dynamic>(data[0]) !;
             List<dynamic> inventoryJson = JsonConvert.DeserializeObject<List<dynamic>>(data[1]) !;
+            StateManager.RayTracingEnabled = bool.Parse(data[2]);
 
             // Set stats variables
             Stats.GetInstance().Level = statsJson.Level;

@@ -24,6 +24,8 @@
     <None Remove="Assets\Shaders\light.vert" />
     <None Remove="Assets\Shaders\lightFast.frag" />
     <None Remove="Assets\Shaders\lightFast.vert" />
+    <None Remove="Assets\Shaders\rayTracing.frag" />
+    <None Remove="Assets\Shaders\rayTracing.vert" />
     <None Remove="Assets\Slime.aseprite" />
     <None Remove="Assets\Sprites\PortalAnimation.aseprite" />
     <None Remove="Assets\Sprites\PortalAnimation.png" />
@@ -63,6 +65,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     <PackageReference Include="TiledLib" Version="3.2.0" />
     <PackageReference Include="Zenseless.OpenTK" Version="0.1.40" />
     <PackageReference Include="Zenseless.Resources" Version="0.1.10" />
