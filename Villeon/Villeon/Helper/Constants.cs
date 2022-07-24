@@ -26,7 +26,6 @@ namespace Villeon.Helper
 
         public static float TOPDOWNMOVEMENTSPEED { get; } = 25;
 
-
         // Debug
         public static float DEBUGTIME { get; set; } = 0.00833f;
 

@@ -111,7 +111,7 @@
     "name": "Pebbel",
     "index": 15,
     "itemType": "Material",
-    "stackSize": 300,
+    "stackSize": 999,
     "sprite": "Materials.Pebbel.png"
   },
   {
@@ -120,6 +120,27 @@
     "itemType": "Material",
     "stackSize": 100,
     "sprite": "Materials.BatWings.png"
+  },
+  {
+    "name": "HellSword",
+    "index": 17,
+    "itemType": "Weapon",
+    "stackSize": 1,
+    "sprite": "Weapons.HellSword.png"
+  },
+  {
+    "name": "Shield",
+    "index": 18,
+    "itemType": "Weapon",
+    "stackSize": 1,
+    "sprite": "Weapons.Shield.png"
+  },
+  {
+    "name": "PlantShield",
+    "index": 19,
+    "itemType": "Weapon",
+    "stackSize": 1,
+    "sprite": "Weapons.PlantShield.png"
   }
 ]
 

@@ -151,6 +151,142 @@
         "Imagine if you hop inside and fall out in the middle of a jungle.",
         "This really reminds me of something..."
       ]
+    },
+    {
+      "name": "Willy Willsonton",
+      "texturePath": "Sprites.NPC.WillyWillsonton.png",
+      "textureScale": 0.15,
+      "x": 94.75,
+      "y": 74.5,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "SPACE"
+      ]
+    },
+    {
+      "name": "Kory Willsonton",
+      "texturePath": "Sprites.NPC.KoryWillsonton.png",
+      "textureScale": 0.15,
+      "x": 99.75,
+      "y": 70.4,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "SPACE"
+      ]
+    },
+    {
+      "name": "Paskel",
+      "texturePath": "Sprites.NPC.Paskel.png",
+      "textureScale": 0.15,
+      "x": 75,
+      "y": 28,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "SPACE"
+      ]
+    },
+    {
+      "name": "Rohan",
+      "texturePath": "Sprites.NPC.Rohan.png",
+      "textureScale": 0.15,
+      "x": 93.5,
+      "y": 96.5,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "SPACE"
+      ]
+    },
+    {
+      "name": "Breya",
+      "texturePath": "Sprites.NPC.Breya.png",
+      "textureScale": 0.15,
+      "x": 60.75,
+      "y": 70.5,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "SPACE"
+      ]
+    },
+    {
+      "name": "Agama",
+      "texturePath": "Sprites.NPC.Agama.png",
+      "textureScale": 0.15,
+      "x": 36.75,
+      "y": 33.5,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "SPACE"
+      ]
+    },
+    {
+      "name": "Vale",
+      "texturePath": "Sprites.NPC.Vale.png",
+      "textureScale": 0.15,
+      "x": 138.5,
+      "y": 69.5,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "SPACE"
+      ]
+    },
+    {
+      "name": "Igor",
+      "texturePath": "Sprites.NPC.Igor.png",
+      "textureScale": 0.15,
+      "x": 131.75,
+      "y": 46.6,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "SPACE"
+      ]
     }
   ],
   "SmithScene": [
@@ -259,6 +395,23 @@
         "Thanks for saving me.",
         "To be honest I am still in stock...",
         "So do you mind leaving me alone?"
+      ]
+    },
+    {
+      "name": "Jai-Blynn Straus",
+      "texturePath": "Sprites.NPC.JaiBlynnStraus.png",
+      "textureScale": 0.15,
+      "x": 6.25,
+      "y": 2.25,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "SPACE"
       ]
     }
   ]
