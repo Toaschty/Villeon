@@ -23,7 +23,7 @@ namespace Villeon.Systems.Update
         {
             foreach (IEntity player in Entities)
             {
-                if (KeyHandler.IsPressed(Keys.U) && StateManager.InMenu)
+                if (KeyHandler.IsPressed(Keys.E) && StateManager.InMenu)
                 {
                     Item? selectedItem = InventoryMenu.GetInstance().GetCurrentlySelectedItem();
 
