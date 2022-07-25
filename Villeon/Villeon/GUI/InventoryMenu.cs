@@ -17,14 +17,14 @@ namespace Villeon.GUI
     {
         private static InventoryMenu? _inventory;
 
-        private IEntity[,] _tabBar = new IEntity[2, 2];
+        private IEntity[] _tabBar = new IEntity[3];
 
         // Inventory
         private int _inventorySlotsX = 8;
-        private int _inventorySlotsY = 4;
+        private int _inventorySlotsY = 5;
 
         // Align inventory slots
-        private Vector2 _startPos = new Vector2(-5.1f, 0.3f);
+        private Vector2 _startPos = new Vector2(-5.1f, 1.5f);
         private float _slotScalingFactor = 0.3f;
         private float _slotSize = InventorySlot.SlotSize;
         private float _offset = 0.1f;
@@ -34,8 +34,8 @@ namespace Villeon.GUI
         private float _scrollScale = 0.5f;
 
         private Vector2i _playerInventoryPosition = new Vector2i(0, 0);
-        private Vector2i _playerTabbarPosition = new Vector2i(0, 1);
-        private Vector2i _activeTabbar = new Vector2i(0, 1);
+        private int _activeTabbar = 0;
+        private int _playerTabbarPosition;
         private Vector2i? _swapIndicatorPosition = null;
         private Vector2i? _firstMovingPoint = null;
 
@@ -47,15 +47,15 @@ namespace Villeon.GUI
 
         // Inventories
         private InventorySlot[,] _activeInventory;
-        private InventorySlot[,] _allInventory;
         private InventorySlot[,] _weaponInventory;
         private InventorySlot[,] _potionInventory;
         private InventorySlot[,] _materialInventory;
 
         private InventoryMenu()
         {
+            _playerTabbarPosition = _activeTabbar;
+
             _activeInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
-            _allInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
             _weaponInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
             _potionInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
             _materialInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
@@ -106,9 +106,6 @@ namespace Villeon.GUI
                     AddItemsToInventory(_weaponInventory, newItem);
                     break;
             }
-
-            if (_activeInventory == _allInventory)
-                FillAllInventory();
         }
 
         // Add items to inventory. Automatically adds to right types
@@ -125,6 +122,8 @@ namespace Villeon.GUI
             // DEBUG --
             if (key == Keys.G)
                 AddItem(ItemLoader.GetItem("HealthPotionSmall"));
+            if (key == Keys.B)
+                AddItem(ItemLoader.GetItem("Sword"));
 
             if (_onSlots)
                 HandleInventorySlot(key);
@@ -194,10 +193,6 @@ namespace Villeon.GUI
             // Add all inventory entities
             _itemEntities.Clear();
 
-            // Refill all inventory if active
-            if (_activeInventory == _allInventory)
-                FillAllInventory();
-
             _itemEntities.AddRange(GetAllItemEntities());
         }
 
@@ -206,7 +201,7 @@ namespace Villeon.GUI
             // Check if current slot has item
             Item? item = GetItemAtCurrentPosition();
 
-            if (item is not null && _activeInventory != _allInventory)
+            if (item is not null)
             {
                 // Get current slot
                 InventorySlot slot = GetSlotAtCurrentPosition();
@@ -340,7 +335,7 @@ namespace Villeon.GUI
                     {
                         // Swapping is not allowed in the all inventory
                         // First selected item shouldn't be null
-                        if (GetItemAtCurrentPosition() is not null && _activeInventory != _allInventory)
+                        if (GetItemAtCurrentPosition() is not null)
                         {
                             // First point not set
                             _firstMovingPoint = new Vector2i(_playerInventoryPosition.X, _playerInventoryPosition.Y);
@@ -368,45 +363,37 @@ namespace Villeon.GUI
             {
                 // Moving Up
                 case Keys.W:
-                    if (_playerTabbarPosition.Y < 1)
-                        _playerTabbarPosition.Y += 1;
-
                     break;
 
                 // Moving Down
                 case Keys.S:
-                    if (_playerTabbarPosition.Y > 0)
-                    {
-                        _playerTabbarPosition.Y -= 1;
-                    }
-                    else
-                    {
-                        _playerTabbarPosition = new Vector2i(_activeTabbar.X, _activeTabbar.Y); // set the tabbar position to the active tabbar position
-                        _onSlots = true;
-                    }
+                    // set the tabbar position to the active tabbar position
+                    _playerTabbarPosition = _activeTabbar;
+                    _onSlots = true;
 
                     break;
 
                 // Moving Left
                 case Keys.A:
-                    if (_playerTabbarPosition.X > 0)
-                        _playerTabbarPosition.X -= 1;
+                    if (_playerTabbarPosition > 0)
+                        _playerTabbarPosition -= 1;
                     else
-                        _playerTabbarPosition.X = 1;
+                        _playerTabbarPosition = 2;
 
                     break;
 
                 // Moving Right
                 case Keys.D:
-                    if (_playerTabbarPosition.X < 1)
-                        _playerTabbarPosition.X += 1;
+                    if (_playerTabbarPosition < 2)
+                        _playerTabbarPosition += 1;
                     else
-                        _playerTabbarPosition.X = 0;
+                        _playerTabbarPosition = 0;
+                    
                     break;
 
                 case Keys.Space:
                     // Player is changing the tab
-                    _activeTabbar = new Vector2i(_playerTabbarPosition.X, _playerTabbarPosition.Y);
+                    _activeTabbar = _playerTabbarPosition;
                     _onSlots = true;
 
                     //Reset swap
@@ -422,28 +409,23 @@ namespace Villeon.GUI
         }
 
         // Change the currently selected inventory
-        private void ChangeSelectedInventory(Vector2i tabbarPosition)
+        private void ChangeSelectedInventory(int position)
         {
-            IEntity currentTab = _tabBar[tabbarPosition.Y, tabbarPosition.X];
+            IEntity currentTab = _tabBar[position];
 
             switch (currentTab.Name)
             {
-                case "All":
-                    //Console.WriteLine("All");
-                    FillAllInventory();
-                    _activeInventory = _allInventory;
-                    break;
-                case "Materials":
-                    //Console.WriteLine("Materials");
-                    _activeInventory = _materialInventory;
-                    break;
                 case "Potions":
-                    //Console.WriteLine("Potions");
+                    Console.WriteLine("Potions");
                     _activeInventory = _potionInventory;
                     break;
                 case "Weapons":
-                    //Console.WriteLine("Weapons");
+                    Console.WriteLine("Weapons");
                     _activeInventory = _weaponInventory;
+                    break;
+                case "Materials":
+                    Console.WriteLine("Materials");
+                    _activeInventory = _materialInventory;
                     break;
             }
 
@@ -539,76 +521,6 @@ namespace Villeon.GUI
             return searchInventory;
         }
 
-        // Fills all inventory
-        private void FillAllInventory()
-        {
-            List<Item> allItems = new List<Item>();
-
-            // Clear the whole Inventory
-            for (int y = 0; y < _inventorySlotsY; y++)
-            {
-                for (int x = 0; x < _inventorySlotsX; x++)
-                {
-                    Manager.GetInstance().RemoveEntities(_allInventory[y, x].ItemEntites);
-
-                    foreach (IEntity entity in _allInventory[y, x].ItemEntites)
-                    {
-                        _itemEntities.Remove(entity);
-                    }
-
-                    _allInventory[y, x] = new InventorySlot(_allInventory[y, x].Transform);
-                }
-            }
-
-            // Get all weapons
-            for (int y = 0; y < _inventorySlotsY; y++)
-            {
-                for (int x = 0; x < _inventorySlotsX; x++)
-                {
-                    for (int i = 0; i < _weaponInventory[y, x].Count; i++)
-                    {
-                        allItems.Add(_weaponInventory[y, x].Item!);
-                    }
-                }
-            }
-
-            // Get all potions
-            for (int y = 0; y < _inventorySlotsY; y++)
-            {
-                for (int x = 0; x < _inventorySlotsX; x++)
-                {
-                    if (_potionInventory[y, x].HasItem())
-                    {
-                        for (int i = 0; i < _potionInventory[y, x].Count; i++)
-                        {
-                            allItems.Add(_potionInventory[y, x].Item!);
-                        }
-                    }
-                }
-            }
-
-            // Get all materials
-            for (int y = 0; y < _inventorySlotsY; y++)
-            {
-                for (int x = 0; x < _inventorySlotsX; x++)
-                {
-                    if (_materialInventory[y, x].HasItem())
-                    {
-                        for (int i = 0; i < _materialInventory[y, x].Count; i++)
-                        {
-                            allItems.Add(_materialInventory[y, x].Item!);
-                        }
-                    }
-                }
-            }
-
-            // Set all Items into the Inventory
-            foreach (Item item in allItems)
-            {
-                AddItemsToInventory(_allInventory, item);
-            }
-        }
-
         // Reload all inventory entities and add entities to scene
         private void ReloadItemEntitiesAndRender()
         {
@@ -632,9 +544,9 @@ namespace Villeon.GUI
 
             // Set the active tabbar indicator when the user is not moving inside the tabbar
             if (_onSlots)
-                _inventorySlotIndicators.Add(_tabBar[_activeTabbar.Y, _activeTabbar.X]);
+                _inventorySlotIndicators.Add(_tabBar[_activeTabbar]);
 
-            _inventorySlotIndicators.Add(_tabBar[_playerTabbarPosition.Y, _playerTabbarPosition.X]);
+            _inventorySlotIndicators.Add(_tabBar[_playerTabbarPosition]);
 
             if (_swapIndicatorPosition != null)
                 _inventorySlotIndicators.Add(_activeInventory[_swapIndicatorPosition.Value.Y, _swapIndicatorPosition.Value.X].SwapIndicator);
@@ -645,10 +557,6 @@ namespace Villeon.GUI
         // Handle the swapping of items
         private void SwapItems(Vector2i firstPoint, Vector2i secondPoint)
         {
-            // Switching Items in the All Inventory is not allowed
-            if (_activeInventory == _allInventory)
-                return;
-
             Item? firstItem = _activeInventory[firstPoint.Y, firstPoint.X].Item;
             Item? secondItem = _activeInventory[secondPoint.Y, secondPoint.X].Item;
 
@@ -766,39 +674,21 @@ namespace Villeon.GUI
 
             float letterSpacing = 0.2f;
             float lineSpacing = 0.5f;
-            float letterScale = 0.4f;
+            float letterScale = 0.35f;
 
-            float positionY = _startPos.Y + 2f;
+            float positionY = _startPos.Y + 1.6f;
 
-            // Make text
-            Text allText = new Text("All", new Vector2(_startPos.X + 1.4f, positionY + 0.8f), "Alagard", letterSpacing, lineSpacing, letterScale);
-            tabBarEntities.AddRange(allText.GetEntities());
-
-            Text weaponText = new Text("Weapons", new Vector2(_startPos.X + 0.1f, positionY - 0.4f), "Alagard", letterSpacing, lineSpacing, letterScale);
-            tabBarEntities.AddRange(weaponText.GetEntities());
-
-            Text potionText = new Text("Potions", new Vector2(_startPos.X + 6.2f, positionY + 0.8f), "Alagard", letterSpacing, lineSpacing, letterScale);
+            Text potionText = new Text("Potions", new Vector2(_startPos.X - 1f, positionY), "Alagard", letterSpacing, lineSpacing, letterScale);
             tabBarEntities.AddRange(potionText.GetEntities());
 
-            Text materialText = new Text("Materials", new Vector2(_startPos.X + 5.7f, positionY - 0.4f), "Alagard", letterSpacing, lineSpacing, letterScale);
+            Text weaponText = new Text("Weapons", new Vector2(_startPos.X + 3f, positionY), "Alagard", letterSpacing, lineSpacing, letterScale);
+            tabBarEntities.AddRange(weaponText.GetEntities());
+
+            Text materialText = new Text("Materials", new Vector2(_startPos.X + 7.3f, positionY), "Alagard", letterSpacing, lineSpacing, letterScale);
             tabBarEntities.AddRange(materialText.GetEntities());
 
             Text legendText = new Text("Use [E] Drop [Q] Swap [Space]", new Vector2(-6f, -4.5f), "Alagard", 0f, 3f, 0.2f);
             tabBarEntities.AddRange(legendText.GetEntities());
-
-            float horizontalLineY = _startPos.Y + 2.5f;
-            float horizontalLineScale = 0.3f;
-
-            // Make HorizontalLines
-            IEntity firstHorizontalLine = new Entity(new Transform(new Vector2(_startPos.X + 0.2f, horizontalLineY), horizontalLineScale, 0f), "InventoryHorizontalLine");
-            Sprite firstHorizontalSprite = Asset.GetSprite("GUI.Scrolls.Scroll_Horizontal_Line_1.png", SpriteLayer.ScreenGuiForeground, false);
-            firstHorizontalLine.AddComponent(firstHorizontalSprite);
-            tabBarEntities.Add(firstHorizontalLine);
-
-            IEntity secondHorizontalLine = new Entity(new Transform(new Vector2(_startPos.X + 6f, horizontalLineY), horizontalLineScale, 0f), "InventoryHorizontalLine");
-            Sprite secondHorizontalSprite = Asset.GetSprite("GUI.Scrolls.Scroll_Horizontal_Line_2.png", SpriteLayer.ScreenGuiForeground, false);
-            secondHorizontalLine.AddComponent(secondHorizontalSprite);
-            tabBarEntities.Add(secondHorizontalLine);
 
             return tabBarEntities;
         }
@@ -806,11 +696,10 @@ namespace Villeon.GUI
         // // Init functions
         private void SetSlotPositions()
         {
-            SetInventorySlotPositions(_allInventory);
             SetInventorySlotPositions(_weaponInventory);
             SetInventorySlotPositions(_potionInventory);
             SetInventorySlotPositions(_materialInventory);
-            _activeInventory = _allInventory;
+            _activeInventory = _potionInventory;
         }
 
         // Calculate the position for every slot
@@ -839,22 +728,16 @@ namespace Villeon.GUI
             float scale = 0.4f;
             float positionX = _startPos.X - 0.3f;
             float positionY = _startPos.Y + 1.6f;
-            float offsetX = 5.8f;
-            float offsetY = 1.3f;
 
-            _tabBar[0, 0] = new Entity(new Transform(new Vector2(positionX, positionY), scale, 0f), "Weapons");
-            _tabBar[0, 1] = new Entity(new Transform(new Vector2(positionX + offsetX, positionY), scale, 0f), "Materials");
-            _tabBar[1, 0] = new Entity(new Transform(new Vector2(positionX, positionY + offsetY), scale, 0f), "All");
-            _tabBar[1, 1] = new Entity(new Transform(new Vector2(positionX + offsetX, positionY + offsetY), scale, 0f), "Potions");
+            _tabBar[0] = new Entity(new Transform(new Vector2(positionX - 1.6f, positionY), scale, 0f), "Potions");
+            _tabBar[1] = new Entity(new Transform(new Vector2(positionX + 2.6f, positionY), scale, 0f), "Weapons");
+            _tabBar[2] = new Entity(new Transform(new Vector2(positionX + 7f, positionY), scale, 0f), "Materials");
 
             Sprite selectionBackground = Asset.GetSprite("GUI.Scrolls.Scroll_Selection.png", SpriteLayer.ScreenGuiMiddleground, false);
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
             {
-                for (int j = 0; j < 2; j++)
-                {
-                    _tabBar[i, j].AddComponent(selectionBackground);
-                }
+                _tabBar[i].AddComponent(selectionBackground);
             }
         }
 
@@ -867,7 +750,7 @@ namespace Villeon.GUI
 
             // Set the starting indicators in the Inventory and tabbar
             _inventorySlotIndicators.Add(_activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].SlotSelection);
-            _inventorySlotIndicators.Add(_tabBar[_playerTabbarPosition.Y, _playerTabbarPosition.X]);
+            _inventorySlotIndicators.Add(_tabBar[_playerTabbarPosition]);
         }
 
         private IEntity CreateInventoryBackground()
