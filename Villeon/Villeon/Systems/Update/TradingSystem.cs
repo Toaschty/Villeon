@@ -61,7 +61,7 @@ namespace Villeon.Systems.Update
                                 InventoryMenu.GetInstance().AddItems(ItemLoader.GetItem(opt.BuyItem), opt.BuyItemAmount);
 
                                 // Add trade particles
-                                List<IEntity> particles = ParticleBuilder.RandomParticles(playerTrigger.Position, new Vector2(0, 0), 5, 0.05f, 1f, -0.01f, 0.1f, true, "Sprites.Particles.Sparkles.png", 1000, new Vector2(2f, 3f), Color4.White);
+                                List<IEntity> particles = ParticleBuilder.RandomParticles(playerTrigger.Position, 2, 0.03f, 0.5f, -0.01f, 0.1f, true, "Sprites.Particles.Sparkles.png", 200, new Vector2(2f, 2f), Color4.White);
                                 Manager.GetInstance().AddEntities(particles);
                             }
                         }
