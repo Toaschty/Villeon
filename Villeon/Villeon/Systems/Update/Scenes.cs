@@ -275,6 +275,7 @@ namespace Villeon.Systems.Update
             BossScene.AddSystem(new TriggerSystem("Trigger"));
             BossScene.AddSystem(new PortalSystem("PortalSystem"));
             BossScene.AddSystem(new DamageSystem("DamageSystem"));
+            BossScene.AddSystem(new BossSystem("BossSystem"));
             BossScene.AddSystem(new CollisionSystem("Collision"));
             BossScene.AddSystem(new PlayerDeathSystem("Health"));
             BossScene.AddSystem(new CameraSystem("CameraSystem"));
