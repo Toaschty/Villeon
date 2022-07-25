@@ -81,7 +81,7 @@ namespace Villeon.Systems.Update
         private bool IsInRangeOfPlayer(Transform physicsTransform)
         {
             if (_player is null)
-                return false;
+                return true;
 
             Transform playerTransform = _player.GetComponent<Transform>();
             Vector2 distance = playerTransform.Position - physicsTransform.Position;
