@@ -23,7 +23,7 @@ namespace Villeon.Render
         private HashSet<RenderingData> _renderingData;
         private HashSet<RenderingData> _lights;
         private List<Texture2D> _textures;
-        private int[] _texSlots = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+        private int[] _texSlots = { 0, 1, 2, 3, 4, 5, 6, 7};
         private int _spriteCount;
         private bool _isFull;
 
@@ -115,6 +115,7 @@ namespace Villeon.Render
                 }
 
                 raytracingShader.UploadIntArray("textures", _texSlots);
+                raytracingShader.UploadInt("textures[8]", 8);
                 raytracingShader.UploadFloatArray("dimensions", new float[] { Camera.ScreenWidth, Camera.ScreenHeight });
             }
             else

@@ -334,7 +334,7 @@ namespace Villeon.Systems.Update
         public static void SetupPortalEntities()
         {
             // Particle Spawner for Portal
-            ParticleSpawner particleSpawner = new ParticleSpawner(50, "Sprites.PortalDust.png");
+            ParticleSpawner particleSpawner = new ParticleSpawner(50, "Sprites.Particles.PortalDust.png");
             particleSpawner.VariationWidth = 2;
             particleSpawner.VariationHeight = 3;
             particleSpawner.Offset = new Vector2(2.5f, 3f);

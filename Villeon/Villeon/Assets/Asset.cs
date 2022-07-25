@@ -91,10 +91,16 @@ namespace Villeon.Assets
             AddSpriteSheet("Animations.d_player_climb.png", new SpriteSheet(Color4.White, GetTexture("Animations.d_player_climb.png"), 16, 32, 6, 0, SpriteLayer.Foreground));
 
             // Enemy Animations
-            AddSpriteSheet("Animations.slime_jumping.png", new SpriteSheet(Color4.White, GetTexture("Animations.slime_jumping.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Animations.slime_jumping_blue.png", new SpriteSheet(Color4.White, GetTexture("Animations.slime_jumping_blue.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Animations.slime_jumping_green.png", new SpriteSheet(Color4.White, GetTexture("Animations.slime_jumping_green.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Animations.slime_jumping_magenta.png", new SpriteSheet(Color4.White, GetTexture("Animations.slime_jumping_magenta.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Animations.slime_jumping_red.png", new SpriteSheet(Color4.White, GetTexture("Animations.slime_jumping_red.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Animations.slime_attack_left.png", new SpriteSheet(Color4.White, GetTexture("Animations.slime_attack_left.png"), 32, 32, 4, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Animations.slime_attack_right.png", new SpriteSheet(Color4.White, GetTexture("Animations.slime_attack_right.png"), 32, 32, 4, 0, SpriteLayer.Foreground));
-            AddSpriteSheet("Enemies.Slime.slime_jumping.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Slime.slime_jumping.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Enemies.Slime.slime_jumping_blue.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Slime.slime_jumping_blue.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Enemies.Slime.slime_jumping_green.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Slime.slime_jumping_green.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Enemies.Slime.slime_jumping_magenta.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Slime.slime_jumping_magenta.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Enemies.Slime.slime_jumping_red.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Slime.slime_jumping_red.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Enemies.Bat.bat_left.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Bat.bat_left.png"), 32, 32, 4, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Enemies.Bat.bat_right.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Bat.bat_right.png"), 32, 32, 4, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Enemies.Bubble.bubble_left.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Bubble.bubble_left.png"), 45, 45, 8, 0, SpriteLayer.Foreground));

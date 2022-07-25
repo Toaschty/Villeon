@@ -73,7 +73,11 @@ namespace Villeon.Systems.Update
             if (!_running.IsRunning)
             {
                 _running.IsRunning = true;
+
                 _texture = new Texture2D(RESOLUTION_X, RESOLUTION_Y, OpenTK.Graphics.OpenGL4.SizedInternalFormat.Rgba32f);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Clamp);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Clamp);
+
                 RayTracer rayTracer = new RayTracer(_colliders, _lights, _running);
                 Thread thread = new Thread(rayTracer.Raytracing);
                 thread.IsBackground = true;
@@ -131,7 +135,7 @@ namespace Villeon.Systems.Update
 
             public void Raytracing()
             {
-                while (StateManager.InDungeon)
+                while (StateManager.InDungeon && StateManager.RayTracingEnabled)
                 {
                     _horizontalLines.Clear();
                     _verticalLines.Clear();
@@ -180,7 +184,6 @@ namespace Villeon.Systems.Update
 
                     CopyLightmap();
                 }
-
                 _running.IsRunning = false;
             }
 

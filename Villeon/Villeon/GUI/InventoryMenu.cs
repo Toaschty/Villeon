@@ -289,11 +289,31 @@ namespace Villeon.GUI
                 Hotbar.GetInstance().AddItem(index, _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X]);
         }
 
-        // Handle movement of inventory slots
+        // Handle movement of inventory slotss
         private void HandleInventorySlot(Keys key)
         {
             switch (key)
             {
+                // Drop current Item
+                case Keys.Q:
+                    InventorySlot currentSlot = _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X];
+
+                    if (currentSlot.HasItem())
+                    {
+                        currentSlot.DecreaseStack();
+
+                        // Remove Item
+                        if (currentSlot.IsStackEmpty())
+                        {
+                            Manager.GetInstance().RemoveEntities(currentSlot.ItemEntites);
+                            currentSlot.Item = null;
+                        }
+
+                        ReloadItemEntities();
+                    }
+
+                    break;
+
                 // Moving Up
                 case Keys.W:
                     if (_playerInventoryPosition.Y > 0)
@@ -388,7 +408,7 @@ namespace Villeon.GUI
                         _playerTabbarPosition += 1;
                     else
                         _playerTabbarPosition = 0;
-                    
+
                     break;
 
                 case Keys.Space:
@@ -401,7 +421,6 @@ namespace Villeon.GUI
                     _swapIndicatorPosition = null;
 
                     ChangeSelectedInventory(_activeTabbar);
-                    ReloadInventoryIndicators();
                     break;
             }
 
@@ -416,15 +435,12 @@ namespace Villeon.GUI
             switch (currentTab.Name)
             {
                 case "Potions":
-                    Console.WriteLine("Potions");
                     _activeInventory = _potionInventory;
                     break;
                 case "Weapons":
-                    Console.WriteLine("Weapons");
                     _activeInventory = _weaponInventory;
                     break;
                 case "Materials":
-                    Console.WriteLine("Materials");
                     _activeInventory = _materialInventory;
                     break;
             }
