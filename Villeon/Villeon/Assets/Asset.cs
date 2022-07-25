@@ -103,6 +103,8 @@ namespace Villeon.Assets
             AddSpriteSheet("Enemies.Slime.slime_jumping_red.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Slime.slime_jumping_red.png"), 32, 39, 13, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Enemies.Bat.bat_left.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Bat.bat_left.png"), 32, 32, 4, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Enemies.Bat.bat_right.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Bat.bat_right.png"), 32, 32, 4, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Enemies.Eye.eye_left.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Eye.eye_left.png"), 23, 14, 4, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Enemies.Eye.eye_right.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Eye.eye_right.png"), 23, 14, 4, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Enemies.Bubble.bubble_left.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Bubble.bubble_left.png"), 45, 45, 8, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Enemies.Bubble.bubble_right.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Bubble.bubble_right.png"), 45, 45, 8, 0, SpriteLayer.Foreground));
 
