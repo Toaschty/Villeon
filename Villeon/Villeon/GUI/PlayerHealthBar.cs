@@ -66,7 +66,7 @@ namespace Villeon.GUI
         private void CreateFrame(Vector2 position)
         {
             _frame = new Entity(new Transform(position, _scale, 0f), "Player Health Frame");
-            Sprite frame = Asset.GetSprite("GUI.Frame.png", SpriteLayer.ScreenGuiForeground, true);
+            Sprite frame = Asset.GetSprite("GUI.Frame.png", SpriteLayer.ScreenGuiOverlayForeGround, true);
 
             _frame.AddComponent(frame);
         }
@@ -74,7 +74,7 @@ namespace Villeon.GUI
         private void CreateFilling(Vector2 position, float width, float height)
         {
             _healthFilling = new Entity(new Transform(position, _scale, 0f), "Player Health Filling");
-            Sprite healthFilling = new Sprite(SpriteLayer.ScreenGuiMiddleground, width, height, true);
+            Sprite healthFilling = new Sprite(SpriteLayer.ScreenGuiOverlayMiddleGround, width, height, true);
             healthFilling.Color = Color4.Red;
             _healthFilling.AddComponent(healthFilling);
         }
@@ -82,7 +82,7 @@ namespace Villeon.GUI
         private void CreateBackground(Vector2 position, float width, float height)
         {
             _background = new Entity(new Transform(position, _scale, 0f), "Player Health Background");
-            Sprite backgroundSprite = new Sprite(SpriteLayer.ScreenGuiBackground, width, height);
+            Sprite backgroundSprite = new Sprite(SpriteLayer.ScreenGuiOverlayBackground, width, height);
             backgroundSprite.Color = Color4.Black;
             _background.AddComponent(backgroundSprite);
         }
