@@ -70,7 +70,7 @@ namespace Villeon.Generation
                         {
                             IEntity torch = new Entity(new Transform(new Vector2(x + 0.5f, _height - 0.5f - y), 1f, 0), "Torch");
                             torch.AddComponent(new Light(new Color4(255, 50, 50, 255), -13.5f, 4f, 1f, 0.7f, 1.8f));
-                            ParticleSpawner particleSpawner = new ParticleSpawner(4, "Sprites.Smoke.png");
+                            ParticleSpawner particleSpawner = new ParticleSpawner(4, "Sprites.Particles.Smoke.png");
                             torch.AddComponent(particleSpawner);
                             _entities.Add(torch);
                         }
@@ -189,7 +189,7 @@ namespace Villeon.Generation
                         torch.AddComponent(new Light(new Color4(255, 50, 50, 255), -13.5f, 4f, 1f, 0.7f, 1.8f));
 
                         // Add particle spawner for the flakes
-                        ParticleSpawner particleSpawner = new ParticleSpawner(3, "Sprites.Smoke.png");
+                        ParticleSpawner particleSpawner = new ParticleSpawner(3, "Sprites.Particles.Smoke.png");
                         particleSpawner.ParticleWeight = -0.1f;
                         torch.AddComponent(particleSpawner);
                         _entities.Add(torch);
@@ -200,7 +200,7 @@ namespace Villeon.Generation
                     {
                         IEntity glow = new Entity(new Transform(new Vector2(x, _height - 1f - y), 1f, 0), "Glow");
                         glow.AddComponent(new Light(new Color4(237, 0, 134, 255), -12f, 20f, 1f, 0.7f, 1.8f));
-                        ParticleSpawner particleSpawner = new ParticleSpawner(50, "Sprites.PortalDust.png");
+                        ParticleSpawner particleSpawner = new ParticleSpawner(50, "Sprites.Particles.PortalDust.png");
                         particleSpawner.VariationWidth = 2;
                         particleSpawner.VariationHeight = 3;
                         glow.AddComponent(particleSpawner);
@@ -223,11 +223,23 @@ namespace Villeon.Generation
                     {
                         int type = random.Next(0, 3);
                         if (type == 0)
-                            EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, _height - 1 - y));
+                        {
+                            switch (random.Next(0, 4))
+                            {
+                                case 0: EnemySpawner.Spawn("DungeonScene", "slime_blue", new Vector2(x, _height - 1 - y)); break;
+                                case 1: EnemySpawner.Spawn("DungeonScene", "slime_magenta", new Vector2(x, _height - 1 - y)); break;
+                                case 2: EnemySpawner.Spawn("DungeonScene", "slime_green", new Vector2(x, _height - 1 - y)); break;
+                                case 3: EnemySpawner.Spawn("DungeonScene", "slime_red", new Vector2(x, _height - 1 - y)); break;
+                            }
+                        }
                         else if (type == 1)
+                        {
                             EnemySpawner.Spawn("DungeonScene", "bubble", new Vector2(x, _height - 1 - y));
+                        }
                         else
+                        {
                             EnemySpawner.Spawn("DungeonScene", "bat", new Vector2(x, _height - 1 - y));
+                        }
                     }
 
                     // Get tile from dicitionary with gid
