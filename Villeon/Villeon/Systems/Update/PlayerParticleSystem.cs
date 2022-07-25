@@ -39,7 +39,7 @@ namespace Villeon.Systems.Update
                         Vector2 direction = Vector2.Zero;
                         direction.X = player.MovingLeft ? 1 : -1;
                         direction.Y = 0;
-                        IEntity particleEntity = ParticleBuilder.RandomParticle(transform.Position + new Vector2(0.5f, 0f), 0.8f, 0.7f, direction, 0.0f, 0.3f, true, "Sprites.Particles.Dust.png", Color4.White);
+                        IEntity particleEntity = ParticleBuilder.RandomParticle(transform.Position, new Vector2(0.5f, 0f), 0.8f, 0.7f, direction, 0.0f, 0.3f, true, "Sprites.Particles.Dust.png", Color4.White);
                         Manager.GetInstance().AddEntity(particleEntity);
                     }
 

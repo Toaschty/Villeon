@@ -249,7 +249,7 @@ namespace Villeon.Render
 
         public bool HasTextureRoom()
         {
-            return _textures.Count < (Size.TEX_SLOTS - 1);
+            return _textures.Count < (Size.TEX_SLOTS - 2);
         }
 
         public bool HasTexture(Texture2D? texture)

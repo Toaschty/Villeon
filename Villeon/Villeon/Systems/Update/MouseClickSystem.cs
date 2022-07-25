@@ -28,7 +28,7 @@ namespace Villeon.Systems.Update
             {
                 if (button.Button == MouseButton.Right)
                 {
-                    EnemySpawner.Spawn("DungeonScene", "slime", button.MousePosition);
+                    EnemySpawner.Spawn("DungeonScene", "slime_blue", button.MousePosition);
                 }
 
                 if (button.Button == MouseButton.Middle)
