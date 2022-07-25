@@ -89,7 +89,7 @@
         "The moment the portal materialised a horde of monsters came out und kidnapped most of our citizens.",
         "Even the majors daughter was taken by a swarm of bats. I have never seen such creatures...",
         "You want to help? Great!",
-        "It would be awesome if you can rescue the majors daughter from the fangs of the monsters!",
+        "It would be awesome if you can rescue the villagers from the fangs of the monsters!",
         "The existence of this village is depending on you!"
       ]
     }
@@ -138,6 +138,15 @@
           "type": "talk",
           "option": "Talk [T]",
           "key": "T"
+        },
+        {
+          "type": "trade",
+          "option": "50x Bat Wings --> 1x Gold [1]",
+          "key": "D1",
+          "neededItem": "BatWings",
+          "neededItemAmount": 50,
+          "buyItem": "Gold",
+          "buyItemAmount": 1
         }
       ],
       "dialog": [
@@ -166,7 +175,23 @@
         }
       ],
       "dialog": [
-        "SPACE"
+        "Hello Mr!",
+        "Thank you for rescueing me from that terrible place.",
+        "I am William Willsonton. I am the mayor of this little village.",
+        "I am afraid that I am in need of your help once again...",
+        "There are still some villagers missing! We need to help them immediately.",
+        "My lovely daugther is also among the missing people.",
+        "I am begging you... Help them!",
+        "...",
+        "Thanks!",
+        "But before you enter the portal again I think you are in need of better equipment.",
+        "I have the feeling that the dungeons get harder the more we fight back the monsters.",
+        "I do not have enough time to show you around - So let me hand you this map.",
+        "It shows our village and also all interesting locations like the smith in the north or the shop in the south.",
+        "I think the smith can craft you a better sword. His craftsmanship is well known.",
+        "In the shop you will find all kind of useful items like a good healpotion for your adventure.",
+        "Once again - Get yourself better equipment and fight some monsters.",
+        "The life of the villagers are in your hands!"
       ]
     },
     {
@@ -183,7 +208,20 @@
         }
       ],
       "dialog": [
-        "SPACE"
+        "My hero! Welcome!",
+        "Thank you for rescueing me!",
+        "My name is Kory and I am the daugther of the mayor.",
+        "Thanks to you, all villagers are back home! Thank you for that!",
+        "To be honest - We are still not sure how exactly we will proceed with the portal.",
+        "It is still functional... So we could use its teleportation magic for something else.",
+        "Further investigations showed that the portal could potentially lead to more locations.",
+        "However, due to the limited amount of time this will only be able in the future.",
+        "But enough of that. What are your plans for the future?",
+        "I heared that you were travelling to the kingdom's captial before all of this happened.",
+        "As a matter of fact, the captial is currently faceing a much worse problem.",
+        "I think they are in need of excellent warriors! So what do your think?",
+        "But whatever you will do, let me assure you that you are always welcome in our village!",
+        "See you soon - Our hero!"
       ]
     },
     {
@@ -197,10 +235,27 @@
           "type": "talk",
           "option": "Talk [T]",
           "key": "T"
+        },
+        {
+          "type": "trade",
+          "option": "1x Stick --> 1x Rock [1]",
+          "key": "D1",
+          "neededItem": "Stick",
+          "neededItemAmount": 1,
+          "buyItem": "Rock",
+          "buyItemAmount": 1
         }
       ],
       "dialog": [
-        "SPACE"
+        "Hey there mate!",
+        "That was quite the fight back there!",
+        "Thanks - I guess...",
+        "Well... my name is Paskel and I am the farmer of this village.",
+        "This means I am in charge of these fields and the fields in the north.",
+        "However, most of the time I will stay here in the south.",
+        "You must know that I have a small brother. He takes the responsibility of the norther fields.",
+        "His name is Rohan. He is really a good guy. Well... sometime he can really get on someone's nerves. But other than that...",
+        "You should really talk to him at some point."
       ]
     },
     {
@@ -214,10 +269,27 @@
           "type": "talk",
           "option": "Talk [T]",
           "key": "T"
+        },
+        {
+          "type": "trade",
+          "option": "100x Pebbel --> 3x Rock [1]",
+          "key": "D1",
+          "neededItem": "Pebbel",
+          "neededItemAmount": 100,
+          "buyItem": "Rock",
+          "buyItemAmount": 3
         }
       ],
       "dialog": [
-        "SPACE"
+        "Hey there!",
+        "I am Rohan and I am the second farmer in this village.",
+        "My older brother Paskel handles the important things like buying seeds and planning for the future.",
+        "I will do the actual farming. I really like the work. It is really interesting how a big plant which provides food for everyone can grow from such little seeds.",
+        "Sure... Its hard sometimes. Especially on hot days.",
+        "The best time of the day is the evening. Normally all villagers come together in the tarvern to drink something.",
+        "Yeah.. Yeah.. I know it is not a tavern - It is a shop. But to be honest everyone uses this place as a meeting point and this makes it to a tarvern or am I wrong?",
+        "But - please - do not tell that Grunilde. She will get mad. She runs the shop so she can name her location how she wants.",
+        "Well... I need to continue with my work. See you in the tarvern... ehm... shop - You know what I mean."
       ]
     },
     {
@@ -234,7 +306,14 @@
         }
       ],
       "dialog": [
-        "SPACE"
+        "Hello warrior!",
+        "Here we meet again. However, outside of the battlefield this time.",
+        "I am Breya and a warrior myself. I was really kickn ass back there.",
+        "Well... I was till I got overrunned. These bastards kept coming in.",
+        "In the end I got captured and sat in that Room for days.",
+        "I was really glad you showed up and helped me out of there. Thanks! I owe you something.",
+        "However, I am not done yet. There are still undiscovered secrets at the other side of the portal which wait to be revealed.",
+        "Are you coming too?"
       ]
     },
     {
@@ -251,7 +330,13 @@
         }
       ],
       "dialog": [
-        "SPACE"
+        "Hello my dear. I am Agama.",
+        "Thank you for saveing me and my baby!",
+        "On one hand I am really glad that my husband left the village a few weeks ago. He went to the capital to sell his goods.",
+        "He will propably need a few more days until he will make a return. At this point he has no idea what happend here.",
+        "I guess it is better that way. We would be worried and instantly came back without the revenue he could have made.",
+        "On the other hand he could have helped the others to defend out village. He is skilled with the sword so he could have made a difference.",
+        "This is how it is and we can not change the past. So I accept that this was intended to happen."
       ]
     },
     {
@@ -268,7 +353,26 @@
         }
       ],
       "dialog": [
-        "SPACE"
+        "What do you want?",
+        "Leave me alone...",
+        "...",
+        "ehh...",
+        "...",
+        "My name is Vale, alright?",
+        "I was sent from the kingdom's captial to solve this problem.",
+        "...",
+        "Yeah, you saved me. I got overrunned by powerful monsters. I could not do a thing.",
+        "...",
+        "Do you really want to hear it?",
+        "Fine...",
+        "Thanks...",
+        "Satisfied?",
+        "...",
+        "But now leave me alone. I need to prepare my next portal visit.",
+        "I will get ahold of the situation as quick as possible and will return to the capital.",
+        "He have problems overself and can not care about such small villages.",
+        "Now... Bye!",
+        "..."
       ]
     },
     {
@@ -282,10 +386,73 @@
           "type": "talk",
           "option": "Talk [T]",
           "key": "T"
+        },
+        {
+          "type": "trade",
+          "option": "10x Stick --> 1x Gold [1]",
+          "key": "D1",
+          "neededItem": "Stick",
+          "neededItemAmount": 10,
+          "buyItem": "Gold",
+          "buyItemAmount": 1
         }
       ],
       "dialog": [
-        "SPACE"
+        "Greetings!",
+        "I am Igor and I am the local magician.",
+        "Well... I am trying my best to do some magic.",
+        "I only managed to summon a small flame. I know this is not much but its not easy to learn new things when you are this old.",
+        "Because of that I am especially interested in the appeared portal. Where does it come from? How does it work exactly? Who is responsible for the appearance?",
+        "These questions are waiting to be answered! And I will be the one who finds them!",
+        "Wish me luck!",
+        "One more thing... Do you have any sticks? I need a few to build me a wand."
+      ]
+    },
+    {
+      "name": "Johnson",
+      "texturePath": "Sprites.NPC.Johnson.png",
+      "textureScale": 0.15,
+      "x": 62.5,
+      "y": 45.5,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Hello again!",
+        "Thank you for rescueing the villagers!",
+        "My name is Johnson."
+        "I am not skilled in useing a sword so I am pretty useless in a fight.",
+        "However, I help out as much as possible here in the village. Some people had some pretty deep wounds.",
+        "I am so glad that you walked in our village a few days ago!"
+      ]
+    },
+    {
+      "name": "Solaire",
+      "texturePath": "Sprites.NPC.Solaire.png",
+      "textureScale": 0.15,
+      "x": 141.75,
+      "y": 65.5,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Hello fella!",
+        "Are you going back in the portal?",
+        "Hold on for a moment!",
+        "We could not really talk when you stubbled across this village a few days ago.",
+        "I am called Solaire! It is a pleasure to meet you!",
+        "I see you are well equipped - Good. If you need a new sword or a better shield go to Alberich.",
+        "He also create my equipment and what can I say... I am still alive - He He He",
+        "I don't want to keep you waiting any longer... Go ahead and kill some monsters for me, will you?",
+        "Stay save though! I don't want to find your corpse in there!"
       ]
     }
   ],
@@ -304,29 +471,56 @@
         },
         {
           "type": "trade",
-          "option": "10x Gold --> 1x Sword [1]",
+          "option": "10x Raw Gold --> 1x Gold [1]",
           "key": "D1",
-          "neededItem": "Gold",
+          "neededItem": "RawGold",
           "neededItemAmount": 10,
-          "buyItem": "Sword",
-          "buyItemAmount": 1
-        },
-        {
-          "type": "trade",
-          "option": "5x Gold --> 1x Shield [2]",
-          "key": "D2",
-          "neededItem": "Gold",
-          "neededItemAmount": 5,
-          "buyItem": "Sword",
-          "buyItemAmount": 1
-        },
-        {
-          "type": "trade",
-          "option": "50x Rock --> 1x Gold [3]",
-          "key": "D3",
-          "neededItem": "Rock",
-          "neededItemAmount": 50,
           "buyItem": "Gold",
+          "buyItemAmount": 1
+        },
+        {
+          "type": "trade",
+          "option": "30x Raw Iron --> 2x Iron [2]",
+          "key": "D2",
+          "neededItem": "RawIron",
+          "neededItemAmount": 10,
+          "buyItem": "Iron",
+          "buyItemAmount": 2
+        },
+        {
+          "type": "trade",
+          "option": "30x Raw Ruby --> 3x Ruby [3]",
+          "key": "D3",
+          "neededItem": "RawRuby",
+          "neededItemAmount": 30,
+          "buyItem": "Ruby",
+          "buyItemAmount": 3
+        },
+        {
+          "type": "trade",
+          "option": "50x Raw Diamond --> 1x Diamond [4]",
+          "key": "D4",
+          "neededItem": "RawDiamond",
+          "neededItemAmount": 50,
+          "buyItem": "Diamond",
+          "buyItemAmount": 1
+        },
+        {
+          "type": "trade",
+          "option": "50x Gold --> 1x Sword [5]",
+          "key": "D5",
+          "neededItem": "Gold",
+          "neededItemAmount": 50,
+          "buyItem": "Sword",
+          "buyItemAmount": 1
+        },
+        {
+          "type": "trade",
+          "option": "50x Gold --> 1x Shield [6]",
+          "key": "D6",
+          "neededItem": "Gold",
+          "neededItemAmount": 50,
+          "buyItem": "Shield",
           "buyItemAmount": 1
         }
       ],
@@ -358,11 +552,38 @@
         },
         {
           "type": "trade",
-          "option": "100x Rock --> 1x Gold [1]",
+          "option": "10x Gold --> 1x Healpotion Small [1]",
           "key": "D1",
-          "neededItem": "Rock",
-          "neededItemAmount": 100,
-          "buyItem": "Gold",
+          "neededItem": "Gold",
+          "neededItemAmount": 10,
+          "buyItem": "HealthPotionSmall",
+          "buyItemAmount": 1
+        },
+        {
+          "type": "trade",
+          "option": "50x Gold --> 1x Healpotion Middle [2]",
+          "key": "D2",
+          "neededItem": "Gold",
+          "neededItemAmount": 50,
+          "buyItem": "HealthPotionMiddle",
+          "buyItemAmount": 1
+        },
+        {
+          "type": "trade",
+          "option": "200x Gold --> 1x Healpotion Big [3]",
+          "key": "D3",
+          "neededItem": "Gold",
+          "neededItemAmount": 200,
+          "buyItem": "HealthPotionBig",
+          "buyItemAmount": 1
+        },
+        {
+          "type": "trade",
+          "option": "600x Gold --> 1x Healpotion Special [4]",
+          "key": "D4",
+          "neededItem": "Gold",
+          "neededItemAmount": 600,
+          "buyItem": "HealthPotionSpecial",
           "buyItemAmount": 1
         }
       ],
@@ -393,8 +614,15 @@
       "dialog": [
         "Hello fella.",
         "Thanks for saving me.",
-        "To be honest I am still in stock...",
-        "So do you mind leaving me alone?"
+        "To be honest I am still in shock...",
+        "I am called Hartwin by the way.",
+        "I am really disappointed in myself...",
+        "No really - I thought I can easily handle some monsters. I really thought that I am able to use a sword...",
+        "But the moment that huge portal appeared and the monsters came out I froze... I could not do anything.",
+        "What does it take to be as relaxed as you are?",
+        "... What? You are saying that you are also afraid while fighting?",
+        "Wow... Ok... That actually helped me a lot.",
+        "Thanks... I will think about your words for know..."
       ]
     },
     {
@@ -411,7 +639,26 @@
         }
       ],
       "dialog": [
-        "SPACE"
+        "~ Plunged in night, I sit alone ~",
+        "~ Eyeless on this dungeon stone ~",
+        "~ Naked, shaggy, and unkempt, ~",
+        "~ Dreaming dreams no soul hath dreamt ~",
+        "~ Rats and vermin round my feet ~",
+        "~ Play unharmed, companions sweet; ~",
+        "~ Spiders weave me overhead ~",
+        "~ Silken curtains for my bed. ~",
+        "...",
+        "Yeah - that is it! ...",
+        "Oh hello my friend!",
+        "~ Here we are, we meet again ~",
+        "~ Though free, without a chain ~",
+        "I am a well known poet called Jai-Blynn Straus",
+        "Currently I am working on my latest masterpiece... The story about this village.",
+        "About the sudden appearance of a great danger.",
+        "About the vanishing of the villagers.", 
+        "About the demolished houses and broken dreams.",
+        "And about your sir! How a single person saved the people in danger - About our savior!",
+        "You will hear my poem across the whole kingdom... I just need to finish this piece..."
       ]
     }
   ]

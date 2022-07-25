@@ -126,7 +126,7 @@
     "index": 17,
     "itemType": "Weapon",
     "stackSize": 1,
-    "sprite": "Weapons.Hellsword.png"
+    "sprite": "Weapons.HellSword.png"
   },
   {
     "name": "Shield",
@@ -140,7 +140,7 @@
     "index": 19,
     "itemType": "Weapon",
     "stackSize": 1,
-    "sprite": "Weapons.Plantshield.png"
+    "sprite": "Weapons.PlantShield.png"
   }
 ]
 
