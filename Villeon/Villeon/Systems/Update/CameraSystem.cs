@@ -35,6 +35,11 @@ namespace Villeon.Systems.Update
                 else
                 {
                     Vector2 idealPoint = transform.Position + transform.Scale;
+                    if ((idealPoint - _position).Length > 1000)
+                    {
+                        _position = idealPoint;
+                        _velocity = Vector2.Zero;
+                    }
 
                     // calculate Accleration
                     Vector2 acceleration;
