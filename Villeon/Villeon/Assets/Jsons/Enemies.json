@@ -4,7 +4,7 @@
     "damage": 5,
     "ai": "JumpingAI",
     "experience": 10,
-    "animationPath": "Enemies.slime.",
+    "animationPath": "Enemies.Slime.",
     "animations": [
         "slime_jumping.png",
         "slime_jumping.png"
