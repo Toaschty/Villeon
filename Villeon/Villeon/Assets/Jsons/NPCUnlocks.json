@@ -1,0 +1,70 @@
+﻿[
+    {
+        "cave": "crumblyCave",
+        "unlocks": [
+            {
+                "scene": "VillageScene",
+                "npc": "Willy Willsonton"
+            },
+            {
+                "scene": "VillageScene",
+                "npc": "Paskel"
+            },
+            {
+                "scene": "ShopScene",
+                "npc": "Grunilde"
+            }
+        ]
+    },
+    {
+        "cave": "darkendLair",
+        "unlocks": [
+            {
+                "scene": "VillageScene",
+                "npc": "Rohan"
+            },
+            {
+                "scene": "ShopScene",
+                "npc": "Hartwin"
+            },
+            {
+                "scene": "ShopScene",
+                "npc": "Jai-Blynn Straus"
+            }
+        ]
+    },
+    {
+        "cave": "swampyGrott",
+        "unlocks": [
+            {
+                "scene": "VillageScene",
+                "npc": "Agama"
+            },
+            {
+                "scene": "VillageScene",
+                "npc": "Igor"
+            },
+            {
+                "scene": "VillageScene",
+                "npc": "Vale"
+            }
+        ]
+    },
+    {
+        "cave": "hellishHole",
+        "unlocks": [
+            {
+                "scene": "VillageScene",
+                "npc": "Alfred"
+            },
+            {
+                "scene": "VillageScene",
+                "npc": "Breya"
+            },
+            {
+                "scene": "VillageScene",
+                "npc": "Kory Willsonton"
+            }
+        ]
+    }
+]
