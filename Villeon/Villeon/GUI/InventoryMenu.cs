@@ -561,13 +561,33 @@ namespace Villeon.GUI
             // Set the active tabbar indicator when the user is not moving inside the tabbar
             if (_onSlots)
                 _inventorySlotIndicators.Add(_tabBar[_activeTabbar]);
+            else
+                _inventorySlotIndicators.Add(_tabBar[_playerTabbarPosition]);
 
-            _inventorySlotIndicators.Add(_tabBar[_playerTabbarPosition]);
+            _inventorySlotIndicators.AddRange(GetTextItemNameEntities());
 
+            // Display the Swap indicator
             if (_swapIndicatorPosition != null)
                 _inventorySlotIndicators.Add(_activeInventory[_swapIndicatorPosition.Value.Y, _swapIndicatorPosition.Value.X].SwapIndicator);
 
             Manager.GetInstance().AddEntities(_inventorySlotIndicators);
+        }
+
+        private List<IEntity> GetTextItemNameEntities()
+        {
+            List<IEntity> entities = new List<IEntity>();
+
+            if (GetCurrentlySelectedItem() is not null)
+            {
+                InventorySlot currentSlot = _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X];
+                Vector2 slotPos = currentSlot.Transform.Position;
+                Vector2 position = new Vector2(slotPos.X, slotPos.Y + 1f);
+
+                Text itemNameText = new Text(currentSlot.Item!.Name, position, "Alagard", SpriteLayer.ScreenGuiOnTopOfForeground, 0.2f, 1f, 0.2f);
+                entities.AddRange(itemNameText.Letters);
+            }
+
+            return entities;
         }
 
         // Handle the swapping of items
