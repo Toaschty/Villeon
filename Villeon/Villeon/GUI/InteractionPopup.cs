@@ -25,15 +25,16 @@ namespace Villeon.GUI
             float popupFrameScale = 0.2f;
             Sprite popupSprite = Assets.Asset.GetSprite("GUI.Popup.png", frameLayer, true);
             Vector2 popupFramePos = new Vector2(position.X + 1f, position.Y + ((_interactable.Options.Count * popupSprite.Height * popupFrameScale) / 2f));
+
             foreach (Option option in _options)
             {
+                Text optionText = new Text(option.OptionString, popupFramePos + new Vector2(0.1f, 0.07f), "Alagard_Thin", textLayer, 0f, 0f, 0.1f);
+                List<IEntity> textEntities = optionText.Letters;
+
                 // Create the popup frame
-                Transform transform = new Transform(popupFramePos, popupFrameScale, 0.0f);
+                Transform transform = new Transform(popupFramePos, new Vector2((optionText.Width / popupSprite.Width) + 0.02f, (optionText.Height / popupSprite.Height) + 0.1f), 0.0f);
                 IEntity popupFrame = new Entity(transform, "InteractionPopupFrame");
                 popupFrame.AddComponent(popupSprite);
-
-                Text optionText = new Text(option.OptionString, popupFramePos + new Vector2(0.2f, 0.1f), "Alagard_Thin", textLayer, 0f, 0f, 0.1f);
-                List<IEntity> textEntities = optionText.Letters;
 
                 // Add locally
                 _frames.Add(popupFrame);

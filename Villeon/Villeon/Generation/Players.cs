@@ -25,6 +25,7 @@ namespace Villeon.Generation
             player.AddComponent(new Physics());
             player.AddComponent(new Effect());
             player.AddComponent(new Player());
+            player.AddComponent(new Fokus());
             player.AddComponent(new Light(Color4.White, -12, 4f, new Vector2(0.5f, 1f)));
             player.AddComponent(new Health(Stats.GetInstance().GetMaxHealth()));
 
@@ -52,6 +53,7 @@ namespace Villeon.Generation
             player.AddComponent(new Sprite(Asset.GetTexture("Sprites.Empty.png"), SpriteLayer.Foreground, true));
             player.AddComponent(new Light(Color4.White));
             player.AddComponent(new Player());
+            player.AddComponent(new Fokus());
 
             // Setup player animations
             AnimationController animController = new AnimationController();

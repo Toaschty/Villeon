@@ -52,7 +52,7 @@ namespace Villeon.Systems.Update
                 StateManager.IsGrounded = dynamicCollider.HasCollidedBottom;
 
                 // Player is Walking Right
-                if (KeyHandler.IsHeld(Keys.D))
+                if (KeyHandler.IsHeld(Keys.D) && !effect.Effects.ContainsKey("MovemnetDisabled"))
                 {
                     playerComponent.IsWalking = true;
                     playerComponent.MovingRight = true;
@@ -63,7 +63,7 @@ namespace Villeon.Systems.Update
                 }
 
                 // Player is Walking Left
-                if (KeyHandler.IsHeld(Keys.A))
+                if (KeyHandler.IsHeld(Keys.A) && !effect.Effects.ContainsKey("MovemnetDisabled"))
                 {
                     playerComponent.IsWalking = true;
                     playerComponent.MovingLeft = true;
@@ -108,8 +108,6 @@ namespace Villeon.Systems.Update
                     dynamicCollider.LastPosition = new Vector2(5f, 80f);
                     physics.Velocity = Vector2.Zero;
                 }
-
-                Console.WriteLine("Player Dungeon Position" + transform.Position);
             }
         }
     }

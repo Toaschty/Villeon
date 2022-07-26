@@ -24,7 +24,7 @@ namespace Villeon.Helper
 
         public static float DASH_POWER { get; } = 50f;
 
-        public static float TOPDOWNMOVEMENTSPEED { get; } = 10 * 3;
+        public static float TOPDOWNMOVEMENTSPEED { get; } = 10 * 1.5f;
 
         // Debug
         public static float DEBUGTIME { get; set; } = 0.00833f;

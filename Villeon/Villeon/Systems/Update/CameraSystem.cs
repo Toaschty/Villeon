@@ -19,7 +19,7 @@ namespace Villeon.Systems.Update
         public CameraSystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(DynamicCollider), typeof(Player));
+            Signature.IncludeAND(typeof(Fokus));
         }
 
         public void Update(float time)
@@ -27,14 +27,15 @@ namespace Villeon.Systems.Update
             foreach (var entity in Entities)
             {
                 Transform transform = entity.GetComponent<Transform>();
+                Fokus fokus = entity.GetComponent<Fokus>();
 
                 if (_position == new Vector2(float.PositiveInfinity))
                 {
-                    _position = transform.Position + transform.Scale;
+                    _position = transform.Position + transform.Scale + fokus.Offset;
                 }
                 else
                 {
-                    Vector2 idealPoint = transform.Position + transform.Scale;
+                    Vector2 idealPoint = transform.Position + transform.Scale + fokus.Offset;
                     if ((idealPoint - _position).Length > 1000)
                     {
                         _position = idealPoint;
@@ -43,8 +44,18 @@ namespace Villeon.Systems.Update
 
                     // calculate Accleration
                     Vector2 acceleration;
-                    acceleration.X = 100f * (float)Math.Pow(idealPoint.X - _position.X, 2) * ((idealPoint.X - _position.X > 0) ? 1 : -1);
-                    acceleration.Y = 100f * (float)Math.Pow(idealPoint.Y - _position.Y, 2) * ((idealPoint.Y - _position.Y > 0) ? 1 : -1);
+                    acceleration.X = fokus.Intensity * (float)Math.Pow(idealPoint.X - _position.X, 2) * ((idealPoint.X - _position.X > 0) ? 1 : -1);
+                    acceleration.Y = fokus.Intensity * (float)Math.Pow(idealPoint.Y - _position.Y, 2) * ((idealPoint.Y - _position.Y > 0) ? 1 : -1);
+
+                    Effect effect = entity.GetComponent<Effect>();
+                    if (effect is not null)
+                    {
+                        if (effect.Effects.ContainsKey("CameraShake"))
+                        {
+                            Random random = new Random();
+                            acceleration += new Vector2(random.Next(1000) - 500, random.Next(1000) - 500);
+                        }
+                    }
 
                     // calculate Velocity
                     Vector2 oldVelocity = new (_velocity.X, _velocity.Y);
