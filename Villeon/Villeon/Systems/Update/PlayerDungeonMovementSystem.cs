@@ -109,7 +109,6 @@ namespace Villeon.Systems.Update
                     physics.Velocity = Vector2.Zero;
                 }
 
-                Console.WriteLine("Player Dungeon Position" + transform.Position);
             }
         }
     }

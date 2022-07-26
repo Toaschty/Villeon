@@ -196,6 +196,8 @@ namespace Villeon.Systems.Update
             TileMapDictionary tileMapSwampyGrot = new TileMapDictionary("DungeonSwampyGrot.tmx");
             TileMapDictionary tileMapHellishHole = new TileMapDictionary("DungeonHellishHole.tmx");
 
+            DungeonScene.AddSystem(new DialogSystem("DialogSystem"));
+            DungeonScene.AddSystem(new InteractionSystem("InteractionSystem"));
             DungeonScene.AddSystem(new EffectSystem("Effects"));
             DungeonScene.AddSystem(new PlayerDungeonMovementSystem("Move"));
             DungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
@@ -267,6 +269,8 @@ namespace Villeon.Systems.Update
             SceneLoader.AddScene(BossScene);
             TileMapDictionary bossTilemap = new TileMapDictionary("BossRoom.tmx");
 
+            BossScene.AddSystem(new DialogSystem("DialogSystem"));
+            BossScene.AddSystem(new InteractionSystem("InteractionSystem"));
             BossScene.AddSystem(new EffectSystem("Effects"));
             BossScene.AddSystem(new PlayerDungeonMovementSystem("Move"));
             BossScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
@@ -303,6 +307,9 @@ namespace Villeon.Systems.Update
             BossScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE!
             BossScene.AddStartUpFunc(() =>
             {
+                Manager.GetInstance().RemoveAllEntitiesFromScene("DungeonScene");
+                Manager.GetInstance().RemoveAllEntitiesFromScene("BossScene");
+
                 // Add the Player
                 Scenes.BossScene.AddEntity(Players.CreateDungeonPlayer(Constants.BOSS_ROOM_SPAWN_POINT));
 
@@ -317,19 +324,8 @@ namespace Villeon.Systems.Update
                 PlayerExpSystem.Init();
                 PlayerHealthbarSystem.Init();
 
-                // Dungeon Glow
-                IEntity glow = new Entity(new Transform(new Vector2(36, 20), 1f, 0), "Glow");
-                glow.AddComponent(new Light(new Color4(237, 0, 134, 255), -12f, 20f, 1f, 0.7f, 1.8f));
-                Scenes.BossScene.AddEntity(glow);
-
                 // Spawn the Boss monster
                 EnemySpawner.SpawnBoss("BossScene", "boss_cat_blob", new Vector2(30, 6));
-
-                // Add the Portal home BOSSROOM
-                IEntity portalTrigger = new Entity(new Transform(new Vector2(36, 20), 1f, 0f), "Portal Trigger");
-                portalTrigger.AddComponent(new Trigger(TriggerLayerType.PORTAL, 4f, 5f));
-                portalTrigger.AddComponent(new Portal("BossScene", new Vector2(36, 20)));
-                Scenes.BossScene.AddEntity(portalTrigger);
 
                 SetTileMap(BossScene, bossTilemap, true);
                 return true;
@@ -347,6 +343,7 @@ namespace Villeon.Systems.Update
             IEntity tutorialToDungeon = new Entity(new Transform(new Vector2(143, 32), 1f, 0f), "villageToDungeonPortal");
             tutorialToDungeon.AddComponent(Asset.GetSpriteSheet("Sprites.PortalAnimation.png").GetSprite(0, SpriteLayer.Middleground, true));
             tutorialToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, new Vector2(1.3f, 1f), 3f, 5f));
+            tutorialToDungeon.AddComponent(new Interactable(new Option("Enter Dungeon [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
             tutorialToDungeon.AddComponent(new Portal("DungeonScene", Constants.TUTORIAL_SPAWN_POINT));
             tutorialToDungeon.AddComponent(particleSpawner);
 
@@ -360,6 +357,7 @@ namespace Villeon.Systems.Update
             villageToDungeon.AddComponent(Asset.GetSpriteSheet("Sprites.PortalAnimation.png").GetSprite(0, SpriteLayer.Middleground, true));
             villageToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, new Vector2(1.3f, 1f), 3f, 5f));
             villageToDungeon.AddComponent(new Portal("DungeonScene", Constants.VILLAGE_SPAWN_POINT));
+            villageToDungeon.AddComponent(new Interactable(new Option("Enter Dungeon [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
             villageToDungeon.AddComponent(animController);
             villageToDungeon.AddComponent(particleSpawner);
             VillageScene.AddEntity(villageToDungeon);
@@ -367,27 +365,32 @@ namespace Villeon.Systems.Update
             IEntity dungeonToVillage = new Entity(new Transform(new Vector2(1f, 3f), 1f, 0f), "dungeonToVillagePortal");
             dungeonToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 4f));
             dungeonToVillage.AddComponent(new Portal("VillageScene", Constants.DUNGEON_SPAWN_POINT));
+            dungeonToVillage.AddComponent(new Interactable(new Option("Leave Dungeon [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
             dungeonToVillage.AddComponent(particleSpawner);
             DungeonScene.AddEntity(dungeonToVillage);
 
             IEntity villageToSmith = new Entity(new Transform(Constants.TO_SMITH_PORTAL_POINT, 1f, 0f), "VillageToSmithPortal");
             villageToSmith.AddComponent(new Trigger(TriggerLayerType.PORTAL, 2f, 1f));
             villageToSmith.AddComponent(new Portal("SmithScene", Constants.TO_SMITH_PORTAL_POINT + new Vector2(1f, -1f)));
+            villageToSmith.AddComponent(new Interactable(new Option("Enter Smith [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
             VillageScene.AddEntity(villageToSmith);
 
             IEntity smithToVillage = new Entity(new Transform(Constants.FROM_SMITH_PORTAL_POINT, 1f, 0f), "SmithToVillagePortal");
             smithToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 2f, 1.5f));
             smithToVillage.AddComponent(new Portal("VillageScene", Constants.FROM_SMITH_PORTAL_POINT + new Vector2(1f, 2f)));
+            smithToVillage.AddComponent(new Interactable(new Option("Leave Smith [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
             SmithScene.AddEntity(smithToVillage);
 
             IEntity villageToShop = new Entity(new Transform(Constants.TO_SHOP_PORTAL_POINT, 1f, 0f), "VillageToShopPortal");
             villageToShop.AddComponent(new Trigger(TriggerLayerType.PORTAL, 2f, 1f));
             villageToShop.AddComponent(new Portal("ShopScene", Constants.TO_SHOP_PORTAL_POINT + new Vector2(1f, -1f)));
+            villageToShop.AddComponent(new Interactable(new Option("Enter Shop [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
             VillageScene.AddEntity(villageToShop);
 
             IEntity shopToVillage = new Entity(new Transform(Constants.FROM_SHOP_PORTAL_POINT, 1f, 0f), "ShopToVillagePortal");
             shopToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 2f, 1.5f));
             shopToVillage.AddComponent(new Portal("VillageScene", Constants.FROM_SHOP_PORTAL_POINT + new Vector2(1f, 2f)));
+            shopToVillage.AddComponent(new Interactable(new Option("Leave Shop [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
             ShopScene.AddEntity(shopToVillage);
         }
     }

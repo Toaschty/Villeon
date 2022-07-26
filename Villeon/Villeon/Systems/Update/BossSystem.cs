@@ -35,5 +35,10 @@ namespace Villeon.Systems.Update
                 }
             }
         }
+
+        public void SpawnNPC()
+        {
+
+        }
     }
 }
