@@ -303,6 +303,8 @@ namespace Villeon.Systems.Update
             BossScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
             BossScene.AddSystem(new JumpingAISystem("JumpingAISystem"));
             BossScene.AddSystem(new HotbarSystem("HotbarUseSystem"));
+            BossScene.AddSystem(new EventSystem("EventSystem"));
+            BossScene.AddSystem(new BossCameraSystem("BossCameraSystem"));
             BossScene.AddSystem(new BossSystem("BossSystem"));
             BossScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE!
             BossScene.AddStartUpFunc(() =>
@@ -319,6 +321,12 @@ namespace Villeon.Systems.Update
                 Entity guiHandlerEntity = new Entity("GuiHandler");
                 guiHandlerEntity.AddComponent(GUIHandler.GetInstance());
                 Scenes.BossScene.AddEntity(guiHandlerEntity);
+
+                // Trigger for Boss Camera
+                Entity bossCamera = new Entity(new Transform(new Vector2(9f, 4f), 1f, 0f), "BossCamera");
+                bossCamera.AddComponent(new Event("BossFall"));
+                bossCamera.AddComponent(new Trigger(TriggerLayerType.FRIEND, 1f, 10f));
+                Scenes.BossScene.AddEntity(bossCamera);
 
                 // Set the Exp bar
                 PlayerExpSystem.Init();
