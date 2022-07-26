@@ -109,6 +109,7 @@ namespace Villeon.Systems.Update
                     physics.Velocity = Vector2.Zero;
                 }
 
+                Console.WriteLine("Player pos: " + transform.Position);
             }
         }
     }

@@ -325,35 +325,5 @@
         }
       }
     ]
-  },
-  "boss_cat_blob": {
-    "health": 1000,
-    "damage": 15,
-    "ai": "JumpingAI",
-    "experience": 1500,
-    "animationPath": "Enemies.Boss.",
-    "animations": [
-      "cat_blob_idle.png",
-      "cat_blob_idle.png"
-    ],
-    "animationSpeed": 0.5,
-    "scale": 1.0,
-    "offsetX": 0,
-    "offsetY": 0,
-    "colliderWidth": 44,
-    "colliderHeight": 32,
-    "triggerWidth": 44,
-    "triggerHeight": 32,
-    "drops": [
-      {
-        "itemName": "HealthPotionSmall",
-        "index": 0,
-        "rate": 1.0,
-        "amount": {
-          "min": 5,
-          "max": 15
-        }
-      }
-    ]
   }
 }

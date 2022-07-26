@@ -69,9 +69,25 @@ namespace Villeon.GUI
                 Manager.GetInstance().RemoveEntity(entity);
             }
 
-            foreach (Entity text in _text)
+            foreach (IEntity text in _text)
             {
                 Manager.GetInstance().RemoveEntity(text);
+            }
+
+            _frames.Clear();
+            _text.Clear();
+        }
+
+        public void DeleteFromScene(string sceneName)
+        {
+            foreach (IEntity entity in _frames)
+            {
+                Manager.GetInstance().RemoveEntityFromScene(entity, sceneName);
+            }
+
+            foreach (IEntity c in _text)
+            {
+                Manager.GetInstance().RemoveEntityFromScene(c, sceneName);
             }
 
             _frames.Clear();

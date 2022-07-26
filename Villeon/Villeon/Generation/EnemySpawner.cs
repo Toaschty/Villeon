@@ -45,7 +45,7 @@ namespace Villeon.Generation
         public static void SpawnBoss(string sceneName, string bossName, Vector2 position)
         {
             // Load the JSON
-            JObject enemiesJson = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.Enemies.json"))!;
+            JObject enemiesJson = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.Bosses.json"))!;
 
             // Choose the current scene
             dynamic json = enemiesJson.SelectToken(bossName)!;
@@ -64,7 +64,8 @@ namespace Villeon.Generation
             AddCollider(json, boss, position, offset, scale);
             AddTrigger(json, boss, offset, scale);
 
-            boss.AddComponent(new Boss());
+            int caveIndex = json.caveIndex;
+            boss.AddComponent(new Boss(caveIndex));
 
             // Spawn the Enemy
             Manager.GetInstance().AddEntityToScene(boss, sceneName);

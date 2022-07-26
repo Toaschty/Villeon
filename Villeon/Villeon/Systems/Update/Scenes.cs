@@ -325,7 +325,13 @@ namespace Villeon.Systems.Update
                 PlayerHealthbarSystem.Init();
 
                 // Spawn the Boss monster
-                EnemySpawner.SpawnBoss("BossScene", "boss_cat_blob", new Vector2(30, 6));
+                switch (DungeonMenu.Selection)
+                {
+                    case 0: EnemySpawner.SpawnBoss("BossScene", "catBlob", new Vector2(30, 6)); break;
+                    case 1: EnemySpawner.SpawnBoss("BossScene", "john", new Vector2(30, 6)); break;
+                    case 2: EnemySpawner.SpawnBoss("BossScene", "nut", new Vector2(30, 6)); break;
+                    case 3: EnemySpawner.SpawnBoss("BossScene", "fox", new Vector2(30, 6)); break;
+                }
 
                 SetTileMap(BossScene, bossTilemap, true);
                 return true;
@@ -356,7 +362,7 @@ namespace Villeon.Systems.Update
             IEntity villageToDungeon = new Entity(new Transform((141, 70), 1f, 0f), "villageToDungeonPortal");
             villageToDungeon.AddComponent(Asset.GetSpriteSheet("Sprites.PortalAnimation.png").GetSprite(0, SpriteLayer.Middleground, true));
             villageToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, new Vector2(1.3f, 1f), 3f, 5f));
-            villageToDungeon.AddComponent(new Portal("DungeonScene", Constants.VILLAGE_SPAWN_POINT));
+            villageToDungeon.AddComponent(new Portal("BossScene", Constants.VILLAGE_SPAWN_POINT));
             villageToDungeon.AddComponent(new Interactable(new Option("Enter Dungeon [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
             villageToDungeon.AddComponent(animController);
             villageToDungeon.AddComponent(particleSpawner);

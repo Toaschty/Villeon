@@ -41,6 +41,17 @@ namespace Villeon.Systems.TriggerSystems
                 return;
             }
 
+            if (StateManager.HasTeleported)
+            {
+                StateManager.HasTeleported = false;
+                if (_interactionPopup is not null)
+                {
+                    _interactionPopup.DeleteFromScene(StateManager.PreviousSceneName);
+                    _interactionPopup = null;
+                }
+                return;
+            }
+
             // If Not in range delete the popup and disable interactions
             if (_interactionPopup is not null)
             {
