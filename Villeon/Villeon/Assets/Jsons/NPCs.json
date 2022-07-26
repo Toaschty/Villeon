@@ -193,10 +193,17 @@
         "Thanks!",
         "But before you enter the portal again I think you are in need of better equipment.",
         "I have the feeling that the dungeons get harder the more we fight back the monsters.",
-        "I do not have enough time to show you around - So let me hand you this map.",
+        "I do not have enough time to show you around - So let me hand you this map [M].",
         "It shows our village and also all interesting locations like the smith in the north or the shop in the south.",
         "I think the smith can craft you a better sword. His craftsmanship is well known.",
         "In the shop you will find all kind of useful items like a good healpotion for your adventure.",
+        "Ah... and have this!",
+        "This scroll [L] shows all dungeons you can enter through the portal.",
+        "It seems like that this scroll has some sort of magic inherited.",
+        "If you are not in reach of the portal, you can select a dungeon on the scroll and it will automatically teleport you to the desired location.",
+        "It also shows the number of villagers left to rescue in the specific dungeon.",
+        "Hmm... to be honest - I don't know where I got this scroll from. It just appeared a few hours ago as if a greater force knew you would need this item.",
+        "Hmm.. Whatever...",
         "Once again - Get yourself better equipment and fight some monsters.",
         "The life of the villagers are in your hands!"
       ]
