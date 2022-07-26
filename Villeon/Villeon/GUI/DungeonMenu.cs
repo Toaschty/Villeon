@@ -40,6 +40,7 @@ namespace Villeon.GUI
 
         private Text? _title;
         private Text? _description;
+        private Text? _unlocks;
 
         // Holds Json file of cave data
         private dynamic _cavesJson;
@@ -88,8 +89,12 @@ namespace Villeon.GUI
                 }
             }
 
+            // Text - Unlock
+            Text unlock = new Text("/ 3", new Vector2(3.8f, -2.15f), "Alagard", 0f, 0.5f, _letterScaleBig);
+            Array.ForEach(unlock.GetEntities(), entity => _entities.Add(entity));
+
             // Text - Explore
-            Text explore = new Text("Go explore", _onExplorePosition + new Vector2(1f, 0), "Alagard", 0f, 3f, _letterScaleBig);
+            Text explore = new Text("Go explore", _onExplorePosition + new Vector2(1.2f, 0), "Alagard", 0f, 3f, _letterScaleBig);
             Array.ForEach(explore.GetEntities(), entity => _entities.Add(entity));
 
             // Load in first text
@@ -181,6 +186,13 @@ namespace Villeon.GUI
                 _entities.Remove(entity);
                 Manager.GetInstance().RemoveEntity(entity);
             });
+
+            // Remove all unlock letters from the scene and the local list of entities
+            Array.ForEach(_unlocks!.GetEntities(), entity =>
+            {
+                _entities.Remove(entity);
+                Manager.GetInstance().RemoveEntity(entity);
+            });
         }
 
         private void LoadText()
@@ -194,6 +206,11 @@ namespace Villeon.GUI
             string description = _cavesJson.caves[_currentSelection].description.ToString();
             _description = new Text(description, new Vector2(0.4f, 2.1f), "Alagard_Thin", 0f, 0.5f, _letterScaleSmall);
             Array.ForEach(_description.GetEntities(), entity => _entities.Add(entity));
+
+            // Unlocks
+            string unlocks = Stats.GetInstance().GetUnlockProgress(_currentSelection) + string.Empty;
+            _unlocks = new Text(unlocks, new Vector2(3.2f, -2.15f), "Alagard", 0f, 0.5f, _letterScaleBig);
+            Array.ForEach(_unlocks.GetEntities(), entity => _entities.Add(entity));
         }
 
         private void UpdateSelectionPosition()
