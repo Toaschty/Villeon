@@ -11,11 +11,12 @@ namespace Villeon.Components
     {
         public Option(string option, Keys interactionKey)
         {
+            Type = "talk";
             OptionString = option;
             Key = interactionKey;
         }
 
-        public Option(string option, Keys interactionKey, string neededItem, int neededAmount, string buyItem, int buyAmount)
+        public Option(string option, string type, Keys interactionKey, string neededItem, int neededAmount, string buyItem, int buyAmount)
         {
             OptionString = option;
             Key = interactionKey;
@@ -23,6 +24,7 @@ namespace Villeon.Components
             NeededItemAmount = neededAmount;
             BuyItem = buyItem;
             BuyItemAmount = buyAmount;
+            Type = type;
         }
 
         public string OptionString { get; set; }
@@ -36,5 +38,7 @@ namespace Villeon.Components
         public int BuyItemAmount { get; set; } = 0;
 
         public Keys Key { get; set; }
+
+        public string Type { get; set; }
     }
 }

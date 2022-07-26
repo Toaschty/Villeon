@@ -2,6 +2,7 @@
   "TutorialScene": [
     {
       "name": "Ferdinand",
+      "visible":  true,
       "texturePath": "Sprites.NPC.Ferdinand.png",
       "textureScale": 0.15,
       "x": 51,
@@ -23,6 +24,7 @@
     },
     {
       "name": "Johnson",
+      "visible": true,
       "texturePath": "Sprites.NPC.Johnson.png",
       "textureScale": 0.15,
       "x": 30,
@@ -46,6 +48,7 @@
     },
     {
       "name": "Solaire",
+      "visible": true,
       "texturePath": "Sprites.NPC.Solaire.png",
       "textureScale": 0.15,
       "x": 72,
@@ -70,6 +73,7 @@
     },
     {
       "name": "Alberich",
+      "visible": true,
       "texturePath": "Sprites.NPC.Alberich.png",
       "textureScale": 0.15,
       "x": 141,
@@ -97,6 +101,7 @@
   "VillageScene": [
     {
       "name": "Ferdinand",
+      "visible": true,
       "texturePath": "Sprites.NPC.Ferdinand.png",
       "textureScale": 0.15,
       "x": 45,
@@ -129,6 +134,7 @@
     },
     {
       "name": "Alfred",
+      "visible": false,
       "texturePath": "Sprites.NPC.Alfred.png",
       "textureScale": 0.15,
       "x": 138,
@@ -163,6 +169,7 @@
     },
     {
       "name": "Willy Willsonton",
+      "visible": false,
       "texturePath": "Sprites.NPC.WillyWillsonton.png",
       "textureScale": 0.15,
       "x": 94.75,
@@ -186,16 +193,24 @@
         "Thanks!",
         "But before you enter the portal again I think you are in need of better equipment.",
         "I have the feeling that the dungeons get harder the more we fight back the monsters.",
-        "I do not have enough time to show you around - So let me hand you this map.",
+        "I do not have enough time to show you around - So let me hand you this map [M].",
         "It shows our village and also all interesting locations like the smith in the north or the shop in the south.",
         "I think the smith can craft you a better sword. His craftsmanship is well known.",
         "In the shop you will find all kind of useful items like a good healpotion for your adventure.",
+        "Ah... and have this!",
+        "This scroll [L] shows all dungeons you can enter through the portal.",
+        "It seems like that this scroll has some sort of magic inherited.",
+        "If you are not in reach of the portal, you can select a dungeon on the scroll and it will automatically teleport you to the desired location.",
+        "It also shows the number of villagers left to rescue in the specific dungeon.",
+        "Hmm... to be honest - I don't know where I got this scroll from. It just appeared a few hours ago as if a greater force knew you would need this item.",
+        "Hmm.. Whatever...",
         "Once again - Get yourself better equipment and fight some monsters.",
         "The life of the villagers are in your hands!"
       ]
     },
     {
       "name": "Kory Willsonton",
+      "visible": false,
       "texturePath": "Sprites.NPC.KoryWillsonton.png",
       "textureScale": 0.15,
       "x": 99.75,
@@ -226,6 +241,7 @@
     },
     {
       "name": "Paskel",
+      "visible": false,
       "texturePath": "Sprites.NPC.Paskel.png",
       "textureScale": 0.15,
       "x": 75,
@@ -260,6 +276,7 @@
     },
     {
       "name": "Rohan",
+      "visible": false,
       "texturePath": "Sprites.NPC.Rohan.png",
       "textureScale": 0.15,
       "x": 93.5,
@@ -294,6 +311,7 @@
     },
     {
       "name": "Breya",
+      "visible": false,
       "texturePath": "Sprites.NPC.Breya.png",
       "textureScale": 0.15,
       "x": 60.75,
@@ -318,6 +336,7 @@
     },
     {
       "name": "Agama",
+      "visible": false,
       "texturePath": "Sprites.NPC.Agama.png",
       "textureScale": 0.15,
       "x": 36.75,
@@ -341,6 +360,7 @@
     },
     {
       "name": "Vale",
+      "visible": false,
       "texturePath": "Sprites.NPC.Vale.png",
       "textureScale": 0.15,
       "x": 138.5,
@@ -377,6 +397,7 @@
     },
     {
       "name": "Igor",
+      "visible": false,
       "texturePath": "Sprites.NPC.Igor.png",
       "textureScale": 0.15,
       "x": 131.75,
@@ -410,6 +431,7 @@
     },
     {
       "name": "Johnson",
+      "visible": true,
       "texturePath": "Sprites.NPC.Johnson.png",
       "textureScale": 0.15,
       "x": 62.5,
@@ -432,6 +454,7 @@
     },
     {
       "name": "Solaire",
+      "visible": true,
       "texturePath": "Sprites.NPC.Solaire.png",
       "textureScale": 0.15,
       "x": 141.75,
@@ -459,6 +482,7 @@
   "SmithScene": [
     {
       "name": "Alberich",
+      "visible": true,
       "texturePath": "Sprites.NPC.Alberich.png",
       "textureScale": 0.15,
       "x": 3,
@@ -540,6 +564,7 @@
   "ShopScene": [
     {
       "name": "Grunilde",
+      "visible": false,
       "texturePath": "Sprites.NPC.Grunilde.png",
       "textureScale": 0.15,
       "x": 10,
@@ -600,6 +625,7 @@
     },
     {
       "name": "Hartwin",
+      "visible": false,
       "texturePath": "Sprites.NPC.Hartwin.png",
       "textureScale": 0.15,
       "x": 17,
@@ -627,6 +653,7 @@
     },
     {
       "name": "Jai-Blynn Straus",
+      "visible": false,
       "texturePath": "Sprites.NPC.JaiBlynnStraus.png",
       "textureScale": 0.15,
       "x": 6.25,
@@ -655,7 +682,7 @@
         "I am a well known poet called Jai-Blynn Straus",
         "Currently I am working on my latest masterpiece... The story about this village.",
         "About the sudden appearance of a great danger.",
-        "About the vanishing of the villagers.", 
+        "About the vanishing of the villagers.",
         "About the demolished houses and broken dreams.",
         "And about your sir! How a single person saved the people in danger - About our savior!",
         "You will hear my poem across the whole kingdom... I just need to finish this piece..."

@@ -114,6 +114,9 @@ namespace Villeon
                 NPCLoader.LoadNpcs("SmithScene");
                 NPCLoader.LoadNpcs("ShopScene");
 
+                // Load Unlockable NPCs
+                NPCLoader.SpawnUnlockableNPCs();
+
                 // Switch scene if loading is done
                 if (Stats.GetInstance().Progress == 0)
                     SceneLoader.SetActiveScene("TutorialScene");

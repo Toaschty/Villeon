@@ -24,6 +24,9 @@ namespace Villeon.Helper
         // Progress
         private int _progress = 0;
 
+        // NPC Unlocks
+        private List<int> _unlockProgress = new List<int>() { 0, 0, 0, 0 };
+
         private Stats()
         {
         }
@@ -70,6 +73,12 @@ namespace Villeon.Helper
             set { _progress = value; }
         }
 
+        public List<int> UnlockProgress
+        {
+            get { return _unlockProgress; }
+            set { _unlockProgress = value; }
+        }
+
         public static Stats GetInstance()
         {
             if (_instance == null)
@@ -113,6 +122,16 @@ namespace Villeon.Helper
         {
             int defense = (int)(StatFunction() * 10);
             return defense + (int)(defense * 1.2f * _level);
+        }
+
+        public int GetUnlockProgress(int caveIndex)
+        {
+            return _unlockProgress[caveIndex];
+        }
+
+        public void IncreaseUnlockProgress(int caveIndex)
+        {
+            _unlockProgress[caveIndex]++;
         }
 
         // Function for level exp requirements

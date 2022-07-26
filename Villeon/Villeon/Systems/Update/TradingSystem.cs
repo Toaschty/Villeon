@@ -48,6 +48,10 @@ namespace Villeon.Systems.Update
                     // Check each possible option
                     foreach (Option opt in interactable.Options)
                     {
+                        // Skip every options which is not trading
+                        if (opt.Type != "trade")
+                            continue;
+
                         // Check if corresponding key is pressed
                         if (KeyHandler.IsPressed(opt.Key))
                         {
@@ -61,7 +65,7 @@ namespace Villeon.Systems.Update
                                 InventoryMenu.GetInstance().AddItems(ItemLoader.GetItem(opt.BuyItem), opt.BuyItemAmount);
 
                                 // Add trade particles
-                                List<IEntity> particles = ParticleBuilder.RandomParticles(playerTrigger.Position, new Vector2(0.2f, 0.2f), 2, 0.03f, 0.5f, -0.01f, 0.1f, true, "Sprites.Particles.Sparkles.png", 200, new Vector2(2f, 2f), Color4.White);
+                                List<IEntity> particles = ParticleBuilder.RandomParticles(playerTrigger.Position, new Vector2(0.2f, 0.2f), 2, 0.02f, 0.5f, -0.01f, 0.1f, true, "Sprites.Particles.Sparkles.png", 100, new Vector2(1f, 1.5f), Color4.White);
                                 Manager.GetInstance().AddEntities(particles);
                             }
                         }
