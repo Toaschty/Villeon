@@ -26,9 +26,9 @@ namespace Villeon.GUI
         // Align inventory slots
         private Vector2 _startPos = new Vector2(-5.1f, 1.5f);
         private float _slotScalingFactor = 0.3f;
-        private float _slotSize = InventorySlot.SlotSize;
         private float _offset = 0.1f;
         private bool _onSlots = true;
+        private float _slotSize;
 
         // Scroll
         private float _scrollScale = 0.5f;
@@ -53,6 +53,7 @@ namespace Villeon.GUI
 
         private InventoryMenu()
         {
+            _slotSize = InventorySlot.SlotSize * _slotScalingFactor;
             _playerTabbarPosition = _activeTabbar;
 
             _activeInventory = new InventorySlot[_inventorySlotsY, _inventorySlotsX];
@@ -566,7 +567,9 @@ namespace Villeon.GUI
             else
                 _inventorySlotIndicators.Add(_tabBar[_playerTabbarPosition]);
 
-            _inventorySlotIndicators.AddRange(GetTextItemNameEntities());
+            // Only show the item text if user is inside the slots
+            if (_onSlots)
+                _inventorySlotIndicators.AddRange(GetTextItemNameEntities());
 
             // Display the Swap indicator
             if (_swapIndicatorPosition != null)
@@ -579,15 +582,31 @@ namespace Villeon.GUI
         {
             List<IEntity> entities = new List<IEntity>();
 
-            if (GetCurrentlySelectedItem() is not null)
-            {
-                InventorySlot currentSlot = _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X];
-                Vector2 slotPos = currentSlot.Transform.Position;
-                Vector2 position = new Vector2(slotPos.X, slotPos.Y + 1f);
+            if (GetCurrentlySelectedItem() is null)
+                return entities;
 
-                Text itemNameText = new Text(currentSlot.Item!.Name, position, "Alagard", SpriteLayer.ScreenGuiOnTopOfForeground, 0.2f, 1f, 0.2f);
-                entities.AddRange(itemNameText.Letters);
-            }
+            InventorySlot currentSlot = _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X];
+            Vector2 slotPos = currentSlot.Transform.Position;
+            Vector2 position = new Vector2(slotPos.X, slotPos.Y);
+
+            // Create text to get the width
+            Text itemNameText = new Text(currentSlot.Item!.Name, position, "Alagard", SpriteLayer.ScreenGuiOnTopOfForeground, 0.2f, 1f, 0.2f);
+            float textWidth = itemNameText.Width;
+            float textHeight = itemNameText.Height;
+
+            // Calculate the new position
+            float newPosX = (position.X + (_slotSize / 2)) - (textWidth / 2);
+            Vector2 newPos = new Vector2(newPosX, position.Y - textHeight - 0.1f);
+
+            // Create Background
+            Sprite popupSprite = Assets.Asset.GetSprite("GUI.Popup.png", SpriteLayer.ScreenGuiForeground, true);
+            IEntity textBackground = new Entity(new Transform(new Vector2(newPos.X - 0.13f, newPos.Y - 0.06f), new Vector2((textWidth / popupSprite.Width) + 0.02f, (textHeight / popupSprite.Height) + 0.1f), 0), "ItemTextBackground");
+            textBackground.AddComponent(popupSprite);
+            entities.Add(textBackground);
+
+            itemNameText = new Text(currentSlot.Item!.Name, newPos, "Alagard", SpriteLayer.ScreenGuiOnTopOfForeground, 0.2f, 1f, 0.2f);
+
+            entities.AddRange(itemNameText.Letters);
 
             return entities;
         }
@@ -752,12 +771,12 @@ namespace Villeon.GUI
                     inventorySlots[y, x] = new InventorySlot(new Transform(position, _slotScalingFactor, 0));
 
                     // calculate the next position
-                    position += new Vector2(_offset + (_slotSize * _slotScalingFactor), 0);
+                    position += new Vector2(_offset + _slotSize, 0);
                 }
 
                 // calculate the position for the new row
                 position.X = _startPos.X;
-                position.Y = position.Y - _offset - (_slotSize * _slotScalingFactor);
+                position.Y = position.Y - _offset - _slotSize;
             }
         }
 

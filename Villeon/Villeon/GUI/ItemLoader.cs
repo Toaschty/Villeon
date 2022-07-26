@@ -16,22 +16,6 @@ namespace Villeon.GUI
             _itemsCount = _itemJson.Count;
         }
 
-        public static Item GetItem(int index)
-        {
-            if (index > _itemsCount)
-                return new Item();
-
-            dynamic itemJson = _itemJson[index];
-
-            string name = itemJson.name.ToString();
-            string spriteName = itemJson.sprite.ToString();
-            Sprite sprite = Asset.GetSprite("GUI.Items." + spriteName, SpriteLayer.ScreenGuiForeground, true);
-            int stackSize = itemJson.stackSize;
-            Item.ITEM_TYPE type = itemJson.itemType;
-
-            return new Item(name, sprite, stackSize, type);
-        }
-
         public static Item GetItem(string itemName)
         {
             dynamic? itemJson = null;
@@ -50,7 +34,7 @@ namespace Villeon.GUI
                 return new Item();
 
             string spriteName = itemJson!.sprite;
-            Sprite sprite = Asset.GetSprite("GUI.Items." + spriteName, SpriteLayer.ScreenGuiForeground, true);
+            Sprite sprite = Asset.GetSprite("GUI.Items." + spriteName, SpriteLayer.ScreenGuiMiddleground, true);
             int stackSize = itemJson.stackSize;
             Item.ITEM_TYPE type = itemJson.itemType;
 
