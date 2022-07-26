@@ -30,7 +30,9 @@ namespace Villeon.GUI
             inventoryData += "]";
 
             // Convert to hex
-            string saveData = playerStats + "   " + inventoryData + "   " + StateManager.RayTracingEnabled;
+            string saveData = playerStats + "|||"
+                + inventoryData + "|||"
+                + StateManager.RayTracingEnabled;
             byte[] saveDataBytes = Encoding.Default.GetBytes(saveData);
             var hexString = BitConverter.ToString(saveDataBytes);
             hexString = hexString.Replace("-", string.Empty);
@@ -48,7 +50,7 @@ namespace Villeon.GUI
             string saveGame = DecodeHex(hexSaveGame);
 
             // Split stat data from inventory data
-            string[] data = saveGame.Split("   ");
+            string[] data = saveGame.Split("|||");
 
             // Convert save data to json objects
             dynamic statsJson = JsonConvert.DeserializeObject<dynamic>(data[0]) !;
@@ -63,6 +65,7 @@ namespace Villeon.GUI
             Stats.GetInstance().AttackLevel = statsJson.AttackLevel;
             Stats.GetInstance().DefenseLevel = statsJson.DefenseLevel;
             Stats.GetInstance().Progress = statsJson.Progress;
+            Stats.GetInstance().UnlockProgress = statsJson.UnlockProgress.ToObject<List<int>>();
 
             // Fill inventory with items
             for (int i = 0; i < 32; i++)

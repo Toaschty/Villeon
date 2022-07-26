@@ -25,7 +25,7 @@ namespace Villeon.Helper
         private int _progress = 0;
 
         // NPC Unlocks
-        private List<int> _unlockProgress = new List<int>() { 3, 3, 3, 3 };
+        private List<int> _unlockProgress = new List<int>() { 0, 0, 0, 0 };
 
         private Stats()
         {
@@ -71,6 +71,12 @@ namespace Villeon.Helper
         {
             get { return _progress; }
             set { _progress = value; }
+        }
+
+        public List<int> UnlockProgress
+        {
+            get { return _unlockProgress; }
+            set { _unlockProgress = value; }
         }
 
         public static Stats GetInstance()
