@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK.Mathematics;
 using Villeon.Components;
 using Villeon.EntityManagement;
+using Villeon.Generation;
 
 namespace Villeon.Systems.Update
 {
@@ -25,6 +27,8 @@ namespace Villeon.Systems.Update
                 {
                     // Spawn NPC
                     Console.WriteLine("Spawning NPC!");
+                    EnemySpawner.SpawnEnemy("BossScene", "slime_blue", new Vector2(30, 6));
+                    // 30 6
 
                     // Spawn Portal
                     Console.WriteLine("Spawning Portal!");

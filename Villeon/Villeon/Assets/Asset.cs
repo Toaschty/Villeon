@@ -107,6 +107,7 @@ namespace Villeon.Assets
             AddSpriteSheet("Enemies.Eye.eye_right.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Eye.eye_right.png"), 23, 14, 4, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Enemies.Bubble.bubble_left.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Bubble.bubble_left.png"), 45, 45, 8, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Enemies.Bubble.bubble_right.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Bubble.bubble_right.png"), 45, 45, 8, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Enemies.Boss.cat_blob_idle.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Boss.cat_blob_idle.png"), 44, 32, 2, 0, SpriteLayer.Foreground));
 
             // Map Animations
             AddSpriteSheet("Sprites.PortalAnimation.png", new SpriteSheet(Color4.White, GetTexture("Sprites.PortalAnimation.png"), 48, 56, 17, 0, SpriteLayer.Middleground));

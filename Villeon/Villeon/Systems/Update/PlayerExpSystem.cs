@@ -18,8 +18,6 @@ namespace Villeon.Systems.Update
             : base(name)
         {
             Signature.IncludeAND(typeof(EnemyAI), typeof(Health));
-
-            _expBar = new PlayerExpBar();
         }
 
         public static void Init()

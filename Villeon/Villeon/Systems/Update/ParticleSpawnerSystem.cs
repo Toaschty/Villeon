@@ -27,7 +27,7 @@ namespace Villeon.Systems.Update
                 if (particleSpawner.CanSpawn())
                 {
                     // Spawn the Particle
-                    IEntity particle = ParticleBuilder.RandomParticle(spawnerTransform.Position, particleSpawner.Offset, 1f, 1f, 1f, particleSpawner.ParticleWeight, particleSpawner.ParticleFriction, true, particleSpawner.SpritePath, new Vector2(particleSpawner.VariationWidth, particleSpawner.VariationHeight), particleSpawner.Color);
+                    IEntity particle = ParticleBuilder.RandomParticle(spawnerTransform.Position, particleSpawner.Offset, 1f, 0.5f, 1f, particleSpawner.ParticleWeight, particleSpawner.ParticleFriction, true, particleSpawner.SpritePath, new Vector2(particleSpawner.VariationWidth, particleSpawner.VariationHeight), particleSpawner.Color);
                     Manager.GetInstance().AddEntity(particle);
                     particleSpawner.Reset();
                 }

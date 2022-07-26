@@ -56,7 +56,7 @@ namespace Villeon.Generation
                             continue;
 
                         SpawnLadders(gid, x, y);
-                        SpawnTorches(gid, x, y);
+                        SpawnLights(gid, x, y);
 
                         // Get tile from dicitionary with gid
                         Components.Tile currentTile = tileMap.Tiles[gid];
@@ -136,7 +136,7 @@ namespace Villeon.Generation
                         continue;
 
                     SpawnLadders(gid, x, y);
-                    SpawnTorches(gid, x, y);
+                    SpawnLights(gid, x, y);
                     SpawnPortal(gid, x, y);
                     SpawnEnemies(gid, x, y);
 
@@ -301,16 +301,16 @@ namespace Villeon.Generation
             }
         }
 
-        private static void SpawnTorches(uint gid, int x, int y)
+        private static void SpawnLights(uint gid, int x, int y)
         {
             // If current tile is torch -> Spawn light
-            if (gid == 9)
+            if (gid == 9 || gid == 592 || gid == 593 /*|| gid == 101 || gid == 217*/)
             {
                 IEntity torch = new Entity(new Transform(new Vector2(x + 0.5f, _height - 0.5f - y), 1f, 0), "Torch");
                 torch.AddComponent(new Light(new Color4(255, 50, 50, 255), -13.5f, 4f, 1f, 0.7f, 1.8f));
 
                 // Add particle spawner for the flakes
-                ParticleSpawner particleSpawner = new ParticleSpawner(3, "Sprites.Particles.Smoke.png");
+                ParticleSpawner particleSpawner = new ParticleSpawner(2, "Sprites.Particles.Smoke.png");
                 particleSpawner.ParticleWeight = -0.1f;
                 torch.AddComponent(particleSpawner);
                 _entities.Add(torch);
@@ -353,7 +353,7 @@ namespace Villeon.Generation
                 {
                     switch (random.Next(0, 4))
                     {
-                        case 0: EnemySpawner.Spawn("DungeonScene", "slime_blue", new Vector2(x, _height - 1 - y)); break;
+                        case 0: EnemySpawner.SpawnEnemy("DungeonScene", "slime_blue", new Vector2(x, _height - 1 - y)); break;
                         //case 1: EnemySpawner.Spawn("DungeonScene", "slime_magenta", new Vector2(x, _height - 1 - y)); break;
                         //case 2: EnemySpawner.Spawn("DungeonScene", "slime_green", new Vector2(x, _height - 1 - y)); break;
                         //case 3: EnemySpawner.Spawn("DungeonScene", "slime_red", new Vector2(x, _height - 1 - y)); break;
@@ -361,11 +361,11 @@ namespace Villeon.Generation
                 }
                 else if (type == 1)
                 {
-                    EnemySpawner.Spawn("DungeonScene", "bubble", new Vector2(x, _height - 1 - y));
+                    EnemySpawner.SpawnEnemy("DungeonScene", "bubble", new Vector2(x, _height - 1 - y));
                 }
                 else
                 {
-                    EnemySpawner.Spawn("DungeonScene", "bat", new Vector2(x, _height - 1 - y));
+                    EnemySpawner.SpawnEnemy("DungeonScene", "bat", new Vector2(x, _height - 1 - y));
                 }
             }
         }

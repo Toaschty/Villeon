@@ -75,6 +75,7 @@ namespace Villeon.GUI
             foreach (IEntity character in _level)
             {
                Manager.GetInstance().AddEntityToScene(character, "DungeonScene");
+               Manager.GetInstance().AddEntityToScene(character, "BossScene");
             }
         }
 
@@ -104,9 +105,9 @@ namespace Villeon.GUI
 
         private void SpawnExpBar()
         {
-            Manager.GetInstance().AddEntityToScene(_frame, "DungeonScene");
-            Manager.GetInstance().AddEntityToScene(_expFilling, "DungeonScene");
-            Manager.GetInstance().AddEntityToScene(_background, "DungeonScene");
+            Manager.GetInstance().AddEntity(_frame);
+            Manager.GetInstance().AddEntity(_expFilling);
+            Manager.GetInstance().AddEntity(_background);
         }
     }
 }

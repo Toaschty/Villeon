@@ -89,9 +89,9 @@ namespace Villeon.GUI
 
         private void SpawnHealthBar()
         {
-            Manager.GetInstance().AddEntityToScene(_frame, "DungeonScene");
-            Manager.GetInstance().AddEntityToScene(_healthFilling, "DungeonScene");
-            Manager.GetInstance().AddEntityToScene(_background, "DungeonScene");
+            Manager.GetInstance().AddEntity(_frame);
+            Manager.GetInstance().AddEntity(_healthFilling);
+            Manager.GetInstance().AddEntity(_background);
         }
     }
 }

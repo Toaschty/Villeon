@@ -42,7 +42,6 @@ namespace Villeon.Systems.Update
             {
                 _healthBar!.UpdateHealthbar(_playerHealth.CurrentHealth);
                 _currentHealth = _playerHealth.CurrentHealth;
-                //_maxPlayerHealth = (int)_currentHealth;
             }
 
             // Update maxHealth 
@@ -54,12 +53,6 @@ namespace Villeon.Systems.Update
                 _currentMaxHealth = _playerHealth.MaxHealth;
                 _maxPlayerHealth = _playerHealth.MaxHealth;
             }
-
-            global::System.Console.WriteLine("currentHealth:" + _currentHealth);
-            global::System.Console.WriteLine("currentMaxHealth:" + _currentMaxHealth);
-            global::System.Console.WriteLine("_maxPlayerHealth:" + _maxPlayerHealth);
-            global::System.Console.WriteLine("_playerHealth.MaxHealth:" + _playerHealth.MaxHealth);
-            global::System.Console.WriteLine("_playerHealth.CurrentHealth:" + _playerHealth.CurrentHealth);
         }
     }
 }

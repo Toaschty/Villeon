@@ -331,12 +331,13 @@
     "damage": 15,
     "ai": "JumpingAI",
     "experience": 1500,
-    "animationPath": "Enemies.Boss.CatBlob",
+    "animationPath": "Enemies.Boss.",
     "animations": [
+      "cat_blob_idle.png",
       "cat_blob_idle.png"
     ],
     "animationSpeed": 0.5,
-    "scale": 2.0,
+    "scale": 1.0,
     "offsetX": 0,
     "offsetY": 0,
     "colliderWidth": 44,

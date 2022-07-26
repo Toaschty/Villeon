@@ -108,6 +108,8 @@ namespace Villeon.Systems.Update
                     dynamicCollider.LastPosition = new Vector2(5f, 80f);
                     physics.Velocity = Vector2.Zero;
                 }
+
+                Console.WriteLine("Player Dungeon Position" + transform.Position);
             }
         }
     }
