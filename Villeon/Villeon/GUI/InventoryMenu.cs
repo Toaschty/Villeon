@@ -310,6 +310,8 @@ namespace Villeon.GUI
                         }
 
                         ReloadItemEntities();
+
+                        Hotbar.GetInstance().UpdateItems();
                     }
 
                     break;

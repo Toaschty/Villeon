@@ -39,7 +39,6 @@ namespace Villeon.Components
 
         public bool CanSpawn()
         {
-
             return CountdownToZero <= 0 ? true : false;
         }
 

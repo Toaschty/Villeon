@@ -97,7 +97,7 @@ namespace Villeon.Helper
 
         public void IncreaseDefense() => _defenseLevel++;
 
-        public int GetHealth()
+        public int GetMaxHealth()
         {
             int health = (int)(StatFunction() * 100);
             return health + (int)(health * 0.1f * _level);

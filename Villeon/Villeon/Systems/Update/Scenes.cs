@@ -285,6 +285,7 @@ namespace Villeon.Systems.Update
             BossScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
             BossScene.AddSystem(new PlayerParticleSystem("PlayerParticleSystem"));
             BossScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
+            BossScene.AddSystem(new ParticleSpawnerSystem("ParticleSpawnerSystem"));
             BossScene.AddSystem(new LadderSystem("LadderSystem"));
             BossScene.AddSystem(new MobDropSystem("MobdropSystem"));
             BossScene.AddSystem(new MobDropCollectionSystem("MobdropCollectionSystem"));
@@ -298,6 +299,7 @@ namespace Villeon.Systems.Update
             BossScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
             BossScene.AddSystem(new JumpingAISystem("JumpingAISystem"));
             BossScene.AddSystem(new HotbarSystem("HotbarUseSystem"));
+            BossScene.AddSystem(new BossSystem("BossSystem"));
             BossScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE!
             BossScene.AddStartUpFunc(() =>
             {
@@ -315,11 +317,14 @@ namespace Villeon.Systems.Update
                 PlayerExpSystem.Init();
                 PlayerHealthbarSystem.Init();
 
+                // Dungeon Glow
                 IEntity glow = new Entity(new Transform(new Vector2(36, 20), 1f, 0), "Glow");
                 glow.AddComponent(new Light(new Color4(237, 0, 134, 255), -12f, 20f, 1f, 0.7f, 1.8f));
                 Scenes.BossScene.AddEntity(glow);
 
-                // Add back portal
+                // Spawn the Boss monster
+                EnemySpawner.SpawnBoss("BossScene", "boss_cat_blob", new Vector2(30, 6));
+
                 // Add the Portal home BOSSROOM
                 IEntity portalTrigger = new Entity(new Transform(new Vector2(36, 20), 1f, 0f), "Portal Trigger");
                 portalTrigger.AddComponent(new Trigger(TriggerLayerType.PORTAL, 4f, 5f));
@@ -334,13 +339,12 @@ namespace Villeon.Systems.Update
         public static void SetupPortalEntities()
         {
             // Particle Spawner for Portal
-            ParticleSpawner particleSpawner = new ParticleSpawner(50, "Sprites.PortalDust.png");
+            ParticleSpawner particleSpawner = new ParticleSpawner(50, "Sprites.Particles.PortalDust.png");
             particleSpawner.VariationWidth = 2;
             particleSpawner.VariationHeight = 3;
             particleSpawner.Offset = new Vector2(2.5f, 3f);
 
-            //IEntity tutorialToDungeon = new Entity(new Transform(new Vector2(143, 32), 1f, 0f), "villageToDungeonPortal");
-            IEntity tutorialToDungeon = new Entity(new Transform(new Vector2(25.5f, 23.5f), 1f, 0f), "villageToDungeonPortal");
+            IEntity tutorialToDungeon = new Entity(new Transform(new Vector2(143, 32), 1f, 0f), "villageToDungeonPortal");
             tutorialToDungeon.AddComponent(Asset.GetSpriteSheet("Sprites.PortalAnimation.png").GetSprite(0, SpriteLayer.Middleground, true));
             tutorialToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, new Vector2(1.3f, 1f), 3f, 5f));
             tutorialToDungeon.AddComponent(new Portal("DungeonScene", Constants.TUTORIAL_SPAWN_POINT));

@@ -1,13 +1,13 @@
 ﻿{
-  "slime": {
+  "slime_blue": {
     "health": 100,
-    "damage": 5,
+    "damage": 10,
     "ai": "JumpingAI",
     "experience": 10,
     "animationPath": "Enemies.Slime.",
     "animations": [
-        "slime_jumping.png",
-        "slime_jumping.png"
+      "slime_jumping_blue.png",
+      "slime_jumping_blue.png"
     ],
     "animationSpeed": 0.1,
     "scale": 0.25,
@@ -21,181 +21,172 @@
       {
         "itemName": "HealthPotionSmall",
         "index": 0,
-        "rate": 1,
+        "rate": 0.1,
         "amount": {
           "min": 1,
-          "max": 2
-        }
-      },
-      {
-        "itemName": "HealthPotionMiddle",
-        "index": 0,
-        "rate": 1,
-        "amount": {
-          "min": 1,
-          "max": 2
-        }
-      },
-      {
-        "itemName": "HealthPotionBig",
-        "index": 0,
-        "rate": 1,
-        "amount": {
-          "min": 1,
-          "max": 2
-        }
-      },
-      {
-        "itemName": "HealthPotionSpecial",
-        "index": 0,
-        "rate": 1,
-        "amount": {
-          "min": 1,
-          "max": 2
-        }
-      },
-      {
-        "itemName": "Sword",
-        "index": 0,
-        "rate": 1,
-        "amount": {
-          "min": 1,
-          "max": 2
-        }
-      },
-      {
-        "itemName": "RawGold",
-        "index": 0,
-        "rate": 1,
-        "amount": {
-          "min": 1,
-          "max": 2
-        }
-      },
-      {
-        "itemName": "Gold",
-        "index": 0,
-        "rate": 1,
-        "amount": {
-          "min": 1,
-          "max": 2
-        }
-      },
-      {
-        "itemName": "RawIron",
-        "index": 0,
-        "rate": 1,
-        "amount": {
-          "min": 1,
-          "max": 2
-        }
-      },
-      {
-        "itemName": "Iron",
-        "index": 0,
-        "rate": 1,
-        "amount": {
-          "min": 1,
-          "max": 2
-        }
-      },
-      {
-        "itemName": "RawDiamond",
-        "index": 0,
-        "rate": 1,
-        "amount": {
-          "min": 1,
-          "max": 2
-        }
-      },
-      {
-        "itemName": "Diamond",
-        "index": 0,
-        "rate": 1,
-        "amount": {
-          "min": 1,
-          "max": 2
-        }
-      },
-      {
-        "itemName": "RawRuby",
-        "index": 0,
-        "rate": 1,
-        "amount": {
-          "min": 1,
-          "max": 2
-        }
-      },
-      {
-        "itemName": "Ruby",
-        "index": 0,
-        "rate": 1,
-        "amount": {
-          "min": 1,
-          "max": 2
-        }
-      },
-      {
-        "itemName": "Stick",
-        "index": 0,
-        "rate": 1,
-        "amount": {
-          "min": 1,
-          "max": 2
-        }
-      },
-      {
-        "itemName": "Rock",
-        "index": 0,
-        "rate": 1,
-        "amount": {
-          "min": 1,
-          "max": 2
+          "max": 5
         }
       },
       {
         "itemName": "Pebbel",
         "index": 0,
-        "rate": 1,
+        "rate": 0.5,
         "amount": {
           "min": 1,
-          "max": 2
+          "max": 10
         }
       },
       {
-        "itemName": "BatWings",
+        "itemName": "Rock",
         "index": 0,
-        "rate": 1,
+        "rate": 0.2,
         "amount": {
           "min": 1,
-          "max": 2
+          "max": 1
+        }
+      }
+    ]
+  },
+  "slime_magenta": {
+    "health": 1000,
+    "damage": 100,
+    "ai": "JumpingAI",
+    "experience": 100,
+    "animationPath": "Enemies.Slime.",
+    "animations": [
+      "slime_jumping_magenta.png",
+      "slime_jumping_magenta.png"
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 32,
+    "colliderHeight": 24,
+    "triggerWidth": 32,
+    "triggerHeight": 24,
+    "drops": [
+      {
+        "itemName": "HealthPotionMiddle",
+        "index": 0,
+        "rate": 0.2,
+        "amount": {
+          "min": 1,
+          "max": 5
         }
       },
       {
-        "itemName": "HellSword",
+        "itemName": "Pebbel",
         "index": 0,
-        "rate": 1,
+        "rate": 0.3,
         "amount": {
-          "min": 1,
-          "max": 2
+          "min": 5,
+          "max": 20
         }
       },
       {
-        "itemName": "Shield",
+        "itemName": "Rock",
         "index": 0,
-        "rate": 1,
+        "rate": 0.3,
+        "amount": {
+          "min": 2,
+          "max": 10
+        }
+      }
+    ]
+  },
+  "slime_green": {
+    "health": 10000,
+    "damage": 1000,
+    "ai": "JumpingAI",
+    "experience": 1000,
+    "animationPath": "Enemies.Slime.",
+    "animations": [
+      "slime_jumping_green.png",
+      "slime_jumping_green.png"
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 32,
+    "colliderHeight": 24,
+    "triggerWidth": 32,
+    "triggerHeight": 24,
+    "drops": [
+      {
+        "itemName": "HealthPotionMiddle",
+        "index": 0,
+        "rate": 0.1,
         "amount": {
           "min": 1,
-          "max": 2
+          "max": 5
         }
       },
       {
-        "itemName": "PlantShield",
+        "itemName": "Pebbel",
         "index": 0,
-        "rate": 1,
+        "rate": 0.2,
+        "amount": {
+          "min": 10,
+          "max": 40
+        }
+      },
+      {
+        "itemName": "Rock",
+        "index": 0,
+        "rate": 0.5,
+        "amount": {
+          "min": 2,
+          "max": 10
+        }
+      }
+    ]
+  },
+  "slime_red": {
+    "health": 100000,
+    "damage": 10000,
+    "ai": "JumpingAI",
+    "experience": 10000,
+    "animationPath": "Enemies.Slime.",
+    "animations": [
+      "slime_jumping_red.png",
+      "slime_jumping_red.png"
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 32,
+    "colliderHeight": 24,
+    "triggerWidth": 32,
+    "triggerHeight": 24,
+    "drops": [
+      {
+        "itemName": "HealthPotionMiddle",
+        "index": 0,
+        "rate": 0.5,
         "amount": {
           "min": 1,
-          "max": 2
+          "max": 5
+        }
+      },
+      {
+        "itemName": "Pebbel",
+        "index": 0,
+        "rate": 0.1,
+        "amount": {
+          "min": 2,
+          "max": 60
+        }
+      },
+      {
+        "itemName": "Rock",
+        "index": 0,
+        "rate": 0.2,
+        "amount": {
+          "min": 1,
+          "max": 20
         }
       }
     ]
@@ -207,8 +198,8 @@
     "experience": 10,
     "animationPath": "Enemies.Bat.",
     "animations": [
-        "bat_left.png",
-        "bat_right.png"
+      "bat_left.png",
+      "bat_right.png"
     ],
     "animationSpeed": 0.1,
     "scale": 0.25,
@@ -248,6 +239,45 @@
       }
     ]
   },
+  "eye": {
+    "health": 70,
+    "damage": 3,
+    "ai": "FlyingAI",
+    "experience": 10,
+    "animationPath": "Enemies.Eye.",
+    "animations": [
+      "eye_left.png",
+      "eye_right.png"
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 23,
+    "colliderHeight": 14,
+    "triggerWidth": 23,
+    "triggerHeight": 14,
+    "drops": [
+      {
+        "itemName": "Gold",
+        "index": 1,
+        "rate": 0.5,
+        "amount": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      {
+        "itemName": "Rock",
+        "index": 2,
+        "rate": 1,
+        "amount": {
+          "min": 2,
+          "max": 10
+        }
+      }
+    ]
+  },
   "bubble": {
     "health": 70,
     "damage": 15,
@@ -255,8 +285,8 @@
     "experience": 10,
     "animationPath": "Enemies.Bubble.",
     "animations": [
-        "bubble_left.png",
-        "bubble_right.png"
+      "bubble_left.png",
+      "bubble_right.png"
     ],
     "animationSpeed": 0.1,
     "scale": 0.25,
@@ -292,6 +322,36 @@
         "amount": {
           "min": 2,
           "max": 10
+        }
+      }
+    ]
+  },
+  "boss_cat_blob": {
+    "health": 1000,
+    "damage": 15,
+    "ai": "JumpingAI",
+    "experience": 1500,
+    "animationPath": "Enemies.Boss.",
+    "animations": [
+      "cat_blob_idle.png",
+      "cat_blob_idle.png"
+    ],
+    "animationSpeed": 0.5,
+    "scale": 1.0,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 44,
+    "colliderHeight": 32,
+    "triggerWidth": 44,
+    "triggerHeight": 32,
+    "drops": [
+      {
+        "itemName": "HealthPotionSmall",
+        "index": 0,
+        "rate": 1.0,
+        "amount": {
+          "min": 5,
+          "max": 15
         }
       }
     ]

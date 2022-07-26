@@ -82,7 +82,7 @@ namespace Villeon.Systems.Update
                         physics.Velocity = new Vector2(Constants.DASH_POWER * direction, physics.Velocity.Y);
 
                         // Spawn some dash particles in opposite direction
-                        List<IEntity> dashParticle = ParticleBuilder.RandomParticles(transform.Position + new Vector2(0.5f, 1.5f), 1f, 0.5f, new Vector2(direction * 5f, 0f), -0.01f, 0.2f, true, "Sprites.Stripe.png", 25, new Vector2(2f, 3f), Color4.White);
+                        List<IEntity> dashParticle = ParticleBuilder.RandomParticles(transform.Position, new Vector2(0.5f, 1.5f), 1f, 0.5f, new Vector2(direction * 5f, 0f), -0.01f, 0.2f, true, "Sprites.Particles.Stripe.png", 25, new Vector2(2f, 3f), Color4.White);
                         Manager.GetInstance().AddEntities(dashParticle);
                     }
                 }
@@ -96,7 +96,7 @@ namespace Villeon.Systems.Update
                         physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
 
                         // Spawn some jump particles
-                        List<IEntity> jumpParticles = ParticleBuilder.RandomParticles(transform.Position + new Vector2(0.5f, 0f), 1f, 0.5f, 1f, -0.01f, 0, true, "Sprites.Dust.png", 25, new Vector2(3, 0), Color4.White);
+                        List<IEntity> jumpParticles = ParticleBuilder.RandomParticles(transform.Position, new Vector2(0.5f, 0f), 1f, 0.5f, 1f, -0.01f, 0, true, "Sprites.Particles.Dust.png", 25, new Vector2(3, 0), Color4.White);
                         Manager.GetInstance().AddEntities(jumpParticles);
                     }
                 }
@@ -108,6 +108,8 @@ namespace Villeon.Systems.Update
                     dynamicCollider.LastPosition = new Vector2(5f, 80f);
                     physics.Velocity = Vector2.Zero;
                 }
+
+                Console.WriteLine("Player Dungeon Position" + transform.Position);
             }
         }
     }

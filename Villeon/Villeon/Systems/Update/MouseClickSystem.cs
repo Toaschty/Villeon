@@ -28,12 +28,12 @@ namespace Villeon.Systems.Update
             {
                 if (button.Button == MouseButton.Right)
                 {
-                    EnemySpawner.Spawn("DungeonScene", "slime", button.MousePosition);
+                    EnemySpawner.SpawnEnemy("DungeonScene", "slime_blue", button.MousePosition);
                 }
 
                 if (button.Button == MouseButton.Middle)
                 {
-                    EnemySpawner.Spawn("DungeonScene", "bat", button.MousePosition);
+                    EnemySpawner.SpawnEnemy("DungeonScene", "bat", button.MousePosition);
                 }
             }
         }

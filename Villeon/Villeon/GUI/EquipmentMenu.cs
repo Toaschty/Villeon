@@ -76,7 +76,7 @@ namespace Villeon.GUI
             healthIcon.AddComponent(statHealthSprite);
             _entities.Add(healthIcon);
 
-            Text health = new Text(Stats.GetInstance().GetHealth().ToString(), new Vector2(-5.5f, -4.1f), "Alagard", 0f, 0.5f, _letterScaleStats);
+            Text health = new Text(Stats.GetInstance().GetMaxHealth().ToString(), new Vector2(-5.5f, -4.1f), "Alagard", 0f, 0.5f, _letterScaleStats);
             Array.ForEach(health.GetEntities(), entity => _statEntities.Add(entity));
 
             Entity attackIcon = new Entity(new Transform(new Vector2(-4.2f, -4f), 0.2f, 0f), "Attack Icon");
@@ -149,7 +149,7 @@ namespace Villeon.GUI
             _statEntities.Clear();
 
             // Add stats texts
-            Text health = new Text(Stats.GetInstance().GetHealth().ToString(), new Vector2(-5.5f, -4.1f), "Alagard", 0f, 0.5f, _letterScaleStats);
+            Text health = new Text(Stats.GetInstance().GetMaxHealth().ToString(), new Vector2(-5.5f, -4.1f), "Alagard", 0f, 0.5f, _letterScaleStats);
             Array.ForEach(health.GetEntities(), entity => _statEntities.Add(entity));
 
             Text attack = new Text(Stats.GetInstance().GetAttack().ToString(), new Vector2(-3.5f, -4.1f), "Alagard", 0f, 0.5f, _letterScaleStats);

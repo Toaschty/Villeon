@@ -1,10 +1,12 @@
-﻿using System;
+﻿using OpenTK.Mathematics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Villeon.Components;
 using Villeon.EntityManagement;
+using Villeon.Generation;
 using Villeon.GUI;
 using Villeon.Helper;
 using Villeon.Systems.TriggerSystems;
@@ -41,6 +43,7 @@ namespace Villeon.Systems.Update
                 foreach (var collisionPair in TriggerLayers[layerKey].Collisions)
                 {
                     Interactable interactable = collisionPair.Item1.GetComponent<Interactable>();
+                    Trigger playerTrigger = collisionPair.Item2.GetComponent<Trigger>();
 
                     // Check each possible option
                     foreach (Option opt in interactable.Options)
@@ -56,6 +59,10 @@ namespace Villeon.Systems.Update
 
                                 // Add bought items in inventory
                                 InventoryMenu.GetInstance().AddItems(ItemLoader.GetItem(opt.BuyItem), opt.BuyItemAmount);
+
+                                // Add trade particles
+                                List<IEntity> particles = ParticleBuilder.RandomParticles(playerTrigger.Position, new Vector2(0.2f, 0.2f), 2, 0.03f, 0.5f, -0.01f, 0.1f, true, "Sprites.Particles.Sparkles.png", 200, new Vector2(2f, 2f), Color4.White);
+                                Manager.GetInstance().AddEntities(particles);
                             }
                         }
                     }

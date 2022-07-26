@@ -55,25 +55,8 @@ namespace Villeon.Generation
                         if (gid == 0)
                             continue;
 
-                        // If current tile is ladder -> Spawn trigger
-                        if (gid == 4 || gid == 5)
-                        {
-                            IEntity ladder = new Entity(new Transform(new Vector2(x, _height - 1 - y), 1f, 0), "Ladder");
-                            ladder.AddComponent(new Trigger(TriggerLayerType.LADDER, 1, 1f));
-                            ladder.AddComponent(new Ladder());
-                            _entities.Add(ladder);
-                        }
-
-                        // BOSSROOM TORCHES?
-                        // If current tile is torch -> Spawn light
-                        if (gid == 9)
-                        {
-                            IEntity torch = new Entity(new Transform(new Vector2(x + 0.5f, _height - 0.5f - y), 1f, 0), "Torch");
-                            torch.AddComponent(new Light(new Color4(255, 50, 50, 255), -13.5f, 4f, 1f, 0.7f, 1.8f));
-                            ParticleSpawner particleSpawner = new ParticleSpawner(4, "Sprites.Smoke.png");
-                            torch.AddComponent(particleSpawner);
-                            _entities.Add(torch);
-                        }
+                        SpawnLadders(gid, x, y);
+                        SpawnLights(gid, x, y);
 
                         // Get tile from dicitionary with gid
                         Components.Tile currentTile = tileMap.Tiles[gid];
@@ -88,28 +71,7 @@ namespace Villeon.Generation
                         tileEntity.AddComponent(tileSprite);
 
                         // Add animation component if tile contains any frames
-                        if (currentTile.AnimationFrames.Count() != 0)
-                        {
-                            // Dynamic: updated after frame changes
-                            tileSprite.IsDynamic = true;
-
-                            // Create new animationController component for current tile
-                            AnimationController animController = new AnimationController();
-
-                            // Create new animation for tile
-                            Animation animation = new Animation(currentTile.FrameDuration);
-
-                            // Add each animationtile as sprite to frames
-                            foreach (Components.Tile frameTile in currentTile.AnimationFrames)
-                            {
-                                animation.AnimationSprite.Add(new Sprite(frameTile, frameTile.TexCoords));
-                            }
-
-                            animController.AddAnimation(animation);
-
-                            // Add animation component
-                            tileEntity.AddComponent(animController);
-                        }
+                        AddAnimatedTiles(currentTile, tileSprite, tileEntity);
 
                         // Convert current tile into Sprite
                         _entities.Add(tileEntity);
@@ -173,62 +135,10 @@ namespace Villeon.Generation
                     if (gid == 0)
                         continue;
 
-                    // If current tile is ladder -> Spawn trigger
-                    if (gid == 4 || gid == 5)
-                    {
-                        IEntity ladder = new Entity(new Transform(new Vector2(x, _height - 1 - y), 1f, 0), "Ladder");
-                        ladder.AddComponent(new Trigger(TriggerLayerType.LADDER, 1, 1f));
-                        ladder.AddComponent(new Ladder());
-                        _entities.Add(ladder);
-                    }
-
-                    // If current tile is torch -> Spawn light
-                    if (gid == 9)
-                    {
-                        IEntity torch = new Entity(new Transform(new Vector2(x + 0.5f, _height - 0.5f - y), 1f, 0), "Torch");
-                        torch.AddComponent(new Light(new Color4(255, 50, 50, 255), -13.5f, 4f, 1f, 0.7f, 1.8f));
-
-                        // Add particle spawner for the flakes
-                        ParticleSpawner particleSpawner = new ParticleSpawner(3, "Sprites.Smoke.png");
-                        particleSpawner.ParticleWeight = -0.1f;
-                        torch.AddComponent(particleSpawner);
-                        _entities.Add(torch);
-                    }
-
-                    // Add portal glow
-                    if (gid == 292)
-                    {
-                        IEntity glow = new Entity(new Transform(new Vector2(x, _height - 1f - y), 1f, 0), "Glow");
-                        glow.AddComponent(new Light(new Color4(237, 0, 134, 255), -12f, 20f, 1f, 0.7f, 1.8f));
-                        ParticleSpawner particleSpawner = new ParticleSpawner(50, "Sprites.PortalDust.png");
-                        particleSpawner.VariationWidth = 2;
-                        particleSpawner.VariationHeight = 3;
-                        glow.AddComponent(particleSpawner);
-                        _entities.Add(glow);
-                    }
-
-                    // Add back portal
-                    if (gid == 368)
-                    {
-                        // Add the Portal home
-                        IEntity portalTrigger = new Entity(new Transform(new Vector2(x, _height - y), 1f, 0f), "Portal Trigger");
-                        portalTrigger.AddComponent(new Trigger(TriggerLayerType.PORTAL, 4f, 5f));
-                        portalTrigger.AddComponent(new Portal("BossScene", Constants.DUNGEON_SPAWN_POINT));
-                        _entities.Add(portalTrigger);
-                    }
-
-                    // If current tile is enemy spawn -> Spawn enemy
-                    Random random = new Random();
-                    if (gid == 33)
-                    {
-                        int type = random.Next(0, 3);
-                        if (type == 0)
-                            EnemySpawner.Spawn("DungeonScene", "slime", new Vector2(x, _height - 1 - y));
-                        else if (type == 1)
-                            EnemySpawner.Spawn("DungeonScene", "bubble", new Vector2(x, _height - 1 - y));
-                        else
-                            EnemySpawner.Spawn("DungeonScene", "bat", new Vector2(x, _height - 1 - y));
-                    }
+                    SpawnLadders(gid, x, y);
+                    SpawnLights(gid, x, y);
+                    SpawnPortal(gid, x, y);
+                    SpawnEnemies(gid, x, y);
 
                     // Get tile from dicitionary with gid
                     Components.Tile currentTile = tileMap.Tiles[gid];
@@ -242,29 +152,7 @@ namespace Villeon.Generation
                     // Make sprite dynamic in order to get updated after frame changes
                     tileEntity.AddComponent(tileSprite);
 
-                    // Add animation component if tile contains any frames
-                    if (currentTile.AnimationFrames.Count() != 0)
-                    {
-                        // Dynamic: updated after frame changes
-                        tileSprite.IsDynamic = true;
-
-                        // Create new animationController component for current tile
-                        AnimationController animController = new AnimationController();
-
-                        // Create new animation for tile
-                        Animation animation = new Animation(currentTile.FrameDuration);
-
-                        // Add each animationtile as sprite to frames
-                        foreach (Components.Tile frameTile in currentTile.AnimationFrames)
-                        {
-                            animation.AnimationSprite.Add(new Sprite(frameTile, frameTile.TexCoords));
-                        }
-
-                        animController.AddAnimation(animation);
-
-                        // Add animation component
-                        tileEntity.AddComponent(animController);
-                    }
+                    AddAnimatedTiles(currentTile, tileSprite, tileEntity);
 
                     // Convert current tile into Sprite
                     _entities.Add(tileEntity);
@@ -370,6 +258,114 @@ namespace Villeon.Generation
                             }
                         }
                     }
+                }
+            }
+        }
+
+        private static void AddAnimatedTiles(Components.Tile currentTile, Sprite tileSprite, IEntity tileEntity)
+        {
+            // Add animation component if tile contains any frames
+            if (currentTile.AnimationFrames.Count() != 0)
+            {
+                // Dynamic: updated after frame changes
+                tileSprite.IsDynamic = true;
+
+                // Create new animationController component for current tile
+                AnimationController animController = new AnimationController();
+
+                // Create new animation for tile
+                Animation animation = new Animation(currentTile.FrameDuration);
+
+                // Add each animationtile as sprite to frames
+                foreach (Components.Tile frameTile in currentTile.AnimationFrames)
+                {
+                    animation.AnimationSprite.Add(new Sprite(frameTile, frameTile.TexCoords));
+                }
+
+                animController.AddAnimation(animation);
+
+                // Add animation component
+                tileEntity.AddComponent(animController);
+            }
+        }
+
+        private static void SpawnLadders(uint gid, int x, int y)
+        {
+            // If current tile is ladder -> Spawn trigger
+            if (gid == 4 || gid == 5)
+            {
+                IEntity ladder = new Entity(new Transform(new Vector2(x, _height - 1 - y), 1f, 0), "Ladder");
+                ladder.AddComponent(new Trigger(TriggerLayerType.LADDER, 1, 1f));
+                ladder.AddComponent(new Ladder());
+                _entities.Add(ladder);
+            }
+        }
+
+        private static void SpawnLights(uint gid, int x, int y)
+        {
+            // If current tile is torch -> Spawn light
+            if (gid == 9 || gid == 592 || gid == 593 /*|| gid == 101 || gid == 217*/)
+            {
+                IEntity torch = new Entity(new Transform(new Vector2(x + 0.5f, _height - 0.5f - y), 1f, 0), "Torch");
+                torch.AddComponent(new Light(new Color4(255, 50, 50, 255), -13.5f, 4f, 1f, 0.7f, 1.8f));
+
+                // Add particle spawner for the flakes
+                ParticleSpawner particleSpawner = new ParticleSpawner(2, "Sprites.Particles.Smoke.png");
+                particleSpawner.ParticleWeight = -0.1f;
+                torch.AddComponent(particleSpawner);
+                _entities.Add(torch);
+            }
+        }
+
+        private static void SpawnPortal(uint gid, int x, int y)
+        {
+            // Add portal glow
+            if (gid == 292)
+            {
+                IEntity glow = new Entity(new Transform(new Vector2(x, _height - 1f - y), 1f, 0), "Glow");
+                glow.AddComponent(new Light(new Color4(237, 0, 134, 255), -12f, 20f, 1f, 0.7f, 1.8f));
+                ParticleSpawner particleSpawner = new ParticleSpawner(50, "Sprites.Particles.PortalDust.png");
+                particleSpawner.VariationWidth = 2;
+                particleSpawner.VariationHeight = 3;
+                glow.AddComponent(particleSpawner);
+                _entities.Add(glow);
+            }
+
+            // Add back portal
+            if (gid == 368)
+            {
+                // Add the Portal home
+                IEntity portalTrigger = new Entity(new Transform(new Vector2(x, _height - y), 1f, 0f), "Portal Trigger");
+                portalTrigger.AddComponent(new Trigger(TriggerLayerType.PORTAL, 4f, 5f));
+                portalTrigger.AddComponent(new Portal("BossScene", Constants.DUNGEON_SPAWN_POINT));
+                _entities.Add(portalTrigger);
+            }
+        }
+
+        private static void SpawnEnemies(uint gid, int x, int y)
+        {
+            // If current tile is enemy spawn -> Spawn enemy
+            Random random = new Random();
+            if (gid == 33)
+            {
+                int type = random.Next(0, 3);
+                if (type == 0)
+                {
+                    switch (random.Next(0, 4))
+                    {
+                        case 0: EnemySpawner.SpawnEnemy("DungeonScene", "slime_blue", new Vector2(x, _height - 1 - y)); break;
+                        //case 1: EnemySpawner.Spawn("DungeonScene", "slime_magenta", new Vector2(x, _height - 1 - y)); break;
+                        //case 2: EnemySpawner.Spawn("DungeonScene", "slime_green", new Vector2(x, _height - 1 - y)); break;
+                        //case 3: EnemySpawner.Spawn("DungeonScene", "slime_red", new Vector2(x, _height - 1 - y)); break;
+                    }
+                }
+                else if (type == 1)
+                {
+                    EnemySpawner.SpawnEnemy("DungeonScene", "bubble", new Vector2(x, _height - 1 - y));
+                }
+                else
+                {
+                    EnemySpawner.SpawnEnemy("DungeonScene", "bat", new Vector2(x, _height - 1 - y));
                 }
             }
         }
