@@ -7,6 +7,7 @@ using OpenTK.Mathematics;
 using Villeon.Components;
 using Villeon.EntityManagement;
 using Villeon.Generation;
+using Villeon.Helper;
 
 namespace Villeon.Systems.Update
 {
@@ -32,6 +33,11 @@ namespace Villeon.Systems.Update
 
                     // Spawn Portal
                     Console.WriteLine("Spawning Portal!");
+
+                    Stats.GetInstance().IncreaseUnlockProgress(0);
+                    NPCLoader.UpdateNPCs();
+
+                    SceneLoader.SetActiveScene("VillageScene");
                 }
             }
         }

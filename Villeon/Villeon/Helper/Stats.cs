@@ -129,9 +129,9 @@ namespace Villeon.Helper
             return _unlockProgress[caveIndex];
         }
 
-        public void IncreaseUnlockProgress(int caveIndex)
+        public int IncreaseUnlockProgress(int caveIndex)
         {
-            _unlockProgress[caveIndex]++;
+            return _unlockProgress[caveIndex]++;
         }
 
         // Function for level exp requirements

@@ -72,23 +72,7 @@ namespace Villeon.Generation
             }
         }
 
-        private static void SpawnNPC(string sceneName, string npcName, string texturepath, float textureScale, float x, float y, Option[] options, string[] dialogPages)
-        {
-            // Create the Entity
-            Transform transform = new Transform(new Vector2(x, y), textureScale, 0.0f);
-            IEntity entity = new Entity(transform, npcName);
-            entity.AddComponent(new NPC(npcName, sceneName));
-            entity.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-0.4f, -0.4f), 1.4f, 1.8f));
-            entity.AddComponent(new Collider(Vector2.Zero, transform.Position, 0.6f, 1f));
-            entity.AddComponent(new Interactable(options));
-            entity.AddComponent(new Dialog(dialogPages));
-            entity.AddComponent(Assets.Asset.GetSprite(texturepath, SpriteLayer.Middleground, true));
-
-            // Spawn it via the manager
-            Manager.GetInstance().AddEntityToScene(entity, sceneName);
-        }
-
-        private static void LoadNPCData(string sceneName, dynamic npc, bool spawnUnlockableNPC)
+        public static void LoadNPCData(string sceneName, dynamic npc, bool spawnUnlockableNPC)
         {
             // Spawn all visible npc who are not unlockable (default npcs)
             if (npc.visible == false && spawnUnlockableNPC == false)
@@ -134,7 +118,7 @@ namespace Villeon.Generation
             SpawnNPC(sceneName, npcName, texturePath, textureScale, x, y, optionArray, dialog);
         }
 
-        private static dynamic GetNPC(string sceneName, string npcName)
+        public static dynamic GetNPC(string sceneName, string npcName)
         {
             // Load the JSON
             JObject npcs = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.NPCs.json"))!;
@@ -156,9 +140,22 @@ namespace Villeon.Generation
             return scene[0];
         }
 
-        private static void UpdateNPCs()
+        public static void UpdateNPCs() => SpawnUnlockableNPCs();
+
+        private static void SpawnNPC(string sceneName, string npcName, string texturepath, float textureScale, float x, float y, Option[] options, string[] dialogPages)
         {
-            SpawnUnlockableNPCs();
+            // Create the Entity
+            Transform transform = new Transform(new Vector2(x, y), textureScale, 0.0f);
+            IEntity entity = new Entity(transform, npcName);
+            entity.AddComponent(new NPC(npcName, sceneName));
+            entity.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-0.4f, -0.4f), 1.4f, 1.8f));
+            entity.AddComponent(new Collider(Vector2.Zero, transform.Position, 0.6f, 1f));
+            entity.AddComponent(new Interactable(options));
+            entity.AddComponent(new Dialog(dialogPages));
+            entity.AddComponent(Assets.Asset.GetSprite(texturepath, SpriteLayer.Middleground, true));
+
+            // Spawn it via the manager
+            Manager.GetInstance().AddEntityToScene(entity, sceneName);
         }
     }
 }
