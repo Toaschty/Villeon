@@ -121,7 +121,7 @@ namespace Villeon.Generation
                     int neededItemAmount = option.SelectToken("neededItemAmount")!.Value<int>()!;
                     string buyItem = option.SelectToken("buyItem")!.Value<string>()!;
                     int buyItemAmount = option.SelectToken("buyItemAmount")!.Value<int>()!;
-                    optionArray[optionIndex] = new Option(optionString, key, neededItem, neededItemAmount, buyItem, buyItemAmount);
+                    optionArray[optionIndex] = new Option(optionString, "trade", key, neededItem, neededItemAmount, buyItem, buyItemAmount);
                 }
                 else
                 {
