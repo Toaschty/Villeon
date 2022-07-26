@@ -45,10 +45,10 @@ namespace Villeon.Generation
         public static void SpawnBoss(string sceneName, string bossName, Vector2 position)
         {
             // Load the JSON
-            JObject enemiesJson = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.Bosses.json"))!;
+            JObject enemiesJson = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.Bosses.json")) !;
 
             // Choose the current scene
-            dynamic json = enemiesJson.SelectToken(bossName)!;
+            dynamic json = enemiesJson.SelectToken(bossName) !;
 
             // Assemble the Enemy //
             float scale = json.scale;

@@ -49,6 +49,7 @@ namespace Villeon.Systems.TriggerSystems
                     _interactionPopup.DeleteFromScene(StateManager.PreviousSceneName);
                     _interactionPopup = null;
                 }
+
                 return;
             }
 

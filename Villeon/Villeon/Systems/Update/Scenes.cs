@@ -370,7 +370,7 @@ namespace Villeon.Systems.Update
             IEntity villageToDungeon = new Entity(new Transform((141, 70), 1f, 0f), "villageToDungeonPortal");
             villageToDungeon.AddComponent(Asset.GetSpriteSheet("Sprites.PortalAnimation.png").GetSprite(0, SpriteLayer.Middleground, true));
             villageToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, new Vector2(1.3f, 1f), 3f, 5f));
-            villageToDungeon.AddComponent(new Portal("BossScene", Constants.VILLAGE_SPAWN_POINT));
+            villageToDungeon.AddComponent(new Portal("DungeonScene", Constants.VILLAGE_SPAWN_POINT));
             villageToDungeon.AddComponent(new Interactable(new Option("Enter Dungeon [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
             villageToDungeon.AddComponent(animController);
             villageToDungeon.AddComponent(particleSpawner);
