@@ -328,9 +328,9 @@ namespace Villeon.Systems.Update
                 Scenes.BossScene.AddEntity(guiHandlerEntity);
 
                 // Trigger for Boss Camera
-                Entity bossCamera = new Entity(new Transform(new Vector2(9f, 4f), 1f, 0f), "BossCamera");
+                Entity bossCamera = new Entity(new Transform(new Vector2(12f, 4f), 1f, 0f), "BossCamera");
                 bossCamera.AddComponent(new Event("BossFall"));
-                bossCamera.AddComponent(new Trigger(TriggerLayerType.FRIEND, 1f, 10f));
+                bossCamera.AddComponent(new Trigger(TriggerLayerType.FRIEND, 1f, 25f));
                 Scenes.BossScene.AddEntity(bossCamera);
 
                 // Set the Exp bar
