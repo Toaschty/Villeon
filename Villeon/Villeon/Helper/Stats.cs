@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Villeon.Components;
 
 namespace Villeon.Helper
 {
@@ -22,6 +23,9 @@ namespace Villeon.Helper
         private int _defenseLevel = 1;
         private int _itemAttack = 10;
         private int _itemDefense = 10;
+
+        private string _itemAttackName;
+        private string _itemDefenseName;
 
         // Progress
         private int _progress = 0;
@@ -84,13 +88,21 @@ namespace Villeon.Helper
         public int ItemDamage
         {
             get => _itemAttack;
-            set => _itemAttack = value;
         }
 
         public int ItemDefense
         {
             get => _itemDefense;
-            set => _itemDefense = value;
+        }
+
+        public string ItemDamageName
+        {
+            get => _itemAttackName;
+        }
+
+        public string ItemDefenseName
+        {
+            get => _itemDefenseName;
         }
 
         public static Stats GetInstance()
@@ -98,6 +110,18 @@ namespace Villeon.Helper
             if (_instance == null)
                 _instance = new Stats();
             return _instance;
+        }
+
+        public void SetAttackItem(Item item)
+        {
+            _itemAttackName = item.Name;
+            _itemAttack = item.Damage;
+        }
+
+        public void SetDefenseItem(Item item)
+        {
+            _itemDefenseName = item.Name;
+            _itemDefense = item.Defense;
         }
 
         // Gain experience

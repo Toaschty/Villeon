@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Villeon.Components;
 using Villeon.Helper;
 
 namespace Villeon.GUI
@@ -75,8 +76,14 @@ namespace Villeon.GUI
             Stats.GetInstance().DefenseLevel = statsJson.DefenseLevel;
             Stats.GetInstance().Progress = statsJson.Progress;
             Stats.GetInstance().UnlockProgress = statsJson.UnlockProgress.ToObject<List<int>>();
-            Stats.GetInstance().ItemDamage = statsJson.ItemDamage;
-            Stats.GetInstance().ItemDefense = statsJson.ItemDefense;
+
+            // Set equipped weapons
+            Item sword = ItemLoader.GetItem(statsJson.ItemDamageName.ToObject<string>());
+            Item shield = ItemLoader.GetItem(statsJson.ItemDefenseName.ToObject<string>());
+            Stats.GetInstance().SetAttackItem(sword);
+            Stats.GetInstance().SetDefenseItem(shield);
+            EquipmentMenu.GetInstance().AddAttackWeapon(sword);
+            EquipmentMenu.GetInstance().AddDefenseWeapon(shield);
 
             // Fill inventory with items
             int potionInvIndexStart = Constants.INVENTORY_SLOTS;

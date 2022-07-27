@@ -95,6 +95,9 @@ namespace Villeon.GUI
                     // Reset hotbar slot
                     _hotbarSlots[i] = new InventorySlot(_hotbarSlots[i].Transform);
                     _inventoryReferences[i] = null;
+
+                    // Remove item from equipment view
+                    EquipmentMenu.GetInstance().RemoveItemInHotbar(i);
                 }
             }
         }

@@ -60,11 +60,13 @@ namespace Villeon.Systems.Update
                         if (selectedItem.Damage == 0)
                         {
                             // Its a shield!
-                            Stats.GetInstance().ItemDefense = selectedItem.Defense;
+                            Stats.GetInstance().SetDefenseItem(selectedItem);
 
                             // Spawn Healed icon!
                             IEntity savingIcon = ParticleBuilder.StationaryParticle(new Vector2(-0.95f, -5f), 1, 0.2f, true, "Animations.Equipped.png", Components.SpriteLayer.ScreenGuiOnTopOfForeground);
                             Manager.GetInstance().AddEntity(savingIcon);
+
+                            EquipmentMenu.GetInstance().AddDefenseWeapon(selectedItem);
                         }
 
                         if (selectedItem.Defense == 0)
@@ -74,7 +76,9 @@ namespace Villeon.Systems.Update
                             Manager.GetInstance().AddEntity(savingIcon);
 
                             // Its a weapon!
-                            Stats.GetInstance().ItemDamage = selectedItem.Damage;
+                            Stats.GetInstance().SetAttackItem(selectedItem);
+
+                            EquipmentMenu.GetInstance().AddAttackWeapon(selectedItem);
                         }
                     }
                 }

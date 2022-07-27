@@ -289,7 +289,10 @@ namespace Villeon.GUI
             // Hotbar only avaiable for potion inventory
             Item? selected = GetCurrentlySelectedItem();
             if (selected is not null && _activeInventory == _potionInventory)
+            {
                 Hotbar.GetInstance().AddItem(index, _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X]);
+                EquipmentMenu.GetInstance().AddItemInHotbar(index, _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X].Item!);
+            }
         }
 
         // Handle movement of inventory slotss
