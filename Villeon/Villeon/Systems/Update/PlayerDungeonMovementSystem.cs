@@ -73,7 +73,7 @@ namespace Villeon.Systems.Update
                     physics.Acceleration -= new Vector2(Constants.MOVEMENTSPEED, physics.Acceleration.Y);
                 }
 
-                if (!effect.Effects.ContainsKey("DashCooldown"))
+                if (!effect.Effects.ContainsKey("DashCooldown") && !effect.Effects.ContainsKey("MovemnetDisabled"))
                 {
                     if (KeyHandler.IsPressed(Keys.LeftShift))
                     {
@@ -88,7 +88,7 @@ namespace Villeon.Systems.Update
                 }
 
                 // Jump
-                if (KeyHandler.IsHeld(Keys.Space))
+                if (KeyHandler.IsHeld(Keys.Space) && !effect.Effects.ContainsKey("MovemnetDisabled"))
                 {
                     if (StateManager.IsGrounded)
                     {
