@@ -12,6 +12,8 @@ namespace Villeon.Helper
         // Dungeon
         public static int Border { get; } = 10;
 
+        public static int MAXNPCUNLOCKS { get; } = 3;
+
         // Physics
         public static float GRAVITY { get; } = 40;
 

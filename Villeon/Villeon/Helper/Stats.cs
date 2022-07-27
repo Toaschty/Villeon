@@ -131,7 +131,12 @@ namespace Villeon.Helper
 
         public int IncreaseUnlockProgress(int caveIndex)
         {
-            return _unlockProgress[caveIndex]++;
+            if (_unlockProgress[caveIndex] < Constants.MAXNPCUNLOCKS)
+            {
+                _unlockProgress[caveIndex]++;
+            }
+
+            return _unlockProgress[caveIndex];
         }
 
         // Function for level exp requirements

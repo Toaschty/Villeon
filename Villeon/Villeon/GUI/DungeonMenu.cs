@@ -105,6 +105,7 @@ namespace Villeon.GUI
 
         public IEntity[] GetEntities()
         {
+            UpdateText();
             return _entities.ToArray();
         }
 

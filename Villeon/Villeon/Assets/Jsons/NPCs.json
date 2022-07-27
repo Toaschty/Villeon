@@ -15,7 +15,9 @@
         }
       ],
       "dialog": [
-        "OH hey there."
+        "Hello there!",
+        "Thanks for saving me!",
+        "I will now return to the village. Visit me in the forest north of the portal sometimes!"
       ]
     },
     {
@@ -33,7 +35,9 @@
         }
       ],
       "dialog": [
-        "Hello Mr!"
+        "Hello Sir!",
+        "Thank you for killing this creature and therefore rescueing me.",
+        "I will leave you for now. Visit me at the town hall located in the middle of the village."
       ]
     },
     {
@@ -51,7 +55,9 @@
         }
       ],
       "dialog": [
-        "My hero! Welcome!"
+        "Thank you for saveing me!",
+        "My father is propably worried about me so I will leave you now!",
+        "Visit me in the town hall's garden!"
       ]
     },
     {
@@ -69,7 +75,9 @@
         }
       ],
       "dialog": [
-        "Hey there mate!"
+        "Hey there mate!",
+        "Have my thanks!",
+        "I will return to my fields now. My house is next to the fields on the southern side of the village!"
       ]
     },
     {
@@ -87,7 +95,10 @@
         }
       ],
       "dialog": [
-        "Hey there!"
+        "Hey there!",
+        "Thank god you saved me from these creatures!",
+        "I am still a little bit in shock but I will leave you for now!",
+        "I live next to the fields on the nothern side of the village. Come by and visit me!"
       ]
     },
     {
@@ -105,7 +116,10 @@
         }
       ],
       "dialog": [
-        "Hello warrior!"
+        "Hello warrior!",
+        "That was quite a fight!",
+        "I am really exhausted... I will return to the village.",
+        "Come visit me at sometime. You can find me on a bench south of the smith!"
       ]
     },
     {
@@ -123,7 +137,10 @@
         }
       ],
       "dialog": [
-        "Hello my dear. I am Agama."
+        "Hello my dear!",
+        "Thanks for saveing me and my baby!",
+        "I was so afraid that I would never see the sun again.",
+        "I will go back to the village now! Visit me at the house south west of the village!"
       ]
     },
     {
@@ -141,7 +158,10 @@
         }
       ],
       "dialog": [
-        "What do you want?"
+        "...",
+        "Hello...",
+        "...",
+        "I will go now... I have nothing to say to you."
       ]
     },
     {
@@ -159,7 +179,10 @@
         }
       ],
       "dialog": [
-        "Greetings!"
+        "Greetings!",
+        "Thank you son for saveing me!",
+        "I am too old for beeing kidnapped... Everything hurts...",
+        "I will recover on a bench south of the portal - Come visit me there!"
       ]
     },
     {
@@ -177,7 +200,10 @@
         }
       ],
       "dialog": [
-        "Oh hello again!"
+        "Oh hello!",
+        "Thanks for saveing me!",
+        "I run the shop in the village so come by and visit me!",
+        "You can buy all kinds of useful items there!"
       ]
     },
     {
@@ -195,7 +221,11 @@
         }
       ],
       "dialog": [
-        "Hello fella."
+        "...",
+        "Hello fella...",
+        "...",
+        "I don't want to talk now! Thanks though!",
+        "I will now leave... I think I will go to the shop now - I need something to drink..."
       ]
     },
     {
@@ -213,8 +243,10 @@
         }
       ],
       "dialog": [
-        "~ Plunged in night, I sit alone ~",
-        "Yo."
+        "~ Here is stand, before my eyes ~",
+        "~ A nobody then, my hero arise ~",
+        "...",
+        "Oh... May I excuse me now - I will return to the village. Meet me in the shop!"
       ]
     }
   ],

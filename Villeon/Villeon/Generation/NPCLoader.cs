@@ -100,6 +100,11 @@ namespace Villeon.Generation
 
             // Use this to find the right npc
             int unlockProgress = Stats.GetInstance().GetUnlockProgress(caveIndex);
+
+            // Do not spawn a NPC if all NPCs were rescued
+            if (unlockProgress >= 3)
+                return;
+
             string npcName = npcUnlocks[caveIndex].unlocks[unlockProgress].npc;
 
             // Spawn the NPC
