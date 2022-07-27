@@ -49,7 +49,7 @@ namespace Villeon.Generation
                     dynamic npc = GetNPC(sceneName, npcName);
 
                     // Load npc data and spawn npc
-                    LoadNPC(sceneName, npc, true);
+                    LoadNPCData(sceneName, npc, true);
 
                     _spawnedNPCs.Add(npcName);
                 }
@@ -68,7 +68,7 @@ namespace Villeon.Generation
             int npcCount = scene.Count;
             for (int i = 0; i < npcCount; i++)
             {
-                LoadNPC(sceneName, scene[i], false);
+                LoadNPCData(sceneName, scene[i], false);
             }
         }
 
@@ -104,7 +104,7 @@ namespace Villeon.Generation
 
             // Spawn the NPC
             dynamic npcJson = GetNPC(sceneName, npcName);
-            LoadNPC(sceneName, npcJson, false);
+            LoadNPCData(sceneName, npcJson, false);
         }
 
         public static void UpdateNPCs()
@@ -172,33 +172,6 @@ namespace Villeon.Generation
             }
 
             SpawnNPC(sceneName, npcName, texturePath, textureScale, x, y, optionArray, dialog);
-        }
-
-        private static dynamic GetNPC(string sceneName, string npcName)
-        {
-            // Load the JSON
-            JObject npcs = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.NPCs.json"))!;
-
-            dynamic scene = npcs.SelectToken(sceneName) !;
-
-            // Find npc with name
-            int npcCount = scene.Count;
-            for (int i = 0; i < npcCount; i++)
-            {
-                if (scene[i].name == npcName)
-                {
-                    // Return found npc
-                    return scene[i];
-                }
-            }
-
-            // Not found -> Return first npc
-            return scene[0];
-        }
-
-        private static void UpdateNPCs()
-        {
-            SpawnUnlockableNPCs();
         }
     }
 }
