@@ -51,8 +51,11 @@ namespace Villeon.Systems.Update
                 // Check if player is grounded
                 StateManager.IsGrounded = dynamicCollider.HasCollidedBottom;
 
+                if (effect.Effects.ContainsKey("MovemnetDisabled"))
+                    continue;
+
                 // Player is Walking Right
-                if (KeyHandler.IsHeld(Keys.D) && !effect.Effects.ContainsKey("MovemnetDisabled"))
+                if (KeyHandler.IsHeld(Keys.D))
                 {
                     playerComponent.IsWalking = true;
                     playerComponent.MovingRight = true;
@@ -63,7 +66,7 @@ namespace Villeon.Systems.Update
                 }
 
                 // Player is Walking Left
-                if (KeyHandler.IsHeld(Keys.A) && !effect.Effects.ContainsKey("MovemnetDisabled"))
+                if (KeyHandler.IsHeld(Keys.A))
                 {
                     playerComponent.IsWalking = true;
                     playerComponent.MovingLeft = true;
@@ -73,7 +76,7 @@ namespace Villeon.Systems.Update
                     physics.Acceleration -= new Vector2(Constants.MOVEMENTSPEED, physics.Acceleration.Y);
                 }
 
-                if (!effect.Effects.ContainsKey("DashCooldown") && !effect.Effects.ContainsKey("MovemnetDisabled"))
+                if (!effect.Effects.ContainsKey("DashCooldown"))
                 {
                     if (KeyHandler.IsPressed(Keys.LeftShift))
                     {
@@ -88,7 +91,7 @@ namespace Villeon.Systems.Update
                 }
 
                 // Jump
-                if (KeyHandler.IsHeld(Keys.Space) && !effect.Effects.ContainsKey("MovemnetDisabled"))
+                if (KeyHandler.IsHeld(Keys.Space))
                 {
                     if (StateManager.IsGrounded)
                     {
