@@ -75,7 +75,7 @@ namespace Villeon.Generation
             return particles;
         }
 
-        public static IEntity StationaryParticle(Vector2 startingPosition, float timeToLive, float scale, bool isFading, string spritePath, float frameTime)
+        public static IEntity AnimatedStationaryParticle(Vector2 startingPosition, float timeToLive, float scale, bool isFading, string spritePath, float frameTime, SpriteLayer spriteLayer)
         {
             IEntity particleEntity = new Entity(new Transform(startingPosition, scale, 0.0f), "AnimatedParticle");
 
@@ -83,12 +83,26 @@ namespace Villeon.Generation
             particle.IsFading = isFading;
             particleEntity.AddComponent(particle);
 
-            Sprite sprite = Asset.GetSprite("Sprites.Empty.png", SpriteLayer.Middleground, true);
+            Sprite sprite = Asset.GetSprite("Sprites.Empty.png", spriteLayer, true);
             particleEntity.AddComponent(sprite);
 
             AnimationController animController = new AnimationController();
             animController.AddAnimation(AnimationLoader.CreateAnimationFromFile(spritePath, frameTime));
             particleEntity.AddComponent(animController);
+
+            return particleEntity;
+        }
+
+        public static IEntity StationaryParticle(Vector2 startingPosition, float timeToLive, float scale, bool isFading, string spritePath, SpriteLayer spriteLayer)
+        {
+            IEntity particleEntity = new Entity(new Transform(startingPosition, scale, 0.0f), "AnimatedParticle");
+
+            Particle particle = new Particle(timeToLive);
+            particle.IsFading = isFading;
+            particleEntity.AddComponent(particle);
+
+            Sprite sprite = Asset.GetSprite(spritePath, spriteLayer, true);
+            particleEntity.AddComponent(sprite);
 
             return particleEntity;
         }

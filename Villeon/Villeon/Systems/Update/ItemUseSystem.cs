@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
+using Villeon.Generation;
 using Villeon.GUI;
 using Villeon.Helper;
 
@@ -41,9 +46,36 @@ namespace Villeon.Systems.Update
                         else
                             playerHealth.CurrentHealth = playerHealth.MaxHealth;
 
+                        // Spawn Healed icon!
+                        IEntity savingIcon = ParticleBuilder.StationaryParticle(new Vector2(-0.95f, -5f), 1, 0.2f, true, "Animations.Healed.png", Components.SpriteLayer.ScreenGuiOnTopOfForeground);
+                        Manager.GetInstance().AddEntity(savingIcon);
+
                         // Handle inventory & hotbar
                         InventoryMenu.GetInstance().UseItemAtCurrentPosition();
                         Hotbar.GetInstance().UpdateItems();
+                    }
+
+                    if (selectedItem.ItemType == Item.ITEM_TYPE.WEAPON)
+                    {
+                        if (selectedItem.Damage == 0)
+                        {
+                            // Its a shield!
+                            Stats.GetInstance().ItemDefense = selectedItem.Defense;
+
+                            // Spawn Healed icon!
+                            IEntity savingIcon = ParticleBuilder.StationaryParticle(new Vector2(-0.95f, -5f), 1, 0.2f, true, "Animations.Equipped.png", Components.SpriteLayer.ScreenGuiOnTopOfForeground);
+                            Manager.GetInstance().AddEntity(savingIcon);
+                        }
+
+                        if (selectedItem.Defense == 0)
+                        {
+                            // Spawn Healed icon!
+                            IEntity savingIcon = ParticleBuilder.StationaryParticle(new Vector2(-0.95f, -5f), 1, 0.2f, true, "Animations.Equipped.png", Components.SpriteLayer.ScreenGuiOnTopOfForeground);
+                            Manager.GetInstance().AddEntity(savingIcon);
+
+                            // Its a weapon!
+                            Stats.GetInstance().ItemDamage = selectedItem.Damage;
+                        }
                     }
                 }
             }

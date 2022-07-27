@@ -20,6 +20,8 @@ namespace Villeon.Helper
         private int _healthLevel = 1;
         private int _attackLevel = 1;
         private int _defenseLevel = 1;
+        private int _itemAttack = 10;
+        private int _itemDefense = 10;
 
         // Progress
         private int _progress = 0;
@@ -79,6 +81,18 @@ namespace Villeon.Helper
             set { _unlockProgress = value; }
         }
 
+        public int ItemDamage
+        {
+            get => _itemAttack;
+            set => _itemAttack = value;
+        }
+
+        public int ItemDefense
+        {
+            get => _itemDefense;
+            set => _itemDefense = value;
+        }
+
         public static Stats GetInstance()
         {
             if (_instance == null)
@@ -114,13 +128,13 @@ namespace Villeon.Helper
 
         public int GetAttack()
         {
-            int attack = (int)(StatFunction() * 10);
+            int attack = (int)(StatFunction() * _itemAttack);
             return attack + (int)(attack * 0.5 * _level);
         }
 
         public int GetDefense()
         {
-            int defense = (int)(StatFunction() * 10);
+            int defense = (int)(StatFunction() * _itemDefense);
             return defense + (int)(defense * 1.2f * _level);
         }
 

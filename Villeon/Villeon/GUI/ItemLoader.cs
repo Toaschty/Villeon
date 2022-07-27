@@ -37,8 +37,16 @@ namespace Villeon.GUI
             Sprite sprite = Asset.GetSprite("GUI.Items." + spriteName, SpriteLayer.ScreenGuiMiddleground, true);
             int stackSize = itemJson.stackSize;
             Item.ITEM_TYPE type = itemJson.itemType;
+            Item item = new Item(name!, sprite, stackSize, type);
 
-            return new Item(name!, sprite, stackSize, type);
+            // Get dmg and defense values
+            if (type == Item.ITEM_TYPE.WEAPON)
+            {
+                item.Damage = itemJson.damage;
+                item.Defense = itemJson.defense;
+            }
+
+            return item;
         }
 
         public static int GetHealthEffect(string potionName)
