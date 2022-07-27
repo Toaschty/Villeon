@@ -65,12 +65,11 @@ namespace Villeon.GUI
             if (_inventoryReferences![index] == null)
                 return;
 
-            // Decrease item reference by one
-            _inventoryReferences[index]!.DecreaseStack();
-
-            // If stack is now empty -> Remove item from hotbar. Else add reduced item to hotbar again
+            // If stack is empty -> Remove item from hotbar. Else decrease item reference by one
             if (_inventoryReferences[index]!.IsStackEmpty())
                 RemoveItem(_inventoryReferences[index]!);
+            else
+                _inventoryReferences[index]!.DecreaseStack();
 
             UpdateItems();
 

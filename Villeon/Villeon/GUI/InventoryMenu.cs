@@ -124,7 +124,7 @@ namespace Villeon.GUI
             if (key == Keys.G)
                 AddItem(ItemLoader.GetItem("HealthPotionSmall"));
             if (key == Keys.B)
-                AddItem(ItemLoader.GetItem("Sword"));
+                AddItem(ItemLoader.GetItem("RawGold"));
 
             if (_onSlots)
                 HandleInventorySlot(key);
@@ -191,10 +191,13 @@ namespace Villeon.GUI
         // Reload all inventory entities
         public void ReloadItemEntities()
         {
-            // Add all inventory entities
+            // Remove all inventory entities
+            Manager.GetInstance().RemoveEntities(_itemEntities);
             _itemEntities.Clear();
 
+            // Add all inventory entities
             _itemEntities.AddRange(GetAllItemEntities());
+            Manager.GetInstance().RemoveEntities(_itemEntities);
         }
 
         public void UseItemAtCurrentPosition()
@@ -207,12 +210,11 @@ namespace Villeon.GUI
                 // Get current slot
                 InventorySlot slot = GetSlotAtCurrentPosition();
 
-                // Decrease Item count by one
-                slot.DecreaseStack();
-
-                // If last item was used -> Reset item
+                // If last the item was used -> Reset item; Else decrease item stack
                 if (slot.IsStackEmpty())
                     slot.Item = null;
+                else
+                    slot.DecreaseStack();
 
                 // Reload item entities
                 slot.ReloadEntities();
@@ -301,13 +303,15 @@ namespace Villeon.GUI
 
                     if (currentSlot.HasItem())
                     {
-                        currentSlot.DecreaseStack();
-
                         // Remove Item
                         if (currentSlot.IsStackEmpty())
                         {
                             Manager.GetInstance().RemoveEntities(currentSlot.ItemEntites);
                             currentSlot.Item = null;
+                        }
+                        else
+                        {
+                            currentSlot.DecreaseStack();
                         }
 
                         ReloadItemEntities();
@@ -567,7 +571,7 @@ namespace Villeon.GUI
             else
                 _inventorySlotIndicators.Add(_tabBar[_playerTabbarPosition]);
 
-            // Only show the item text if user is inside the slots
+            // Display the name of the name currently selected
             if (_onSlots)
                 _inventorySlotIndicators.AddRange(GetTextItemNameEntities());
 
