@@ -51,6 +51,8 @@ namespace Villeon.GUI
         private InventorySlot[,] _potionInventory;
         private InventorySlot[,] _materialInventory;
 
+        private List<IEntity> _itemTextNameEntities = new List<IEntity>();
+
         private InventoryMenu()
         {
             _slotSize = InventorySlot.SlotSize * _slotScalingFactor;
@@ -122,7 +124,7 @@ namespace Villeon.GUI
         {
             // DEBUG --
             if (key == Keys.G)
-                AddItem(ItemLoader.GetItem("HellSword"));
+                AddItem(ItemLoader.GetItem("HealthPotionSmall"));
             if (key == Keys.B)
                 AddItem(ItemLoader.GetItem("PlantShield"));
 
@@ -212,7 +214,10 @@ namespace Villeon.GUI
 
                 // If last the item was used -> Reset item; Else decrease item stack
                 if (slot.IsStackEmpty())
+                {
                     slot.Item = null;
+                    RemoveItemNameEntities();
+                }
                 else
                     slot.DecreaseStack();
 
@@ -363,7 +368,6 @@ namespace Villeon.GUI
                     // Swapping Items
                     if (_firstMovingPoint is null)
                     {
-                        // Swapping is not allowed in the all inventory
                         // First selected item shouldn't be null
                         if (GetItemAtCurrentPosition() is not null)
                         {
@@ -555,6 +559,7 @@ namespace Villeon.GUI
             // Add all inventory entities
             _itemEntities.Clear();
             _itemEntities.AddRange(GetAllItemEntities());
+
             Manager.GetInstance().AddEntities(_itemEntities);
         }
 
@@ -576,7 +581,7 @@ namespace Villeon.GUI
 
             // Display the name of the name currently selected
             if (_onSlots)
-                _inventorySlotIndicators.AddRange(GetTextItemNameEntities());
+                _inventorySlotIndicators.AddRange(FillItemText());
 
             // Display the Swap indicator
             if (_swapIndicatorPosition != null)
@@ -585,12 +590,12 @@ namespace Villeon.GUI
             Manager.GetInstance().AddEntities(_inventorySlotIndicators);
         }
 
-        private List<IEntity> GetTextItemNameEntities()
+        private List<IEntity> FillItemText()
         {
-            List<IEntity> entities = new List<IEntity>();
+            _itemTextNameEntities.Clear();
 
             if (GetCurrentlySelectedItem() is null)
-                return entities;
+                return _itemTextNameEntities;
 
             InventorySlot currentSlot = _activeInventory[_playerInventoryPosition.Y, _playerInventoryPosition.X];
             Vector2 slotPos = currentSlot.Transform.Position;
@@ -609,13 +614,23 @@ namespace Villeon.GUI
             Sprite popupSprite = Assets.Asset.GetSprite("GUI.Popup.png", SpriteLayer.ScreenGuiForeground, true);
             IEntity textBackground = new Entity(new Transform(new Vector2(newPos.X - 0.13f, newPos.Y - 0.06f), new Vector2((textWidth / popupSprite.Width) + 0.02f, (textHeight / popupSprite.Height) + 0.1f), 0), "ItemTextBackground");
             textBackground.AddComponent(popupSprite);
-            entities.Add(textBackground);
+            _itemTextNameEntities.Add(textBackground);
 
             itemNameText = new Text(currentSlot.Item!.Name, newPos, "Alagard", SpriteLayer.ScreenGuiOnTopOfForeground, 0.2f, 1f, 0.2f);
 
-            entities.AddRange(itemNameText.Letters);
+            _itemTextNameEntities.AddRange(itemNameText.Letters);
 
-            return entities;
+            return _itemTextNameEntities;
+        }
+
+        private void RemoveItemNameEntities()
+        {
+            Manager.GetInstance().RemoveEntities(_itemTextNameEntities);
+
+            foreach (IEntity entity in _itemTextNameEntities)
+                _inventorySlotIndicators.Remove(entity);
+
+            _itemTextNameEntities.Clear();
         }
 
         // Handle the swapping of items
