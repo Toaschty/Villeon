@@ -8,10 +8,11 @@ namespace Villeon.Components
 {
     public class Boss : IComponent
     {
-        public Boss()
+        public Boss(int caveIndex)
         {
+            CaveIndex = caveIndex;
         }
 
-        public bool IsDead { get; private set; } = false;
+        public int CaveIndex { get; set; }
     }
 }

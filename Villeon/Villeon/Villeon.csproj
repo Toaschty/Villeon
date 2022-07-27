@@ -19,6 +19,7 @@
     <None Remove="Assets\Fonts\Alagard_Thin.json" />
     <None Remove="Assets\Fonts\VilleonFont.aseprite" />
     <None Remove="Assets\GUI\DungeonMenu.json" />
+    <None Remove="Assets\Jsons\Bosses.json" />
     <None Remove="Assets\Jsons\Enemies.json" />
     <None Remove="Assets\Jsons\items.json" />
     <None Remove="Assets\Jsons\NPCs.json" />

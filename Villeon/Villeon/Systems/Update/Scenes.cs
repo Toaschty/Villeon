@@ -333,7 +333,13 @@ namespace Villeon.Systems.Update
                 PlayerHealthbarSystem.Init();
 
                 // Spawn the Boss monster
-                EnemySpawner.SpawnBoss("BossScene", "boss_cat_blob", new Vector2(30, 6));
+                switch (DungeonMenu.Selection)
+                {
+                    case 0: EnemySpawner.SpawnBoss("BossScene", "catBlob", new Vector2(30, 6)); break;
+                    case 1: EnemySpawner.SpawnBoss("BossScene", "john", new Vector2(30, 6)); break;
+                    case 2: EnemySpawner.SpawnBoss("BossScene", "nut", new Vector2(30, 6)); break;
+                    case 3: EnemySpawner.SpawnBoss("BossScene", "fox", new Vector2(30, 6)); break;
+                }
 
                 SetTileMap(BossScene, bossTilemap, true);
                 return true;

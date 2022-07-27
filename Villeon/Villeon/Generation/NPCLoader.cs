@@ -23,7 +23,7 @@ namespace Villeon.Generation
         public static void SpawnUnlockableNPCs()
         {
             // Load the NPC Unlock JSON
-            dynamic npcUnlocks = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.NPCUnlocks.json"))!;
+            dynamic npcUnlocks = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.NPCUnlocks.json")) !;
 
             // Get cave count
             int caveCount = npcUnlocks.Count;
@@ -49,7 +49,7 @@ namespace Villeon.Generation
                     dynamic npc = GetNPC(sceneName, npcName);
 
                     // Load npc data and spawn npc
-                    LoadNPCData(sceneName, npc, true);
+                    LoadNPC(sceneName, npc, true);
 
                     _spawnedNPCs.Add(npcName);
                 }
@@ -68,11 +68,67 @@ namespace Villeon.Generation
             int npcCount = scene.Count;
             for (int i = 0; i < npcCount; i++)
             {
-                LoadNPCData(sceneName, scene[i], false);
+                LoadNPC(sceneName, scene[i], false);
             }
         }
 
-        public static void LoadNPCData(string sceneName, dynamic npc, bool spawnUnlockableNPC)
+        public static dynamic GetNPC(string sceneName, string npcName)
+        {
+            // Load the JSON
+            JObject npcs = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.NPCs.json")) !;
+
+            dynamic scene = npcs.SelectToken(sceneName) !;
+
+            // Find npc with name
+            int npcCount = scene.Count;
+            for (int i = 0; i < npcCount; i++)
+            {
+                if (scene[i].name == npcName)
+                {
+                    // Return found npc
+                    return scene[i];
+                }
+            }
+
+            // Not found -> Return first npc
+            return scene[0];
+        }
+
+        public static void SpawnRescuedNPC(string sceneName, int caveIndex)
+        {
+            dynamic npcUnlocks = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.NPCUnlocks.json")) !;
+
+            // Use this to find the right npc
+            int unlockProgress = Stats.GetInstance().GetUnlockProgress(caveIndex);
+            string npcName = npcUnlocks[caveIndex].unlocks[unlockProgress].npc;
+
+            // Spawn the NPC
+            dynamic npcJson = GetNPC(sceneName, npcName);
+            LoadNPC(sceneName, npcJson, false);
+        }
+
+        public static void UpdateNPCs()
+        {
+            SpawnUnlockableNPCs();
+        }
+
+        private static void SpawnNPC(string sceneName, string npcName, string texturepath, float textureScale, float x, float y, Option[] options, string[] dialogPages)
+        {
+            // Create the Entity
+            Transform transform = new Transform(new Vector2(x, y), textureScale, 0.0f);
+            IEntity entity = new Entity(transform, npcName);
+            entity.AddComponent(new NPC(npcName, sceneName));
+            entity.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-0.4f, -0.4f), 1.4f, 1.8f));
+            entity.AddComponent(new Collider(Vector2.Zero, transform.Position, 0.6f, 1f));
+            entity.AddComponent(new Interactable(options));
+            entity.AddComponent(new Dialog(dialogPages));
+            entity.AddComponent(Assets.Asset.GetSprite(texturepath, SpriteLayer.Middleground, true));
+
+            // Spawn it via the manager
+            Manager.GetInstance().AddEntityToScene(entity, sceneName);
+        }
+
+        private static void LoadNPCData(string sceneName, dynamic npc, bool spawnUnlockableNPC)
         {
             // Spawn all visible npc who are not unlockable (default npcs)
             if (npc.visible == false && spawnUnlockableNPC == false)
@@ -86,7 +142,7 @@ namespace Villeon.Generation
 
             // Get the Dialog Array
             JArray dialogArray = npc.dialog;
-            string[] dialog = dialogArray.Values<string>().ToArray()!;
+            string[] dialog = dialogArray.Values<string>().ToArray() !;
 
             // Get the Option Array
             JArray optionJArray = npc.options;
@@ -94,17 +150,17 @@ namespace Villeon.Generation
             int optionIndex = 0;
             foreach (var option in optionJArray)
             {
-                string optionType = option.SelectToken("type")!.Value<string>()!;
-                string optionString = option.SelectToken("option")!.Value<string>()!;
-                string keyString = option.SelectToken("key")!.Value<string>()!;
+                string optionType = option.SelectToken("type") !.Value<string>() !;
+                string optionString = option.SelectToken("option") !.Value<string>() !;
+                string keyString = option.SelectToken("key") !.Value<string>() !;
                 Keys key = (Keys)Enum.Parse(typeof(Keys), keyString, true);
 
                 if (optionType == "trade")
                 {
-                    string neededItem = option.SelectToken("neededItem")!.Value<string>()!;
-                    int neededItemAmount = option.SelectToken("neededItemAmount")!.Value<int>()!;
-                    string buyItem = option.SelectToken("buyItem")!.Value<string>()!;
-                    int buyItemAmount = option.SelectToken("buyItemAmount")!.Value<int>()!;
+                    string neededItem = option.SelectToken("neededItem") !.Value<string>() !;
+                    int neededItemAmount = option.SelectToken("neededItemAmount") !.Value<int>() !;
+                    string buyItem = option.SelectToken("buyItem") !.Value<string>() !;
+                    int buyItemAmount = option.SelectToken("buyItemAmount") !.Value<int>() !;
                     optionArray[optionIndex] = new Option(optionString, "trade", key, neededItem, neededItemAmount, buyItem, buyItemAmount);
                 }
                 else
@@ -118,7 +174,7 @@ namespace Villeon.Generation
             SpawnNPC(sceneName, npcName, texturePath, textureScale, x, y, optionArray, dialog);
         }
 
-        public static dynamic GetNPC(string sceneName, string npcName)
+        private static dynamic GetNPC(string sceneName, string npcName)
         {
             // Load the JSON
             JObject npcs = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.NPCs.json"))!;
@@ -140,22 +196,9 @@ namespace Villeon.Generation
             return scene[0];
         }
 
-        public static void UpdateNPCs() => SpawnUnlockableNPCs();
-
-        private static void SpawnNPC(string sceneName, string npcName, string texturepath, float textureScale, float x, float y, Option[] options, string[] dialogPages)
+        private static void UpdateNPCs()
         {
-            // Create the Entity
-            Transform transform = new Transform(new Vector2(x, y), textureScale, 0.0f);
-            IEntity entity = new Entity(transform, npcName);
-            entity.AddComponent(new NPC(npcName, sceneName));
-            entity.AddComponent(new Trigger(TriggerLayerType.FRIEND, new Vector2(-0.4f, -0.4f), 1.4f, 1.8f));
-            entity.AddComponent(new Collider(Vector2.Zero, transform.Position, 0.6f, 1f));
-            entity.AddComponent(new Interactable(options));
-            entity.AddComponent(new Dialog(dialogPages));
-            entity.AddComponent(Assets.Asset.GetSprite(texturepath, SpriteLayer.Middleground, true));
-
-            // Spawn it via the manager
-            Manager.GetInstance().AddEntityToScene(entity, sceneName);
+            SpawnUnlockableNPCs();
         }
     }
 }

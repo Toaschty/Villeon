@@ -59,6 +59,7 @@ namespace Villeon.Systems.TriggerSystems
                             DynamicCollider playerCollider = collisionPair.Item2.GetComponent<DynamicCollider>();
                             playerTransform.Position = portal.PositionToTeleport;
                             playerCollider.LastPosition = portal.PositionToTeleport;
+                            StateManager.HasTeleported = true;
                             SceneLoader.SetActiveScene(portal.SceneToLoad);
                         }
                     }
