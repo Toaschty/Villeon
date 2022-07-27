@@ -149,6 +149,42 @@
     "defense": 50,
     "stackSize": 1,
     "sprite": "Weapons.PlantShield.png"
-  }
+  },
+    {
+    "name": "ScissorBlade",
+    "index": 20,
+    "itemType": "Weapon",
+    "damage": 100,
+    "defense": 0,
+    "stackSize": 1,
+    "sprite": "Weapons.ScissorBlade.png"
+  },
+  {
+    "name": "PlankShield",
+    "index": 21,
+    "itemType": "Weapon",
+    "damage": 0,
+    "defense": 15,
+    "stackSize": 1,
+    "sprite": "Weapons.PlankShield.png"
+  },
+    {
+    "name": "DemonSlayerSword",
+    "index": 22,
+    "itemType": "Weapon",
+    "damage": 200,
+    "defense": 0,
+    "stackSize": 1,
+    "sprite": "Weapons.DemonSlayerSword.png"
+  },
+  {
+    "name": "RisingShield",
+    "index": 23,
+    "itemType": "Weapon",
+    "damage": 0,
+    "defense": 100,
+    "stackSize": 1,
+    "sprite": "Weapons.RisingShield.png"
+  },
 ]
 
