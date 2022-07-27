@@ -68,26 +68,28 @@ namespace Villeon.GUI
             Stats.GetInstance().UnlockProgress = statsJson.UnlockProgress.ToObject<List<int>>();
 
             // Fill inventory with items
-            for (int i = 0; i < 32; i++)
+            int potionInvIndexStart = Constants.INVENTORY_SLOTS;
+            int materialInvIndexStart = 2 * Constants.INVENTORY_SLOTS;
+            for (int i = 0; i < Constants.INVENTORY_SLOTS; i++)
             {
                 // Fill weapon slot
                 if (inventoryJson[i].Item != null)
                 {
                     InventoryMenu.GetInstance().WeaponInventory[i / 8, i % 8].SetItem(ItemLoader.GetItem((string)inventoryJson[i].Item), (int)inventoryJson[i].Count);
-                    InventoryMenu.GetInstance().MaterialInventory[i / 8, i % 8].ReloadEntities();
+                    InventoryMenu.GetInstance().WeaponInventory[i / 8, i % 8].ReloadEntities();
                 }
 
                 // Fill potion slot
-                if (inventoryJson[i + 32].Item != null)
+                if (inventoryJson[i + potionInvIndexStart].Item != null)
                 {
-                    InventoryMenu.GetInstance().PotionInventory[i / 8, i % 8].SetItem(ItemLoader.GetItem((string)inventoryJson[i + 32].Item), (int)inventoryJson[i + 32].Count);
+                    InventoryMenu.GetInstance().PotionInventory[i / 8, i % 8].SetItem(ItemLoader.GetItem((string)inventoryJson[i + potionInvIndexStart].Item), (int)inventoryJson[i + potionInvIndexStart].Count);
                     InventoryMenu.GetInstance().PotionInventory[i / 8, i % 8].ReloadEntities();
                 }
 
                 // Fill material slot
-                if (inventoryJson[i + 64].Item != null)
+                if (inventoryJson[i + materialInvIndexStart].Item != null)
                 {
-                    InventoryMenu.GetInstance().MaterialInventory[i / 8, i % 8].SetItem(ItemLoader.GetItem((string)inventoryJson[i + 64].Item), (int)inventoryJson[i + 64].Count);
+                    InventoryMenu.GetInstance().MaterialInventory[i / 8, i % 8].SetItem(ItemLoader.GetItem((string)inventoryJson[i + materialInvIndexStart].Item), (int)inventoryJson[i + materialInvIndexStart].Count);
                     InventoryMenu.GetInstance().MaterialInventory[i / 8, i % 8].ReloadEntities();
                 }
             }

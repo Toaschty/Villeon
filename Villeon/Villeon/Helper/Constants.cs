@@ -59,5 +59,8 @@ namespace Villeon.Helper
 
         // Player
         public static int PLAYER_MAX_HEALTH { get; } = 200;
+
+        // Inventory
+        public static int INVENTORY_SLOTS { get; } = 40;
     }
 }
