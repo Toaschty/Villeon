@@ -13,6 +13,8 @@ namespace Villeon.Helper
 
         public static bool InDungeon { get; set; } = false;
 
+        public static bool InBoss { get; set; } = false;
+
         // Menu
         public static bool InMenu { get; set; } = false;
 
@@ -38,6 +40,7 @@ namespace Villeon.Helper
             InDungeon = false;
             InTutorial = false;
             InVillage = false;
+            InBoss = false;
 
             // Set active scene
             if (sceneName.Equals("DungeonScene"))
@@ -46,6 +49,8 @@ namespace Villeon.Helper
                 InTutorial = true;
             else if (sceneName.Equals("VillageScene"))
                 InVillage = true;
+            else if (sceneName.Equals("BossScene"))
+                InBoss = true;
         }
 
         public static void ResetMenu()

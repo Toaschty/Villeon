@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.8" tiledversion="1.8.4" name="Village" tilewidth="32" tileheight="32" tilecount="600" columns="30">
-    <image source="TilesetImages.Village.png" trans="8d8d8d" width="960" height="640"/>
+ <image source="TilesetImages.Village.png" trans="8d8d8d" width="960" height="640"/>
  <tile id="229">
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0">
@@ -47,6 +47,20 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0">
     <polygon points="0,0 32,0 32,32 0,32"/>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="266">
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 32,0 32,24 0,24"/>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="267">
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 32,0 32,24 0,24"/>
    </object>
   </objectgroup>
  </tile>

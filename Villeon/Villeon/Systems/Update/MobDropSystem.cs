@@ -59,15 +59,13 @@ namespace Villeon.Systems.Update
         private IEntity CreateDrop(IEntity enemyEntity, Item item)
         {
             // Set the Transform
-            Transform transformCopy = new Transform(enemyEntity.GetComponent<Transform>());
-            transformCopy.Position += new Vector2(0, 1f);
-            transformCopy.Scale = new Vector2(0.25f);
+            Transform transformCopy = new Transform(enemyEntity.GetComponent<Transform>().Position, 0.25f, 0);
 
             // Create Entity
             IEntity drop = new Entity(transformCopy, "[Loot][" + item.Name + "]");
 
             // Add Collider, Trigger, Sprite
-            drop.AddComponent(new DynamicCollider(new Vector2(0), transformCopy, 1f, 1f));
+            drop.AddComponent(new DynamicCollider(new Vector2(0.125f, 0), transformCopy, 0.75f, 0.75f));
             drop.AddComponent(new Trigger(TriggerLayerType.MOBDROP, 1f, 1f));
 
             // Add the itemSprite

@@ -3,10 +3,10 @@
     {
       "name": "Alfred",
       "visible": true,
-      "texturePath": "Sprites.NPC.Alfred.png",
-      "textureScale": 0.25,
+      "texturePath": "Sprites.NPC.Alfred_noshadow.png",
+      "textureScale": 0.35,
       "x": 25,
-      "y": 3.8,
+      "y": 4,
       "options": [
         {
           "type": "talk",
@@ -23,10 +23,10 @@
     {
       "name": "Willy Willsonton",
       "visible": true,
-      "texturePath": "Sprites.NPC.WillyWillsonton.png",
-      "textureScale": 0.25,
+      "texturePath": "Sprites.NPC.WillyWillsonton_noshadow.png",
+      "textureScale": 0.35,
       "x": 25,
-      "y": 3.8,
+      "y": 4,
       "options": [
         {
           "type": "talk",
@@ -43,10 +43,10 @@
     {
       "name": "Kory Willsonton",
       "visible": true,
-      "texturePath": "Sprites.NPC.KoryWillsonton.png",
-      "textureScale": 0.25,
+      "texturePath": "Sprites.NPC.KoryWillsonton_noshadow.png",
+      "textureScale": 0.35,
       "x": 25,
-      "y": 3.8,
+      "y": 4,
       "options": [
         {
           "type": "talk",
@@ -63,10 +63,10 @@
     {
       "name": "Paskel",
       "visible": true,
-      "texturePath": "Sprites.NPC.Paskel.png",
-      "textureScale": 0.25,
+      "texturePath": "Sprites.NPC.Paskel_noshadow.png",
+      "textureScale": 0.35,
       "x": 25,
-      "y": 3.8,
+      "y": 4,
       "options": [
         {
           "type": "talk",
@@ -83,10 +83,10 @@
     {
       "name": "Rohan",
       "visible": true,
-      "texturePath": "Sprites.NPC.Rohan.png",
-      "textureScale": 0.25,
+      "texturePath": "Sprites.NPC.Rohan_noshadow.png",
+      "textureScale": 0.35,
       "x": 25,
-      "y": 3.8,
+      "y": 4,
       "options": [
         {
           "type": "talk",
@@ -104,10 +104,10 @@
     {
       "name": "Breya",
       "visible": true,
-      "texturePath": "Sprites.NPC.Breya.png",
-      "textureScale": 0.25,
+      "texturePath": "Sprites.NPC.Breya_noshadow.png",
+      "textureScale": 0.35,
       "x": 25,
-      "y": 3.8,
+      "y": 4,
       "options": [
         {
           "type": "talk",
@@ -125,10 +125,10 @@
     {
       "name": "Agama",
       "visible": true,
-      "texturePath": "Sprites.NPC.Agama.png",
-      "textureScale": 0.25,
+      "texturePath": "Sprites.NPC.Agama_noshadow.png",
+      "textureScale": 0.35,
       "x": 25,
-      "y": 3.8,
+      "y": 4,
       "options": [
         {
           "type": "talk",
@@ -146,10 +146,10 @@
     {
       "name": "Vale",
       "visible": true,
-      "texturePath": "Sprites.NPC.Vale.png",
-      "textureScale": 0.25,
+      "texturePath": "Sprites.NPC.Vale_noshadow.png",
+      "textureScale": 0.35,
       "x": 25,
-      "y": 3.8,
+      "y": 4,
       "options": [
         {
           "type": "talk",
@@ -167,10 +167,10 @@
     {
       "name": "Igor",
       "visible": true,
-      "texturePath": "Sprites.NPC.Igor.png",
-      "textureScale": 0.25,
+      "texturePath": "Sprites.NPC.Igor_noshadow.png",
+      "textureScale": 0.35,
       "x": 25,
-      "y": 3.8,
+      "y": 4,
       "options": [
         {
           "type": "talk",
@@ -188,10 +188,10 @@
     {
       "name": "Grunilde",
       "visible": true,
-      "texturePath": "Sprites.NPC.Grunilde.png",
-      "textureScale": 0.25,
+      "texturePath": "Sprites.NPC.Grunilde_noshadow.png",
+      "textureScale": 0.35,
       "x": 25,
-      "y": 3.8,
+      "y": 4,
       "options": [
         {
           "type": "talk",
@@ -209,10 +209,10 @@
     {
       "name": "Hartwin",
       "visible": true,
-      "texturePath": "Sprites.NPC.Hartwin.png",
-      "textureScale": 0.25,
+      "texturePath": "Sprites.NPC.Hartwin_noshadow.png",
+      "textureScale": 0.35,
       "x": 25,
-      "y": 3.8,
+      "y": 4,
       "options": [
         {
           "type": "talk",
@@ -231,10 +231,10 @@
     {
       "name": "Jai-Blynn Straus",
       "visible": true,
-      "texturePath": "Sprites.NPC.JaiBlynnStraus.png",
-      "textureScale": 0.25,
+      "texturePath": "Sprites.NPC.JaiBlynnStraus_noshadow.png",
+      "textureScale": 0.35,
       "x": 25,
-      "y": 3.8,
+      "y": 4,
       "options": [
         {
           "type": "talk",

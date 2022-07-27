@@ -23,7 +23,8 @@ namespace Villeon.Systems.Update
 
         public void Update(float time)
         {
-            CheckKeyMenu();
+            if (!StateManager.InDialog)
+                CheckKeyMenu();
 
             if (StateManager.InMenu)
             {
@@ -72,7 +73,7 @@ namespace Villeon.Systems.Update
                 ChangeMenu(_handler.HelpMenu);
 
             // Lock specific menus in specific scenes
-            if (StateManager.InDungeon || StateManager.InTutorial)
+            if (StateManager.InDungeon || StateManager.InTutorial || StateManager.InBoss)
                 return;
 
             // Dungeon Menu
