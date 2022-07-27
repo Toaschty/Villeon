@@ -34,7 +34,7 @@ namespace Villeon.Systems.Update
                 _lastTimeSaved = Time.ElapsedTime;
 
                 // Spawn SaveParticle
-                IEntity savingIcon = ParticleBuilder.StationaryParticle(new Vector2(-0.95f, -5f), 2, 0.2f, true, "Animations.Saving.png", 0.5f, Components.SpriteLayer.ScreenGuiOnTopOfForeground);
+                IEntity savingIcon = ParticleBuilder.AnimatedStationaryParticle(new Vector2(-0.95f, -5f), 2, 0.2f, true, "Animations.Saving.png", 0.5f, Components.SpriteLayer.ScreenGuiOnTopOfForeground);
                 Manager.GetInstance().AddEntity(savingIcon);
             }
         }

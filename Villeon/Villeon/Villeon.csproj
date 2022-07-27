@@ -10,6 +10,8 @@
 	<EmbeddedResource Include="Assets\**\*.*" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\Animations\Equipped.aseprite" />
+    <None Remove="Assets\Animations\Saving.aseprite" />
     <None Remove="Assets\Enemies\Boss\CatBlob.aseprite" />
     <None Remove="Assets\Enemies\Boss\FoxNew.aseprite" />
     <None Remove="Assets\Enemies\Boss\John.aseprite" />

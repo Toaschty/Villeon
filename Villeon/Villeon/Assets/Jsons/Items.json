@@ -34,6 +34,8 @@
     "name": "Sword",
     "index": 4,
     "itemType": "Weapon",
+    "damage": 20,
+    "defense": 0,
     "stackSize": 1,
     "sprite": "Weapons.Sword.png"
   },
@@ -125,6 +127,8 @@
     "name": "HellSword",
     "index": 17,
     "itemType": "Weapon",
+    "damage": 50,
+    "defense": 0,
     "stackSize": 1,
     "sprite": "Weapons.HellSword.png"
   },
@@ -132,6 +136,8 @@
     "name": "Shield",
     "index": 18,
     "itemType": "Weapon",
+    "damage": 0,
+    "defense": 20,
     "stackSize": 1,
     "sprite": "Weapons.Shield.png"
   },
@@ -139,6 +145,8 @@
     "name": "PlantShield",
     "index": 19,
     "itemType": "Weapon",
+    "damage": 0,
+    "defense": 50,
     "stackSize": 1,
     "sprite": "Weapons.PlantShield.png"
   }

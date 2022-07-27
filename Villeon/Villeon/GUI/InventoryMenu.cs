@@ -122,9 +122,9 @@ namespace Villeon.GUI
         {
             // DEBUG --
             if (key == Keys.G)
-                AddItem(ItemLoader.GetItem("HealthPotionSmall"));
+                AddItem(ItemLoader.GetItem("HellSword"));
             if (key == Keys.B)
-                AddItem(ItemLoader.GetItem("RawGold"));
+                AddItem(ItemLoader.GetItem("PlantShield"));
 
             if (_onSlots)
                 HandleInventorySlot(key);

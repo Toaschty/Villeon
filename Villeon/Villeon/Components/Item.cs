@@ -16,6 +16,8 @@ namespace Villeon.Components
         private Sprite _sprite;
         private int _itemStackSize;
         private ITEM_TYPE _itemType;
+        private int _damage = 0;
+        private int _defense = 0;
 
         public Item()
         {
@@ -75,5 +77,9 @@ namespace Villeon.Components
         {
             get { return _itemStackSize; }
         }
+
+        public int Damage { get => _damage; set => _damage = value; }
+
+        public int Defense { get => _defense; set => _defense = value; }
     }
 }
