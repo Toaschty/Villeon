@@ -93,6 +93,11 @@ namespace Villeon.EntityManagement
             return SceneLoader.CurrentScene.RemoveEntity(entity);
         }
 
+        public bool RemoveEntityFromScene(IEntity entity, string sceneName)
+        {
+            return SceneLoader.GetScene(sceneName).RemoveEntity(entity);
+        }
+
         public void RemoveEntities(IEntity[] entities)
         {
             foreach (IEntity entity in entities)

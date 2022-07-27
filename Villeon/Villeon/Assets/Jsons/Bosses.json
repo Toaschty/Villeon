@@ -1,0 +1,126 @@
+﻿{
+  "catBlob": {
+    "health": 100,
+    "damage": 20,
+    "ai": "JumpingAI",
+    "experience": 1500,
+    "animationPath": "Enemies.Boss.",
+    "animations": [
+      "cat_blob_idle.png",
+      "cat_blob_idle.png"
+    ],
+    "animationSpeed": 0.5,
+    "scale": 1.0,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 44,
+    "colliderHeight": 32,
+    "triggerWidth": 44,
+    "triggerHeight": 32,
+    "caveIndex": 0,
+    "drops": [
+      {
+        "itemName": "HealthPotionSmall",
+        "index": 0,
+        "rate": 1.0,
+        "amount": {
+          "min": 5,
+          "max": 15
+        }
+      }
+    ]
+  },
+  "john": {
+    "health": 100,
+    "damage": 200,
+    "ai": "JumpingAI",
+    "experience": 15000,
+    "animationPath": "Enemies.Boss.",
+    "animations": [
+      "john_idle.png",
+      "john_idle.png"
+    ],
+    "animationSpeed": 0.5,
+    "scale": 1.0,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 32,
+    "colliderHeight": 22,
+    "triggerWidth": 32,
+    "triggerHeight": 22,
+    "caveIndex": 1,
+    "drops": [
+      {
+        "itemName": "HealthPotionSmall",
+        "index": 0,
+        "rate": 1.0,
+        "amount": {
+          "min": 5,
+          "max": 15
+        }
+      }
+    ]
+  },
+  "nut": {
+    "health": 100,
+    "damage": 2000,
+    "ai": "JumpingAI",
+    "experience": 15000,
+    "animationPath": "Enemies.Boss.",
+    "animations": [
+      "nut_idle.png",
+      "nut_idle.png"
+    ],
+    "animationSpeed": 0.5,
+    "scale": 1.0,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 43,
+    "colliderHeight": 40,
+    "triggerWidth": 43,
+    "triggerHeight": 40,
+    "caveIndex": 2,
+    "drops": [
+      {
+        "itemName": "HealthPotionSmall",
+        "index": 0,
+        "rate": 1.0,
+        "amount": {
+          "min": 5,
+          "max": 15
+        }
+      }
+    ]
+  },
+  "fox": {
+    "health": 100,
+    "damage": 200,
+    "ai": "JumpingAI",
+    "experience": 15000,
+    "animationPath": "Enemies.Boss.",
+    "animations": [
+      "fox_idle.png",
+      "fox_idle.png"
+    ],
+    "animationSpeed": 0.5,
+    "scale": 1.0,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 58,
+    "colliderHeight": 38,
+    "triggerWidth": 58,
+    "triggerHeight": 38,
+    "caveIndex": 3,
+    "drops": [
+      {
+        "itemName": "HealthPotionSmall",
+        "index": 0,
+        "rate": 1.0,
+        "amount": {
+          "min": 5,
+          "max": 15
+        }
+      }
+    ]
+  }
+}

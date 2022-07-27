@@ -25,6 +25,7 @@ namespace Villeon.EntityManagement
             // Unload hotbar items -> Prevent reference loss
             Hotbar.GetInstance().UnloadHotbar();
 
+            StateManager.PreviousSceneName = CurrentScene.Name;
             CurrentScene = scene;
             CurrentScene.StartUp();
 

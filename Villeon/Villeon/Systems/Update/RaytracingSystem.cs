@@ -184,6 +184,7 @@ namespace Villeon.Systems.Update
 
                     CopyLightmap();
                 }
+
                 _running.IsRunning = false;
             }
 

@@ -1,8 +1,227 @@
 ﻿{
+  "BossScene": [
+    {
+      "name": "Alfred",
+      "visible": true,
+      "texturePath": "Sprites.NPC.Alfred.png",
+      "textureScale": 0.25,
+      "x": 25,
+      "y": 3.8,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "OH hey there."
+      ]
+    },
+    {
+      "name": "Willy Willsonton",
+      "visible": true,
+      "texturePath": "Sprites.NPC.WillyWillsonton.png",
+      "textureScale": 0.25,
+      "x": 25,
+      "y": 3.8,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Hello Mr!"
+      ]
+    },
+    {
+      "name": "Kory Willsonton",
+      "visible": true,
+      "texturePath": "Sprites.NPC.KoryWillsonton.png",
+      "textureScale": 0.25,
+      "x": 25,
+      "y": 3.8,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "My hero! Welcome!"
+      ]
+    },
+    {
+      "name": "Paskel",
+      "visible": true,
+      "texturePath": "Sprites.NPC.Paskel.png",
+      "textureScale": 0.25,
+      "x": 25,
+      "y": 3.8,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Hey there mate!"
+      ]
+    },
+    {
+      "name": "Rohan",
+      "visible": true,
+      "texturePath": "Sprites.NPC.Rohan.png",
+      "textureScale": 0.25,
+      "x": 25,
+      "y": 3.8,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Hey there!"
+      ]
+    },
+    {
+      "name": "Breya",
+      "visible": true,
+      "texturePath": "Sprites.NPC.Breya.png",
+      "textureScale": 0.25,
+      "x": 25,
+      "y": 3.8,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Hello warrior!"
+      ]
+    },
+    {
+      "name": "Agama",
+      "visible": true,
+      "texturePath": "Sprites.NPC.Agama.png",
+      "textureScale": 0.25,
+      "x": 25,
+      "y": 3.8,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Hello my dear. I am Agama."
+      ]
+    },
+    {
+      "name": "Vale",
+      "visible": true,
+      "texturePath": "Sprites.NPC.Vale.png",
+      "textureScale": 0.25,
+      "x": 25,
+      "y": 3.8,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "What do you want?"
+      ]
+    },
+    {
+      "name": "Igor",
+      "visible": true,
+      "texturePath": "Sprites.NPC.Igor.png",
+      "textureScale": 0.25,
+      "x": 25,
+      "y": 3.8,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Greetings!"
+      ]
+    },
+    {
+      "name": "Grunilde",
+      "visible": true,
+      "texturePath": "Sprites.NPC.Grunilde.png",
+      "textureScale": 0.25,
+      "x": 25,
+      "y": 3.8,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Oh hello again!"
+      ]
+    },
+    {
+      "name": "Hartwin",
+      "visible": true,
+      "texturePath": "Sprites.NPC.Hartwin.png",
+      "textureScale": 0.25,
+      "x": 25,
+      "y": 3.8,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "Hello fella."
+      ]
+    },
+    {
+      "name": "Jai-Blynn Straus",
+      "visible": true,
+      "texturePath": "Sprites.NPC.JaiBlynnStraus.png",
+      "textureScale": 0.25,
+      "x": 25,
+      "y": 3.8,
+      "options": [
+        {
+          "type": "talk",
+          "option": "Talk [T]",
+          "key": "T"
+        }
+      ],
+      "dialog": [
+        "~ Plunged in night, I sit alone ~",
+        "Yo."
+      ]
+    }
+  ],
   "TutorialScene": [
     {
       "name": "Ferdinand",
-      "visible":  true,
+      "visible": true,
       "texturePath": "Sprites.NPC.Ferdinand.png",
       "textureScale": 0.15,
       "x": 51,

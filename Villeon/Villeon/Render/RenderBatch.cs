@@ -23,7 +23,7 @@ namespace Villeon.Render
         private HashSet<RenderingData> _renderingData;
         private HashSet<RenderingData> _lights;
         private List<Texture2D> _textures;
-        private int[] _texSlots = { 0, 1, 2, 3, 4, 5, 6, 7};
+        private int[] _texSlots = { 0, 1, 2, 3, 4, 5, 6, 7 };
         private int _spriteCount;
         private bool _isFull;
 

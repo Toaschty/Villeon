@@ -334,10 +334,11 @@ namespace Villeon.Generation
             // Add back portal
             if (gid == 368)
             {
-                // Add the Portal home
+                // Add Boss Portal
                 IEntity portalTrigger = new Entity(new Transform(new Vector2(x, _height - y), 1f, 0f), "Portal Trigger");
                 portalTrigger.AddComponent(new Trigger(TriggerLayerType.PORTAL, 4f, 5f));
                 portalTrigger.AddComponent(new Portal("BossScene", Constants.DUNGEON_SPAWN_POINT));
+                portalTrigger.AddComponent(new Interactable(new Option("Enter Boss Room [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
                 _entities.Add(portalTrigger);
             }
         }
@@ -354,6 +355,7 @@ namespace Villeon.Generation
                     switch (random.Next(0, 4))
                     {
                         case 0: EnemySpawner.SpawnEnemy("DungeonScene", "slime_blue", new Vector2(x, _height - 1 - y)); break;
+
                         //case 1: EnemySpawner.Spawn("DungeonScene", "slime_magenta", new Vector2(x, _height - 1 - y)); break;
                         //case 2: EnemySpawner.Spawn("DungeonScene", "slime_green", new Vector2(x, _height - 1 - y)); break;
                         //case 3: EnemySpawner.Spawn("DungeonScene", "slime_red", new Vector2(x, _height - 1 - y)); break;

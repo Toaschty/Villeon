@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Villeon.Components
 {
-    public class Boss : IComponent
+    public class Event : IComponent
     {
-        public Boss(int caveIndex)
+        public Event(string name)
         {
-            CaveIndex = caveIndex;
+            Name = name;
         }
 
-        public int CaveIndex { get; set; }
+        public string Name { get; private set; }
     }
 }

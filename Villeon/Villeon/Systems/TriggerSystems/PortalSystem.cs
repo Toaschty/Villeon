@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Villeon.Components;
 using Villeon.EntityManagement;
+using Villeon.Helper;
 
 namespace Villeon.Systems.TriggerSystems
 {
@@ -13,9 +14,8 @@ namespace Villeon.Systems.TriggerSystems
         public PortalSystem(string name)
             : base(name)
         {
-            Signature.
-                IncludeAND(typeof(Trigger), typeof(Player)).
-                IncludeAND(typeof(Trigger), typeof(Portal));
+            Signature.IncludeAND(typeof(Trigger), typeof(Player));
+            Signature.IncludeAND(typeof(Trigger), typeof(Interactable), typeof(Portal));
         }
 
         // Add Entity to TriggerLayer & Base
@@ -40,13 +40,29 @@ namespace Villeon.Systems.TriggerSystems
                 // Do action when collision happend
                 foreach (var collisionPair in TriggerLayers[layerKey].Collisions)
                 {
-                    Portal portal = collisionPair.Item1.GetComponent<Portal>();
-                    Transform playerTransform = collisionPair.Item2.GetComponent<Transform>();
-                    DynamicCollider playerCollider = collisionPair.Item2.GetComponent<DynamicCollider>();
-                    playerTransform.Position = portal.PositionToTeleport;
-                    playerCollider.LastPosition = portal.PositionToTeleport;
+                    Interactable interactable = collisionPair.Item1.GetComponent<Interactable>();
+                    Trigger playerTrigger = collisionPair.Item2.GetComponent<Trigger>();
 
-                    SceneLoader.SetActiveScene(portal.SceneToLoad);
+                    // Check each possible option
+                    foreach (Option opt in interactable.Options)
+                    {
+                        // Skip every options which is not Teleport
+                        if (opt.Type != "talk")
+                            continue;
+
+                        // Check if corresponding key is pressed
+                        if (KeyHandler.IsPressed(opt.Key))
+                        {
+                            // Teleport the player to another scene!
+                            Portal portal = collisionPair.Item1.GetComponent<Portal>();
+                            Transform playerTransform = collisionPair.Item2.GetComponent<Transform>();
+                            DynamicCollider playerCollider = collisionPair.Item2.GetComponent<DynamicCollider>();
+                            playerTransform.Position = portal.PositionToTeleport;
+                            playerCollider.LastPosition = portal.PositionToTeleport;
+                            StateManager.HasTeleported = true;
+                            SceneLoader.SetActiveScene(portal.SceneToLoad);
+                        }
+                    }
                 }
             }
         }

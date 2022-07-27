@@ -28,6 +28,10 @@ namespace Villeon.Helper
 
         public static bool InDialog { get; set; } = false;
 
+        public static bool HasTeleported { get; set; } = false;
+
+        public static string PreviousSceneName { get; set; } = "NONE";
+
         public static void SetSceneFlag(string sceneName)
         {
             // Reset all scenes

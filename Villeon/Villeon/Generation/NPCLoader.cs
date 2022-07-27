@@ -23,7 +23,7 @@ namespace Villeon.Generation
         public static void SpawnUnlockableNPCs()
         {
             // Load the NPC Unlock JSON
-            dynamic npcUnlocks = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.NPCUnlocks.json"))!;
+            dynamic npcUnlocks = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.NPCUnlocks.json")) !;
 
             // Get cave count
             int caveCount = npcUnlocks.Count;
@@ -72,6 +72,46 @@ namespace Villeon.Generation
             }
         }
 
+        public static dynamic GetNPC(string sceneName, string npcName)
+        {
+            // Load the JSON
+            JObject npcs = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.NPCs.json")) !;
+
+            dynamic scene = npcs.SelectToken(sceneName) !;
+
+            // Find npc with name
+            int npcCount = scene.Count;
+            for (int i = 0; i < npcCount; i++)
+            {
+                if (scene[i].name == npcName)
+                {
+                    // Return found npc
+                    return scene[i];
+                }
+            }
+
+            // Not found -> Return first npc
+            return scene[0];
+        }
+
+        public static void SpawnRescuedNPC(string sceneName, int caveIndex)
+        {
+            dynamic npcUnlocks = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.NPCUnlocks.json")) !;
+
+            // Use this to find the right npc
+            int unlockProgress = Stats.GetInstance().GetUnlockProgress(caveIndex);
+            string npcName = npcUnlocks[caveIndex].unlocks[unlockProgress].npc;
+
+            // Spawn the NPC
+            dynamic npcJson = GetNPC(sceneName, npcName);
+            LoadNPCData(sceneName, npcJson, false);
+        }
+
+        public static void UpdateNPCs()
+        {
+            SpawnUnlockableNPCs();
+        }
+
         private static void SpawnNPC(string sceneName, string npcName, string texturepath, float textureScale, float x, float y, Option[] options, string[] dialogPages)
         {
             // Create the Entity
@@ -102,7 +142,7 @@ namespace Villeon.Generation
 
             // Get the Dialog Array
             JArray dialogArray = npc.dialog;
-            string[] dialog = dialogArray.Values<string>().ToArray()!;
+            string[] dialog = dialogArray.Values<string>().ToArray() !;
 
             // Get the Option Array
             JArray optionJArray = npc.options;
@@ -110,17 +150,17 @@ namespace Villeon.Generation
             int optionIndex = 0;
             foreach (var option in optionJArray)
             {
-                string optionType = option.SelectToken("type")!.Value<string>()!;
-                string optionString = option.SelectToken("option")!.Value<string>()!;
-                string keyString = option.SelectToken("key")!.Value<string>()!;
+                string optionType = option.SelectToken("type") !.Value<string>() !;
+                string optionString = option.SelectToken("option") !.Value<string>() !;
+                string keyString = option.SelectToken("key") !.Value<string>() !;
                 Keys key = (Keys)Enum.Parse(typeof(Keys), keyString, true);
 
                 if (optionType == "trade")
                 {
-                    string neededItem = option.SelectToken("neededItem")!.Value<string>()!;
-                    int neededItemAmount = option.SelectToken("neededItemAmount")!.Value<int>()!;
-                    string buyItem = option.SelectToken("buyItem")!.Value<string>()!;
-                    int buyItemAmount = option.SelectToken("buyItemAmount")!.Value<int>()!;
+                    string neededItem = option.SelectToken("neededItem") !.Value<string>() !;
+                    int neededItemAmount = option.SelectToken("neededItemAmount") !.Value<int>() !;
+                    string buyItem = option.SelectToken("buyItem") !.Value<string>() !;
+                    int buyItemAmount = option.SelectToken("buyItemAmount") !.Value<int>() !;
                     optionArray[optionIndex] = new Option(optionString, "trade", key, neededItem, neededItemAmount, buyItem, buyItemAmount);
                 }
                 else
@@ -132,33 +172,6 @@ namespace Villeon.Generation
             }
 
             SpawnNPC(sceneName, npcName, texturePath, textureScale, x, y, optionArray, dialog);
-        }
-
-        private static dynamic GetNPC(string sceneName, string npcName)
-        {
-            // Load the JSON
-            JObject npcs = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.NPCs.json"))!;
-
-            dynamic scene = npcs.SelectToken(sceneName) !;
-
-            // Find npc with name
-            int npcCount = scene.Count;
-            for (int i = 0; i < npcCount; i++)
-            {
-                if (scene[i].name == npcName)
-                {
-                    // Return found npc
-                    return scene[i];
-                }
-            }
-
-            // Not found -> Return first npc
-            return scene[0];
-        }
-
-        private static void UpdateNPCs()
-        {
-            SpawnUnlockableNPCs();
         }
     }
 }
