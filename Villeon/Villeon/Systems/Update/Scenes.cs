@@ -122,6 +122,7 @@ namespace Villeon.Systems.Update
             VillageScene.AddSystem(new DialogSystem("DialogSystem"));
             VillageScene.AddSystem(new TradingSystem("TradingSystem"));
             VillageScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
+            VillageScene.AddSystem(new AutoSaveSystem("AutoSave"));
 
             // Particle stuff
             VillageScene.AddSystem(new VillagePlayerParticleSystem("VillagePlayerParticleSystem"));
@@ -150,6 +151,7 @@ namespace Villeon.Systems.Update
             ShopScene.AddSystem(new InteractionSystem("InteractionSystem"));
             ShopScene.AddSystem(new TradingSystem("TradingSystem"));
             ShopScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
+            ShopScene.AddSystem(new AutoSaveSystem("AutoSave"));
 
             // Particle stuff
             ShopScene.AddSystem(new VillagePlayerParticleSystem("VillagePlayerParticleSystem"));
@@ -177,6 +179,7 @@ namespace Villeon.Systems.Update
             SmithScene.AddSystem(new InteractionSystem("InteractionSystem"));
             SmithScene.AddSystem(new TradingSystem("TradingSystem"));
             SmithScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
+            SmithScene.AddSystem(new AutoSaveSystem("AutoSave"));
 
             // Particle stuff
             SmithScene.AddSystem(new VillagePlayerParticleSystem("VillagePlayerParticleSystem"));
@@ -232,6 +235,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
             DungeonScene.AddSystem(new HotbarSystem("HotbarUseSystem"));
             DungeonScene.AddSystem(new RaytracingSystem("RayTracingSystem"));
+            DungeonScene.AddSystem(new AutoSaveSystem("AutoSave"));
             DungeonScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE!
             DungeonScene.AddStartUpFunc(() =>
             {
@@ -306,6 +310,7 @@ namespace Villeon.Systems.Update
             BossScene.AddSystem(new EventSystem("EventSystem"));
             BossScene.AddSystem(new BossCameraSystem("BossCameraSystem"));
             BossScene.AddSystem(new BossSystem("BossSystem"));
+            BossScene.AddSystem(new AutoSaveSystem("AutoSave"));
             BossScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE!
             BossScene.AddStartUpFunc(() =>
             {

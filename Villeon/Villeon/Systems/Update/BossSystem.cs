@@ -9,6 +9,7 @@ using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
 using Villeon.Generation;
+using Villeon.GUI;
 using Villeon.Helper;
 
 namespace Villeon.Systems.Update
@@ -40,6 +41,9 @@ namespace Villeon.Systems.Update
             NPCLoader.SpawnRescuedNPC("BossScene", boss.CaveIndex);
             Stats.GetInstance().IncreaseUnlockProgress(boss.CaveIndex);
             NPCLoader.UpdateNPCs();
+
+            // Save game
+            SaveLoad.Save();
         }
 
         public void SpawnPortal()

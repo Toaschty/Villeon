@@ -62,5 +62,8 @@ namespace Villeon.Helper
 
         // Inventory
         public static int INVENTORY_SLOTS { get; } = 40;
+
+        // Auto save
+        public static float AUTOSAVE_TIME { get; } = 60f;
     }
 }
