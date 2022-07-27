@@ -56,7 +56,7 @@ namespace Villeon.Generation
                             continue;
 
                         SpawnLadders(gid, x, y);
-                        SpawnLights(gid, x, y);
+                        SpawnLights(tileMap.MapName, gid, x, y);
 
                         // Get tile from dicitionary with gid
                         Components.Tile currentTile = tileMap.Tiles[gid];
@@ -73,7 +73,6 @@ namespace Villeon.Generation
                         // Add animation component if tile contains any frames
                         AddAnimatedTiles(currentTile, tileSprite, tileEntity);
 
-                        // Convert current tile into Sprite
                         _entities.Add(tileEntity);
 
                         // If collider optimization is turned on and the current tile contains at least 1 collider..
@@ -136,7 +135,7 @@ namespace Villeon.Generation
                         continue;
 
                     SpawnLadders(gid, x, y);
-                    SpawnLights(gid, x, y);
+                    SpawnLights("Dungeon", gid, x, y);
                     SpawnPortal(gid, x, y);
                     SpawnEnemies(gid, x, y);
 
@@ -301,20 +300,38 @@ namespace Villeon.Generation
             }
         }
 
-        private static void SpawnLights(uint gid, int x, int y)
+        private static void SpawnLights(string tileSetName, uint gid, int x, int y)
         {
             // If current tile is torch -> Spawn light
-            if (gid == 9 || gid == 592 || gid == 593 /*|| gid == 101 || gid == 217*/)
+            // GIDs for village tileset
+            if (tileSetName.Equals("Village.tmx") && (gid == 592 || gid == 593))
             {
-                IEntity torch = new Entity(new Transform(new Vector2(x + 0.5f, _height - 0.5f - y), 1f, 0), "Torch");
-                torch.AddComponent(new Light(new Color4(255, 50, 50, 255), -13.5f, 4f, 1f, 0.7f, 1.8f));
-
-                // Add particle spawner for the flakes
-                ParticleSpawner particleSpawner = new ParticleSpawner(2, "Sprites.Particles.Smoke.png");
-                particleSpawner.ParticleWeight = -0.1f;
-                torch.AddComponent(particleSpawner);
-                _entities.Add(torch);
+                SpawnLight(x, y);
+                return;
             }
+
+            // GIDs for shop/smith tileset
+            if ((tileSetName.Equals("VillageShop.tmx") || tileSetName.Equals("VillageSmith.tmx")) && (gid == 101 || gid == 217 || gid == 159))
+            {
+                SpawnLight(x, y);
+                return;
+            }
+
+            // GIDs for dungeon tileset
+            if (gid == 9)
+                SpawnLight(x, y);
+        }
+
+        private static void SpawnLight(int x, int y)
+        {
+            IEntity torch = new Entity(new Transform(new Vector2(x + 0.5f, _height - 0.5f - y), 1f, 0), "Torch");
+            torch.AddComponent(new Light(new Color4(255, 50, 50, 255), -13.5f, 4f, 1f, 0.7f, 1.8f));
+
+            // Add particle spawner for the flakes
+            ParticleSpawner particleSpawner = new ParticleSpawner(2, "Sprites.Particles.Smoke.png");
+            particleSpawner.ParticleWeight = -0.1f;
+            torch.AddComponent(particleSpawner);
+            _entities.Add(torch);
         }
 
         private static void SpawnPortal(uint gid, int x, int y)

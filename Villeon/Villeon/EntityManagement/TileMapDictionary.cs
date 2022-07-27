@@ -16,6 +16,8 @@ namespace Villeon.EntityManagement
 {
     public class TileMapDictionary
     {
+        private readonly string _mapName;
+
         // Holds the reference to the whole tilemap file
         private readonly TiledLib.Map _map;
 
@@ -26,6 +28,8 @@ namespace Villeon.EntityManagement
 
         public TileMapDictionary(string mapName)
         {
+            _mapName = mapName;
+
             // Load in the tilemap and all associated tileset files
             _map = TiledLib.Map.FromStream(ResourceLoader.LoadContentAsStream("TileMap." + mapName), ts => ResourceLoader.LoadContentAsStream("TileMap." + ts.Source));
 
@@ -36,6 +40,8 @@ namespace Villeon.EntityManagement
         }
 
         public TiledLib.Map Map => _map;
+
+        public string MapName => _mapName;
 
         public Dictionary<uint, Tile> Tiles => _tiles;
 

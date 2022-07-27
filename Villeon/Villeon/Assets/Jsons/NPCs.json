@@ -210,7 +210,7 @@
       "name": "Hartwin",
       "visible": true,
       "texturePath": "Sprites.NPC.Hartwin_noshadow.png",
-      "textureScale": 0.35
+      "textureScale": 0.35,
       "x": 25,
       "y": 4,
       "options": [
