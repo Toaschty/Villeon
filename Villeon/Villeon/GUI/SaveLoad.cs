@@ -44,7 +44,16 @@ namespace Villeon.GUI
         public static void Load()
         {
             // Read save game from disk
-            string hexSaveGame = File.ReadAllText(_saveGamePath + "/savegame");
+            string hexSaveGame;
+            try
+            {
+                hexSaveGame = File.ReadAllText(_saveGamePath + "/savegame");
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("No savegame found!");
+                return;
+            }
 
             // Decode save data
             string saveGame = DecodeHex(hexSaveGame);
@@ -66,6 +75,8 @@ namespace Villeon.GUI
             Stats.GetInstance().DefenseLevel = statsJson.DefenseLevel;
             Stats.GetInstance().Progress = statsJson.Progress;
             Stats.GetInstance().UnlockProgress = statsJson.UnlockProgress.ToObject<List<int>>();
+            Stats.GetInstance().ItemDamage = statsJson.ItemDamage;
+            Stats.GetInstance().ItemDefense = statsJson.ItemDefense;
 
             // Fill inventory with items
             int potionInvIndexStart = Constants.INVENTORY_SLOTS;
@@ -96,19 +107,19 @@ namespace Villeon.GUI
         }
 
         // Return data string of given inventory
-        private static string SaveInventory(InventorySlot[,] inv)
+        private static string SaveInventory(InventorySlot[,] inventory)
         {
             string data = string.Empty;
 
-            foreach (var weapon in inv)
+            foreach (var slot in inventory)
             {
                 // Create new save class
                 InventorySlotSaveClass saveSlot = new InventorySlotSaveClass();
 
 #pragma warning disable CS8601 // Possible null reference assignment.
-                saveSlot.Item = weapon.Item != null ? weapon.Item!.Name : null;
+                saveSlot.Item = slot.Item != null ? slot.Item!.Name : null;
 #pragma warning restore CS8601 // Possible null reference assignment.
-                saveSlot.Count = weapon.Count;
+                saveSlot.Count = slot.Count;
 
                 // Serialize data
                 data += JsonConvert.SerializeObject(saveSlot, Formatting.Indented, new JsonSerializerSettings()
