@@ -61,6 +61,7 @@ namespace Villeon.Systems.Update
                         {
                             // Its a shield!
                             Stats.GetInstance().ItemDefense = selectedItem.Defense;
+
                             // Spawn Healed icon!
                             IEntity savingIcon = ParticleBuilder.StationaryParticle(new Vector2(-0.95f, -5f), 1, 0.2f, true, "Animations.Equipped.png", Components.SpriteLayer.ScreenGuiOnTopOfForeground);
                             Manager.GetInstance().AddEntity(savingIcon);
