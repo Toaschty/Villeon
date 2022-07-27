@@ -158,7 +158,7 @@ namespace Villeon.Systems.Update
                 Manager.GetInstance().AddEntity(attackEntity);
 
                 // Spawn Attack Animation
-                IEntity attackAnimationEntity = ParticleBuilder.StationaryParticle(enemyTransform.Position - new Vector2(2f, 0f), 0.2f, 0.5f, false, "Animations.slime_attack_left.png", 0.05f);
+                IEntity attackAnimationEntity = ParticleBuilder.StationaryParticle(enemyTransform.Position - new Vector2(2f, 0f), 0.2f, 0.5f, false, "Animations.slime_attack_left.png", 0.05f, SpriteLayer.Middleground);
                 Manager.GetInstance().AddEntity(attackAnimationEntity);
             }
 
@@ -173,7 +173,7 @@ namespace Villeon.Systems.Update
                 Manager.GetInstance().AddEntity(attackEntity);
 
                 // Spawn Attack Animation
-                IEntity attackAnimationEntity = ParticleBuilder.StationaryParticle(enemyTransform.Position + new Vector2(1f, 0f), 0.2f, 0.5f, false, "Animations.slime_attack_right.png", 0.05f);
+                IEntity attackAnimationEntity = ParticleBuilder.StationaryParticle(enemyTransform.Position + new Vector2(1f, 0f), 0.2f, 0.5f, false, "Animations.slime_attack_right.png", 0.05f, SpriteLayer.Middleground);
                 Manager.GetInstance().AddEntity(attackAnimationEntity);
             }
         }

@@ -117,6 +117,7 @@ namespace Villeon.Assets
 
             // GUI
             AddSpriteSheet("Animations.InventorySlotSwapIndicator.png", new SpriteSheet(Color4.White, GetTexture("Animations.InventorySlotSwapIndicator.png"), 32, 32, 6, 0, SpriteLayer.ScreenGuiForeground));
+            AddSpriteSheet("Animations.Saving.png", new SpriteSheet(Color4.White, GetTexture("Animations.Saving.png"), 78, 24, 3, 0, SpriteLayer.ScreenGuiForeground));
 
             // TileMap
             AddSpriteSheet("TileMap.TilesetImages.DungeonCrumblyCave.png", new SpriteSheet(Color4.White, GetTexture("TileMap.TilesetImages.DungeonCrumblyCave.png"), 8, 8, 64, 0, SpriteLayer.Foreground));

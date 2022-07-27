@@ -8,6 +8,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
+using Villeon.Generation;
 using Villeon.Helper;
 using Villeon.Utils;
 
@@ -108,6 +109,10 @@ namespace Villeon.GUI
                 // Save game
                 case 1:
                     SaveLoad.Save();
+
+                    // Spawn SaveParticle
+                    IEntity savingIcon = ParticleBuilder.StationaryParticle(new Vector2(-0.95f, -5f), 2, 0.2f, true, "Animations.Saving.png", 0.5f, Components.SpriteLayer.ScreenGuiOnTopOfForeground);
+                    Manager.GetInstance().AddEntity(savingIcon);
                     break;
 
                 // Exit game
