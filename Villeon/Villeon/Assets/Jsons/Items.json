@@ -5,7 +5,7 @@
     "itemType": "Potion",
     "stackSize": 20,
     "sprite": "Potions.PotionSmall.png",
-    "healthEffect": 40
+    "healEffect": 100
   },
   {
     "name": "HealthPotionMiddle",
@@ -13,7 +13,7 @@
     "itemType": "Potion",
     "stackSize": 20,
     "sprite": "Potions.PotionMiddle.png",
-    "healthEffect": 100
+    "healEffect": 200
   },
   {
     "name": "HealthPotionBig",
@@ -21,7 +21,7 @@
     "itemType": "Potion",
     "stackSize": 20,
     "sprite": "Potions.PotionBig.png",
-    "healthEffect": 200
+    "healEffect": 500
   },
   {
     "name": "HealthPotionSpecial",

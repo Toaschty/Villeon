@@ -67,8 +67,8 @@
     ]
   },
   "john": {
-    "health": 10000,
-    "damage": 200,
+    "health": 2000,
+    "damage": 100,
     "ai": "JumpingAI",
     "experience": 15000,
     "animationPath": "Enemies.Boss.",
@@ -134,8 +134,8 @@
     ]
   },
   "nut": {
-    "health": 100000,
-    "damage": 2000,
+    "health": 4000,
+    "damage": 200,
     "ai": "JumpingAI",
     "experience": 15000,
     "animationPath": "Enemies.Boss.",
@@ -210,8 +210,8 @@
     ]
   },
   "fox": {
-    "health": 1000000,
-    "damage": 20000,
+    "health": 8000,
+    "damage": 400,
     "ai": "JumpingAI",
     "experience": 15000,
     "animationPath": "Enemies.Boss.",

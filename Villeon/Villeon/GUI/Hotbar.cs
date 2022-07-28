@@ -65,6 +65,14 @@ namespace Villeon.GUI
             if (_inventoryReferences![index] == null)
                 return;
 
+            // Apply effect
+            // Check how much current potion heals
+            int health = ItemLoader.GetHealthEffect(_inventoryReferences![index]!.Item!.Name);
+            if (health > 0)
+                playerHealth.Heal(health);
+            else
+                playerHealth.CurrentHealth = playerHealth.MaxHealth;
+
             // If stack is empty -> Remove item from hotbar. Else decrease item reference by one
             if (_inventoryReferences[index]!.IsStackEmpty())
                 RemoveItem(_inventoryReferences[index]!);
@@ -72,9 +80,6 @@ namespace Villeon.GUI
                 _inventoryReferences[index]!.DecreaseStack();
 
             UpdateItems();
-
-            // Apply effect
-            playerHealth.Heal(20);
 
             // Reload hotbar
             ReloadHotbar();

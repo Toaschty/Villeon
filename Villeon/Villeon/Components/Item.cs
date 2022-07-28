@@ -16,8 +16,11 @@ namespace Villeon.Components
         private Sprite _sprite;
         private int _itemStackSize;
         private ITEM_TYPE _itemType;
+
         private int _damage = 0;
         private int _defense = 0;
+
+        private int _heal = 0;
 
         public Item()
         {
@@ -41,6 +44,17 @@ namespace Villeon.Components
             _sprite.RenderLayer = layer;
             _itemStackSize = itemMaxStack;
             _itemType = type;
+        }
+
+        public Item(string name, Sprite sprite, int itemMaxStack, ITEM_TYPE type, SpriteLayer layer, int damage, int defense)
+        {
+            _name = name;
+            _sprite = sprite;
+            _sprite.RenderLayer = layer;
+            _itemStackSize = itemMaxStack;
+            _itemType = type;
+            _damage = damage;
+            _defense = defense;
         }
 
         public Item(Item copy)
@@ -78,8 +92,8 @@ namespace Villeon.Components
             get { return _itemStackSize; }
         }
 
-        public int Damage { get => _damage; set => _damage = value; }
+        public int Damage => _damage;
 
-        public int Defense { get => _defense; set => _defense = value; }
+        public int Defense => _defense;
     }
 }

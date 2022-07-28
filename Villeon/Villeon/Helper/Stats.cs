@@ -146,7 +146,7 @@ namespace Villeon.Helper
 
         public int GetMaxHealth()
         {
-            return (int)(StatFunction(_level) * 100) + (int)(StatFunction(_healthLevel) * 100);
+            return (int)(StatFunction(_level) * 150) + (int)(StatFunction(_healthLevel) * 150);
         }
 
         public int GetAttack()

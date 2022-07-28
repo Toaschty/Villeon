@@ -374,10 +374,10 @@ namespace Villeon.Generation
             {
                 switch (_dictionary !.CaveIndex)
                 {
-                    case 0: possibleEnemies.AddRange(new string[] { "slime_blue", "bubble", "bat" }); break;
-                    case 1: possibleEnemies.AddRange(new string[] { "slime_magenta", "bubble", "bat" }); break;
-                    case 2: possibleEnemies.AddRange(new string[] { "slime_green", "bubble", "bat" }); break;
-                    case 3: possibleEnemies.AddRange(new string[] { "slime_red", "bubble", "bat", "eye" }); break;
+                    case 0: possibleEnemies.AddRange(new string[] { "slime_blue", "bubble_blue", "bat_blue" }); break;
+                    case 1: possibleEnemies.AddRange(new string[] { "slime_magenta", "bubble_magenta", "bat_magenta" }); break;
+                    case 2: possibleEnemies.AddRange(new string[] { "slime_green", "bubble_green", "bat_green" }); break;
+                    case 3: possibleEnemies.AddRange(new string[] { "slime_red", "bubble_red", "bat_red", "eye" }); break;
                 }
 
                 int index = random.Next(0, possibleEnemies.Count);
