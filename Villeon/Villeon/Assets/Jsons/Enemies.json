@@ -1,7 +1,7 @@
 ﻿{
   "slime_blue": {
-    "health": 100,
-    "damage": 10,
+    "health": 200,
+    "damage": 60,
     "ai": "JumpingAI",
     "experience": 10,
     "animationPath": "Enemies.Slime.",
@@ -21,7 +21,7 @@
       {
         "itemName": "HealthPotionSmall",
         "index": 0,
-        "rate": 0.1,
+        "rate": 0.4,
         "amount": {
           "min": 1,
           "max": 5
@@ -44,12 +44,21 @@
           "min": 1,
           "max": 1
         }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
       }
     ]
   },
   "slime_magenta": {
     "health": 1000,
-    "damage": 100,
+    "damage": 120,
     "ai": "JumpingAI",
     "experience": 100,
     "animationPath": "Enemies.Slime.",
@@ -90,6 +99,42 @@
         "rate": 0.3,
         "amount": {
           "min": 2,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
           "max": 10
         }
       }
@@ -140,6 +185,42 @@
           "min": 2,
           "max": 10
         }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
       }
     ]
   },
@@ -188,14 +269,50 @@
           "min": 1,
           "max": 20
         }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
       }
     ]
   },
   "bat": {
-    "health": 70,
-    "damage": 3,
+    "health": 150,
+    "damage": 60,
     "ai": "FlyingAI",
-    "experience": 10,
+    "experience": 30,
     "animationPath": "Enemies.Bat.",
     "animations": [
       "bat_left.png",
@@ -216,34 +333,52 @@
         "rate": 1,
         "amount": {
           "min": 1,
+          "max": 1
+        }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
           "max": 10
         }
       },
       {
-        "itemName": "Gold",
-        "index": 1,
-        "rate": 0.5,
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.05,
         "amount": {
           "min": 1,
-          "max": 5
+          "max": 10
         }
       },
       {
-        "itemName": "Rock",
-        "index": 2,
-        "rate": 1,
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.01,
         "amount": {
-          "min": 2,
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
           "max": 10
         }
       }
     ]
   },
   "eye": {
-    "health": 70,
-    "damage": 3,
+    "health": 70000,
+    "damage": 5000,
     "ai": "FlyingAI",
-    "experience": 10,
+    "experience": 15000,
     "animationPath": "Enemies.Eye.",
     "animations": [
       "eye_left.png",
@@ -275,12 +410,48 @@
           "min": 2,
           "max": 10
         }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
       }
     ]
   },
   "bubble": {
     "health": 70,
-    "damage": 15,
+    "damage": 50,
     "ai": "RollingAI",
     "experience": 10,
     "animationPath": "Enemies.Bubble.",
@@ -298,29 +469,47 @@
     "triggerHeight": 45,
     "drops": [
       {
-        "itemName": "HealthPotionSmall",
+        "itemName": "Stick",
         "index": 0,
-        "rate": 0.3,
+        "rate": 0.5,
         "amount": {
           "min": 1,
           "max": 2
         }
       },
       {
-        "itemName": "Gold",
-        "index": 1,
-        "rate": 0.5,
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
         "amount": {
           "min": 1,
-          "max": 5
+          "max": 10
         }
       },
       {
-        "itemName": "Rock",
-        "index": 2,
-        "rate": 1,
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.05,
         "amount": {
-          "min": 2,
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
           "max": 10
         }
       }

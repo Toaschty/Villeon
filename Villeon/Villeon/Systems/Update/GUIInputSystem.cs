@@ -26,6 +26,11 @@ namespace Villeon.Systems.Update
             if (!StateManager.InDialog)
                 CheckKeyMenu();
 
+            if (KeyHandler.IsPressed(Keys.LeftAlt))
+                Stats.GetInstance().Level++;
+            if (KeyHandler.IsPressed(Keys.RightAlt))
+                Stats.GetInstance().IncreaseDamage();
+
             if (StateManager.InMenu)
             {
                 Keys? currentkey = KeyHandler.GetLastPressedKey();

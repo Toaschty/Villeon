@@ -27,6 +27,16 @@ namespace Villeon.Components
             Type = type;
         }
 
+        public Option(string option, string type, Keys interactionKey, string neededItem, int neededAmount, string upgradeType)
+        {
+            OptionString = option;
+            Type = type;
+            Key = interactionKey;
+            NeededItem = neededItem;
+            NeededItemAmount = neededAmount;
+            UpgradeType = upgradeType;
+        }
+
         public string OptionString { get; set; }
 
         public string NeededItem { get; set; } = string.Empty;
@@ -36,6 +46,8 @@ namespace Villeon.Components
         public string BuyItem { get; set; } = string.Empty;
 
         public int BuyItemAmount { get; set; } = 0;
+
+        public string UpgradeType { get; set; } = string.Empty;
 
         public Keys Key { get; set; }
 

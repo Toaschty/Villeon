@@ -19,10 +19,10 @@ namespace Villeon.Helper
 
         // Player Stats
         private int _healthLevel = 1;
-        private int _attackLevel = 1;
+        private int _damageLevel = 1;
         private int _defenseLevel = 1;
-        private int _itemAttack = 10;
-        private int _itemDefense = 10;
+        private int _itemAttack = 0;
+        private int _itemDefense = 0;
 
         private string _itemAttackName;
         private string _itemDefenseName;
@@ -63,8 +63,8 @@ namespace Villeon.Helper
 
         public int AttackLevel
         {
-            get { return _attackLevel; }
-            set { _attackLevel = value; }
+            get { return _damageLevel; }
+            set { _damageLevel = value; }
         }
 
         public int DefenseLevel
@@ -140,26 +140,24 @@ namespace Villeon.Helper
 
         public void IncreaseHealth() => _healthLevel++;
 
-        public void IncreaseAttack() => _attackLevel++;
+        public void IncreaseDamage() => _damageLevel++;
 
         public void IncreaseDefense() => _defenseLevel++;
 
         public int GetMaxHealth()
         {
-            int health = (int)(StatFunction() * 100);
-            return health + (int)(health * 0.1f * _level);
+            return (int)(StatFunction(_level) * 100) + (int)(StatFunction(_healthLevel) * 100);
         }
 
         public int GetAttack()
         {
-            int attack = (int)(StatFunction() * _itemAttack);
-            return attack + (int)(attack * 0.5 * _level);
+            return (int)(StatFunction(_level) * 30) + (int)(StatFunction(_damageLevel) * 30) + _itemAttack;
         }
 
         public int GetDefense()
         {
-            int defense = (int)(StatFunction() * _itemDefense);
-            return defense + (int)(defense * 1.2f * _level);
+            float defense = StatDefense(_level + _defenseLevel) + _itemDefense;
+            return defense > 80f ? 80 : (int)defense;
         }
 
         public int GetUnlockProgress(int caveIndex)
@@ -184,9 +182,14 @@ namespace Villeon.Helper
         }
 
         // Function for stat calculation
-        private float StatFunction()
+        private float StatFunction(int level)
         {
-            return (float)((0.25f * Math.Sqrt(_healthLevel)) + 0.75f);
+            return (float)((0.25f * Math.Sqrt(level)) + 0.75f);
+        }
+
+        private float StatDefense(int level)
+        {
+            return (float)(0.827f * Math.Log(level) / Math.Log(1.1));
         }
     }
 }

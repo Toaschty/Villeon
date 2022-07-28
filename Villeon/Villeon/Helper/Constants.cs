@@ -55,7 +55,7 @@ namespace Villeon.Helper
 
         public static Vector2 FROM_SHOP_PORTAL_POINT { get; } = new Vector2(15.5f, 0f);
 
-        public static Vector2 BOSS_ROOM_SPAWN_POINT { get; } = new Vector2(6f, 60f);
+        public static Vector2 BOSS_ROOM_SPAWN_POINT { get; } = new Vector2(26f, 70f);
 
         // Player
         public static int PLAYER_MAX_HEALTH { get; } = 200;
