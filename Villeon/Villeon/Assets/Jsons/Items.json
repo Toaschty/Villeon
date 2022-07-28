@@ -5,7 +5,7 @@
     "itemType": "Potion",
     "stackSize": 20,
     "sprite": "Potions.PotionSmall.png",
-    "healthEffect": 10
+    "healEffect": 100
   },
   {
     "name": "HealthPotionMiddle",
@@ -13,7 +13,7 @@
     "itemType": "Potion",
     "stackSize": 20,
     "sprite": "Potions.PotionMiddle.png",
-    "healthEffect": 30
+    "healEffect": 200
   },
   {
     "name": "HealthPotionBig",
@@ -21,7 +21,7 @@
     "itemType": "Potion",
     "stackSize": 20,
     "sprite": "Potions.PotionBig.png",
-    "healthEffect": 50
+    "healEffect": 500
   },
   {
     "name": "HealthPotionSpecial",
@@ -137,7 +137,7 @@
     "index": 18,
     "itemType": "Weapon",
     "damage": 0,
-    "defense": 20,
+    "defense": 10,
     "stackSize": 1,
     "sprite": "Weapons.Shield.png"
   },
@@ -146,7 +146,7 @@
     "index": 19,
     "itemType": "Weapon",
     "damage": 0,
-    "defense": 50,
+    "defense": 40,
     "stackSize": 1,
     "sprite": "Weapons.PlantShield.png"
   },
@@ -164,7 +164,7 @@
     "index": 21,
     "itemType": "Weapon",
     "damage": 0,
-    "defense": 15,
+    "defense": 20,
     "stackSize": 1,
     "sprite": "Weapons.PlankShield.png"
   },

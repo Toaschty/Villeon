@@ -47,12 +47,8 @@ namespace Villeon.Systems.TriggerSystems
                     // Check each possible option
                     foreach (Option opt in interactable.Options)
                     {
-                        // Skip every options which is not trading
-                        if (opt.Type != "trade")
-                            continue;
-
                         // Check if corresponding key is pressed
-                        if (KeyHandler.IsPressed(opt.Key))
+                        if (KeyHandler.IsPressed(opt.Key) && opt.Type == "trade")
                         {
                             // Check if needed items for trade are in inventory
                             if (InventoryMenu.GetInstance().CheckIfExists(opt.NeededItem, opt.NeededItemAmount))
@@ -62,6 +58,28 @@ namespace Villeon.Systems.TriggerSystems
 
                                 // Add bought items in inventory
                                 InventoryMenu.GetInstance().AddItems(ItemLoader.GetItem(opt.BuyItem), opt.BuyItemAmount);
+
+                                // Add trade particles
+                                List<IEntity> particles = ParticleBuilder.RandomParticles(playerTrigger.Position, new Vector2(0.2f, 0.2f), 2, 0.02f, 0.5f, -0.01f, 0.1f, true, "Sprites.Particles.Sparkles.png", 100, new Vector2(1f, 1.5f), Color4.White);
+                                Manager.GetInstance().AddEntities(particles);
+                            }
+                        }
+
+                        if (KeyHandler.IsPressed(opt.Key) && opt.Type == "level")
+                        {
+                            // Check if needed items for trade are in inventory
+                            if (InventoryMenu.GetInstance().CheckIfExists(opt.NeededItem, opt.NeededItemAmount))
+                            {
+                                // Remove needed items for trade out of inventory
+                                InventoryMenu.GetInstance().RemoveItems(opt.NeededItem, opt.NeededItemAmount);
+
+                                // Upgrade stats
+                                switch (opt.UpgradeType)
+                                {
+                                    case "health": Stats.GetInstance().IncreaseHealth(); break;
+                                    case "damage": Stats.GetInstance().IncreaseDamage();  break;
+                                    case "defense": Stats.GetInstance().IncreaseDefense(); break;
+                                }
 
                                 // Add trade particles
                                 List<IEntity> particles = ParticleBuilder.RandomParticles(playerTrigger.Position, new Vector2(0.2f, 0.2f), 2, 0.02f, 0.5f, -0.01f, 0.1f, true, "Sprites.Particles.Sparkles.png", 100, new Vector2(1f, 1.5f), Color4.White);

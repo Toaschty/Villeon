@@ -5,8 +5,8 @@
       "visible": true,
       "texturePath": "Sprites.NPC.Alfred_noshadow.png",
       "textureScale": 0.35,
-      "x": 25,
-      "y": 4,
+      "x": 43,
+      "y": 24,
       "options": [
         {
           "type": "talk",
@@ -25,8 +25,8 @@
       "visible": true,
       "texturePath": "Sprites.NPC.WillyWillsonton_noshadow.png",
       "textureScale": 0.35,
-      "x": 25,
-      "y": 4,
+      "x": 43,
+      "y": 24,
       "options": [
         {
           "type": "talk",
@@ -45,8 +45,8 @@
       "visible": true,
       "texturePath": "Sprites.NPC.KoryWillsonton_noshadow.png",
       "textureScale": 0.35,
-      "x": 25,
-      "y": 4,
+      "x": 43,
+      "y": 24,
       "options": [
         {
           "type": "talk",
@@ -65,8 +65,8 @@
       "visible": true,
       "texturePath": "Sprites.NPC.Paskel_noshadow.png",
       "textureScale": 0.35,
-      "x": 25,
-      "y": 4,
+      "x": 43,
+      "y": 24,
       "options": [
         {
           "type": "talk",
@@ -85,8 +85,8 @@
       "visible": true,
       "texturePath": "Sprites.NPC.Rohan_noshadow.png",
       "textureScale": 0.35,
-      "x": 25,
-      "y": 4,
+      "x": 43,
+      "y": 24,
       "options": [
         {
           "type": "talk",
@@ -106,8 +106,8 @@
       "visible": true,
       "texturePath": "Sprites.NPC.Breya_noshadow.png",
       "textureScale": 0.35,
-      "x": 25,
-      "y": 4,
+      "x": 43,
+      "y": 24,
       "options": [
         {
           "type": "talk",
@@ -127,8 +127,8 @@
       "visible": true,
       "texturePath": "Sprites.NPC.Agama_noshadow.png",
       "textureScale": 0.35,
-      "x": 25,
-      "y": 4,
+      "x": 43,
+      "y": 24,
       "options": [
         {
           "type": "talk",
@@ -148,8 +148,8 @@
       "visible": true,
       "texturePath": "Sprites.NPC.Vale_noshadow.png",
       "textureScale": 0.35,
-      "x": 25,
-      "y": 4,
+      "x": 43,
+      "y": 24,
       "options": [
         {
           "type": "talk",
@@ -169,8 +169,8 @@
       "visible": true,
       "texturePath": "Sprites.NPC.Igor_noshadow.png",
       "textureScale": 0.35,
-      "x": 25,
-      "y": 4,
+      "x": 43,
+      "y": 24,
       "options": [
         {
           "type": "talk",
@@ -190,8 +190,8 @@
       "visible": true,
       "texturePath": "Sprites.NPC.Grunilde_noshadow.png",
       "textureScale": 0.35,
-      "x": 25,
-      "y": 4,
+      "x": 43,
+      "y": 24,
       "options": [
         {
           "type": "talk",
@@ -211,8 +211,8 @@
       "visible": true,
       "texturePath": "Sprites.NPC.Hartwin_noshadow.png",
       "textureScale": 0.35,
-      "x": 25,
-      "y": 4,
+      "x": 43,
+      "y": 24,
       "options": [
         {
           "type": "talk",
@@ -233,8 +233,8 @@
       "visible": true,
       "texturePath": "Sprites.NPC.JaiBlynnStraus_noshadow.png",
       "textureScale": 0.35,
-      "x": 25,
-      "y": 4,
+      "x": 43,
+      "y": 24,
       "options": [
         {
           "type": "talk",
@@ -715,6 +715,30 @@
           "type": "talk",
           "option": "Talk [T]",
           "key": "T"
+        },
+        {
+          "type": "level",
+          "option": "50x Ruby --> Upgrade Health [1]",
+          "key": "D1",
+          "neededItem": "Ruby",
+          "neededItemAmount": 50,
+          "upgrade": "health"
+        },
+        {
+          "type": "level",
+          "option": "50x Diamond --> Upgrade Damage [2]",
+          "key": "D2",
+          "neededItem": "Diamond",
+          "neededItemAmount": 50,
+          "upgrade": "damage"
+        },
+        {
+          "type": "level",
+          "option": "50x Iron --> Upgrade Defense [3]",
+          "key": "D3",
+          "neededItem": "Iron",
+          "neededItemAmount": 50,
+          "upgrade": "defense"
         }
       ],
       "dialog": [

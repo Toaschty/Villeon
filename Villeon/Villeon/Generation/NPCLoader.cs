@@ -168,6 +168,13 @@ namespace Villeon.Generation
                     int buyItemAmount = option.SelectToken("buyItemAmount") !.Value<int>() !;
                     optionArray[optionIndex] = new Option(optionString, "trade", key, neededItem, neededItemAmount, buyItem, buyItemAmount);
                 }
+                else if (optionType == "level")
+                {
+                    string neededItem = option.SelectToken("neededItem") !.Value<string>() !;
+                    int neededItemAmount = option.SelectToken("neededItemAmount") !.Value<int>() !;
+                    string upgradeType = option.SelectToken("upgrade") !.Value<string>() !;
+                    optionArray[optionIndex] = new Option(optionString, "level", key, neededItem, neededItemAmount, upgradeType);
+                }
                 else
                 {
                     optionArray[optionIndex] = new Option(optionString, key);

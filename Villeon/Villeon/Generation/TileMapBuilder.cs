@@ -28,6 +28,8 @@ namespace Villeon.Generation
         // EntitySpawner
         private static EnemyBuilder _spawner = new EnemyBuilder();
 
+        private static TileMapDictionary? _dictionary;
+
         // Generate entities depending on the tilemap
         public static List<IEntity> GenerateEntitiesFromTileMap(TileMapDictionary tileMap, bool collisionOptimization)
         {
@@ -115,6 +117,8 @@ namespace Villeon.Generation
         {
             // Clear existing entities
             _entities = new List<IEntity>();
+
+            _dictionary = tileMap;
 
             // Set height / width
             _width = map.GetLength(1);
@@ -362,30 +366,22 @@ namespace Villeon.Generation
 
         private static void SpawnEnemies(uint gid, int x, int y)
         {
+            List<string> possibleEnemies = new List<string>();
+
             // If current tile is enemy spawn -> Spawn enemy
             Random random = new Random();
             if (gid == 33)
             {
-                int type = random.Next(0, 3);
-                if (type == 0)
+                switch (_dictionary !.CaveIndex)
                 {
-                    switch (random.Next(0, 4))
-                    {
-                        case 0: EnemySpawner.SpawnEnemy("DungeonScene", "slime_blue", new Vector2(x, _height - 1 - y)); break;
+                    case 0: possibleEnemies.AddRange(new string[] { "slime_blue", "bubble_blue", "bat_blue" }); break;
+                    case 1: possibleEnemies.AddRange(new string[] { "slime_magenta", "bubble_magenta", "bat_magenta" }); break;
+                    case 2: possibleEnemies.AddRange(new string[] { "slime_green", "bubble_green", "bat_green" }); break;
+                    case 3: possibleEnemies.AddRange(new string[] { "slime_red", "bubble_red", "bat_red", "eye" }); break;
+                }
 
-                        //case 1: EnemySpawner.Spawn("DungeonScene", "slime_magenta", new Vector2(x, _height - 1 - y)); break;
-                        //case 2: EnemySpawner.Spawn("DungeonScene", "slime_green", new Vector2(x, _height - 1 - y)); break;
-                        //case 3: EnemySpawner.Spawn("DungeonScene", "slime_red", new Vector2(x, _height - 1 - y)); break;
-                    }
-                }
-                else if (type == 1)
-                {
-                    EnemySpawner.SpawnEnemy("DungeonScene", "bubble", new Vector2(x, _height - 1 - y));
-                }
-                else
-                {
-                    EnemySpawner.SpawnEnemy("DungeonScene", "bat", new Vector2(x, _height - 1 - y));
-                }
+                int index = random.Next(0, possibleEnemies.Count);
+                EnemySpawner.SpawnEnemy("DungeonScene", possibleEnemies[index], new Vector2(x, _height - 1 - y));
             }
         }
     }

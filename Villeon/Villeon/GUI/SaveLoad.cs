@@ -80,10 +80,18 @@ namespace Villeon.GUI
             // Set equipped weapons
             Item sword = ItemLoader.GetItem(statsJson.ItemDamageName.ToObject<string>());
             Item shield = ItemLoader.GetItem(statsJson.ItemDefenseName.ToObject<string>());
-            Stats.GetInstance().SetAttackItem(sword);
-            Stats.GetInstance().SetDefenseItem(shield);
-            EquipmentMenu.GetInstance().AddAttackWeapon(sword);
-            EquipmentMenu.GetInstance().AddDefenseWeapon(shield);
+
+            if (sword.Name != "Null")
+            {
+                Stats.GetInstance().SetAttackItem(sword);
+                EquipmentMenu.GetInstance().AddAttackWeapon(sword);
+            }
+
+            if (shield.Name != "Null")
+            {
+                Stats.GetInstance().SetDefenseItem(shield);
+                EquipmentMenu.GetInstance().AddDefenseWeapon(shield);
+            }
 
             // Fill inventory with items
             int potionInvIndexStart = Constants.INVENTORY_SLOTS;
