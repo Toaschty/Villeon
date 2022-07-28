@@ -124,6 +124,9 @@ namespace Villeon.Assets
             AddSpriteSheet("Enemies.Bubble.bubble_left_red.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Bubble.bubble_left_red.png"), 45, 45, 8, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Enemies.Bubble.bubble_right_red.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Bubble.bubble_right_red.png"), 45, 45, 8, 0, SpriteLayer.Foreground));
 
+            AddSpriteSheet("Enemies.Pufferfish.pufferfish_left.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Pufferfish.pufferfish_left.png"), 29, 29, 8, 0, SpriteLayer.Foreground));
+            AddSpriteSheet("Enemies.Pufferfish.pufferfish_left.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Pufferfish.pufferfish_left.png"), 29, 29, 8, 0, SpriteLayer.Foreground));
+
             AddSpriteSheet("Enemies.Boss.cat_blob_idle.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Boss.cat_blob_idle.png"), 44, 32, 2, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Enemies.Boss.john_idle.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Boss.john_idle.png"), 32, 22, 2, 0, SpriteLayer.Foreground));
             AddSpriteSheet("Enemies.Boss.nut_idle.png", new SpriteSheet(Color4.White, GetTexture("Enemies.Boss.nut_idle.png"), 58, 38, 2, 0, SpriteLayer.Foreground));
