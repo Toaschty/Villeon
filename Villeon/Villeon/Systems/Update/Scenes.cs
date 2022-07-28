@@ -194,10 +194,10 @@ namespace Villeon.Systems.Update
             SceneLoader.AddScene(DungeonScene);
 
             // Setup all different tilesets
-            TileMapDictionary tileMapCrumblyCave = new TileMapDictionary("DungeonCrumblyCave.tmx");
-            TileMapDictionary tileMapDarkendLair = new TileMapDictionary("DungeonDarkendLair.tmx");
-            TileMapDictionary tileMapSwampyGrot = new TileMapDictionary("DungeonSwampyGrot.tmx");
-            TileMapDictionary tileMapHellishHole = new TileMapDictionary("DungeonHellishHole.tmx");
+            TileMapDictionary tileMapCrumblyCave = new TileMapDictionary("DungeonCrumblyCave.tmx", 0);
+            TileMapDictionary tileMapDarkendLair = new TileMapDictionary("DungeonDarkendLair.tmx", 1);
+            TileMapDictionary tileMapSwampyGrot = new TileMapDictionary("DungeonSwampyGrot.tmx", 2);
+            TileMapDictionary tileMapHellishHole = new TileMapDictionary("DungeonHellishHole.tmx", 3);
 
             DungeonScene.AddSystem(new DialogSystem("DialogSystem"));
             DungeonScene.AddSystem(new InteractionSystem("InteractionSystem"));
