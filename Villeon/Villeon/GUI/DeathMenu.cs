@@ -9,7 +9,6 @@ using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
 using Villeon.Helper;
-using Villeon.Utils;
 
 namespace Villeon.GUI
 {
@@ -84,7 +83,7 @@ namespace Villeon.GUI
                 UpdateText();
             }
 
-            if (key == Keys.Space)
+            if (key == Keys.Space || key == Keys.Enter)
             {
                 HandleSelectedAction();
                 return false;

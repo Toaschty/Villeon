@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
 using Villeon.EntityManagement;
-using Villeon.Generation;
 
 namespace Villeon.Systems.Update
 {

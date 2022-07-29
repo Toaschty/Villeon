@@ -8,7 +8,6 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
-using Villeon.Generation;
 using Villeon.Helper;
 
 namespace Villeon.Systems.Update

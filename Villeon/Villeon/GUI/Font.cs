@@ -9,7 +9,6 @@ using OpenTK.Mathematics;
 using Villeon.Assets;
 using Villeon.Components;
 using Villeon.Helper;
-using Villeon.Utils;
 using Zenseless.OpenTK;
 
 namespace Villeon.GUI
@@ -23,7 +22,7 @@ namespace Villeon.GUI
         public Font(Color4 color, Texture2D fontTexture, string fontJsonPath)
         {
             // Font JSON load
-            dynamic fontJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText(fontJsonPath)) !;
+            dynamic fontJson = JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText(fontJsonPath))!;
             int cellWidth = fontJson.gridCellWidth;
             int cellHeight = fontJson.gridCellHeight;
             int rows = fontJson.rows;
@@ -44,10 +43,10 @@ namespace Villeon.GUI
                 int charWidth = fontJson.characters[i].width + fontJson.borderLeft + fontJson.borderRight;
                 Vector2[] texCoords = new Vector2[4]
                 {
-                    new Vector2(x * cellWidth, (y * cellHeight) - charHeight) / _sheetTexture.Height,                // bottomLeft
-                    new Vector2((x * cellWidth) + charWidth, (y * cellHeight) - charHeight) / _sheetTexture.Height,  // bottomRight
+                    new Vector2(x * cellWidth, y * cellHeight - charHeight) / _sheetTexture.Height,                // bottomLeft
+                    new Vector2(x * cellWidth + charWidth, y * cellHeight - charHeight) / _sheetTexture.Height,  // bottomRight
                     new Vector2(x * cellWidth, y * cellHeight) / _sheetTexture.Height,                               // topLeft
-                    new Vector2((x * cellWidth) + charWidth, y * cellHeight) / _sheetTexture.Height,                 // topRight
+                    new Vector2(x * cellWidth + charWidth, y * cellHeight) / _sheetTexture.Height,                 // topRight
                 };
 
                 Sprite sprite = new Sprite(_sheetTexture, SpriteLayer.ScreenGuiForeground, texCoords, charWidth, charHeight);

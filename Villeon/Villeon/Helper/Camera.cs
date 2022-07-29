@@ -100,8 +100,8 @@ namespace Villeon.Helper
             if (_cameraScale < 1f)
                 _cameraScale = 1f;
 
-            //if (_cameraScale > 20f)
-              // _cameraScale = 20f;
+            if (_cameraScale > 20f)
+               _cameraScale = 20f;
         }
 
         public static Matrix4 GetScreenMatrix()

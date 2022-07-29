@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using OpenTK.Mathematics;
 using Villeon.Assets;
 using Villeon.Components;
-using Villeon.EntityManagement;
 using Villeon.GUI;
 using Villeon.Utils;
 
-namespace Villeon.Generation
+namespace Villeon.EntityManagement
 {
     public class ParticleBuilder
     {

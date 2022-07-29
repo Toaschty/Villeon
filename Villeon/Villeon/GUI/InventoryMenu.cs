@@ -9,7 +9,6 @@ using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
 using Villeon.Helper;
-using Villeon.Utils;
 
 namespace Villeon.GUI
 {

@@ -24,18 +24,7 @@ namespace Villeon.Systems.Update
 
         public void Update(float time)
         {
-            foreach (MouseHandler.ClickedMouseButton button in MouseHandler.ClickedMouseButtons)
-            {
-                if (button.Button == MouseButton.Right)
-                {
-                    EnemySpawner.SpawnEnemy("DungeonScene", "slime_blue", button.MousePosition);
-                }
-
-                if (button.Button == MouseButton.Middle)
-                {
-                    EnemySpawner.SpawnEnemy("DungeonScene", "bat", button.MousePosition);
-                }
-            }
+ 
         }
     }
 }

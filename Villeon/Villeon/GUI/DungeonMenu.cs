@@ -11,7 +11,6 @@ using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
 using Villeon.Helper;
-using Villeon.Utils;
 
 namespace Villeon.GUI
 {
@@ -155,7 +154,7 @@ namespace Villeon.GUI
                 UpdateSelectionPosition();
             }
 
-            if (key == Keys.Space && _onExplore)
+            if ((key == Keys.Space || key == Keys.Enter) && _onExplore)
             {
                 Manager.GetInstance().RemoveEntities(GetEntities());
                 SceneLoader.SetActiveScene("DungeonScene");
