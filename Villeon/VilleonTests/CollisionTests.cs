@@ -231,6 +231,28 @@ namespace VilleonTests
         }
 
         [TestMethod]
+        public void RemoveEntity()
+        {
+            TypeRegistry.SetupTypes();
+            CollisionSystem collisionSystem = new ("collisionSystem");
+
+            Entity enemy = new Entity(new Transform(new Vector2(0, 0), 1.0f, 0.0f), "Enemy");
+            enemy.AddComponent(new Collider(Vector2.Zero, enemy.GetComponent<Transform>(), 1f, 1f));
+
+            Entity player = new Entity(new Transform(new Vector2(0, 0), 1.0f, 0.0f), "Player");
+            player.AddComponent(new Player());
+            player.AddComponent(new DynamicCollider(Vector2.Zero, player.GetComponent<Transform>(), 1f, 1f));
+
+            collisionSystem.AddEntity(enemy);
+            collisionSystem.AddEntity(player);
+
+            collisionSystem.RemoveEntity(enemy);
+            collisionSystem.RemoveEntity(player);
+
+            Assert.AreEqual(collisionSystem.Entities.Count, 0);
+        }
+
+        [TestMethod]
         public void CollisionMultipleDynamicCollider()
         {
             TypeRegistry.SetupTypes();
