@@ -242,6 +242,7 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new PlayerExpSystem("PlayerExpSystem"));
             DungeonScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
             DungeonScene.AddSystem(new HotbarSystem("HotbarUseSystem"));
+            DungeonScene.AddSystem(new DashCooldownSystem("DashCooldownSystem"));
             DungeonScene.AddSystem(new RaytracingSystem("RayTracingSystem"));
             DungeonScene.AddSystem(new AutoSaveSystem("AutoSave"));
             DungeonScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE!
@@ -331,6 +332,7 @@ namespace Villeon.Systems.Update
             BossScene.AddSystem(new JumpingAISystem("JumpingAISystem"));
             BossScene.AddSystem(new HotbarSystem("HotbarUseSystem"));
             BossScene.AddSystem(new EventSystem("EventSystem"));
+            BossScene.AddSystem(new DashCooldownSystem("DashCooldownSystem"));
             BossScene.AddSystem(new BossCameraSystem("BossCameraSystem"));
             BossScene.AddSystem(new BossSystem("BossSystem"));
             BossScene.AddSystem(new AutoSaveSystem("AutoSave"));
@@ -363,10 +365,10 @@ namespace Villeon.Systems.Update
                 // Spawn the Boss monster and select correct tilemap
                 switch (GetDungeonSelection())
                 {
-                    case 0: SetTileMap(BossScene, bossTilemapCrumblyCave, true); EnemySpawner.SpawnBoss("BossScene", "catBlob", new Vector2(52f, 24f)); break;
-                    case 1: SetTileMap(BossScene, bossTilemapDarkendLair, true); EnemySpawner.SpawnBoss("BossScene", "john", new Vector2(52f, 24f)); break;
-                    case 2: SetTileMap(BossScene, bossTilemapSwampyGrot, true); EnemySpawner.SpawnBoss("BossScene", "nut", new Vector2(52f, 24f)); break;
-                    case 3: SetTileMap(BossScene, bossTilemapHellishHole, true); EnemySpawner.SpawnBoss("BossScene", "fox", new Vector2(52f, 24f)); break;
+                    case 0: SetTileMap(BossScene, bossTilemapCrumblyCave, true); EnemySpawner.SpawnBoss("BossScene", "catBlob", new Vector2(52f, 23f)); break;
+                    case 1: SetTileMap(BossScene, bossTilemapDarkendLair, true); EnemySpawner.SpawnBoss("BossScene", "john", new Vector2(52f, 23f)); break;
+                    case 2: SetTileMap(BossScene, bossTilemapSwampyGrot, true); EnemySpawner.SpawnBoss("BossScene", "nut", new Vector2(52f, 23f)); break;
+                    case 3: SetTileMap(BossScene, bossTilemapHellishHole, true); EnemySpawner.SpawnBoss("BossScene", "fox", new Vector2(52f, 23f)); break;
                 }
 
                 return true;

@@ -21,5 +21,7 @@ namespace Villeon.Components
         public bool IsFading { get; set; }
 
         public bool HasWind { get; set; }
+
+        public bool TrackingPlayer { get; set; }
     }
 }
