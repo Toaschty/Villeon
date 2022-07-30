@@ -24,7 +24,6 @@ namespace Villeon.Systems.Update
 
         public void Update(float time)
         {
- 
         }
     }
 }

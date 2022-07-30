@@ -24,8 +24,8 @@ namespace Villeon.Helper
         private int _itemAttack = 0;
         private int _itemDefense = 0;
 
-        private string _itemAttackName;
-        private string _itemDefenseName;
+        private string _itemAttackName = " ";
+        private string _itemDefenseName = " ";
 
         // Progress
         private int _progress = 0;

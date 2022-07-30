@@ -20,8 +20,6 @@ namespace Villeon.Components
         private int _damage = 0;
         private int _defense = 0;
 
-        private int _heal = 0;
-
         public Item()
         {
             _name = "Null";

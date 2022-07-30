@@ -210,7 +210,7 @@ namespace Villeon.GUI
                 if (_slots[i] != null)
                 {
                     _slotsEntities[i] = new Entity(new Transform(new Vector2(0.6f + (i * 1.5f), -3.2f), 0.3f, 0f), "Slot");
-                    _slotsEntities[i].AddComponent(_slots[i].Sprite);
+                    _slotsEntities[i].AddComponent(_slots[i]!.Sprite);
                     _entities.Add(_slotsEntities[i]);
                 }
             }
@@ -219,10 +219,10 @@ namespace Villeon.GUI
         private void UpdateWeapons()
         {
             // Remove existing entities
-            Manager.GetInstance().RemoveEntity(_swordEntity);
-            Manager.GetInstance().RemoveEntity(_shieldEntity);
-            _entities.Remove(_swordEntity);
-            _entities.Remove(_shieldEntity);
+            Manager.GetInstance().RemoveEntity(_swordEntity!);
+            Manager.GetInstance().RemoveEntity(_shieldEntity!);
+            _entities.Remove(_swordEntity!);
+            _entities.Remove(_shieldEntity!);
 
             // Add new entities
             if (_sword != null)

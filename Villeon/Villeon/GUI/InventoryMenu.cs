@@ -218,7 +218,9 @@ namespace Villeon.GUI
                     RemoveItemNameEntities();
                 }
                 else
+                {
                     slot.DecreaseStack();
+                }
 
                 // Reload item entities
                 slot.ReloadEntities();
