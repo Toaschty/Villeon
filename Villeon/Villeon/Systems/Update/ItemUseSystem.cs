@@ -61,7 +61,7 @@ namespace Villeon.Systems.Update
                             // Its a shield!
                             Stats.GetInstance().SetDefenseItem(selectedItem);
 
-                            // Spawn Healed icon!
+                            // Spawn Equip Icon!
                             IEntity savingIcon = ParticleBuilder.StationaryParticle(new Vector2(-0.95f, -5f), 1, 0.2f, true, "Animations.Equipped.png", Components.SpriteLayer.ScreenGuiOnTopOfForeground);
                             Manager.GetInstance().AddEntity(savingIcon);
 
@@ -70,11 +70,11 @@ namespace Villeon.Systems.Update
 
                         if (selectedItem.Defense == 0)
                         {
-                            // Spawn Healed icon!
+                            // Its a weapon!
                             IEntity savingIcon = ParticleBuilder.StationaryParticle(new Vector2(-0.95f, -5f), 1, 0.2f, true, "Animations.Equipped.png", Components.SpriteLayer.ScreenGuiOnTopOfForeground);
                             Manager.GetInstance().AddEntity(savingIcon);
 
-                            // Its a weapon!
+                            // Spawn Equip Icon!
                             Stats.GetInstance().SetAttackItem(selectedItem);
 
                             EquipmentMenu.GetInstance().AddAttackWeapon(selectedItem);

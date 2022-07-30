@@ -18,10 +18,10 @@ namespace Villeon.EntityManagement
     {
         private readonly string _mapName;
 
-        private int _caveIndex = -1;
-
         // Holds the reference to the whole tilemap file
         private readonly TiledLib.Map _map;
+
+        private int _caveIndex = -1;
 
         // Dictionary tileId => Tile object
         private Dictionary<uint, Tile> _tiles = new Dictionary<uint, Tile>();
