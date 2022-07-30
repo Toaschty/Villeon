@@ -57,8 +57,8 @@
     ]
   },
   "slime_magenta": {
-    "health": 200,
-    "damage": 120,
+    "health": 300,
+    "damage": 80,
     "ai": "JumpingAI",
     "experience": 40,
     "animationPath": "Enemies.Slime.",
@@ -142,7 +142,7 @@
   },
   "slime_green": {
     "health": 400,
-    "damage": 240,
+    "damage": 110,
     "ai": "JumpingAI",
     "experience": 160,
     "animationPath": "Enemies.Slime.",
@@ -226,7 +226,7 @@
   },
   "slime_red": {
     "health": 800,
-    "damage": 480,
+    "damage": 150,
     "ai": "JumpingAI",
     "experience": 640,
     "animationPath": "Enemies.Slime.",
@@ -244,7 +244,7 @@
     "triggerHeight": 24,
     "drops": [
       {
-        "itemName": "HealthPotionMiddle",
+        "itemName": "HealthPotionBig",
         "index": 0,
         "rate": 0.5,
         "amount": {
@@ -310,7 +310,7 @@
   },
   "bat_blue": {
     "health": 150,
-    "damage": 60,
+    "damage": 50,
     "ai": "FlyingAI",
     "experience": 30,
     "animationPath": "Enemies.Bat.",
@@ -385,7 +385,7 @@
   },
   "bat_magenta": {
     "health": 300,
-    "damage": 120,
+    "damage": 80,
     "ai": "FlyingAI",
     "experience": 90,
     "animationPath": "Enemies.Bat.",
@@ -403,7 +403,7 @@
     "triggerHeight": 32,
     "drops": [
       {
-        "itemName": "HealthPotionSmall",
+        "itemName": "HealthPotionMiddle",
         "index": 0,
         "rate": 0.1,
         "amount": {
@@ -460,7 +460,7 @@
   },
   "bat_green": {
     "health": 600,
-    "damage": 240,
+    "damage": 120,
     "ai": "FlyingAI",
     "experience": 270,
     "animationPath": "Enemies.Bat.",
@@ -478,7 +478,7 @@
     "triggerHeight": 32,
     "drops": [
       {
-        "itemName": "HealthPotionSmall",
+        "itemName": "HealthPotionMiddle",
         "index": 0,
         "rate": 0.1,
         "amount": {
@@ -535,7 +535,7 @@
   },
   "bat_red": {
     "health": 1200,
-    "damage": 480,
+    "damage": 160,
     "ai": "FlyingAI",
     "experience": 810,
     "animationPath": "Enemies.Bat.",
@@ -553,7 +553,7 @@
     "triggerHeight": 32,
     "drops": [
       {
-        "itemName": "HealthPotionSmall",
+        "itemName": "HealthPotionBig",
         "index": 0,
         "rate": 0.1,
         "amount": {
@@ -609,7 +609,7 @@
     ]
   },
   "bubble_blue": {
-    "health": 70,
+    "health": 180,
     "damage": 50,
     "ai": "RollingAI",
     "experience": 10,
@@ -628,7 +628,7 @@
     "triggerHeight": 45,
     "drops": [
       {
-        "itemName": "HealthPotionMiddle",
+        "itemName": "HealthPotionSmall",
         "index": 0,
         "rate": 0.1,
         "amount": {
@@ -684,7 +684,7 @@
     ]
   },
   "bubble_magenta": {
-    "health": 140,
+    "health": 300,
     "damage": 100,
     "ai": "RollingAI",
     "experience": 40,
@@ -759,8 +759,8 @@
     ]
   },
   "bubble_green": {
-    "health": 280,
-    "damage": 200,
+    "health": 500,
+    "damage": 150,
     "ai": "RollingAI",
     "experience": 160,
     "animationPath": "Enemies.Bubble.",
@@ -834,8 +834,8 @@
     ]
   },
   "bubble_red": {
-    "health": 560,
-    "damage": 400,
+    "health": 900,
+    "damage": 180,
     "ai": "RollingAI",
     "experience": 640,
     "animationPath": "Enemies.Bubble.",
@@ -853,7 +853,7 @@
     "triggerHeight": 45,
     "drops": [
       {
-        "itemName": "HealthPotionMiddle",
+        "itemName": "HealthPotionBig",
         "index": 0,
         "rate": 0.2,
         "amount": {
@@ -910,7 +910,7 @@
   },
   "eye": {
     "health": 1600,
-    "damage": 500,
+    "damage": 170,
     "ai": "FlyingAI",
     "experience": 1000,
     "animationPath": "Enemies.Eye.",
@@ -928,7 +928,7 @@
     "triggerHeight": 14,
     "drops": [
       {
-        "itemName": "HealthPotionSmall",
+        "itemName": "HealthPotionBig",
         "index": 0,
         "rate": 0.3,
         "amount": {
@@ -993,8 +993,8 @@
     ]
   },
   "pufferfish": {
-    "health": 70,
-    "damage": 15,
+    "health": 700,
+    "damage": 150,
     "ai": "RollingAI",
     "experience": 10,
     "animationPath": "Enemies.Pufferfish.",
@@ -1012,7 +1012,7 @@
     "triggerHeight": 29,
     "drops": [
       {
-        "itemName": "HealthPotionSmall",
+        "itemName": "HealthPotionMiddle",
         "index": 0,
         "rate": 0.3,
         "amount": {
@@ -1026,7 +1026,7 @@
         "rate": 0.5,
         "amount": {
           "min": 1,
-          "max": 5
+          "max": 20
         }
       },
       {
@@ -1034,8 +1034,8 @@
         "index": 2,
         "rate": 1,
         "amount": {
-          "min": 2,
-          "max": 10
+          "min": 5,
+          "max": 25
         }
       }
     ]
