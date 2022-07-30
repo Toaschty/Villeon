@@ -131,6 +131,11 @@ namespace Villeon.Systems.Update
             VillageScene.AddSystem(new PhysicsSystem("PhysicsSystem"));
             VillageScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
             VillageScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
+            VillageScene.AddStartUpFunc(() =>
+            {
+                DungeonMenu.EnteredThroughMenu = false;
+                return true;
+            });
             SetTileMap(VillageScene, villageTileMap, false);
         }
 
@@ -258,8 +263,20 @@ namespace Villeon.Systems.Update
                 PlayerExpSystem.Init();
                 PlayerHealthbarSystem.Init();
 
+                // Add Portal to exit dungeon
+                IEntity dungeonToVillage = new Entity(new Transform(Constants.DUNGEON_SPAWN_POINT - new Vector2(1, 4), 1f, 0f), "dungeonToVillagePortal");
+                dungeonToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 3f, 5f));
+                dungeonToVillage.AddComponent(new Portal("VillageScene", Constants.DUNGEON_SPAWN_POINT));
+                dungeonToVillage.AddComponent(new Interactable(new Option("Leave Dungeon [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
+                ParticleSpawner particleSpawner = new ParticleSpawner(50, "Sprites.Particles.PortalDust.png");
+                particleSpawner.VariationWidth = 2;
+                particleSpawner.VariationHeight = 3;
+                particleSpawner.Offset = new Vector2(2.5f, 3f);
+                dungeonToVillage.AddComponent(particleSpawner);
+                DungeonScene.AddEntity(dungeonToVillage);
+
                 // Choose tileset depending on selection
-                switch (DungeonMenu.Selection)
+                switch (GetDungeonSelection())
                 {
                     case 0: SetTileMap(DungeonScene, SpawnDungeon.CreateDungeon(), tileMapCrumblyCave, true); break;
                     case 1: SetTileMap(DungeonScene, SpawnDungeon.CreateDungeon(), tileMapDarkendLair, true); break;
@@ -344,7 +361,7 @@ namespace Villeon.Systems.Update
                 PlayerHealthbarSystem.Init();
 
                 // Spawn the Boss monster and select correct tilemap
-                switch (DungeonMenu.Selection)
+                switch (GetDungeonSelection())
                 {
                     case 0: SetTileMap(BossScene, bossTilemapCrumblyCave, true); EnemySpawner.SpawnBoss("BossScene", "catBlob", new Vector2(52f, 24f)); break;
                     case 1: SetTileMap(BossScene, bossTilemapDarkendLair, true); EnemySpawner.SpawnBoss("BossScene", "john", new Vector2(52f, 24f)); break;
@@ -386,13 +403,6 @@ namespace Villeon.Systems.Update
             villageToDungeon.AddComponent(particleSpawner);
             VillageScene.AddEntity(villageToDungeon);
 
-            IEntity dungeonToVillage = new Entity(new Transform(new Vector2(1f, 3f), 1f, 0f), "dungeonToVillagePortal");
-            dungeonToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 4f));
-            dungeonToVillage.AddComponent(new Portal("VillageScene", Constants.DUNGEON_SPAWN_POINT));
-            dungeonToVillage.AddComponent(new Interactable(new Option("Leave Dungeon [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
-            dungeonToVillage.AddComponent(particleSpawner);
-            DungeonScene.AddEntity(dungeonToVillage);
-
             IEntity villageToSmith = new Entity(new Transform(Constants.TO_SMITH_PORTAL_POINT, 1f, 0f), "VillageToSmithPortal");
             villageToSmith.AddComponent(new Trigger(TriggerLayerType.PORTAL, 2f, 1f));
             villageToSmith.AddComponent(new Portal("SmithScene", Constants.TO_SMITH_PORTAL_POINT + new Vector2(1f, -1f)));
@@ -416,6 +426,24 @@ namespace Villeon.Systems.Update
             shopToVillage.AddComponent(new Portal("VillageScene", Constants.FROM_SHOP_PORTAL_POINT + new Vector2(1f, 2f)));
             shopToVillage.AddComponent(new Interactable(new Option("Leave Shop [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
             ShopScene.AddEntity(shopToVillage);
+        }
+
+        private static int GetDungeonSelection()
+        {
+            int selection = DungeonMenu.Selection;
+            if (!DungeonMenu.EnteredThroughMenu)
+            {
+                selection = 0;
+                for (int i = 0; i < 3; i++)
+                {
+                    if (Stats.GetInstance().UnlockProgress[i] == Constants.MAXNPCUNLOCKS)
+                        selection++;
+                    else
+                        break;
+                }
+            }
+
+            return selection;
         }
     }
 }
