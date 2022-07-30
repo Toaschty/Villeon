@@ -122,6 +122,7 @@ namespace Villeon.Systems.Update
             VillageScene.AddSystem(new DialogSystem("DialogSystem"));
             VillageScene.AddSystem(new TradingSystem("TradingSystem"));
             VillageScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
+            VillageScene.AddSystem(new VillageEquipSystem("VillageEquipSystem"));
             VillageScene.AddSystem(new AutoSaveSystem("AutoSave"));
 
             // Particle stuff
@@ -151,6 +152,7 @@ namespace Villeon.Systems.Update
             ShopScene.AddSystem(new InteractionSystem("InteractionSystem"));
             ShopScene.AddSystem(new TradingSystem("TradingSystem"));
             ShopScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
+            ShopScene.AddSystem(new VillageEquipSystem("VillageEquipSystem"));
             ShopScene.AddSystem(new AutoSaveSystem("AutoSave"));
 
             // Particle stuff
@@ -179,6 +181,7 @@ namespace Villeon.Systems.Update
             SmithScene.AddSystem(new InteractionSystem("InteractionSystem"));
             SmithScene.AddSystem(new TradingSystem("TradingSystem"));
             SmithScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
+            SmithScene.AddSystem(new VillageEquipSystem("VillageEquipSystem"));
             SmithScene.AddSystem(new AutoSaveSystem("AutoSave"));
 
             // Particle stuff

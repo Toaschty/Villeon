@@ -78,7 +78,7 @@
       {
         "itemName": "HealthPotionMiddle",
         "index": 0,
-        "rate": 0.2,
+        "rate": 0.4,
         "amount": {
           "min": 1,
           "max": 5
@@ -162,7 +162,7 @@
       {
         "itemName": "HealthPotionMiddle",
         "index": 0,
-        "rate": 0.1,
+        "rate": 0.3,
         "amount": {
           "min": 1,
           "max": 5
@@ -328,6 +328,15 @@
     "triggerHeight": 32,
     "drops": [
       {
+        "itemName": "HealthPotionSmall",
+        "index": 0,
+        "rate": 0.1,
+        "amount": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      {
         "itemName": "BatWings",
         "index": 0,
         "rate": 1,
@@ -393,6 +402,15 @@
     "triggerWidth": 32,
     "triggerHeight": 32,
     "drops": [
+      {
+        "itemName": "HealthPotionSmall",
+        "index": 0,
+        "rate": 0.1,
+        "amount": {
+          "min": 1,
+          "max": 5
+        }
+      },
       {
         "itemName": "BatWings",
         "index": 0,
@@ -460,6 +478,15 @@
     "triggerHeight": 32,
     "drops": [
       {
+        "itemName": "HealthPotionSmall",
+        "index": 0,
+        "rate": 0.1,
+        "amount": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      {
         "itemName": "BatWings",
         "index": 0,
         "rate": 1,
@@ -525,6 +552,15 @@
     "triggerWidth": 32,
     "triggerHeight": 32,
     "drops": [
+      {
+        "itemName": "HealthPotionSmall",
+        "index": 0,
+        "rate": 0.1,
+        "amount": {
+          "min": 1,
+          "max": 5
+        }
+      },
       {
         "itemName": "BatWings",
         "index": 0,
@@ -592,6 +628,15 @@
     "triggerHeight": 45,
     "drops": [
       {
+        "itemName": "HealthPotionMiddle",
+        "index": 0,
+        "rate": 0.1,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
         "itemName": "Stick",
         "index": 0,
         "rate": 0.5,
@@ -657,6 +702,15 @@
     "triggerWidth": 45,
     "triggerHeight": 45,
     "drops": [
+      {
+        "itemName": "HealthPotionMiddle",
+        "index": 0,
+        "rate": 0.1,
+        "amount": {
+          "min": 1,
+          "max": 3
+        }
+      },
       {
         "itemName": "Stick",
         "index": 0,
@@ -724,6 +778,15 @@
     "triggerHeight": 45,
     "drops": [
       {
+        "itemName": "HealthPotionMiddle",
+        "index": 0,
+        "rate": 0.2,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
         "itemName": "Stick",
         "index": 0,
         "rate": 0.5,
@@ -790,6 +853,15 @@
     "triggerHeight": 45,
     "drops": [
       {
+        "itemName": "HealthPotionMiddle",
+        "index": 0,
+        "rate": 0.2,
+        "amount": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      {
         "itemName": "Stick",
         "index": 0,
         "rate": 0.5,
@@ -855,6 +927,15 @@
     "triggerWidth": 23,
     "triggerHeight": 14,
     "drops": [
+      {
+        "itemName": "HealthPotionSmall",
+        "index": 0,
+        "rate": 0.3,
+        "amount": {
+          "min": 1,
+          "max": 5
+        }
+      },
       {
         "itemName": "Gold",
         "index": 1,

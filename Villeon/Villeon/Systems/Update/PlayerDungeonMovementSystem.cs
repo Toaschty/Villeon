@@ -102,14 +102,6 @@ namespace Villeon.Systems.Update
                         Manager.GetInstance().AddEntities(jumpParticles);
                     }
                 }
-
-                //Debug Reset Position
-                if (KeyHandler.IsPressed(Keys.R))
-                {
-                    transform.Position = new Vector2(5f, 80f);
-                    dynamicCollider.LastPosition = new Vector2(5f, 80f);
-                    physics.Velocity = Vector2.Zero;
-                }
             }
         }
     }
