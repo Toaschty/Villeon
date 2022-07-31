@@ -49,6 +49,9 @@ namespace Villeon.Systems.Update
 
         public void Update(float time)
         {
+            if (_player is not null)
+                _playerPosition = _player.GetComponent<Transform>().Position;
+
             foreach (IEntity particleEntity in _particles)
             {
                 Particle particle = particleEntity.GetComponent<Particle>() !;
@@ -59,6 +62,16 @@ namespace Villeon.Systems.Update
                     Color4 color = sprite.Color;
                     color.A = particle.TTL / particle.MaxTTL;
                     sprite.Color = color;
+                }
+
+                if (particle.TrackingPlayer)
+                {
+                    if (_player is not null)
+                    {
+                        Vector2? deltaPositon = _playerPosition - _lastPlayerPositon;
+                        if (deltaPositon is not null)
+                            particleEntity.GetComponent<Transform>().Position += (Vector2)deltaPositon;
+                    }
                 }
             }
 
