@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Villeon.Components;
 using Villeon.EntityManagement;
-using Villeon.Generation;
 using Villeon.Helper;
 
 namespace Villeon.Systems.Update
@@ -18,7 +17,7 @@ namespace Villeon.Systems.Update
         public JumpingAISystem(string name)
             : base(name)
         {
-            Signature.IncludeAND(typeof(Physics), typeof(DynamicCollider), typeof(EnemyAI), typeof(Effect))
+            Signature.IncludeAND(typeof(Physics), typeof(DynamicCollider), typeof(JumpingAI), typeof(EnemyAI), typeof(Effect))
                 .IncludeOR(typeof(Player));
         }
 
@@ -158,7 +157,7 @@ namespace Villeon.Systems.Update
                 Manager.GetInstance().AddEntity(attackEntity);
 
                 // Spawn Attack Animation
-                IEntity attackAnimationEntity = ParticleBuilder.StationaryParticle(enemyTransform.Position - new Vector2(2f, 0f), 0.2f, 0.5f, false, "Animations.slime_attack_left.png", 0.05f);
+                IEntity attackAnimationEntity = ParticleBuilder.AnimatedStationaryParticle(enemyTransform.Position - new Vector2(2f, 0f), 0.2f, 0.5f, false, "Animations.slime_attack_left.png", 0.05f, SpriteLayer.Middleground);
                 Manager.GetInstance().AddEntity(attackAnimationEntity);
             }
 
@@ -173,7 +172,7 @@ namespace Villeon.Systems.Update
                 Manager.GetInstance().AddEntity(attackEntity);
 
                 // Spawn Attack Animation
-                IEntity attackAnimationEntity = ParticleBuilder.StationaryParticle(enemyTransform.Position + new Vector2(1f, 0f), 0.2f, 0.5f, false, "Animations.slime_attack_right.png", 0.05f);
+                IEntity attackAnimationEntity = ParticleBuilder.AnimatedStationaryParticle(enemyTransform.Position + new Vector2(1f, 0f), 0.2f, 0.5f, false, "Animations.slime_attack_right.png", 0.05f, SpriteLayer.Middleground);
                 Manager.GetInstance().AddEntity(attackAnimationEntity);
             }
         }

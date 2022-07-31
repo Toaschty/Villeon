@@ -30,7 +30,7 @@ namespace Villeon.Systems.Update
                 {
                     StateManager.InMenu = true;
                     StateManager.IsPlayerDead = true;
-                    health.Heal(200);
+                    health.Heal(0);
                     health.IsInvincible = true;
                 }
             }

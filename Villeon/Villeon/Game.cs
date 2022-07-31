@@ -103,6 +103,7 @@ namespace Villeon
                 Scenes.SetupSmithScene();
                 Scenes.SetupShopScene();
                 Scenes.SetupPortalEntities();
+                Scenes.SetupBossScene();
                 SetupGUIEntities();
                 CreatePlayers();
                 GUIHandler.GetInstance().LoadGUI();
@@ -112,6 +113,9 @@ namespace Villeon
                 NPCLoader.LoadNpcs("VillageScene");
                 NPCLoader.LoadNpcs("SmithScene");
                 NPCLoader.LoadNpcs("ShopScene");
+
+                // Load Unlockable NPCs
+                NPCLoader.SpawnUnlockableNPCs();
 
                 // Switch scene if loading is done
                 if (Stats.GetInstance().Progress == 0)
@@ -127,17 +131,20 @@ namespace Villeon
         {
             Scenes.TutorialScene.AddEntity(Players.CreateVillagePlayer(Constants.TUTORIAL_SPAWN_POINT));
             Scenes.VillageScene.AddEntity(Players.CreateVillagePlayer(Constants.VILLAGE_SPAWN_POINT));
-            Scenes.DungeonScene.AddEntity(Players.CreateDungeonPlayer());
+            Scenes.DungeonScene.AddEntity(Players.CreateDungeonPlayer(Constants.DUNGEON_SPAWN_POINT));
             Scenes.SmithScene.AddEntity(Players.CreateVillagePlayer(Constants.SMITH_SPAWN_POINT));
             Scenes.ShopScene.AddEntity(Players.CreateVillagePlayer(Constants.SHOP_SPAWN_POINT));
         }
 
         private void SetupGUIEntities()
         {
+            // Overlay - Tutorial
+            TutorialOverlay tutorialOverlay = new TutorialOverlay();
+            Scenes.TutorialScene.AddEntities(tutorialOverlay.GetEntities());
+
             // Overlay - Village
             VillageOverlay villageOverlay = new VillageOverlay();
             Scenes.VillageScene.AddEntities(villageOverlay.GetEntities());
-            Scenes.TutorialScene.AddEntities(villageOverlay.GetEntities());
             Scenes.ShopScene.AddEntities(villageOverlay.GetEntities());
             Scenes.SmithScene.AddEntities(villageOverlay.GetEntities());
 
@@ -150,6 +157,8 @@ namespace Villeon
             guiHandlerEntity.AddComponent(GUIHandler.GetInstance());
 
             Scenes.VillageScene.AddEntity(guiHandlerEntity);
+            Scenes.ShopScene.AddEntity(guiHandlerEntity);
+            Scenes.SmithScene.AddEntity(guiHandlerEntity);
             Scenes.DungeonScene.AddEntity(guiHandlerEntity);
         }
 

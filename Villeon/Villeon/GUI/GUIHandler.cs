@@ -60,7 +60,7 @@ namespace Villeon.GUI
             _pauseMenu = new PauseMenu();
             _deathMenu = new DeathMenu();
             _dungeonMenu = new DungeonMenu();
-            _equipmentMenu = new EquipmentMenu();
+            _equipmentMenu = EquipmentMenu.GetInstance();
             _inventoryMenu = InventoryMenu.GetInstance();
             _mapMenu = new MapMenu();
             _helpMenu = new HelpMenu();

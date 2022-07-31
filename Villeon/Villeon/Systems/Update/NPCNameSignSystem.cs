@@ -32,7 +32,6 @@ namespace Villeon.Systems.Update
             NpcNameSign nameSign = new NpcNameSign(position, npc.Name, SpriteLayer.GUIBackground);
             nameSign.Spawn(npc.Scene);
             _entityToSign.Add(entity, nameSign);
-            Console.WriteLine("spawning: " + npc.Name + "pos: " + transform.Position);
         }
 
         public void Update(float time)

@@ -9,6 +9,7 @@ using Villeon.Components;
 using Villeon.EntityManagement;
 using Villeon.GUI;
 using Villeon.Helper;
+using Villeon.Utils;
 
 namespace Villeon.Systems.Update
 {
@@ -53,7 +54,7 @@ namespace Villeon.Systems.Update
                         UpdateText(mainMenu);
                     }
 
-                    if (currentKey == Keys.Space)
+                    if (currentKey == Keys.Space || currentKey == Keys.Enter)
                     {
                         HandleSelectedAction(mainMenu);
                     }

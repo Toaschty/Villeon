@@ -98,11 +98,34 @@ namespace Villeon.Render
 
         public void Render()
         {
-            _shader.Use();
+            if (StateManager.InDungeon && StateManager.RayTracingEnabled)
+            {
+                Shader raytracingShader = Asset.GetShader("Shaders.rayTracing");
+                raytracingShader.Use();
 
-            UploadMatricies();
-            UploadTextures();
-            UploadLights();
+                Camera.Update();
+                raytracingShader.UploadMat4("cameraMatrix", Camera.GetMatrix());
+                raytracingShader.UploadMat4("screenMatrix", Camera.GetScreenMatrix());
+                int i = 0;
+                foreach (Texture2D texture in _textures)
+                {
+                    GL.ActiveTexture(TextureUnit.Texture0 + i + 1);
+                    texture.Bind();
+                    i++;
+                }
+
+                raytracingShader.UploadIntArray("textures", _texSlots);
+                raytracingShader.UploadInt("textures[8]", 8);
+                raytracingShader.UploadFloatArray("dimensions", new float[] { Camera.ScreenWidth, Camera.ScreenHeight });
+            }
+            else
+            {
+                _shader.Use();
+
+                UploadMatricies();
+                UploadTextures();
+                UploadLights();
+            }
 
             // Bind VAO & Enable all the attributes then Draw!
             _vao.Bind();
@@ -226,7 +249,7 @@ namespace Villeon.Render
 
         public bool HasTextureRoom()
         {
-            return _textures.Count < Size.TEX_SLOTS;
+            return _textures.Count < (Size.TEX_SLOTS - 2);
         }
 
         public bool HasTexture(Texture2D? texture)

@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Villeon.Components;
 using Villeon.EntityManagement;
-using Villeon.GUI;
 
-namespace Villeon.Components
+namespace Villeon.GUI
 {
     public class Hotbar
     {
@@ -65,17 +65,21 @@ namespace Villeon.Components
             if (_inventoryReferences![index] == null)
                 return;
 
-            // Decrease item reference by one
-            _inventoryReferences[index]!.DecreaseStack();
+            // Apply effect
+            // Check how much current potion heals
+            int health = ItemLoader.GetHealthEffect(_inventoryReferences![index]!.Item!.Name);
+            if (health > 0)
+                playerHealth.Heal(health);
+            else
+                playerHealth.CurrentHealth = playerHealth.MaxHealth;
 
-            // If stack is now empty -> Remove item from hotbar. Else add reduced item to hotbar again
+            // If stack is empty -> Remove item from hotbar. Else decrease item reference by one
             if (_inventoryReferences[index]!.IsStackEmpty())
                 RemoveItem(_inventoryReferences[index]!);
+            else
+                _inventoryReferences[index]!.DecreaseStack();
 
             UpdateItems();
-
-            // Apply effect
-            playerHealth.Heal(20);
 
             // Reload hotbar
             ReloadHotbar();
@@ -96,6 +100,9 @@ namespace Villeon.Components
                     // Reset hotbar slot
                     _hotbarSlots[i] = new InventorySlot(_hotbarSlots[i].Transform);
                     _inventoryReferences[i] = null;
+
+                    // Remove item from equipment view
+                    EquipmentMenu.GetInstance().RemoveItemInHotbar(i);
                 }
             }
         }
@@ -127,6 +134,29 @@ namespace Villeon.Components
                         RemoveItem(_inventoryReferences[i]!);
                 }
             }
+        }
+
+        public int[] GetHotbarIndexes(InventorySlot slot)
+        {
+            List<int> indices = new List<int>();
+
+            // Check at which indices current slot is
+            for (int i = 0; i < _inventoryReferences !.Length; i++)
+            {
+                if (_inventoryReferences[i] == slot)
+                {
+                    indices.Add(i);
+                }
+            }
+
+            return indices.ToArray();
+        }
+
+        public void UnloadHotbar()
+        {
+            // Unload all hotbar entities
+            Manager.GetInstance().RemoveEntities(_hotbarEntities);
+            _hotbarEntities.Clear();
         }
     }
 }

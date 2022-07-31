@@ -1,35 +1,190 @@
 ﻿[
   {
-    "name": "HealthPotion",
+    "name": "HealthPotionSmall",
     "index": 0,
-    "price": "5",
     "itemType": "Potion",
     "stackSize": 20,
-    "sprite": "Potion_Item.png"
+    "sprite": "Potions.PotionSmall.png",
+    "healEffect": 100
+  },
+  {
+    "name": "HealthPotionMiddle",
+    "index": 1,
+    "itemType": "Potion",
+    "stackSize": 20,
+    "sprite": "Potions.PotionMiddle.png",
+    "healEffect": 200
+  },
+  {
+    "name": "HealthPotionBig",
+    "index": 2,
+    "itemType": "Potion",
+    "stackSize": 20,
+    "sprite": "Potions.PotionBig.png",
+    "healEffect": 500
+  },
+  {
+    "name": "HealthPotionSpecial",
+    "index": 3,
+    "itemType": "Potion",
+    "stackSize": 20,
+    "sprite": "Potions.PotionSpecial.png"
   },
   {
     "name": "Sword",
-    "index": 1,
-    "price": "20",
+    "index": 4,
     "itemType": "Weapon",
+    "damage": 20,
+    "defense": 0,
     "stackSize": 1,
-    "sprite": "Sword_1.png"
+    "sprite": "Weapons.Sword.png"
+  },
+  {
+    "name": "RawGold",
+    "index": 5,
+    "itemType": "Material",
+    "stackSize": 500,
+    "sprite": "Materials.RawGold.png"
   },
   {
     "name": "Gold",
-    "index": 2,
-    "price": 10,
+    "index": 6,
+    "itemType": "Material",
+    "stackSize": 200,
+    "sprite": "Materials.Gold.png"
+  },
+  {
+    "name": "RawIron",
+    "index": 7,
+    "itemType": "Material",
+    "stackSize": 500,
+    "sprite": "Materials.RawIron.png"
+  },
+  {
+    "name": "Iron",
+    "index": 8,
+    "itemType": "Material",
+    "stackSize": 200,
+    "sprite": "Materials.Iron.png"
+  },
+  {
+    "name": "RawDiamond",
+    "index": 9,
+    "itemType": "Material",
+    "stackSize": 500,
+    "sprite": "Materials.RawDiamond.png"
+  },
+  {
+    "name": "Diamond",
+    "index": 10,
+    "itemType": "Material",
+    "stackSize": 200,
+    "sprite": "Materials.Diamond.png"
+  },
+  {
+    "name": "RawRuby",
+    "index": 11,
+    "itemType": "Material",
+    "stackSize": 500,
+    "sprite": "Materials.RawRuby.png"
+  },
+  {
+    "name": "Ruby",
+    "index": 12,
+    "itemType": "Material",
+    "stackSize": 200,
+    "sprite": "Materials.Ruby.png"
+  },
+  {
+    "name": "Stick",
+    "index": 13,
     "itemType": "Material",
     "stackSize": 100,
-    "sprite": "Gold.png"
+    "sprite": "Materials.Stick.png"
   },
   {
     "name": "Rock",
-    "index": 3,
-    "price": 1,
+    "index": 14,
     "itemType": "Material",
     "stackSize": 100,
-    "sprite": "Rock.png"
+    "sprite": "Materials.Rock.png"
+  },
+  {
+    "name": "Pebbel",
+    "index": 15,
+    "itemType": "Material",
+    "stackSize": 999,
+    "sprite": "Materials.Pebbel.png"
+  },
+  {
+    "name": "BatWings",
+    "index": 16,
+    "itemType": "Material",
+    "stackSize": 100,
+    "sprite": "Materials.BatWings.png"
+  },
+  {
+    "name": "HellSword",
+    "index": 17,
+    "itemType": "Weapon",
+    "damage": 50,
+    "defense": 0,
+    "stackSize": 1,
+    "sprite": "Weapons.HellSword.png"
+  },
+  {
+    "name": "Shield",
+    "index": 18,
+    "itemType": "Weapon",
+    "damage": 0,
+    "defense": 10,
+    "stackSize": 1,
+    "sprite": "Weapons.Shield.png"
+  },
+  {
+    "name": "PlantShield",
+    "index": 19,
+    "itemType": "Weapon",
+    "damage": 0,
+    "defense": 40,
+    "stackSize": 1,
+    "sprite": "Weapons.PlantShield.png"
+  },
+    {
+    "name": "ScissorBlade",
+    "index": 20,
+    "itemType": "Weapon",
+    "damage": 100,
+    "defense": 0,
+    "stackSize": 1,
+    "sprite": "Weapons.ScissorBlade.png"
+  },
+  {
+    "name": "PlankShield",
+    "index": 21,
+    "itemType": "Weapon",
+    "damage": 0,
+    "defense": 20,
+    "stackSize": 1,
+    "sprite": "Weapons.PlankShield.png"
+  },
+    {
+    "name": "DemonSlayerSword",
+    "index": 22,
+    "itemType": "Weapon",
+    "damage": 200,
+    "defense": 0,
+    "stackSize": 1,
+    "sprite": "Weapons.DemonSlayerSword.png"
+  },
+  {
+    "name": "RisingShield",
+    "index": 23,
+    "itemType": "Weapon",
+    "damage": 0,
+    "defense": 100,
+    "stackSize": 1,
+    "sprite": "Weapons.RisingShield.png"
   }
 ]
 

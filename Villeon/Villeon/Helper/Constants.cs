@@ -12,6 +12,8 @@ namespace Villeon.Helper
         // Dungeon
         public static int Border { get; } = 10;
 
+        public static int MAXNPCUNLOCKS { get; } = 3;
+
         // Physics
         public static float GRAVITY { get; } = 40;
 
@@ -21,6 +23,8 @@ namespace Villeon.Helper
 
         // Movement
         public static float MOVEMENTSPEED { get; } = 75f;
+
+        public static float DASH_POWER { get; } = 50f;
 
         public static float TOPDOWNMOVEMENTSPEED { get; } = 10;
 
@@ -51,7 +55,15 @@ namespace Villeon.Helper
 
         public static Vector2 FROM_SHOP_PORTAL_POINT { get; } = new Vector2(15.5f, 0f);
 
+        public static Vector2 BOSS_ROOM_SPAWN_POINT { get; } = new Vector2(26f, 70f);
+
         // Player
         public static int PLAYER_MAX_HEALTH { get; } = 200;
+
+        // Inventory
+        public static int INVENTORY_SLOTS { get; } = 40;
+
+        // Auto save
+        public static float AUTOSAVE_TIME { get; } = 60f;
     }
 }

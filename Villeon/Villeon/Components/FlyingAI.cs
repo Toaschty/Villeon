@@ -8,11 +8,8 @@ namespace Villeon.Components
 {
     public class FlyingAI : IComponent
     {
-        public FlyingAI(int damage)
+        public FlyingAI()
         {
-            Damage = damage;
         }
-
-        public int Damage { get; set; }
     }
 }

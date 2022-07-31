@@ -50,6 +50,9 @@ namespace Villeon.Systems.Update
                 // Check if player is grounded
                 StateManager.IsGrounded = dynamicCollider.HasCollidedBottom;
 
+                if (effect.Effects.ContainsKey("MovemnetDisabled"))
+                    continue;
+
                 // Player is Walking Right
                 if (KeyHandler.IsHeld(Keys.D))
                 {
@@ -74,12 +77,15 @@ namespace Villeon.Systems.Update
 
                 if (!effect.Effects.ContainsKey("DashCooldown"))
                 {
-                    // Dash Right
                     if (KeyHandler.IsPressed(Keys.LeftShift))
                     {
                         effect.Effects.Add("DashCooldown", 1f);
                         int direction = playerComponent.WasLookingLeft ? -1 : 1;
-                        physics.Velocity = new Vector2(75f * direction, physics.Velocity.Y);
+                        physics.Velocity = new Vector2(Constants.DASH_POWER * direction, physics.Velocity.Y);
+
+                        // Spawn some dash particles in opposite direction
+                        List<IEntity> dashParticle = ParticleBuilder.RandomParticles(transform.Position, new Vector2(0.5f, 1.5f), 1f, 0.5f, new Vector2(direction * 5f, 0f), -0.01f, 0.2f, true, "Sprites.Particles.Stripe.png", 25, new Vector2(2f, 3f), Color4.White);
+                        Manager.GetInstance().AddEntities(dashParticle);
                     }
                 }
 
@@ -90,15 +96,11 @@ namespace Villeon.Systems.Update
                     {
                         StateManager.IsGrounded = false;
                         physics.Velocity = new Vector2(physics.Velocity.X, Constants.JUMPSTRENGTH);
-                    }
-                }
 
-                //Debug Reset Position
-                if (KeyHandler.IsPressed(Keys.R))
-                {
-                    transform.Position = new Vector2(5f, 80f);
-                    dynamicCollider.LastPosition = new Vector2(5f, 80f);
-                    physics.Velocity = Vector2.Zero;
+                        // Spawn some jump particles
+                        List<IEntity> jumpParticles = ParticleBuilder.RandomParticles(transform.Position, new Vector2(0.5f, 0f), 1f, 0.5f, 1f, -0.01f, 0, true, "Sprites.Particles.Dust.png", 25, new Vector2(3, 0), Color4.White);
+                        Manager.GetInstance().AddEntities(jumpParticles);
+                    }
                 }
             }
         }

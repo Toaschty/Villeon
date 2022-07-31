@@ -8,7 +8,6 @@ using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
 using Villeon.Helper;
-using Villeon.Utils;
 
 namespace Villeon.GUI
 {
@@ -22,6 +21,8 @@ namespace Villeon.GUI
         private float _letterSpacing;
         private float _lineSpacing;
         private float _letterScale;
+        private float _totalWidth;
+        private float _fontHeight;
 
         public Text(string text, Vector2 position, string font, float letterSpacing = 1.1f, float lineSpacing = 1.1f, float letterScale = 1f)
         {
@@ -49,7 +50,15 @@ namespace Villeon.GUI
             CreateLetters(font, layer);
         }
 
-        public float Width { get; set; }
+        public float Width
+        {
+            get { return _totalWidth; }
+        }
+
+        public float Height
+        {
+            get { return _fontHeight; }
+        }
 
         public List<IEntity> Letters { get => _letters; set => _letters = value; }
 
@@ -62,6 +71,8 @@ namespace Villeon.GUI
         {
             Vector2 letterPosition = _position;
             float spriteHeight = Fonts.GetFontHeight(fontName) * _letterScale;
+            _fontHeight = Fonts.GetFontHeight(fontName) * _letterScale;
+
             foreach (char c in _text)
             {
                 // Move to next line '\n'
@@ -85,7 +96,7 @@ namespace Villeon.GUI
                 letterPosition.X += spriteWidth + _letterSpacing;
             }
 
-            Width = letterPosition.X;
+            _totalWidth = Math.Abs(_position.X - letterPosition.X);
         }
     }
 }

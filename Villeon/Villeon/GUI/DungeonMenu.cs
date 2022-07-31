@@ -11,7 +11,6 @@ using Villeon.Assets;
 using Villeon.Components;
 using Villeon.EntityManagement;
 using Villeon.Helper;
-using Villeon.Utils;
 
 namespace Villeon.GUI
 {
@@ -40,6 +39,7 @@ namespace Villeon.GUI
 
         private Text? _title;
         private Text? _description;
+        private Text? _unlocks;
 
         // Holds Json file of cave data
         private dynamic _cavesJson;
@@ -54,12 +54,12 @@ namespace Villeon.GUI
             _elementCount = _cavesJson.caves.Count;
 
             // Load Sprites
-            Sprite backgroundScrollSprite = Asset.GetSprite("GUI.Scroll_Dungeonmenu.png", SpriteLayer.ScreenGuiBackground, false);
-            Sprite horizontalLine1Sprite = Asset.GetSprite("GUI.Scroll_Horizontal_Line_1.png", SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite horizontalLine2Sprite = Asset.GetSprite("GUI.Scroll_Horizontal_Line_2.png", SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite horizontalLine3Sprite = Asset.GetSprite("GUI.Scroll_Horizontal_Line_3.png", SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite verticalLineSprite = Asset.GetSprite("GUI.Scroll_Vertical_Line_1.png", SpriteLayer.ScreenGuiMiddleground, false);
-            Sprite selectionSprite = Asset.GetSprite("GUI.Scroll_Selection.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite backgroundScrollSprite = Asset.GetSprite("GUI.Scrolls.Scroll_Dungeonmenu.png", SpriteLayer.ScreenGuiBackground, false);
+            Sprite horizontalLine1Sprite = Asset.GetSprite("GUI.Scrolls.Scroll_Horizontal_Line_1.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite horizontalLine2Sprite = Asset.GetSprite("GUI.Scrolls.Scroll_Horizontal_Line_2.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite horizontalLine3Sprite = Asset.GetSprite("GUI.Scrolls.Scroll_Horizontal_Line_3.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite verticalLineSprite = Asset.GetSprite("GUI.Scrolls.Scroll_Vertical_Line_1.png", SpriteLayer.ScreenGuiMiddleground, false);
+            Sprite selectionSprite = Asset.GetSprite("GUI.Scrolls.Scroll_Selection.png", SpriteLayer.ScreenGuiMiddleground, false);
 
             // Background
             Vector2 scrollMiddle = new Vector2(backgroundScrollSprite.Width / 2f, backgroundScrollSprite.Height / 2f);
@@ -88,18 +88,25 @@ namespace Villeon.GUI
                 }
             }
 
+            // Text - Unlock
+            Text unlock = new Text("/ 3", new Vector2(3.8f, -2.15f), "Alagard", 0f, 0.5f, _letterScaleBig);
+            Array.ForEach(unlock.GetEntities(), entity => _entities.Add(entity));
+
             // Text - Explore
-            Text explore = new Text("Go explore", _onExplorePosition + new Vector2(1f, 0), "Alagard", 0f, 3f, _letterScaleBig);
+            Text explore = new Text("Go explore", _onExplorePosition + new Vector2(1.2f, 0), "Alagard", 0f, 3f, _letterScaleBig);
             Array.ForEach(explore.GetEntities(), entity => _entities.Add(entity));
 
             // Load in first text
             LoadText();
         }
 
+        public static bool EnteredThroughMenu { get; set; }
+
         public static int Selection => _currentSelection;
 
         public IEntity[] GetEntities()
         {
+            UpdateText();
             return _entities.ToArray();
         }
 
@@ -149,8 +156,9 @@ namespace Villeon.GUI
                 UpdateSelectionPosition();
             }
 
-            if (key == Keys.Space && _onExplore)
+            if ((key == Keys.Space || key == Keys.Enter) && _onExplore)
             {
+                EnteredThroughMenu = true;
                 Manager.GetInstance().RemoveEntities(GetEntities());
                 SceneLoader.SetActiveScene("DungeonScene");
                 return false;
@@ -181,6 +189,13 @@ namespace Villeon.GUI
                 _entities.Remove(entity);
                 Manager.GetInstance().RemoveEntity(entity);
             });
+
+            // Remove all unlock letters from the scene and the local list of entities
+            Array.ForEach(_unlocks!.GetEntities(), entity =>
+            {
+                _entities.Remove(entity);
+                Manager.GetInstance().RemoveEntity(entity);
+            });
         }
 
         private void LoadText()
@@ -194,6 +209,11 @@ namespace Villeon.GUI
             string description = _cavesJson.caves[_currentSelection].description.ToString();
             _description = new Text(description, new Vector2(0.4f, 2.1f), "Alagard_Thin", 0f, 0.5f, _letterScaleSmall);
             Array.ForEach(_description.GetEntities(), entity => _entities.Add(entity));
+
+            // Unlocks
+            string unlocks = Stats.GetInstance().GetUnlockProgress(_currentSelection) + string.Empty;
+            _unlocks = new Text(unlocks, new Vector2(3.2f, -2.15f), "Alagard", 0f, 0.5f, _letterScaleBig);
+            Array.ForEach(_unlocks.GetEntities(), entity => _entities.Add(entity));
         }
 
         private void UpdateSelectionPosition()

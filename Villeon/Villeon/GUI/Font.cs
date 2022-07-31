@@ -9,7 +9,6 @@ using OpenTK.Mathematics;
 using Villeon.Assets;
 using Villeon.Components;
 using Villeon.Helper;
-using Villeon.Utils;
 using Zenseless.OpenTK;
 
 namespace Villeon.GUI

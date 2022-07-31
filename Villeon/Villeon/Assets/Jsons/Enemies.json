@@ -1,12 +1,13 @@
 ﻿{
-  "slime": {
-    "health": 100,
-    "damage": 20,
+  "slime_blue": {
+    "health": 200,
+    "damage": 60,
     "ai": "JumpingAI",
     "experience": 10,
     "animationPath": "Enemies.Slime.",
     "animations": [
-        "slime_jumping.png",
+      "slime_jumping_blue.png",
+      "slime_jumping_blue.png"
     ],
     "animationSpeed": 0.1,
     "scale": 0.25,
@@ -18,17 +19,233 @@
     "triggerHeight": 24,
     "drops": [
       {
-        "itemName": "HealthPotion",
+        "itemName": "HealthPotionSmall",
+        "index": 0,
+        "rate": 0.4,
+        "amount": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      {
+        "itemName": "Pebbel",
+        "index": 0,
+        "rate": 0.5,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "Rock",
+        "index": 0,
+        "rate": 0.2,
+        "amount": {
+          "min": 1,
+          "max": 1
+        }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      }
+    ]
+  },
+  "slime_magenta": {
+    "health": 300,
+    "damage": 80,
+    "ai": "JumpingAI",
+    "experience": 40,
+    "animationPath": "Enemies.Slime.",
+    "animations": [
+      "slime_jumping_magenta.png",
+      "slime_jumping_magenta.png"
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 32,
+    "colliderHeight": 24,
+    "triggerWidth": 32,
+    "triggerHeight": 24,
+    "drops": [
+      {
+        "itemName": "HealthPotionMiddle",
+        "index": 0,
+        "rate": 0.4,
+        "amount": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      {
+        "itemName": "Pebbel",
+        "index": 0,
+        "rate": 0.3,
+        "amount": {
+          "min": 5,
+          "max": 20
+        }
+      },
+      {
+        "itemName": "Rock",
+        "index": 0,
+        "rate": 0.3,
+        "amount": {
+          "min": 2,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      }
+    ]
+  },
+  "slime_green": {
+    "health": 400,
+    "damage": 110,
+    "ai": "JumpingAI",
+    "experience": 160,
+    "animationPath": "Enemies.Slime.",
+    "animations": [
+      "slime_jumping_green.png",
+      "slime_jumping_green.png"
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 32,
+    "colliderHeight": 24,
+    "triggerWidth": 32,
+    "triggerHeight": 24,
+    "drops": [
+      {
+        "itemName": "HealthPotionMiddle",
         "index": 0,
         "rate": 0.3,
         "amount": {
           "min": 1,
-          "max": 2
+          "max": 5
         }
       },
       {
-        "itemName": "Gold",
-        "index": 1,
+        "itemName": "Pebbel",
+        "index": 0,
+        "rate": 0.2,
+        "amount": {
+          "min": 10,
+          "max": 40
+        }
+      },
+      {
+        "itemName": "Rock",
+        "index": 0,
+        "rate": 0.5,
+        "amount": {
+          "min": 2,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      }
+    ]
+  },
+  "slime_red": {
+    "health": 800,
+    "damage": 150,
+    "ai": "JumpingAI",
+    "experience": 640,
+    "animationPath": "Enemies.Slime.",
+    "animations": [
+      "slime_jumping_red.png",
+      "slime_jumping_red.png"
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 32,
+    "colliderHeight": 24,
+    "triggerWidth": 32,
+    "triggerHeight": 24,
+    "drops": [
+      {
+        "itemName": "HealthPotionBig",
+        "index": 0,
         "rate": 0.5,
         "amount": {
           "min": 1,
@@ -36,25 +253,70 @@
         }
       },
       {
-        "itemName": "Rock",
-        "index": 2,
-        "rate": 1,
+        "itemName": "Pebbel",
+        "index": 0,
+        "rate": 0.1,
         "amount": {
           "min": 2,
+          "max": 60
+        }
+      },
+      {
+        "itemName": "Rock",
+        "index": 0,
+        "rate": 0.2,
+        "amount": {
+          "min": 1,
+          "max": 20
+        }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
           "max": 10
         }
       }
     ]
   },
-  "bat": {
-    "health": 70,
-    "damage": 15,
+  "bat_blue": {
+    "health": 150,
+    "damage": 50,
     "ai": "FlyingAI",
-    "experience": 10,
+    "experience": 30,
     "animationPath": "Enemies.Bat.",
     "animations": [
-        "bat_left.png",
-        "bat_right.png",
+      "bat_left_blue.png",
+      "bat_right_blue.png"
     ],
     "animationSpeed": 0.1,
     "scale": 0.25,
@@ -66,12 +328,612 @@
     "triggerHeight": 32,
     "drops": [
       {
-        "itemName": "HealthPotion",
+        "itemName": "HealthPotionSmall",
+        "index": 0,
+        "rate": 0.1,
+        "amount": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      {
+        "itemName": "BatWings",
+        "index": 0,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 1
+        }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      }
+    ]
+  },
+  "bat_magenta": {
+    "health": 300,
+    "damage": 80,
+    "ai": "FlyingAI",
+    "experience": 90,
+    "animationPath": "Enemies.Bat.",
+    "animations": [
+      "bat_left_magenta.png",
+      "bat_right_magenta.png"
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 24,
+    "colliderHeight": 24,
+    "triggerWidth": 32,
+    "triggerHeight": 32,
+    "drops": [
+      {
+        "itemName": "HealthPotionMiddle",
+        "index": 0,
+        "rate": 0.1,
+        "amount": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      {
+        "itemName": "BatWings",
+        "index": 0,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 1
+        }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      }
+    ]
+  },
+  "bat_green": {
+    "health": 600,
+    "damage": 120,
+    "ai": "FlyingAI",
+    "experience": 270,
+    "animationPath": "Enemies.Bat.",
+    "animations": [
+      "bat_left_green.png",
+      "bat_right_green.png"
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 24,
+    "colliderHeight": 24,
+    "triggerWidth": 32,
+    "triggerHeight": 32,
+    "drops": [
+      {
+        "itemName": "HealthPotionMiddle",
+        "index": 0,
+        "rate": 0.1,
+        "amount": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      {
+        "itemName": "BatWings",
+        "index": 0,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 1
+        }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      }
+    ]
+  },
+  "bat_red": {
+    "health": 1200,
+    "damage": 160,
+    "ai": "FlyingAI",
+    "experience": 810,
+    "animationPath": "Enemies.Bat.",
+    "animations": [
+      "bat_left_red.png",
+      "bat_right_red.png"
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 24,
+    "colliderHeight": 24,
+    "triggerWidth": 32,
+    "triggerHeight": 32,
+    "drops": [
+      {
+        "itemName": "HealthPotionBig",
+        "index": 0,
+        "rate": 0.1,
+        "amount": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      {
+        "itemName": "BatWings",
+        "index": 0,
+        "rate": 1,
+        "amount": {
+          "min": 1,
+          "max": 1
+        }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      }
+    ]
+  },
+  "bubble_blue": {
+    "health": 180,
+    "damage": 50,
+    "ai": "RollingAI",
+    "experience": 10,
+    "animationPath": "Enemies.Bubble.",
+    "animations": [
+      "bubble_left_blue.png",
+      "bubble_right_blue.png"
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 45,
+    "colliderHeight": 45,
+    "triggerWidth": 45,
+    "triggerHeight": 45,
+    "drops": [
+      {
+        "itemName": "HealthPotionSmall",
+        "index": 0,
+        "rate": 0.1,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "Stick",
+        "index": 0,
+        "rate": 0.5,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      }
+    ]
+  },
+  "bubble_magenta": {
+    "health": 300,
+    "damage": 100,
+    "ai": "RollingAI",
+    "experience": 40,
+    "animationPath": "Enemies.Bubble.",
+    "animations": [
+      "bubble_left_magenta.png",
+      "bubble_right_magenta.png"
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 45,
+    "colliderHeight": 45,
+    "triggerWidth": 45,
+    "triggerHeight": 45,
+    "drops": [
+      {
+        "itemName": "HealthPotionMiddle",
+        "index": 0,
+        "rate": 0.1,
+        "amount": {
+          "min": 1,
+          "max": 3
+        }
+      },
+      {
+        "itemName": "Stick",
+        "index": 0,
+        "rate": 0.5,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      }
+    ]
+  },
+  "bubble_green": {
+    "health": 500,
+    "damage": 150,
+    "ai": "RollingAI",
+    "experience": 160,
+    "animationPath": "Enemies.Bubble.",
+    "animations": [
+      "bubble_left_green.png",
+      "bubble_right_green.png"
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 45,
+    "colliderHeight": 45,
+    "triggerWidth": 45,
+    "triggerHeight": 45,
+    "drops": [
+      {
+        "itemName": "HealthPotionMiddle",
+        "index": 0,
+        "rate": 0.2,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "Stick",
+        "index": 0,
+        "rate": 0.5,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      }
+    ]
+  },
+  "bubble_red": {
+    "health": 900,
+    "damage": 180,
+    "ai": "RollingAI",
+    "experience": 640,
+    "animationPath": "Enemies.Bubble.",
+    "animations": [
+      "bubble_left_red.png",
+      "bubble_right_red.png"
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 45,
+    "colliderHeight": 45,
+    "triggerWidth": 45,
+    "triggerHeight": 45,
+    "drops": [
+      {
+        "itemName": "HealthPotionBig",
+        "index": 0,
+        "rate": 0.2,
+        "amount": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      {
+        "itemName": "Stick",
+        "index": 0,
+        "rate": 0.5,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      }
+    ]
+  },
+  "eye": {
+    "health": 1600,
+    "damage": 170,
+    "ai": "FlyingAI",
+    "experience": 1000,
+    "animationPath": "Enemies.Eye.",
+    "animations": [
+      "eye_left.png",
+      "eye_right.png"
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 23,
+    "colliderHeight": 14,
+    "triggerWidth": 23,
+    "triggerHeight": 14,
+    "drops": [
+      {
+        "itemName": "HealthPotionBig",
         "index": 0,
         "rate": 0.3,
         "amount": {
           "min": 1,
-          "max": 2
+          "max": 5
         }
       },
       {
@@ -90,6 +952,90 @@
         "amount": {
           "min": 2,
           "max": 10
+        }
+      },
+      {
+        "itemName": "RawGold",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawRuby",
+        "index": 0,
+        "rate": 0.05,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawDiamond",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      {
+        "itemName": "RawIron",
+        "index": 0,
+        "rate": 0.01,
+        "amount": {
+          "min": 1,
+          "max": 10
+        }
+      }
+    ]
+  },
+  "pufferfish": {
+    "health": 700,
+    "damage": 150,
+    "ai": "RollingAI",
+    "experience": 10,
+    "animationPath": "Enemies.Pufferfish.",
+    "animations": [
+      "pufferfish_left.png",
+      "pufferfish_right.png"
+    ],
+    "animationSpeed": 0.1,
+    "scale": 0.25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "colliderWidth": 29,
+    "colliderHeight": 29,
+    "triggerWidth": 29,
+    "triggerHeight": 29,
+    "drops": [
+      {
+        "itemName": "HealthPotionMiddle",
+        "index": 0,
+        "rate": 0.3,
+        "amount": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      {
+        "itemName": "Gold",
+        "index": 1,
+        "rate": 0.5,
+        "amount": {
+          "min": 1,
+          "max": 20
+        }
+      },
+      {
+        "itemName": "Rock",
+        "index": 2,
+        "rate": 1,
+        "amount": {
+          "min": 5,
+          "max": 25
         }
       }
     ]

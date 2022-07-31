@@ -14,19 +14,20 @@ namespace Villeon.Generation
 {
     public class Players
     {
-        public static IEntity CreateDungeonPlayer()
+        public static IEntity CreateDungeonPlayer(Vector2 spawnPoint)
         {
             IEntity player;
-            Transform transform = new Transform(Constants.DUNGEON_SPAWN_POINT, 0.5f, 0f);
+            Transform transform = new Transform(spawnPoint, 0.5f, 0f);
             player = new Entity(transform, "DungeonMarin");
             player.AddComponent(new DynamicCollider(new Vector2(0f, 0f), transform, 1f, 1.5f));
             player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL | TriggerLayerType.LADDER | TriggerLayerType.MOBDROP, new Vector2(0f, 0f), 1f, 2f));
-            player.AddComponent(new Sprite(Asset.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
+            player.AddComponent(new Sprite(Asset.GetTexture("Sprites.Empty.png"), SpriteLayer.Foreground, true));
             player.AddComponent(new Physics());
             player.AddComponent(new Effect());
             player.AddComponent(new Player());
+            player.AddComponent(new Fokus());
             player.AddComponent(new Light(Color4.White, -12, 4f, new Vector2(0.5f, 1f)));
-            player.AddComponent(new Health(Stats.GetInstance().GetHealth()));
+            player.AddComponent(new Health(Stats.GetInstance().GetMaxHealth()));
 
             // Setup player animations
             AnimationController animController = new AnimationController();
@@ -49,9 +50,10 @@ namespace Villeon.Generation
             player = new Entity(transform, "VillageMarin");
             player.AddComponent(new DynamicCollider(new Vector2(0f, 0f), transform, 0.5f, 0.5f));
             player.AddComponent(new Trigger(TriggerLayerType.FRIEND | TriggerLayerType.PORTAL, new Vector2(0f, 0f), 0.5f, 0.5f));
-            player.AddComponent(new Sprite(Asset.GetTexture("Sprites.Player.png"), SpriteLayer.Foreground, true));
+            player.AddComponent(new Sprite(Asset.GetTexture("Sprites.Empty.png"), SpriteLayer.Foreground, true));
             player.AddComponent(new Light(Color4.White));
             player.AddComponent(new Player());
+            player.AddComponent(new Fokus());
 
             // Setup player animations
             AnimationController animController = new AnimationController();

@@ -14,14 +14,14 @@ namespace Villeon.Components
 
         private bool _isInvincible;
 
-        private float _protection;
+        private int _protection;
 
         public Health(int health)
         {
             _maxHealth = health;
             CurrentHealth = health;
             _isInvincible = false;
-            _protection = 0.0f;
+            _protection = 0;
         }
 
         public int CurrentHealth
@@ -43,7 +43,7 @@ namespace Villeon.Components
             set { _isInvincible = value; }
         }
 
-        public float Protection
+        public int Protection
         {
             get { return _protection; }
             set { _protection = value; }
@@ -55,7 +55,20 @@ namespace Villeon.Components
             set { _maxHealth = value; }
         }
 
-        public void Damage(int damage) => CurrentHealth -= (int)(damage * (1.0f - Protection) * Convert.ToInt32(!_isInvincible));
+        public void Damage(int damage)
+        {
+            if (_isInvincible)
+                return;
+
+            Random rand = new Random();
+            int effectiveProtection = rand.Next(_protection / 2, _protection);
+            int effectiveDamage = damage - effectiveProtection;
+
+            if (effectiveDamage < 0)
+                return;
+
+            CurrentHealth -= effectiveDamage;
+        }
 
         public void Heal(int heal) => CurrentHealth += heal;
     }

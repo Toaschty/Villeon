@@ -13,11 +13,13 @@ namespace Villeon.Systems.Update
     {
         private List<Collider> _colliders = new List<Collider>();
         private HashSet<Tuple<DynamicCollider, Transform>> _dynamicTuple = new HashSet<Tuple<DynamicCollider, Transform>>();
+        private IEntity? _player = null;
 
         public CollisionSystem(string name)
             : base(name)
         {
-            Signature.IncludeOR(typeof(Collider), typeof(DynamicCollider));
+            Signature.IncludeOR(typeof(Collider), typeof(DynamicCollider))
+                .IncludeAND(typeof(Collider), typeof(DynamicCollider), typeof(Player));
         }
 
         private enum Direction
@@ -47,6 +49,11 @@ namespace Villeon.Systems.Update
             if (collider is not null)
             {
                 _colliders.Add(collider);
+            }
+
+            if (entity.HasComponent<Player>())
+            {
+                _player = entity;
             }
         }
 
@@ -103,6 +110,10 @@ namespace Villeon.Systems.Update
         {
             foreach (var tuple in _dynamicTuple)
             {
+                // Skip this entity if player isn't in range
+                if (!IsInRangeOfPlayer(tuple.Item2.Position))
+                    continue;
+
                 // Set Collider position
                 tuple.Item1.Position = tuple.Item2.Position + tuple.Item1.Offset;
 
@@ -255,6 +266,22 @@ namespace Villeon.Systems.Update
             }
 
             return true;
+        }
+
+        private bool IsInRangeOfPlayer(Vector2 colliderEntityPosition)
+        {
+            if (_player is null)
+                return false;
+
+            Transform playerTransform = _player.GetComponent<Transform>();
+            Vector2 distance = playerTransform.Position - colliderEntityPosition;
+
+            // Length between player and enemy
+            float length = distance.LengthFast;
+            if (length < 20)
+                return true;
+
+            return false;
         }
     }
 }

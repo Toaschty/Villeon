@@ -16,7 +16,7 @@ namespace Villeon.Generation
 {
     public static class EnemySpawner
     {
-        public static void Spawn(string sceneName, string enemyName, Vector2 position)
+        public static void SpawnEnemy(string sceneName, string enemyName, Vector2 position)
         {
             // Load the JSON
             JObject enemiesJson = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.Enemies.json")) !;
@@ -27,7 +27,52 @@ namespace Villeon.Generation
             // Assemble the Enemy //
             float scale = json.scale;
             IEntity enemy = new Entity(new Transform(position, scale, 0f), enemyName);
+            AddStandardComponents(json, enemy);
+            AddDropInfo(json, enemy);
+            AddAnimation(json, enemy);
 
+            float offsetX = json.offsetX;
+            float offsetY = json.offsetY;
+            Vector2 offset = new Vector2(offsetX, offsetY);
+
+            AddCollider(json, enemy, position, offset, scale);
+            AddTrigger(json, enemy, offset, scale);
+
+            // Spawn the Enemy
+            Manager.GetInstance().AddEntityToScene(enemy, sceneName);
+        }
+
+        public static void SpawnBoss(string sceneName, string bossName, Vector2 position)
+        {
+            // Load the JSON
+            JObject enemiesJson = (JObject)JsonConvert.DeserializeObject(ResourceLoader.LoadContentAsText("Jsons.Bosses.json")) !;
+
+            // Choose the current scene
+            dynamic json = enemiesJson.SelectToken(bossName) !;
+
+            // Assemble the Enemy //
+            float scale = json.scale;
+            IEntity boss = new Entity(new Transform(position, scale, 0f), bossName);
+            AddStandardComponents(json, boss);
+            AddDropInfo(json, boss);
+            AddAnimation(json, boss);
+
+            float offsetX = json.offsetX;
+            float offsetY = json.offsetY;
+            Vector2 offset = new Vector2(offsetX, offsetY);
+
+            AddCollider(json, boss, position, offset, scale);
+            AddTrigger(json, boss, offset, scale);
+
+            int caveIndex = json.caveIndex;
+            boss.AddComponent(new Boss(caveIndex));
+
+            // Spawn the Enemy
+            Manager.GetInstance().AddEntityToScene(boss, sceneName);
+        }
+
+        private static void AddStandardComponents(dynamic json, IEntity enemy)
+        {
             // Add Health
             int hp = json.health;
             enemy.AddComponent(new Health(hp));
@@ -37,16 +82,16 @@ namespace Villeon.Generation
 
             // Add Damage
             int dmg = json.damage;
-            float offsetX = json.offsetX;
-            float offsetY = json.offsetY;
-            Vector2 offset = new Vector2(offsetX, offsetY);
+            enemy.AddComponent(new EnemyAI(dmg));
 
             // Add AI
             string ai = json.ai;
             if (ai.Equals("FlyingAI"))
-                enemy.AddComponent(new FlyingAI(dmg));
-            else
-                enemy.AddComponent(new EnemyAI(dmg));
+                enemy.AddComponent(new FlyingAI());
+            else if (ai.Equals("JumpingAI"))
+                enemy.AddComponent(new JumpingAI());
+            else if (ai.Equals("RollingAI"))
+                enemy.AddComponent(new RollingAI());
 
             // Add Experience
             int exp = json.experience;
@@ -55,14 +100,6 @@ namespace Villeon.Generation
             // Add Physics
             enemy.AddComponent(new Physics());
             enemy.AddComponent(new Effect());
-
-            AddDropInfo(json, enemy);
-            AddAnimation(json, enemy);
-            AddCollider(json, enemy, position, offset, scale);
-            AddTrigger(json, enemy, offset, scale);
-
-            // Spawn the Enemy
-            Manager.GetInstance().AddEntityToScene(enemy, sceneName);
         }
 
         private static void AddDropInfo(dynamic json, IEntity entity)

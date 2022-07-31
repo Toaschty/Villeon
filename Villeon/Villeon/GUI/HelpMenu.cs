@@ -20,7 +20,7 @@ namespace Villeon.GUI
             _entities = new List<IEntity>();
 
             // Load Sprites
-            Sprite helpScrollSprite = Asset.GetSprite("GUI.Help_Scroll.png", SpriteLayer.ScreenGuiBackground, false);
+            Sprite helpScrollSprite = Asset.GetSprite("GUI.Scrolls.Help_Scroll.png", SpriteLayer.ScreenGuiBackground, false);
 
             // Background
             Vector2 scrollMiddle = new Vector2(helpScrollSprite.Width / 2f, helpScrollSprite.Height / 2f);

@@ -20,6 +20,8 @@ namespace Villeon.Systems.Update
 
         public static Scene DungeonScene { get; } = new Scene("DungeonScene");
 
+        public static Scene BossScene { get; } = new Scene("BossScene");
+
         public static Scene TutorialScene { get; } = new Scene("TutorialScene");
 
         public static Scene VillageScene { get; } = new Scene("VillageScene");
@@ -95,6 +97,7 @@ namespace Villeon.Systems.Update
             TutorialScene.AddSystem(new VillagePlayerParticleSystem("VillagePlayerParticleSystem"));
             TutorialScene.AddSystem(new PhysicsSystem("PhysicsSystem"));
             TutorialScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
+            TutorialScene.AddSystem(new ParticleSpawnerSystem("ParticleSpawnerSystem"));
             TutorialScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
             TileMapDictionary villageTileMap = new TileMapDictionary("VillageTutorial.tmx");
             SetTileMap(TutorialScene, villageTileMap, false);
@@ -119,12 +122,20 @@ namespace Villeon.Systems.Update
             VillageScene.AddSystem(new DialogSystem("DialogSystem"));
             VillageScene.AddSystem(new TradingSystem("TradingSystem"));
             VillageScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
+            VillageScene.AddSystem(new VillageEquipSystem("VillageEquipSystem"));
+            VillageScene.AddSystem(new AutoSaveSystem("AutoSave"));
 
             // Particle stuff
             VillageScene.AddSystem(new VillagePlayerParticleSystem("VillagePlayerParticleSystem"));
+            VillageScene.AddSystem(new ParticleSpawnerSystem("ParticleSpawnerSystem"));
             VillageScene.AddSystem(new PhysicsSystem("PhysicsSystem"));
             VillageScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
             VillageScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
+            VillageScene.AddStartUpFunc(() =>
+            {
+                DungeonMenu.EnteredThroughMenu = false;
+                return true;
+            });
             SetTileMap(VillageScene, villageTileMap, false);
         }
 
@@ -146,6 +157,8 @@ namespace Villeon.Systems.Update
             ShopScene.AddSystem(new InteractionSystem("InteractionSystem"));
             ShopScene.AddSystem(new TradingSystem("TradingSystem"));
             ShopScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
+            ShopScene.AddSystem(new VillageEquipSystem("VillageEquipSystem"));
+            ShopScene.AddSystem(new AutoSaveSystem("AutoSave"));
 
             // Particle stuff
             ShopScene.AddSystem(new VillagePlayerParticleSystem("VillagePlayerParticleSystem"));
@@ -173,6 +186,8 @@ namespace Villeon.Systems.Update
             SmithScene.AddSystem(new InteractionSystem("InteractionSystem"));
             SmithScene.AddSystem(new TradingSystem("TradingSystem"));
             SmithScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
+            SmithScene.AddSystem(new VillageEquipSystem("VillageEquipSystem"));
+            SmithScene.AddSystem(new AutoSaveSystem("AutoSave"));
 
             // Particle stuff
             SmithScene.AddSystem(new VillagePlayerParticleSystem("VillagePlayerParticleSystem"));
@@ -187,25 +202,31 @@ namespace Villeon.Systems.Update
             SceneLoader.AddScene(DungeonScene);
 
             // Setup all different tilesets
-            TileMapDictionary tileMapCrumblyCave = new TileMapDictionary("DungeonCrumblyCave.tmx");
-            TileMapDictionary tileMapDarkendLair = new TileMapDictionary("DungeonDarkendLair.tmx");
-            TileMapDictionary tileMapSwampyGrot = new TileMapDictionary("DungeonSwampyGrot.tmx");
-            TileMapDictionary tileMapHellishHole = new TileMapDictionary("DungeonHellishHole.tmx");
+            TileMapDictionary tileMapCrumblyCave = new TileMapDictionary("DungeonCrumblyCave.tmx", 0);
+            TileMapDictionary tileMapDarkendLair = new TileMapDictionary("DungeonDarkendLair.tmx", 1);
+            TileMapDictionary tileMapSwampyGrot = new TileMapDictionary("DungeonSwampyGrot.tmx", 2);
+            TileMapDictionary tileMapHellishHole = new TileMapDictionary("DungeonHellishHole.tmx", 3);
 
+            DungeonScene.AddSystem(new DialogSystem("DialogSystem"));
+            DungeonScene.AddSystem(new InteractionSystem("InteractionSystem"));
             DungeonScene.AddSystem(new EffectSystem("Effects"));
             DungeonScene.AddSystem(new PlayerDungeonMovementSystem("Move"));
             DungeonScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
             DungeonScene.AddSystem(new FlyingAISystem("FlyingAISystem"));
+            DungeonScene.AddSystem(new JumpingAISystem("JumpingAISystem"));
+            DungeonScene.AddSystem(new RollingAISystem("RollingAISystem"));
             DungeonScene.AddSystem(new PhysicsSystem("Physics"));
             DungeonScene.AddSystem(new TriggerSystem("Trigger"));
             DungeonScene.AddSystem(new PortalSystem("PortalSystem"));
             DungeonScene.AddSystem(new DamageSystem("DamageSystem"));
+            DungeonScene.AddSystem(new DamageColoringSystem("DamageColoringSystem"));
             DungeonScene.AddSystem(new CollisionSystem("Collision"));
             DungeonScene.AddSystem(new PlayerDeathSystem("Health"));
             DungeonScene.AddSystem(new CameraSystem("CameraSystem"));
             DungeonScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
             DungeonScene.AddSystem(new EnemyHealthbarSystem("EnemyHealthbarSystem"));
             DungeonScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            DungeonScene.AddSystem(new ParticleSpawnerSystem("ParticleSpawnerSystem"));
             DungeonScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
             DungeonScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
             DungeonScene.AddSystem(new PlayerParticleSystem("PlayerParticleSystem"));
@@ -216,19 +237,21 @@ namespace Villeon.Systems.Update
             DungeonScene.AddSystem(new PlayerHealthbarSystem("PlayerHealthbar"));
             DungeonScene.AddSystem(new ItemUseSystem("ItemUseSystem"));
             DungeonScene.AddSystem(new DungeonPlayerAnimationSystem("AnimationControllerSystem"));
-            DungeonScene.AddSystem(new FlyingEnemyAnimationSystem("FlyingEnemyAnimationSystem"));
+            DungeonScene.AddSystem(new EnemyAnimationSystem("FlyingEnemyAnimationSystem"));
             DungeonScene.AddSystem(new PlayerFightingSystem("PlayerFightingSystem"));
             DungeonScene.AddSystem(new PlayerExpSystem("PlayerExpSystem"));
             DungeonScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
-            DungeonScene.AddSystem(new JumpingAISystem("JumpingAISystem"));
             DungeonScene.AddSystem(new HotbarSystem("HotbarUseSystem"));
+            DungeonScene.AddSystem(new DashCooldownSystem("DashCooldownSystem"));
+            DungeonScene.AddSystem(new RaytracingSystem("RayTracingSystem"));
+            DungeonScene.AddSystem(new AutoSaveSystem("AutoSave"));
             DungeonScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE!
             DungeonScene.AddStartUpFunc(() =>
             {
                 Manager.GetInstance().RemoveAllEntitiesFromScene("DungeonScene");
 
                 // Add the Player again
-                Scenes.DungeonScene.AddEntity(Players.CreateDungeonPlayer());
+                Scenes.DungeonScene.AddEntity(Players.CreateDungeonPlayer(Constants.DUNGEON_SPAWN_POINT));
 
                 // Overlay - Dungeon
                 DungeonOverlay dungeonOverlay = new DungeonOverlay();
@@ -241,8 +264,20 @@ namespace Villeon.Systems.Update
                 PlayerExpSystem.Init();
                 PlayerHealthbarSystem.Init();
 
+                // Add Portal to exit dungeon
+                IEntity dungeonToVillage = new Entity(new Transform(Constants.DUNGEON_SPAWN_POINT - new Vector2(1, 4), 1f, 0f), "dungeonToVillagePortal");
+                dungeonToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 3f, 5f));
+                dungeonToVillage.AddComponent(new Portal("VillageScene", Constants.DUNGEON_SPAWN_POINT));
+                dungeonToVillage.AddComponent(new Interactable(new Option("Leave Dungeon [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
+                ParticleSpawner particleSpawner = new ParticleSpawner(50, "Sprites.Particles.PortalDust.png");
+                particleSpawner.VariationWidth = 2;
+                particleSpawner.VariationHeight = 3;
+                particleSpawner.Offset = new Vector2(2.5f, 3f);
+                dungeonToVillage.AddComponent(particleSpawner);
+                DungeonScene.AddEntity(dungeonToVillage);
+
                 // Choose tileset depending on selection
-                switch (DungeonMenu.Selection)
+                switch (GetDungeonSelection())
                 {
                     case 0: SetTileMap(DungeonScene, SpawnDungeon.CreateDungeon(), tileMapCrumblyCave, true); break;
                     case 1: SetTileMap(DungeonScene, SpawnDungeon.CreateDungeon(), tileMapDarkendLair, true); break;
@@ -254,12 +289,106 @@ namespace Villeon.Systems.Update
             });
         }
 
+        public static void SetupBossScene()
+        {
+            SceneLoader.AddScene(BossScene);
+            TileMapDictionary bossTilemapCrumblyCave = new TileMapDictionary("BossRoomCrumblyCave.tmx");
+            TileMapDictionary bossTilemapDarkendLair = new TileMapDictionary("BossRoomDarkendLair.tmx");
+            TileMapDictionary bossTilemapSwampyGrot = new TileMapDictionary("BossRoomSwampyGrot.tmx");
+            TileMapDictionary bossTilemapHellishHole = new TileMapDictionary("BossRoomHellishHole.tmx");
+
+            BossScene.AddSystem(new DialogSystem("DialogSystem"));
+            BossScene.AddSystem(new InteractionSystem("InteractionSystem"));
+            BossScene.AddSystem(new EffectSystem("Effects"));
+            BossScene.AddSystem(new PlayerDungeonMovementSystem("Move"));
+            BossScene.AddSystem(new MouseClickSystem("MouseClickSystem"));
+            BossScene.AddSystem(new FlyingAISystem("FlyingAISystem"));
+            BossScene.AddSystem(new PhysicsSystem("Physics"));
+            BossScene.AddSystem(new TriggerSystem("Trigger"));
+            BossScene.AddSystem(new PortalSystem("PortalSystem"));
+            BossScene.AddSystem(new DamageSystem("DamageSystem"));
+            BossScene.AddSystem(new CollisionSystem("Collision"));
+            BossScene.AddSystem(new PlayerDeathSystem("Health"));
+            BossScene.AddSystem(new CameraSystem("CameraSystem"));
+            BossScene.AddSystem(new SpriteRenderer("SpriteRenderer", false));
+            BossScene.AddSystem(new EnemyHealthbarSystem("EnemyHealthbarSystem"));
+            BossScene.AddSystem(new AnimationSystem("AnimationSystem"));
+            BossScene.AddSystem(new ParticleRemovalSystem("ParticleSystem"));
+            BossScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
+            BossScene.AddSystem(new PlayerParticleSystem("PlayerParticleSystem"));
+            BossScene.AddSystem(new ParticleUpdateSystem("ParticleUpdateSystem"));
+            BossScene.AddSystem(new ParticleSpawnerSystem("ParticleSpawnerSystem"));
+            BossScene.AddSystem(new LadderSystem("LadderSystem"));
+            BossScene.AddSystem(new MobDropSystem("MobdropSystem"));
+            BossScene.AddSystem(new MobDropCollectionSystem("MobdropCollectionSystem"));
+            BossScene.AddSystem(new GUIInputSystem("GUIInputSystem"));
+            BossScene.AddSystem(new PlayerHealthbarSystem("PlayerHealthbar"));
+            BossScene.AddSystem(new ItemUseSystem("ItemUseSystem"));
+            BossScene.AddSystem(new DungeonPlayerAnimationSystem("AnimationControllerSystem"));
+            BossScene.AddSystem(new EnemyAnimationSystem("FlyingEnemyAnimationSystem"));
+            BossScene.AddSystem(new PlayerFightingSystem("PlayerFightingSystem"));
+            BossScene.AddSystem(new PlayerExpSystem("PlayerExpSystem"));
+            BossScene.AddSystem(new NPCNameSignSystem("NameSignSystem"));
+            BossScene.AddSystem(new JumpingAISystem("JumpingAISystem"));
+            BossScene.AddSystem(new HotbarSystem("HotbarUseSystem"));
+            BossScene.AddSystem(new EventSystem("EventSystem"));
+            BossScene.AddSystem(new DashCooldownSystem("DashCooldownSystem"));
+            BossScene.AddSystem(new BossCameraSystem("BossCameraSystem"));
+            BossScene.AddSystem(new BossSystem("BossSystem"));
+            BossScene.AddSystem(new AutoSaveSystem("AutoSave"));
+            BossScene.AddSystem(new EnemyRemovalSystem("EnemyRemovalSystem")); // MAKE SURE THIS IS THE LAST ONE!
+            BossScene.AddStartUpFunc(() =>
+            {
+                Manager.GetInstance().RemoveAllEntitiesFromScene("DungeonScene");
+                Manager.GetInstance().RemoveAllEntitiesFromScene("BossScene");
+
+                // Add the Player
+                Scenes.BossScene.AddEntity(Players.CreateDungeonPlayer(Constants.BOSS_ROOM_SPAWN_POINT));
+
+                // Overlay - Dungeon
+                DungeonOverlay dungeonOverlay = new DungeonOverlay();
+                Scenes.BossScene.AddEntities(dungeonOverlay.GetEntities());
+                Entity guiHandlerEntity = new Entity("GuiHandler");
+                guiHandlerEntity.AddComponent(GUIHandler.GetInstance());
+                Scenes.BossScene.AddEntity(guiHandlerEntity);
+
+                // Trigger for Boss Camera
+                Entity bossCamera = new Entity(new Transform(new Vector2(33f, 23f), 1f, 0f), "BossCamera");
+                bossCamera.AddComponent(new Event("BossFall"));
+                bossCamera.AddComponent(new Trigger(TriggerLayerType.FRIEND, 1f, 25f));
+                Scenes.BossScene.AddEntity(bossCamera);
+
+                // Set the Exp bar
+                PlayerExpSystem.Init();
+                PlayerHealthbarSystem.Init();
+
+                // Spawn the Boss monster and select correct tilemap
+                switch (GetDungeonSelection())
+                {
+                    case 0: SetTileMap(BossScene, bossTilemapCrumblyCave, true); EnemySpawner.SpawnBoss("BossScene", "catBlob", new Vector2(52f, 23f)); break;
+                    case 1: SetTileMap(BossScene, bossTilemapDarkendLair, true); EnemySpawner.SpawnBoss("BossScene", "john", new Vector2(52f, 23f)); break;
+                    case 2: SetTileMap(BossScene, bossTilemapSwampyGrot, true); EnemySpawner.SpawnBoss("BossScene", "nut", new Vector2(52f, 23f)); break;
+                    case 3: SetTileMap(BossScene, bossTilemapHellishHole, true); EnemySpawner.SpawnBoss("BossScene", "fox", new Vector2(52f, 23f)); break;
+                }
+
+                return true;
+            });
+        }
+
         public static void SetupPortalEntities()
         {
+            // Particle Spawner for Portal
+            ParticleSpawner particleSpawner = new ParticleSpawner(50, "Sprites.Particles.PortalDust.png");
+            particleSpawner.VariationWidth = 2;
+            particleSpawner.VariationHeight = 3;
+            particleSpawner.Offset = new Vector2(2.5f, 3f);
+
             IEntity tutorialToDungeon = new Entity(new Transform(new Vector2(143, 32), 1f, 0f), "villageToDungeonPortal");
             tutorialToDungeon.AddComponent(Asset.GetSpriteSheet("Sprites.PortalAnimation.png").GetSprite(0, SpriteLayer.Middleground, true));
             tutorialToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, new Vector2(1.3f, 1f), 3f, 5f));
+            tutorialToDungeon.AddComponent(new Interactable(new Option("Enter Dungeon [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
             tutorialToDungeon.AddComponent(new Portal("DungeonScene", Constants.TUTORIAL_SPAWN_POINT));
+            tutorialToDungeon.AddComponent(particleSpawner);
 
             // Setup Portal animation
             AnimationController animController = new AnimationController();
@@ -271,33 +400,52 @@ namespace Villeon.Systems.Update
             villageToDungeon.AddComponent(Asset.GetSpriteSheet("Sprites.PortalAnimation.png").GetSprite(0, SpriteLayer.Middleground, true));
             villageToDungeon.AddComponent(new Trigger(TriggerLayerType.PORTAL, new Vector2(1.3f, 1f), 3f, 5f));
             villageToDungeon.AddComponent(new Portal("DungeonScene", Constants.VILLAGE_SPAWN_POINT));
+            villageToDungeon.AddComponent(new Interactable(new Option("Enter Dungeon [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
             villageToDungeon.AddComponent(animController);
+            villageToDungeon.AddComponent(particleSpawner);
             VillageScene.AddEntity(villageToDungeon);
-
-            IEntity dungeonToVillage = new Entity(new Transform(new Vector2(1f, 3f), 1f, 0f), "dungeonToVillagePortal");
-            dungeonToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 1f, 4f));
-            dungeonToVillage.AddComponent(new Portal("VillageScene", Constants.DUNGEON_SPAWN_POINT));
-            DungeonScene.AddEntity(dungeonToVillage);
 
             IEntity villageToSmith = new Entity(new Transform(Constants.TO_SMITH_PORTAL_POINT, 1f, 0f), "VillageToSmithPortal");
             villageToSmith.AddComponent(new Trigger(TriggerLayerType.PORTAL, 2f, 1f));
             villageToSmith.AddComponent(new Portal("SmithScene", Constants.TO_SMITH_PORTAL_POINT + new Vector2(1f, -1f)));
+            villageToSmith.AddComponent(new Interactable(new Option("Enter Smith [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
             VillageScene.AddEntity(villageToSmith);
 
             IEntity smithToVillage = new Entity(new Transform(Constants.FROM_SMITH_PORTAL_POINT, 1f, 0f), "SmithToVillagePortal");
             smithToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 2f, 1.5f));
             smithToVillage.AddComponent(new Portal("VillageScene", Constants.FROM_SMITH_PORTAL_POINT + new Vector2(1f, 2f)));
+            smithToVillage.AddComponent(new Interactable(new Option("Leave Smith [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
             SmithScene.AddEntity(smithToVillage);
 
             IEntity villageToShop = new Entity(new Transform(Constants.TO_SHOP_PORTAL_POINT, 1f, 0f), "VillageToShopPortal");
             villageToShop.AddComponent(new Trigger(TriggerLayerType.PORTAL, 2f, 1f));
             villageToShop.AddComponent(new Portal("ShopScene", Constants.TO_SHOP_PORTAL_POINT + new Vector2(1f, -1f)));
+            villageToShop.AddComponent(new Interactable(new Option("Enter Shop [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
             VillageScene.AddEntity(villageToShop);
 
             IEntity shopToVillage = new Entity(new Transform(Constants.FROM_SHOP_PORTAL_POINT, 1f, 0f), "ShopToVillagePortal");
             shopToVillage.AddComponent(new Trigger(TriggerLayerType.PORTAL, 2f, 1.5f));
             shopToVillage.AddComponent(new Portal("VillageScene", Constants.FROM_SHOP_PORTAL_POINT + new Vector2(1f, 2f)));
+            shopToVillage.AddComponent(new Interactable(new Option("Leave Shop [E]", OpenTK.Windowing.GraphicsLibraryFramework.Keys.E)));
             ShopScene.AddEntity(shopToVillage);
+        }
+
+        private static int GetDungeonSelection()
+        {
+            int selection = DungeonMenu.Selection;
+            if (!DungeonMenu.EnteredThroughMenu)
+            {
+                selection = 0;
+                for (int i = 0; i < 3; i++)
+                {
+                    if (Stats.GetInstance().UnlockProgress[i] == Constants.MAXNPCUNLOCKS)
+                        selection++;
+                    else
+                        break;
+                }
+            }
+
+            return selection;
         }
     }
 }

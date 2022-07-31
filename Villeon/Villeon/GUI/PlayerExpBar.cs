@@ -65,7 +65,7 @@ namespace Villeon.GUI
             _level.Clear();
 
             // Add the new Leveltext
-            Text text = new Text("Level " + Stats.GetInstance().Level.ToString(), _position + new Vector2((_width * _scale) + 0.1f, 0f), "Alagard", SpriteLayer.ScreenGuiForeground, 0f, 0f, 0.2f);
+            Text text = new Text("Level " + Stats.GetInstance().Level.ToString(), _position + new Vector2((_width * _scale) + 0.1f, 0f), "Alagard", SpriteLayer.ScreenGuiOverlayForeGround, 0f, 0f, 0.2f);
             foreach (IEntity entity in text.GetEntities())
             {
                 _level.Add(entity);
@@ -75,13 +75,14 @@ namespace Villeon.GUI
             foreach (IEntity character in _level)
             {
                Manager.GetInstance().AddEntityToScene(character, "DungeonScene");
+               Manager.GetInstance().AddEntityToScene(character, "BossScene");
             }
         }
 
         private void CreateFrame(Vector2 position)
         {
             _frame = new Entity(new Transform(position, _scale, 0f), "Player EXP Frame");
-            Sprite frame = Asset.GetSprite("GUI.Frame.png", SpriteLayer.ScreenGuiForeground, true);
+            Sprite frame = Asset.GetSprite("GUI.Frame.png", SpriteLayer.ScreenGuiOverlayForeGround, true);
 
             _frame.AddComponent(frame);
         }
@@ -89,7 +90,7 @@ namespace Villeon.GUI
         private void CreateFilling(Vector2 position, float width, float height)
         {
             _expFilling = new Entity(new Transform(position, _scale, 0f), "Player EXP Filling");
-            Sprite healthFilling = new Sprite(SpriteLayer.ScreenGuiMiddleground, width, height, true);
+            Sprite healthFilling = new Sprite(SpriteLayer.ScreenGuiOverlayMiddleGround, width, height, true);
             healthFilling.Color = Color4.Green;
             _expFilling.AddComponent(healthFilling);
         }
@@ -97,16 +98,16 @@ namespace Villeon.GUI
         private void CreateBackground(Vector2 position, float width, float height)
         {
             _background = new Entity(new Transform(position, _scale, 0f), "Player EXP Background");
-            Sprite backgroundSprite = new Sprite(SpriteLayer.ScreenGuiBackground, width, height);
+            Sprite backgroundSprite = new Sprite(SpriteLayer.ScreenGuiOverlayBackground, width, height);
             backgroundSprite.Color = Color4.Black;
             _background.AddComponent(backgroundSprite);
         }
 
         private void SpawnExpBar()
         {
-            Manager.GetInstance().AddEntityToScene(_frame, "DungeonScene");
-            Manager.GetInstance().AddEntityToScene(_expFilling, "DungeonScene");
-            Manager.GetInstance().AddEntityToScene(_background, "DungeonScene");
+            Manager.GetInstance().AddEntity(_frame);
+            Manager.GetInstance().AddEntity(_expFilling);
+            Manager.GetInstance().AddEntity(_background);
         }
     }
 }

@@ -122,6 +122,8 @@ namespace Villeon.Assets
             else
             {
                 int location = GL.GetUniformLocation(_shaderProgramID, uniformName);
+                if (location == -1)
+                    Console.WriteLine("[ERROR] Could not find unifomr: " + uniformName);
                 _uniformLocations.Add(uniformName, location);
                 return location;
             }

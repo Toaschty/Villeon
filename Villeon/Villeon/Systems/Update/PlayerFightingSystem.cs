@@ -2,7 +2,6 @@
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
 using Villeon.EntityManagement;
-using Villeon.Generation;
 using Villeon.Helper;
 
 namespace Villeon.Systems.Update
@@ -29,10 +28,10 @@ namespace Villeon.Systems.Update
         {
             foreach (IEntity player in Entities)
             {
-                player.GetComponent<Health>().Protection = Stats.GetInstance().GetDefense() / 100f;
+                player.GetComponent<Health>().Protection = Stats.GetInstance().GetDefense();
 
                 // Go to next player if not attacking
-                if (!(MouseHandler.IsMouseDown() || KeyHandler.IsPressed(Keys.E)))
+                if (!(MouseHandler.IsMouseDown() || KeyHandler.IsPressed(Keys.O) || KeyHandler.IsPressed(Keys.Enter)))
                     continue;
 
                 // Check if the attack is on cooldown
@@ -51,12 +50,12 @@ namespace Villeon.Systems.Update
                     // Spawn Attack Trigger
                     IEntity attackEntity;
                     attackEntity = new Entity(transform, "TriggerAttackLeft");
-                    attackEntity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(-3f, 0f), 3f, 2f, 0.2f));
+                    attackEntity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(-4f, 0f), 4f, 3f, 0.2f));
                     attackEntity.AddComponent(new Damage(damage));
                     Manager.GetInstance().AddEntity(attackEntity);
 
                     // Spawn Attack Animation
-                    IEntity attackAnimationEntity = ParticleBuilder.StationaryParticle(transform.Position - new Vector2(2f, 0f), 0.2f, 0.5f, false, "Animations.slash_attack_left.png", 0.05f);
+                    IEntity attackAnimationEntity = ParticleBuilder.AnimatedStationaryParticle(transform.Position - new Vector2(2f, 0f), 0.2f, 0.5f, false, "Animations.slash_attack_left.png", 0.05f, SpriteLayer.Middleground);
                     Manager.GetInstance().AddEntity(attackAnimationEntity);
                 }
 
@@ -66,12 +65,12 @@ namespace Villeon.Systems.Update
                     // Spawn Attack Trigger
                     IEntity attackEntity;
                     attackEntity = new Entity(transform, "TriggerAttackRight");
-                    attackEntity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(1f, 0f), 3f, 2f, 0.2f));
+                    attackEntity.AddComponent(new Trigger(TriggerLayerType.ENEMY, new Vector2(0f, 0f), 4f, 3f, 0.2f));
                     attackEntity.AddComponent(new Damage(damage));
                     Manager.GetInstance().AddEntity(attackEntity);
 
                     // Spawn Attack Animation
-                    IEntity attackAnimationEntity = ParticleBuilder.StationaryParticle(transform.Position + new Vector2(1f, 0f), 0.2f, 0.5f, false, "Animations.slash_attack_right.png", 0.05f);
+                    IEntity attackAnimationEntity = ParticleBuilder.AnimatedStationaryParticle(transform.Position + new Vector2(1f, 0f), 0.2f, 0.5f, false, "Animations.slash_attack_right.png", 0.05f, SpriteLayer.Middleground);
                     Manager.GetInstance().AddEntity(attackAnimationEntity);
                 }
 

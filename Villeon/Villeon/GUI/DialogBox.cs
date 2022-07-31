@@ -31,7 +31,7 @@ namespace Villeon.GUI
             }
 
             // Spawn the Frame
-            Sprite dialogScroll = Assets.Asset.GetSprite("GUI.Dialog.png", SpriteLayer.ScreenGuiBackground, true);
+            Sprite dialogScroll = Assets.Asset.GetSprite("GUI.Scrolls.Dialog.png", SpriteLayer.ScreenGuiBackground, true);
             _scrollMiddle = new Vector2(dialogScroll.Width / 2f, dialogScroll.Height / 2f);
             _dialogScrollEntity = new Entity(new Transform(Vector2.Zero - (_scrollMiddle * 0.5f), 0.5f, 0f), "dialogScroll");
             _dialogScrollEntity.AddComponent(dialogScroll);

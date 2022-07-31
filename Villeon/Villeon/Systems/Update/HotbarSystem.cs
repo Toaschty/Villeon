@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Villeon.Components;
 using Villeon.EntityManagement;
+using Villeon.GUI;
 using Villeon.Helper;
 
 namespace Villeon.Systems.Update

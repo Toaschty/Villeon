@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Villeon.Components;
 
 namespace Villeon.Helper
 {
@@ -18,11 +19,19 @@ namespace Villeon.Helper
 
         // Player Stats
         private int _healthLevel = 1;
-        private int _attackLevel = 1;
+        private int _damageLevel = 1;
         private int _defenseLevel = 1;
+        private int _itemAttack = 0;
+        private int _itemDefense = 0;
+
+        private string _itemAttackName = " ";
+        private string _itemDefenseName = " ";
 
         // Progress
         private int _progress = 0;
+
+        // NPC Unlocks
+        private List<int> _unlockProgress = new List<int>() { 0, 0, 0, 0 };
 
         private Stats()
         {
@@ -54,8 +63,8 @@ namespace Villeon.Helper
 
         public int AttackLevel
         {
-            get { return _attackLevel; }
-            set { _attackLevel = value; }
+            get { return _damageLevel; }
+            set { _damageLevel = value; }
         }
 
         public int DefenseLevel
@@ -70,11 +79,49 @@ namespace Villeon.Helper
             set { _progress = value; }
         }
 
+        public List<int> UnlockProgress
+        {
+            get { return _unlockProgress; }
+            set { _unlockProgress = value; }
+        }
+
+        public int ItemDamage
+        {
+            get => _itemAttack;
+        }
+
+        public int ItemDefense
+        {
+            get => _itemDefense;
+        }
+
+        public string ItemDamageName
+        {
+            get => _itemAttackName;
+        }
+
+        public string ItemDefenseName
+        {
+            get => _itemDefenseName;
+        }
+
         public static Stats GetInstance()
         {
             if (_instance == null)
                 _instance = new Stats();
             return _instance;
+        }
+
+        public void SetAttackItem(Item item)
+        {
+            _itemAttackName = item.Name;
+            _itemAttack = item.Damage;
+        }
+
+        public void SetDefenseItem(Item item)
+        {
+            _itemDefenseName = item.Name;
+            _itemDefense = item.Defense;
         }
 
         // Gain experience
@@ -93,26 +140,38 @@ namespace Villeon.Helper
 
         public void IncreaseHealth() => _healthLevel++;
 
-        public void IncreaseAttack() => _attackLevel++;
+        public void IncreaseDamage() => _damageLevel++;
 
         public void IncreaseDefense() => _defenseLevel++;
 
-        public int GetHealth()
+        public int GetMaxHealth()
         {
-            int health = (int)(StatFunction() * 100);
-            return health + (int)(health * 0.1f * _level);
+            return (int)(StatFunction(_level) * 200) + (int)(StatFunction(_healthLevel) * 200);
         }
 
         public int GetAttack()
         {
-            int attack = (int)(StatFunction() * 10);
-            return attack + (int)(attack * 0.5 * _level);
+            return (int)(StatFunction(_level) * 30) + (int)(StatFunction(_damageLevel) * 30) + _itemAttack;
         }
 
         public int GetDefense()
         {
-            int defense = (int)(StatFunction() * 10);
-            return defense + (int)(defense * 1.2f * _level);
+            return (int)StatDefense(_level + _defenseLevel) + _itemDefense;
+        }
+
+        public int GetUnlockProgress(int caveIndex)
+        {
+            return _unlockProgress[caveIndex];
+        }
+
+        public int IncreaseUnlockProgress(int caveIndex)
+        {
+            if (_unlockProgress[caveIndex] < Constants.MAXNPCUNLOCKS)
+            {
+                _unlockProgress[caveIndex]++;
+            }
+
+            return _unlockProgress[caveIndex];
         }
 
         // Function for level exp requirements
@@ -122,9 +181,14 @@ namespace Villeon.Helper
         }
 
         // Function for stat calculation
-        private float StatFunction()
+        private float StatFunction(int level)
         {
-            return (float)((0.25f * Math.Sqrt(_healthLevel)) + 0.75f);
+            return (float)((0.25f * Math.Sqrt(level)) + 0.75f);
+        }
+
+        private float StatDefense(int level)
+        {
+            return (float)(0.827f * Math.Log(level) / Math.Log(1.1));
         }
     }
 }
