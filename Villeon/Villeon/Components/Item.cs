@@ -61,6 +61,8 @@ namespace Villeon.Components
             _sprite = new Sprite(copy.Sprite);
             _itemStackSize = copy.StackSize;
             _itemType = copy.ItemType;
+            _damage = copy.Damage;
+            _defense = copy.Defense;
         }
 
         public enum ITEM_TYPE

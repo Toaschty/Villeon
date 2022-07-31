@@ -44,7 +44,8 @@ namespace Villeon.Systems.Update
             if (effect.Effects.ContainsKey("FokusBoss"))
             {
                 Transform bossTransform = _boss!.GetComponent<Transform>();
-                fokus.Offset = bossTransform.Position - playerTransform.Position + bossTransform.Scale;
+                DynamicCollider bossCollider = _boss!.GetComponent<DynamicCollider>();
+                fokus.Offset = bossTransform.Position - playerTransform.Position + new Vector2(bossCollider.Width / 2, bossCollider.Height / 2);
                 fokus.Intensity = 10;
             }
             else

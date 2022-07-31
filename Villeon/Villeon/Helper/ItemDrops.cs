@@ -33,7 +33,16 @@ namespace Villeon.Helper
                 string spriteName = items[i].sprite;
                 Sprite sprite = Asset.GetSprite("GUI.Items." + spriteName, SpriteLayer.ScreenGuiForeground, true);
 
-                _items.Add(name, new Item(name, sprite, stackSize, itemType, Components.SpriteLayer.GUIForeground));
+                if (itemType == Item.ITEM_TYPE.WEAPON)
+                {
+                    int damage = items[i].damage;
+                    int defense = items[i].defense;
+                    _items.Add(name, new Item(name, sprite, stackSize, itemType, Components.SpriteLayer.GUIForeground, damage, defense));
+                }
+                else
+                {
+                    _items.Add(name, new Item(name, sprite, stackSize, itemType, Components.SpriteLayer.GUIForeground));
+                }
             }
         }
     }

@@ -376,7 +376,7 @@ namespace Villeon.Generation
                 {
                     case 0: possibleEnemies.AddRange(new string[] { "slime_blue", "bubble_blue", "bat_blue" }); break;
                     case 1: possibleEnemies.AddRange(new string[] { "slime_magenta", "bubble_magenta", "bat_magenta" }); break;
-                    case 2: possibleEnemies.AddRange(new string[] { "slime_green", "bubble_green", "bat_green" }); break;
+                    case 2: possibleEnemies.AddRange(new string[] { "slime_green", "bubble_green", "bat_green", "pufferfish" }); break;
                     case 3: possibleEnemies.AddRange(new string[] { "slime_red", "bubble_red", "bat_red", "eye" }); break;
                 }
 

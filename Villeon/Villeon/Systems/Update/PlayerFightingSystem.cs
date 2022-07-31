@@ -28,7 +28,7 @@ namespace Villeon.Systems.Update
         {
             foreach (IEntity player in Entities)
             {
-                player.GetComponent<Health>().Protection = Stats.GetInstance().GetDefense() / 100f;
+                player.GetComponent<Health>().Protection = Stats.GetInstance().GetDefense();
 
                 // Go to next player if not attacking
                 if (!(MouseHandler.IsMouseDown() || KeyHandler.IsPressed(Keys.O) || KeyHandler.IsPressed(Keys.Enter)))

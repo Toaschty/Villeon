@@ -132,5 +132,37 @@ namespace Villeon.EntityManagement
 
             return text.GetEntities();
         }
+
+        public static List<IEntity> DashCooldownParticles(Vector2 position, float width, float height, int amount, float distance)
+        {
+            List<IEntity> particles = new List<IEntity>(amount);
+            position += new Vector2(width / 2, height / 2);
+
+            for (int i = 0; i < amount; i++)
+            {
+                float radian = i * (360f / (float)amount) * (MathF.PI / 180f);
+                Vector2 direction = new Vector2(MathF.Cos(radian) * (width + distance), MathF.Sin(radian) * (height + distance));
+
+                IEntity particleEntity = new Entity(new Transform(position + direction, 0.03f, 0f), "DashCooldownParticle");
+
+                Particle particle = new Particle(0.2f);
+                particle.TrackingPlayer = true;
+                particleEntity.AddComponent(particle);
+
+                Sprite sprite = Asset.GetSprite("Sprites.Particles.Sparkles.png", SpriteLayer.Middleground, true);
+                sprite.Color = Color4.White;
+                particleEntity.AddComponent(sprite);
+
+                Physics physics = new Physics();
+                physics.Weight = 0.0f;
+                physics.Friction = 0.0f;
+                physics.Velocity = -5 * direction;
+                particleEntity.AddComponent(physics);
+
+                particles.Add(particleEntity);
+            }
+
+            return particles;
+        }
     }
 }

@@ -146,7 +146,7 @@ namespace Villeon.Helper
 
         public int GetMaxHealth()
         {
-            return (int)(StatFunction(_level) * 150) + (int)(StatFunction(_healthLevel) * 150);
+            return (int)(StatFunction(_level) * 200) + (int)(StatFunction(_healthLevel) * 200);
         }
 
         public int GetAttack()
@@ -156,8 +156,7 @@ namespace Villeon.Helper
 
         public int GetDefense()
         {
-            float defense = StatDefense(_level + _defenseLevel) + _itemDefense;
-            return defense > 80f ? 80 : (int)defense;
+            return (int)StatDefense(_level + _defenseLevel) + _itemDefense;
         }
 
         public int GetUnlockProgress(int caveIndex)

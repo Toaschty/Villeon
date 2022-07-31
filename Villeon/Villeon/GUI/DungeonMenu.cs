@@ -100,6 +100,8 @@ namespace Villeon.GUI
             LoadText();
         }
 
+        public static bool EnteredThroughMenu { get; set; }
+
         public static int Selection => _currentSelection;
 
         public IEntity[] GetEntities()
@@ -156,6 +158,7 @@ namespace Villeon.GUI
 
             if ((key == Keys.Space || key == Keys.Enter) && _onExplore)
             {
+                EnteredThroughMenu = true;
                 Manager.GetInstance().RemoveEntities(GetEntities());
                 SceneLoader.SetActiveScene("DungeonScene");
                 return false;

@@ -23,7 +23,7 @@ namespace Villeon.Systems.Update
         private const int RESOLUTION_X = 256;
         private const int RESOLUTION_Y = 144;
 
-        private static float[,] _renderLightmap = new float[RESOLUTION_X, RESOLUTION_Y];
+        private static Bitmap _bitmap = new Bitmap(RESOLUTION_X, RESOLUTION_Y);
         private static Mutex _mutex = new Mutex();
 
         private List<IEntity> _colliders = new List<IEntity>();
@@ -85,26 +85,16 @@ namespace Villeon.Systems.Update
             }
 
             ExportLightMap();
-            GL.Finish();
         }
 
         private void ExportLightMap()
         {
             _mutex.WaitOne();
-            Bitmap bitmap = new Bitmap(_renderLightmap.GetLength(0), _renderLightmap.GetLength(1));
-            for (int x = 0; x < _renderLightmap.GetLength(0); x++)
-            {
-                for (int y = 0; y < _renderLightmap.GetLength(1); y++)
-                {
-                    bitmap.SetPixel(x, y, Color.FromArgb(255, (int)(_renderLightmap[x, y] * 255), (int)(_renderLightmap[x, y] * 255), (int)(_renderLightmap[x, y] * 255)));
-                }
-            }
-
+            BitmapData data = _bitmap.LockBits(new Rectangle(0, 0, _bitmap.Width, _bitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+            GL.TextureSubImage2D(_texture!.Handle, 0, 0, 0, _bitmap.Width, _bitmap.Height, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+            _bitmap.UnlockBits(data);
             _mutex.ReleaseMutex();
 
-            BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-            GL.TextureSubImage2D(_texture!.Handle, 0, 0, 0, _renderLightmap.GetLength(0), _renderLightmap.GetLength(1), OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-            bitmap.UnlockBits(data);
             GL.ActiveTexture(TextureUnit.Texture8);
             _texture.Bind();
         }
@@ -191,7 +181,15 @@ namespace Villeon.Systems.Update
             private void CopyLightmap()
             {
                 _mutex.WaitOne();
-                _renderLightmap = (float[,])_lightmap.Clone();
+                _bitmap = new Bitmap(_lightmap.GetLength(0), _lightmap.GetLength(1));
+                for (int x = 0; x < _lightmap.GetLength(0); x++)
+                {
+                    for (int y = 0; y < _lightmap.GetLength(1); y++)
+                    {
+                        _bitmap.SetPixel(x, y, Color.FromArgb(255, (int)(_lightmap[x, y] * 255), (int)(_lightmap[x, y] * 255), (int)(_lightmap[x, y] * 255)));
+                    }
+                }
+
                 _mutex.ReleaseMutex();
             }
 
