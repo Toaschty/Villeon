@@ -12,8 +12,6 @@ namespace Villeon.Systems.Update
 {
     public class ParticleUpdateSystem : System, IUpdateSystem
     {
-        private PerlinNoise _noise = new PerlinNoise(-1);
-
         public ParticleUpdateSystem(string name)
             : base(name)
         {
@@ -28,10 +26,6 @@ namespace Villeon.Systems.Update
 
         public void Update(float time)
         {
-            float x = ((float)_noise.Perlin(Time.ElapsedTime, 0f, Time.ElapsedTime) * 2f) - 1f;
-            float y = ((float)_noise.Perlin(0f, Time.ElapsedTime, Time.ElapsedTime) * 2f) - 1f;
-
-            Vector2 windDirection = new Vector2(x, y);
             foreach (IEntity particleEntity in Entities)
             {
                 Particle particle = particleEntity.GetComponent<Particle>() !;
@@ -42,13 +36,6 @@ namespace Villeon.Systems.Update
                     Color4 color = sprite.Color;
                     color.A = particle.TTL / particle.MaxTTL;
                     sprite.Color = color;
-                }
-
-                if (particle.HasWind)
-                {
-                    Random random = new Random();
-                    Physics physics = particleEntity.GetComponent<Physics>();
-                    physics.Acceleration = windDirection * 10f;
                 }
             }
         }
