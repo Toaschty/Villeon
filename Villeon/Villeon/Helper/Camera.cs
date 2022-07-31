@@ -97,6 +97,7 @@ namespace Villeon.Helper
             // Mouse Wheel Camera Scaling
             if (StateManager.IsPlaying)
                 _cameraScale += -MouseWheelHandler.WheelChanged();
+
             if (_cameraScale < 1f)
                 _cameraScale = 1f;
 

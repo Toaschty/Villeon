@@ -23,6 +23,8 @@ namespace Villeon.Generation.DungeonGeneration
             LevelGeneration lvlGen = new LevelGeneration();
             lvlGen.GenSolutionPath();
             RoomGeneration roomGen = new RoomGeneration(lvlGen.StartRoomX, lvlGen.StartRoomY, lvlGen.EndRoomX, lvlGen.EndRoomY, lvlGen.RoomModels);
+
+            Console.WriteLine("Dungeon Layout");
             for (int i = 0; i < lvlGen.RoomModels.GetLength(0); i++)
             {
                 for (int j = 0; j < lvlGen.RoomModels.GetLength(1); j++)

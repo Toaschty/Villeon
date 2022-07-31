@@ -25,8 +25,6 @@ namespace Villeon.Systems.Update
                 Effect effect = entity.GetComponent<Effect>();
                 if (effect.Effects.ContainsKey("DashCooldown"))
                 {
-                    Console.WriteLine("Cooldown: " + effect.Effects["DashCooldown"]);
-
                     if (effect.Effects["DashCooldown"] > .2f)
                     {
                         _onCooldown = true;
@@ -39,8 +37,6 @@ namespace Villeon.Systems.Update
 
                         List<IEntity> cooldownParticles = ParticleBuilder.DashCooldownParticles(transform.Position, collider.Width, collider.Height, 30, 1);
                         Manager.GetInstance().AddEntities(cooldownParticles);
-
-                        Console.WriteLine(cooldownParticles.Count);
                     }
                 }
                 else

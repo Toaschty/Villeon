@@ -28,8 +28,6 @@ namespace Villeon.Helper
         {
             _timer += time;
 
-            //if ((1 / time) < 50)
-            //    Console.WriteLine("FPS: " + (1 / time));
             if (_timer > 0.1f)
             {
                 _fps = 1 / time;
@@ -44,7 +42,6 @@ namespace Villeon.Helper
                 _times.Enqueue(_fps);
 
                 _avg = _times.Sum() / _times.Count;
-                _gameWindow.Title = "FPS: [" + ((int)_fps) + "] Lowest: [" + ((int)_min) + "] AVG: [" + ((int)_avg) + "] Highest: [" + ((int)_max) + "]";
                 _timer = 0;
             }
         }

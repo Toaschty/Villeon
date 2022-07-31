@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
+using OpenTK.Windowing.Common.Input;
 using OpenTK.Windowing.Desktop;
 
 namespace Villeon.Helper
@@ -24,6 +25,7 @@ namespace Villeon.Helper
             GameWindow.VSync = VSyncMode.Off;
             GameWindow.UpdateFrequency = 60;
             GameWindow.RenderFrequency = 60;
+            GameWindow.Title = "Villeon";
             return GameWindow;
         }
 

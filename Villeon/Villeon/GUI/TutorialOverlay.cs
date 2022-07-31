@@ -42,7 +42,6 @@ namespace Villeon.GUI
 
             // Hotbar Entities
             float offset = hotbarIcon.Width * 0.3f;
-            Console.WriteLine(offset);
 
             IEntity hotbarSlot1 = new Entity(new Transform(new Vector2(4.5f - offset, -5f), 0.3f, 0f), "Slot 1");
             hotbarSlot1.AddComponent(hotbarIcon);

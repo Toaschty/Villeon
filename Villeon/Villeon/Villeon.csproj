@@ -5,6 +5,9 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PackageIcon>VilleonIcon.png</PackageIcon>
+    <ApplicationIcon>Assets\Sprites\VilleonIcon.ico</ApplicationIcon>
+    <UseWindowsForms>False</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
 	<EmbeddedResource Include="Assets\**\*.*" />
@@ -47,6 +50,9 @@
     <None Remove="Assets\TileMap\Tilesets\DungeonHellishHole.tsx" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\Sprites\VilleonIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Components\SpriteSheet.cs" />
     <EmbeddedResource Include="Generation\DungeonGeneration\RoomGeneration.cs" />
     <EmbeddedResource Include="EntityManagement\IRender.cs" />
@@ -83,6 +89,22 @@
     <EmbeddedResource Update="Assets\Animations\player_idle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Update="Assets\Sprites\VilleonIcon.aseprite">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Assets\Sprites\VilleonIcon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Assets\Sprites\VilleonIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\Sprites\VilleonIcon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
