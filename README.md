@@ -7,7 +7,7 @@ Gegenstände zum Handeln bekommt man im „Dungeon“ in welchem man gegen Monst
 Das Ziel ist es in den Dungeons Dorfbewohner zu befreien in dem man am Ende eines Dungeon-Raumes den Boss besiegt und den jeweiligen Dorfbewohner befreit! 
 Insgesamt gibt es 12 zu be-freien, sind alle befreit hat man das Spiel durchgespielt. 
 
-##Playthrough auf YouTube
+## Playthrough auf YouTube
 https://www.youtube.com/watch?v=IDijaB12l1o
 
 ## Spiel starten
