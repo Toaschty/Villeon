@@ -23,5 +23,5 @@ Vorraussetzungen zum ausführen unseren Projekts:
 
 Die Packages sollten normaler weise automatisch heruntergeladen und installiert werden. Wenn nicht, dann können Sie `OpenTK` über oben `Project` -> `Manage NuGet Packages` nach installieren.
 
-###Abschlussanalyse, Retrospektive befinden sich im Wiki!
-[How to play.pdf](https://github.com/Toaschty/Villeon/files/10286590/How.to.play.pdf)
+### 
+[How to play.pdf](https://github.com/Toaschty/Villeon/blob/main/How.to.play.pdf)
