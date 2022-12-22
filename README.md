@@ -2,8 +2,9 @@
 
 ## Über das Spiel
 Villeon ist ein 2D-RPG in einem Mittelalter Setting. Das Spiel ist aufgeteilt in ein Dungeon und ein Village.
-Im Village leben viele Dorfbewohner mit welchen der Spieler reden kann, um die Story zu erleben. Außerdem kann man mit ihnen handeln um stärker zu werden. 
-Im Dungeon muss man sich durch prozedural generierte Räume kämpfen, schafft man es bis zum Ende und besiegt den Boss rettet man einen Bewohner.
+
+Im Village leben Dorfbewohner mit welchen du reden kannst, um die Story zu erleben oder handle mit ihnen um stärker zu werden! 
+Im Dungeon muss du dich durch prozedural generierte Räume kämpfen. Kämpfe es bis zum Ende, besiege den Boss und rette gefangene Bewohner!
 
 Schaffst du es ***alle*** zu befreien?
 
