@@ -11,7 +11,7 @@ Im Dungeon muss du dich durch prozedural generierte Räume kämpfen. Kämpfe es 
 Schaffst du es ***alle*** zu befreien?
 
 ## Gameplay auf YouTube
-https://www.youtube.com/watch?v=IDijaB12l1o
+[![Quibble Youtube Video](http://img.youtube.com/vi/IDijaB12l1o/0.jpg)](http://www.youtube.com/watch?v=IDijaB12l1o)
 
 ## Spiel starten
 
