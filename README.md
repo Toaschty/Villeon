@@ -1,36 +1,41 @@
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/52967743/209132055-b59c4990-ad83-48be-860a-86be0876c59b.png" />
+  <img width="100%" src="https://github.com/user-attachments/assets/2923f9a4-c1d4-42d2-bd8b-14abc520518d" />
 </p>
 
-## Über das Spiel
-Villeon ist ein 2D-RPG in einem Mittelalter Setting. Das Spiel ist aufgeteilt in ein Dungeon und ein Village.
+## About the Game
+Villeon is a 2D RPG set in a medieval world with plenty of exploration and combat. Discover a lively Village and battle your way through challenging Dungeons.
 
-Im Village leben Dorfbewohner mit welchen du reden kannst, um die Story zu erleben oder handle mit ihnen um stärker zu werden! 
-Im Dungeon muss du dich durch prozedural generierte Räume kämpfen. Kämpfe es bis zum Ende, besiege den Boss und rette gefangene Bewohner!
+In the Village, chat with residents to learn more about the story or trade with them to make your character stronger.
+In the Dungeon, fight through procedurally generated rooms full of enemies and obstacles. Reach the end, defeat the boss, and rescue captured villagers!
 
-Schaffst du es ***alle*** zu befreien?
+Can you save **everyone**?
 
-## Gameplay auf YouTube
-[![Quibble Youtube Video](http://img.youtube.com/vi/IDijaB12l1o/0.jpg)](http://www.youtube.com/watch?v=IDijaB12l1o)
+## Gameplay
+<p align="center">
+  <img width="100%" src="https://github.com/user-attachments/assets/11489e8b-65df-4283-aadc-bfdbaeedeb14" />
+</p>
 
-## Spiel starten
+Check out an [example playthrough](http://www.youtube.com/watch?v=IDijaB12l1o) of Villeon of YouTube!
 
-### Mit EXE starten
-Einfach auf `Villeon.exe` drücken um das Spiel zu starten.
+## Running the Game
 
-### Mit dem Source Code Starten
-Vorraussetzungen zum ausführen unseren Projekts:
+### Prebuilt Version
+The latest version of the game can be downloaded directly under [Releases](https://github.com/Toaschty/Villeon/releases).
+Simply run `Villeon.exe` to start the game.
+
+### Running from Source Code
+Prerequisites to run the game:
 * Visual Studio
 * .NET Version 5
 * OpenTK
 
-Die Packages sollten automatisch heruntergeladen und installiert werden. Wenn nicht, dann können Sie `OpenTK` über `Project` -> `Manage NuGet Packages` installieren.
+The necessary packages should download and install automatically if opened with Visual Studio.
+If not, `OpenTK` can be manually installed through `Project > Manage NuGet Packages`.
 
-## Nutzerhandbuch
-So spielst du [Villeon](https://github.com/Toaschty/Villeon/blob/main/How%20to%20play.pdf)!
+## User Guide
+Learn how to play [Villeon](https://github.com/Toaschty/Villeon/blob/main/How%20to%20play.pdf) <em>(only available in German)</em>.
 
-## Bildergalerie
+## Image Gallery
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/52967743/209135523-6fe78810-6e25-4484-940d-982b5e49558d.png" />
-  <img src="https://user-images.githubusercontent.com/52967743/209135697-a9c516bb-c8ca-40c3-9d24-4b3112d9b014.png" />
+  <img src="https://github.com/user-attachments/assets/769862cc-d36d-4133-a476-655a78da2878" />
 </p>
